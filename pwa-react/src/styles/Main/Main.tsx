@@ -3,6 +3,16 @@ import { Card } from "../common/card";
 
 const Wrapper = styled.div``;
 
+const BurgerButton = styled.button`
+  z-index: 1000;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: transparent;
+  border: none;
+  font-size: 1.7rem;
+`;
+
 const FirstSection = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -32,4 +42,4 @@ const SecondSection = styled.div`
   }
 `;
 
-export { Wrapper, FirstSection, SecondSection };
+export { Wrapper, BurgerButton, FirstSection, SecondSection };

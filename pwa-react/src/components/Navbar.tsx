@@ -1,17 +1,20 @@
-import React, { useState } from "react";
-import { Nav } from "../styles/Nav/NavStyle";
+import React from "react";
+import { NavigationContainer, NavigationList } from "../styles/Nav/NavStyle";
 
-type Props = {};
-
-const Navbar = (props: Props) => {
-  const [clicked, setClicked] = useState<boolean>(false);
-  const onClicked = () => setClicked(!clicked);
-
+const Navbar: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
+  isOpen,
+  onClose,
+}) => {
   return (
-    <>
-      <Nav $toggle={clicked}>Navbar</Nav>
-    </>
+    <NavigationContainer $isOpen={isOpen}>
+      <NavigationList>
+        <li>홈으로</li>
+        <li>회원정보 수정</li>
+        <li>환경설정</li>
+      </NavigationList>
+      <button onClick={onClose}>x</button>
+    </NavigationContainer>
   );
 };
 
-export default Navbar;
+export default Navbar

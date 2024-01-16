@@ -1,8 +1,35 @@
 import styled from "styled-components";
 
-const Nav = styled.nav<{$toggle:boolean}>`
-  position: absolute;
-  top: 3%;
-  right: 3%;
+const NavigationContainer = styled.div<{ $isOpen: boolean }>`
+  width: 40%;
+  height: 100%;
+  position: fixed;
+  z-index:1000;
+  top: 0;
+  padding-top:20%;
+  right: ${({ $isOpen }) => ($isOpen ? '0' : '-40%')};
+  background-color: #a9a9a9a4;
+  transition: right 0.3s ease-in-out;
+  button {
+    font-size: 20px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 0;
+    margin: 5px;
+    padding: 0px 3px;
+    background-color: #ececec;
+  }
 `;
-export { Nav };
+
+const NavigationList = styled.ul`
+  list-style: none;
+  padding: 10%;
+  margin: 0;
+  color: black;
+  li {
+    font-size: 1.2rem;
+    margin-bottom: 10%;
+  }
+`;
+export { NavigationContainer, NavigationList };
