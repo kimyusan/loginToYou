@@ -2,22 +2,30 @@ import styled from "styled-components";
 
 const Cover = styled.div``;
 
-const Header = styled.div<{ bgimg: string }>`
+const Header = styled.div<{ $bgimg: string }>`
   width: 100%;
   height: 25vh;
   position: relative;
-  background-image: url(${(props) => props.bgimg});
+  background-image: url(${(props) => props.$bgimg});
   background-size: cover;
   > div {
     padding: 5%;
-    font-size: 30px;
+    font-size: 2rem;
     position: relative;
   }
   > span {
     position: absolute;
-    margin: 5%;
+    margin-bottom: 5%;
+    margin-right: 7%;
     right: 0px;
     bottom: 0px;
+    .MuiSvgIcon-root {
+      font-size: 2.5rem;
+    }
+    .MuiBadge-badge {
+      height: 25px;
+      font-size: 1rem;
+    }
   }
   &::before {
     content: "";
