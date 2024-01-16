@@ -1,18 +1,20 @@
-import React from 'react';
-import { Header } from './styles/common/header';
-import { Button } from './styles/common/button';
-import { Card } from './styles/common/card';
-import Global from './styles/common/global';
+import React from "react";
+import Global from "./styles/common/global";
+
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import GroupDetail from './routes/GroupDetail'
 
 function App() {
   return (
-    <div>
-      <Global />
-      <Header>hhu</Header>
-      <Button>링크 보내기</Button>
-      <Card>안녕</Card>
-      <Card>안녕</Card>
-    </div>
+    <BrowserRouter>
+      <div>
+        <Global />
+        <Routes>
+          <Route path="/group/:id" element={<GroupDetail />}/>
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 
