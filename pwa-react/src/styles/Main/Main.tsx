@@ -18,6 +18,9 @@ const FirstSection = styled.div`
 
     align-items: center;
     justify-content: center;
+    div {
+      font-size: 1.1em;
+    }
   }
 `;
 const SecondSection = styled.div`

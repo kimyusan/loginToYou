@@ -1,0 +1,14 @@
+.fc-toolbar-title {
+  font-size: 1.3rem !important;
+}
+
+.fc-today-button {
+  background: none !important;
+  color: grey !important;
+}
+
+.fc-prev-button,
+.fc-next-button {
+  border: none !important;
+  background: rgb(255, 186, 209) !important;
+}
