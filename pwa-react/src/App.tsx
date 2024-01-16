@@ -4,6 +4,7 @@ import Global from "./styles/common/global";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import GroupDetail from './routes/GroupDetail'
+import Login from "./routes/Login";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <div>
         <Global />
         <Routes>
+          <Route path="/login" element={<Login />}></Route>
           <Route path="/group/:id" element={<GroupDetail />}/>
         </Routes>
       </div>
