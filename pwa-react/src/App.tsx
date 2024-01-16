@@ -3,8 +3,8 @@ import Global from "./styles/common/global";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import GroupDetail from './routes/GroupDetail'
 import Login from "./routes/Login";
+import Main from "./routes/Main";
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
         <Global />
         <Routes>
           <Route path="/login" element={<Login />}></Route>
-          <Route path="/group/:id" element={<GroupDetail />}/>
+          <Route path="/" element={<Main />}/>
         </Routes>
       </div>
     </BrowserRouter>

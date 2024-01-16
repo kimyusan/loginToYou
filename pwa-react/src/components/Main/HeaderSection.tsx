@@ -1,6 +1,6 @@
 import React from "react";
 import { Header } from "../../styles/common/header";
-import bgimg from "../../styles/GroupDetail/header.webp";
+import bgimg from "../../styles/Main/header.webp";
 
 type Props = {};
 
