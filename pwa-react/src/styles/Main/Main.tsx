@@ -4,10 +4,10 @@ import { Card } from "../common/card";
 const Wrapper = styled.div``;
 
 const BurgerButton = styled.button`
-  z-index: 1000;
+  z-index: 10000;
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 1%;
+  right: 2%;
   background-color: transparent;
   border: none;
   font-size: 1.7rem;

@@ -1,9 +1,8 @@
 import React from "react";
 import { NavigationContainer, NavigationList } from "../styles/Nav/NavStyle";
 
-const Navbar: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
+const Navbar: React.FC<{ isOpen: boolean;}> = ({
   isOpen,
-  onClose,
 }) => {
   return (
     <NavigationContainer $isOpen={isOpen}>
@@ -12,7 +11,6 @@ const Navbar: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
         <li>회원정보 수정</li>
         <li>환경설정</li>
       </NavigationList>
-      <button onClick={onClose}>x</button>
     </NavigationContainer>
   );
 };
