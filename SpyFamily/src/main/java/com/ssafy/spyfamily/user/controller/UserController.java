@@ -2,9 +2,9 @@ package com.ssafy.spyfamily.user.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssafy.spyfamily.user.model.User;
 import com.ssafy.spyfamily.user.model.UserInfo;
-import com.ssafy.spyfamily.user.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.ssafy.spyfamily.user.service.UserServiceImpl;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,18 +12,38 @@ import java.util.Base64;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "/login/oauth2", produces = "application/json")
+@RequestMapping(produces = "application/json")
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE}, maxAge = 6000)
 public class UserController {
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
-    @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserServiceImpl userService) {
         this.userService = userService;
     }
 
-    @PostMapping("/code/google")
+    /**
+     * @param userData key: email, password, name
+     */
+    @PostMapping("/user/signup")
+    public ResponseEntity<?> signup(@RequestBody Map<String, String> userData) {
+
+        User user = userService.signup(userData);
+
+        System.out.println(user.getEmail());
+        System.out.println(user.getPassword());
+        System.out.println(user.getName());
+
+        return null;
+    }
+
+    @PostMapping("/user/login")
+    public ResponseEntity<?> login(@RequestBody Map<String, String> userData) {
+
+        return null;
+    }
+
+    @PostMapping("/login/oauth2/code/google")
     public ResponseEntity<UserInfo> googleLoginPost(@RequestParam String access_Token) {
         try {
             // Google API로부터 사용자 정보 얻기
@@ -42,7 +62,7 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PostMapping("/code/kakao")
+    @PostMapping("/login/oauth2/code/kakao")
     public ResponseEntity<?> kakaoLoginPost(@RequestParam String code) throws JsonProcessingException {
 
         // Kakao API에 POST 요청
@@ -96,7 +116,7 @@ public class UserController {
 //        return responseEntity;
     }
 
-    @RequestMapping(value = "/code/naver")
+    @RequestMapping(value = "/login/oauth2/code/naver")
     public ResponseEntity<?> naverLogin(@RequestParam String code, @RequestParam String state) {
 
         // naver API에 POST 요청
