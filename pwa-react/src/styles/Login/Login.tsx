@@ -9,7 +9,48 @@ const Logo = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    text-shadow: 2px 2px gray;
 `
+
+const LoginBox = styled.div`
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+
+    & input {
+        width: 70%;
+        margin: 0 auto;
+        height: 20px;
+        padding: 10px;
+        border: 0;
+        border-radius: 5px;
+
+        &:focus {
+            outline: 2px solid #ffd1da;
+        }
+        
+    }
+
+    & button {
+        width: 75%;
+        margin: 0 auto;
+        height: auto;
+        padding: 10px;
+        border: 0;
+        border-radius: 5px;
+        background-color: #ffd1da;
+        margin-bottom: 10px;
+    }
+
+    & p {
+        width: 75%;
+        margin: 15px auto;
+        text-align: center;
+        font-size: 12px;
+        text-shadow: none;
+    }
+`
+
 
 const MiddleMsg = styled.div`
     width: 100%;
@@ -52,4 +93,4 @@ const LoginBtn = styled.div<SnsLoginBtn>`
     background-repeat: no-repeat;
     background-position: center;
 `
-export { Logo, MiddleMsg, SnsLogin, LoginBtn };
+export { Logo, LoginBox, MiddleMsg, SnsLogin, LoginBtn };
