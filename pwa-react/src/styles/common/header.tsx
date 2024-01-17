@@ -9,8 +9,8 @@ const Header = styled.div<{ $bgimg: string }>`
   background-image: url(${(props) => props.$bgimg});
   background-size: cover;
   > div {
-    padding: 5%;
-    font-size: 2rem;
+    padding: 7%;
+    font-size: 1.5rem;
     position: relative;
   }
   > span {

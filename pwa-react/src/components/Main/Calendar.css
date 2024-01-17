@@ -3,12 +3,38 @@
 }
 
 .fc-today-button {
-  background: none !important;
-  color: grey !important;
+  background-color: #b7b7b7 !important;
+  color: white !important;
+  border: 0 !important;
+  padding: 0.2rem 0.4rem !important ;
 }
 
 .fc-prev-button,
 .fc-next-button {
   border: none !important;
-  background: rgb(255, 186, 209) !important;
+  padding: 0.4rem !important;
+  background: #bfbfbf !important;
+  display: flex !important;
+  span {
+    font-size: 1.2rem !important;
+  }
+}
+
+.fc-myCustomButton-button {
+  border: 0 !important;
+  padding: 0.2rem 0.4rem !important ;
+
+  background-color: rgb(255, 172, 172) !important;
+}
+
+.fc-dom-86 {
+  z-index: 1 !important;
+}
+
+.ReactModal__Overlay {
+  z-index: 10;
+}
+
+.ReactModal__Content {
+  z-index: 30;
 }
