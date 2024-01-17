@@ -7,6 +7,7 @@ import Login from "./routes/Login";
 import Main from "./routes/Main";
 import SignUp from "./routes/SignUp";
 import Invite from "./routes/Invite";
+import Camera from "./routes/Camera"
 import useAuthStore from "./stores/AuthStore";
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route path="/login" element={<Login />}></Route>
           <Route path="/main" element={<Main />} />
           <Route path="/invite" element={<Invite />}></Route>
+          <Route path="/camera" element={<Camera />}></Route>
         </Routes>
       </div>
     </BrowserRouter>
