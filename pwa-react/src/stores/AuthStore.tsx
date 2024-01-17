@@ -1,5 +1,5 @@
-import { create } from 'zustand'
-import { persist } from 'zustand/middleware';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 interface AuthStore {
   isLogIn: boolean;
@@ -10,16 +10,16 @@ interface AuthStore {
 const useAuthStore = create(
   persist<AuthStore>(
     (set) => ({
-      isLogIn: false,
+      isLogIn: true,
       login: () => {
         set({ isLogIn: true });
-      }, 
+      },
       logout: () => {
         set({ isLogIn: false });
       },
     }),
     {
-      name: 'userLoginStatus',
+      name: "userLoginStatus",
     }
   )
 );

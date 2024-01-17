@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./routes/Login";
 import Main from "./routes/Main";
 import SignUp from "./routes/SignUp";
+import Invite from "./routes/Invite";
 import useAuthStore from "./stores/AuthStore";
 
 function App() {
@@ -16,10 +17,11 @@ function App() {
       <div>
         <Global />
         <Routes>
-          <Route path="/" element={ isLogIn ? <Main /> : <Login />} />
+          <Route path="/" element={isLogIn ? <Main /> : <Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />}></Route>
-          <Route path="/main" element={<Main />}/>
+          <Route path="/main" element={<Main />} />
+          <Route path="/invite" element={<Invite />}></Route>
         </Routes>
       </div>
     </BrowserRouter>
