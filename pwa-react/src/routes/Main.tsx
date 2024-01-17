@@ -11,6 +11,7 @@ import NoticeCard from "../components/Main/NoticeCard";
 import CalendarCard from "../components/Main/CalendarCard";
 import Calendar from "../components/Main/Calendar";
 
+
 const Main = () => {
   const { id } = useParams();
   const [isNavigationOpen, setIsNavigationOpen] = useState(false)
@@ -22,7 +23,7 @@ const Main = () => {
   return (
     <>
     <BurgerButton onClick={toggleNavigation}>☰</BurgerButton>
-      <Navbar isOpen={isNavigationOpen} onClose={toggleNavigation} />
+      <Navbar isOpen={isNavigationOpen} />
       <HeaderSection />
 
       <Wrapper>
