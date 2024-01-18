@@ -12,7 +12,7 @@ public class User {
     private String mobile;
     private String birthday;
     private String gender;
-    private int roomId;
+    private int coupleId;
     private String nickname;
     private String password;
 
@@ -64,12 +64,12 @@ public class User {
         this.gender = gender;
     }
 
-    public int getRoomId() {
-        return roomId;
+    public int getCoupleId() {
+        return coupleId;
     }
 
-    public void setRoomId(int roomId) {
-        this.roomId = roomId;
+    public void setCoupleId(int coupleId) {
+        this.coupleId = coupleId;
     }
 
     public String getNickname() {
@@ -86,5 +86,20 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", birthday='" + birthday + '\'' +
+                ", gender='" + gender + '\'' +
+                ", coupleId=" + coupleId +
+                ", nickname='" + nickname + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

@@ -32,22 +32,53 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public boolean isDuplicateUserEmail(String email) {
+    public User getUserByEmail(String email) {
 
-        return false;
+        int count = userRepository.countByEmail(email);
+
+        // 정보를 찾으려는 이메일로 가입된 회원정보가 없는 경우
+        if(count != 0) {
+            return userRepository.findByEmail(email);
+        }
+
+        return null;
     }
 
     @Override
     public User signup(Map<String, String> userData) {
-        String encodedPassword = userData.get("password");
-        encodedPassword = passwordEncoder.encode(encodedPassword);
 
-        User user = new User();
-        user.setEmail(userData.get("email"));
-        user.setPassword(encodedPassword);
-        user.setName(userData.get("name"));
+        User user = getUserByEmail(userData.get("email"));
 
-        return userRepository.save(user);
+        // 회원가입 하려는 아이디가 유일한 경우(존재하지 않는 경우)에만 회원가입 진행
+        if(user == null) {
+            String encodedPassword = userData.get("password");
+            encodedPassword = passwordEncoder.encode(encodedPassword);
+
+            user = new User();
+            user.setEmail(userData.get("email"));
+            user.setPassword(encodedPassword);
+            user.setName(userData.get("name"));
+
+            return userRepository.save(user);
+        }
+
+        return null;
+    }
+
+    @Override
+    public User login(Map<String, String> loginData) {
+        String email = loginData.get("email");
+        String password = loginData.get("password");
+
+        // DB에 저장된 유저 정보
+        User user = getUserByEmail(email);
+
+        // DB에 있는 비밀번호와 사용자가 입력한 비밀번호 비교
+        if(user != null && passwordEncoder.matches(password, user.getPassword())) {
+            return user;
+        }
+
+        return null;
     }
 
     @Override
@@ -114,7 +145,7 @@ public class UserServiceImpl implements UserService {
         String kakaoTokenUrl = "https://kauth.kakao.com/oauth/token";
         String grantType = "authorization_code";
         String clientId = "5a8a53240d6799ecf38d7454ab5579b3";
-        String redirectUri = "http://localhost:3000";
+        String redirectUri = "http://localhost:3000/middle/login";
 
         // 헤더 설정
         HttpHeaders headers = new HttpHeaders();
@@ -159,52 +190,6 @@ public class UserServiceImpl implements UserService {
         ResponseEntity<UserInfo> responseEntity = new RestTemplate().postForEntity(naver_url, request, UserInfo.class);
 
         return responseEntity;
-    }
-
-    public static Map<String, String> convertJsonToMap(String jsonString) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, String> dataMap = new HashMap<>();
-
-        try {
-            // JSON 문자열을 JsonNode로 매핑
-            JsonNode rootNode = objectMapper.readTree(jsonString);
-
-            // response 아래의 필드를 Map에 담기
-            rootNode.fields().forEachRemaining(entry -> {
-                dataMap.put(entry.getKey(), entry.getValue().asText());
-            });
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return dataMap;
-    }
-
-
-    public static String convertObjectToJson(Object object) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            // response 필드를 따로 JSON 문자열로 변환
-            if (object instanceof UserInfo) {
-                UserInfo userInfo = (UserInfo) object;
-                Object response = userInfo.getResponse();
-                if (response != null) {
-                    String responseJson = objectMapper.writeValueAsString(response);
-                    // response를 JSON 문자열로 변환하여 Map에 추가
-                    Map<String, Object> dataMap = objectMapper.readValue(responseJson, new TypeReference<Map<String, Object>>() {});
-                    Map<String, Object> resultMap = new HashMap<>();
-                    resultMap.putAll(dataMap);
-                    resultMap.put("response", responseJson);
-                    return objectMapper.writeValueAsString(resultMap);
-                }
-            }
-            // 그 외의 경우는 전체 객체를 JSON으로 변환
-            return objectMapper.writeValueAsString(object);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
 }

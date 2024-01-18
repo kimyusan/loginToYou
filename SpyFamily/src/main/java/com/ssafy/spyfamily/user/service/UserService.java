@@ -9,15 +9,21 @@ import java.util.Map;
 public interface UserService {
 
     /**
-     * 파라미터로 받은 이메일이 DB에 존재하는지 여부 확인
+     * 파라미터로 받은 이메일이 존재하면 User리턴, 없으면 null 리턴
      */
-    boolean isDuplicateUserEmail(String email);
+    User getUserByEmail(String email);
 
     /**
      * 입력받은 데이터를 바탕으로 회원가입 진행
-     * key: email, password
+     * key: email, password, name
      */
     User signup(Map<String, String> userData);
+
+    /**
+     * 일반 로그인
+     * key: email, password
+     */
+    User login(Map<String, String> loginData);
 
     /**
      * 구글 로그인 

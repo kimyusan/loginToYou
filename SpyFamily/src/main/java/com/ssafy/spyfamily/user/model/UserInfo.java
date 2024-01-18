@@ -146,4 +146,23 @@ public class UserInfo {
     public void setRefresh_token_expires_in(String refresh_token_expires_in) {
         this.refresh_token_expires_in = refresh_token_expires_in;
     }
+
+    @Override
+    public String toString() {
+        return "UserInfo{" +
+                "userId='" + userId + '\'' +
+                ", email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", error='" + error + '\'' +
+                ", picture='" + picture + '\'' +
+                ", response=" + response +
+                ", token_type='" + token_type + '\'' +
+                ", access_token='" + access_token + '\'' +
+                ", id_token='" + id_token + '\'' +
+                ", expires_in=" + expires_in +
+                ", refresh_token='" + refresh_token + '\'' +
+                ", refresh_token_expires_in='" + refresh_token_expires_in + '\'' +
+                '}';
+    }
 }
