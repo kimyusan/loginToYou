@@ -1,7 +1,7 @@
 import { OpenVidu } from 'openvidu-browser';
 import axios from 'axios';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import UserVideoComponent from './UserVideoComponents';
+import UserVideoComponent from '../components/Camera/UserVideoComponents';
 
 const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://demos.openvidu.io/';
 
