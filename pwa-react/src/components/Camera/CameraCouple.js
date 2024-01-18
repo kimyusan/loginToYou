@@ -1,15 +1,14 @@
 import { OpenVidu } from 'openvidu-browser';
 import axios from 'axios';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import UserVideoComponent from '../components/Camera/UserVideoComponents';
+import UserVideoComponent from './UserVideoComponents';
 
 const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://demos.openvidu.io/';
 
 export default function App() {
-  const [mySessionId, setMySessionId] = useState('SessionA')
-  const [myUserName, setMyUserName] = useState(`Participant${Math.floor(Math.random() * 100)}`)
+  const [mySessionId, setMySessionId] = useState('')
+  const [myUserName, setMyUserName] = useState(``)
   const [session, setSession] = useState(undefined);
-  const [mainStreamManager, setMainStreamManager] = useState(undefined);
   const [publisher, setPublisher] = useState(undefined);
   const [subscribers, setSubscribers] = useState([]);
   const [currentVideoDevice, setCurrentVideoDevice] = useState(null);
@@ -23,12 +22,6 @@ export default function App() {
   const handleChangeUserName = useCallback((e) => {
     setMyUserName(e.target.value);
   }, []);
-
-  const handleMainVideoStream = useCallback((stream) => {
-    if (mainStreamManager !== stream) {
-      setMainStreamManager(stream);
-    }
-  }, [mainStreamManager]);
 
   const joinSession = useCallback(() => {
     const mySession = OV.current.initSession();
@@ -74,7 +67,6 @@ export default function App() {
           const currentVideoDeviceId = publisher.stream.getMediaStream().getVideoTracks()[0].getSettings().deviceId;
           const currentVideoDevice = videoDevices.find(device => device.deviceId === currentVideoDeviceId);
 
-          setMainStreamManager(publisher);
           setPublisher(publisher);
           setCurrentVideoDevice(currentVideoDevice);
         } catch (error) {
@@ -95,9 +87,8 @@ export default function App() {
     OV.current = new OpenVidu();
     setSession(undefined);
     setSubscribers([]);
-    setMySessionId('SessionA');
-    setMyUserName('Participant' + Math.floor(Math.random() * 100));
-    setMainStreamManager(undefined);
+    setMySessionId('');
+    setMyUserName(``);
     setPublisher(undefined);
   }, [session]);
 
@@ -118,10 +109,8 @@ export default function App() {
           });
 
           if (session) {
-            await session.unpublish(mainStreamManager);
             await session.publish(newPublisher);
             setCurrentVideoDevice(newVideoDevice[0]);
-            setMainStreamManager(newPublisher);
             setPublisher(newPublisher);
           }
         }
@@ -129,7 +118,7 @@ export default function App() {
     } catch (e) {
       console.error(e);
     }
-  }, [currentVideoDevice, session, mainStreamManager]);
+  }, [currentVideoDevice, session]);
 
   const deleteSubscriber = useCallback((streamManager) => {
     setSubscribers((prevSubscribers) => {
@@ -212,22 +201,18 @@ export default function App() {
             />
           </div>
 
-          {mainStreamManager !== undefined ? (
-            <div>
-              <UserVideoComponent streamManager={mainStreamManager} />
-            </div>
-          ) : null}
-
           <div>
             {publisher !== undefined ? (
-              <div onClick={() => handleMainVideoStream(publisher)}>
+              <div>
                 <UserVideoComponent
                   streamManager={publisher} />
               </div>
             ) : null}
 
+
+            
             {subscribers.map((sub, i) => (
-              <div key={sub.id} onClick={() => handleMainVideoStream(sub)}>
+              <div key={sub.id}>
                 <span>{sub.id}</span>
                 <UserVideoComponent streamManager={sub} />
               </div>

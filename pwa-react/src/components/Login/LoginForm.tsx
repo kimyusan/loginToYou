@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { LoginBox } from '../../styles/Login/Login';
 import useAuthStore from '../../stores/AuthStore';
@@ -7,7 +7,8 @@ import useAuthStore from '../../stores/AuthStore';
 const LoginForm = () => {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
-  const {login} = useAuthStore();
+  const {login,PATH} = useAuthStore();
+  const navigate = useNavigate();
 
   const changeId = (event: React.ChangeEvent<HTMLInputElement>) => {
     setId(event.target.value)
@@ -25,15 +26,14 @@ const LoginForm = () => {
       return
     }
 
-    axios.post("http://192.168.100.83:8080/user/login", {
-      "username": id,
+    axios.post(`${PATH}/user/login`, {
+      "email": id,
       "password": pw,
     })
       .then((response) => {
         console.log("로그인 성공" , response.data)
         login()
-
-        // localStorage.setItem("access_token", response.data.accessToken)
+        navigate("/")
       })
       .catch((error) => {
         console.log(error.response)
