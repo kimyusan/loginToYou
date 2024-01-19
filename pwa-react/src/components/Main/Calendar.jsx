@@ -23,6 +23,7 @@ const Calendar = () => {
     setEnd('')
     setContent('')
     closeModal();
+    
   };
 
   return (

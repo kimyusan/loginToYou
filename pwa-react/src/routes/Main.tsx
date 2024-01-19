@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import {
   Wrapper,
-  BurgerButton,
   FirstSection,
   SecondSection,
   ThirdSection,
 } from "../styles/Main/Main";
+
+import { BurgerButton } from "../styles/common/hamburger";
 
 import Navbar from "../components/Navbar";
 import HeaderSection from "../components/Main/HeaderSection";
@@ -19,14 +20,13 @@ import Calendar from "../components/Main/Calendar";
 const Main = () => {
   const { id } = useParams();
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
+  const toggleNav = ()=>{setIsNavigationOpen(!isNavigationOpen)}
 
-  const toggleNavigation = () => {
-    setIsNavigationOpen(!isNavigationOpen);
-  };
+  const navigate = useNavigate();
 
   return (
     <>
-      <BurgerButton onClick={toggleNavigation}>☰</BurgerButton>
+      <BurgerButton onClick={toggleNav}>☰</BurgerButton>
       <Navbar isOpen={isNavigationOpen} />
       <HeaderSection />
       <Wrapper>
@@ -51,9 +51,7 @@ const Main = () => {
           <QuestionCard />
         </SecondSection>
 
-<ThirdSection>
-
-</ThirdSection>
+        <ThirdSection></ThirdSection>
 
         <Calendar />
       </Wrapper>
