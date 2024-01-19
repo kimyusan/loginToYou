@@ -20,7 +20,6 @@ const useUserStore = create(
       profileImage: null,
 
       setUser: (userInfo) => {
-        console.log(123);
         set({
           userId: userInfo.userId,
           email: userInfo.email,
