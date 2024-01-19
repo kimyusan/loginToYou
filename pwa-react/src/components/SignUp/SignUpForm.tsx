@@ -76,7 +76,6 @@ const SignUpForm = () => {
       .catch((error) => {
         console.log("회원가입 실패", error.response)
       })
-
   }
 
   useEffect(() => {

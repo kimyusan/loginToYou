@@ -1,11 +1,12 @@
-import React, { useEffect } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import useAuthStore from "../stores/AuthStore";
+import React, { useEffect, useState } from 'react'
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import useAuthStore from '../stores/AuthStore';
 
 const MiddleLogin = () => {
   const navigate = useNavigate();
   const { PATH, login } = useAuthStore();
+  const [email, setEmail] = useState("");
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -13,8 +14,8 @@ const MiddleLogin = () => {
     const state = params.get("state");
 
     const hashParams = new URLSearchParams(window.location.hash.slice(1));
-    const accessToken = hashParams.get("access_token");
-
+    const accessToken = hashParams.get('access_token');
+    
     if (code) {
       // 카카오 또는 네이버 로그인 처리
       const provider = state ? "naver" : "kakao";
@@ -40,6 +41,7 @@ const MiddleLogin = () => {
           .then((response) => {
             console.log("로그인 성공");
             console.log(response.data);
+            setEmail(response.data)
           })
           .catch((error) => {
             console.error("로그인 실패");
@@ -63,7 +65,7 @@ const MiddleLogin = () => {
         )
         .then((response) => {
           console.log("Google 로그인 성공");
-          console.log(response.data);
+          console.log(response);
         })
         .catch((error) => {
           console.error("Google 로그인 실패");

@@ -4,7 +4,6 @@ import Paper from '@mui/material/Paper';
 import { SelectBox } from "../styles/Camera/ModeSelect"
 import { BurgerButton } from "../styles/common/hamburger";
 import Navbar from "../components/Navbar";
-import HeaderSection from "../components/Main/HeaderSection";
 
 const Camera = () => {
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
