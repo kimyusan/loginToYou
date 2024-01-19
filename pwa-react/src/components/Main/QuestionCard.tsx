@@ -3,15 +3,15 @@ import { Card } from "../../styles/common/card";
 
 type Props = {};
 
-const NoticeCard = (props: Props) => {
+const QuestionCard = (props: Props) => {
   return (
     <Card>
       <div>
-        <h4 style={{ margin: 0 }}>공지사항</h4>
+        <h4 style={{ margin: 0 }}>오늘의 Q</h4>
         <hr />
       </div>
     </Card>
   );
 };
 
-export default NoticeCard;
+export default QuestionCard;

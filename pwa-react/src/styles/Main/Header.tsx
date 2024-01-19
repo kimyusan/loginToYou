@@ -1,16 +1,15 @@
-import { style } from "@mui/system";
 import styled from "styled-components";
 
 const Cover = styled.div``;
 
 const Header = styled.div`
   width: 100%;
-  height: 15vh;
+  height: 11vh;
+  padding-top: 6%;
   position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   &::before {
     content: "";
     background-color: white;
