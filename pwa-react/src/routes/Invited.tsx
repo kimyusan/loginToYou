@@ -1,35 +1,26 @@
-import React from "react";
-import { UserInterface } from "../interface/UserInterface";
+import React, { useEffect } from "react";
 import { Wrapper } from "../styles/Invite/Compos";
 import { LongButton } from "../styles/Invite/UI";
-import defaultProf from "../styles/Invite/prof.png";
-import { useNavigate } from "react-router-dom";
 
-const testUser: UserInterface = {
-  userId: 1,
-  email: "ssafy@ssafy.com",
-  name: "김싸피",
-  mobile: null,
-  birthday: null,
-  gender: null,
-  coupleId: null,
-  nickname: null,
-  profileImage:
-    "https://dimg.donga.com/wps/NEWS/IMAGE/2023/12/15/122638071.2.jpg",
-};
+import { useNavigate, useParams } from "react-router-dom";
+import useAuthStore from "../stores/AuthStore";
+import useUserStore from "../stores/UserStore";
 
 function Invited() {
   const navigate = useNavigate();
+  const { user_id, user_name } = useParams();
+  const { userId } = useUserStore();
+  const { isLogIn } = useAuthStore();
+
+  useEffect(() => {
+    if (!isLogIn) navigate("/login?redirect");
+    if (userId == Number(user_id)) navigate("/");
+  }, []);
 
   return (
     <Wrapper>
-      <img
-        src={testUser.profileImage ? testUser.profileImage : defaultProf}
-        alt="프로필사진"
-        className="prof-img mb-30"
-      />
       <div>
-        <span className="ft-bd">{testUser.name}</span>님께 로그인 하시겠습니까?
+        <span className="ft-bd">{user_name}</span>님께 로그인 하시겠습니까?
       </div>
       <div className="fc-grey mb-30">(수락 시 연인 관계로 등록됩니다.)</div>
       <LongButton
@@ -42,7 +33,7 @@ function Invited() {
       <LongButton
         className="white"
         onClick={() => {
-          navigate("/invite");
+          navigate("/");
         }}
       >
         취소
