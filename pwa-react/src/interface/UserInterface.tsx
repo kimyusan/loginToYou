@@ -1,7 +1,13 @@
-interface User {
-  user_id: number;
-  user_name: string;
-  user_code: string;
+interface UserInterface {
+  userId: number | null;
+  email: string | null;
+  name: string | null;
+  mobile?: string | null;
+  birthday?: string | null;
+  gender?: string | null;
+  coupleId?: number | null;
+  nickname?: string | null;
+  profileImage?: string | null;
 }
 
-export type { User };
+export type { UserInterface };

@@ -1,34 +1,16 @@
-import styled from "styled-components";
 import { Button } from "../common/button";
+import styled from "styled-components";
 
-interface Inputable {
-  value?: string | null;
-}
-
-const WhiteBox = styled.div<Inputable>`
-  width: 80%;
-  padding: 10px 0;
-  border: 0;
-  border-radius: 5px;
-  text-align: center;
-  font-weight: 500;
-  font-size: 15pt;
-  background-color: white;
-  margin: 10px;
-  color: #8a8a8a;
-`;
-
-const InputForm = styled.form`
+export const LongButton = styled(Button)`
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
+  margin: 5px 0;
 
-const LongButton = styled(Button)`
-  width: 80%;
-  margin: 10px;
-`;
+  &.white {
+    background-color: white;
+    border: 1px solid #fba1b7;
 
-export { WhiteBox, InputForm, LongButton };
+    &:active {
+      background-color: #f9f9f9;
+    }
+  }
+`;

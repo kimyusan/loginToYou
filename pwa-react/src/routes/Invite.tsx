@@ -1,37 +1,37 @@
-import React, { useState } from "react";
-import InviteMain from "../components/Invite/InviteMain";
-import InviteWaiting from "../components/Invite/InviteWaiting";
-import { User } from "../interface/UserInterface";
+import React, { useEffect, useState } from "react";
+import { UserInterface } from "../interface/UserInterface";
+import { Wrapper } from "../styles/Invite/Compos";
+import { QRCodeCanvas } from "qrcode.react";
+import InvitePage from "../components/Invite/InvitePage";
+import ShareButton from "../components/Invite/ShareButton";
 
-// 테스트용 더미데이터
-const test = {
-  user_id: 1,
-  user_name: "김싸피",
-  user_code: "JS12KJ5F",
+const testUser: UserInterface = {
+  userId: 1,
+  email: "ssafy@ssafy.com",
+  name: "김싸피",
+  mobile: null,
+  birthday: null,
+  gender: null,
+  coupleId: null,
+  nickname: null,
+  profileImage:
+    "https://dimg.donga.com/wps/NEWS/IMAGE/2023/12/15/122638071.2.jpg",
 };
 
 const Invite = () => {
-  const [isInvited, setIsInvited] = useState(false);
-  const [invitedPerson, setInvitedPerson] = useState<User>();
-
   return (
-    <div>
-      {isInvited ? (
-        <InviteWaiting
-          invitedPerson={invitedPerson}
-          setIsInvited={setIsInvited}
-          setInvitedPerson={setInvitedPerson}
-        />
-      ) : (
-        <InviteMain
-          user_id={test.user_id}
-          user_name={test.user_name}
-          user_code={test.user_code}
-          setIsInvited={setIsInvited}
-          setInvitedPerson={setInvitedPerson}
-        />
-      )}
-    </div>
+    <Wrapper>
+      <InvitePage
+        userId={testUser.userId}
+        name={testUser.name}
+        email={testUser.email}
+      />
+      <QRCodeCanvas
+        value={`http://localhost:3000/invite/${testUser.userId}`}
+        className="mb-30"
+      />
+      <ShareButton />
+    </Wrapper>
   );
 };
 
