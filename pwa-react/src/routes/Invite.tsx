@@ -4,30 +4,16 @@ import { Wrapper } from "../styles/Invite/Compos";
 import { QRCodeCanvas } from "qrcode.react";
 import InvitePage from "../components/Invite/InvitePage";
 import ShareButton from "../components/Invite/ShareButton";
-
-const testUser: UserInterface = {
-  userId: 1,
-  email: "ssafy@ssafy.com",
-  name: "김싸피",
-  mobile: null,
-  birthday: null,
-  gender: null,
-  coupleId: null,
-  nickname: null,
-  profileImage:
-    "https://dimg.donga.com/wps/NEWS/IMAGE/2023/12/15/122638071.2.jpg",
-};
+import useUserStore from "../stores/UserStore";
 
 const Invite = () => {
+  const user = useUserStore();
+
   return (
     <Wrapper>
-      <InvitePage
-        userId={testUser.userId}
-        name={testUser.name}
-        email={testUser.email}
-      />
+      <InvitePage userId={user.userId} name={user.name} email={user.email} />
       <QRCodeCanvas
-        value={`http://localhost:3000/invite/${testUser.userId}`}
+        value={`http://localhost:3000/invite/${user.userId}/${user.name}/`}
         className="mb-30"
       />
       <ShareButton />

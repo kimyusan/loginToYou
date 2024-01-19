@@ -1,7 +1,8 @@
 import React from "react";
 import Global from "./styles/common/global";
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import useUserStore from "./stores/UserStore";
 
 import Login from "./routes/Login";
 import Main from "./routes/Main";
@@ -16,18 +17,35 @@ import useAuthStore from "./stores/AuthStore";
 
 function App() {
   const { isLogIn } = useAuthStore();
+  const { coupleId } = useUserStore();
 
   return (
     <BrowserRouter>
       <div>
         <Global />
         <Routes>
-          <Route path="/" element={isLogIn ? <Main /> : <Login />} />
+          <Route
+            path="/"
+            element={
+              isLogIn ? (
+                coupleId ? (
+                  <Navigate replace to="/main" />
+                ) : (
+                  <Navigate replace to="/invite" />
+                )
+              ) : (
+                <Navigate replace to="/login" />
+              )
+            }
+          />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />}></Route>
           <Route path="/main" element={<Main />} />
           <Route path="/invite" element={<Invite />}></Route>
-          <Route path="/invited/:user_id" element={<Invited />}></Route>
+          <Route
+            path="/invited/:user_id/:user_name"
+            element={<Invited />}
+          ></Route>
           <Route path="/camera" element={<ModeSelect />}></Route>
           <Route path="/middle/login" element={<MiddleLogin />}></Route>
           <Route path="/camera/solo" element={<CameraSolo />}></Route>
