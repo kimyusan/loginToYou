@@ -3,6 +3,7 @@ import { Card } from "../common/card";
 
 const Wrapper = styled.div``;
 
+
 const BurgerButton = styled.button`
   z-index: 10000;
   position: fixed;
@@ -12,6 +13,7 @@ const BurgerButton = styled.button`
   border: none;
   font-size: 1.7rem;
 `;
+
 
 const FirstSection = styled.div`
   display: grid;
@@ -87,4 +89,4 @@ const ThirdSection = styled.div`
   
 `
 
-export { Wrapper, BurgerButton, FirstSection, SecondSection, ThirdSection };
+export { Wrapper, FirstSection, SecondSection, ThirdSection };

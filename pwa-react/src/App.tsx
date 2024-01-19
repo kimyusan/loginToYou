@@ -13,6 +13,7 @@ import CameraCouple from "./routes/CameraCouple";
 import CameraSolo from "./routes/CameraSolo";
 import MiddleLogin from "./routes/MiddleLogin";
 import useAuthStore from "./stores/AuthStore";
+import Calendar from "./routes/Calendar";
 
 function App() {
   const { isLogIn } = useAuthStore();
@@ -32,6 +33,7 @@ function App() {
           <Route path="/middle/login" element={<MiddleLogin />}></Route>
           <Route path="/camera/solo" element={<CameraSolo />}></Route>
           <Route path="/camera/couple" element={<CameraCouple />}></Route>
+          <Route path="/calendar" element={<Calendar />}></Route>
         </Routes>
       </div>
     </BrowserRouter>
