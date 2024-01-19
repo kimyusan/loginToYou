@@ -15,18 +15,18 @@ import HeaderSection from "../components/Main/HeaderSection";
 import { Card } from "../styles/common/card";
 import CalendarCard from "../components/Main/CalendarCard";
 import QuestionCard from "../components/Main/QuestionCard";
-import Calendar from "../components/Main/Calendar";
 
 const Main = () => {
   const { id } = useParams();
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
-  const toggleNavigation = ()=>{setIsNavigationOpen(!isNavigationOpen)}
+  const toggleNavigation = () => {
+    setIsNavigationOpen(!isNavigationOpen);
+  };
 
   const navigate = useNavigate();
 
   return (
     <>
-
       <BurgerButton onClick={toggleNavigation}>
         {isNavigationOpen ? "×" : "☰"}
       </BurgerButton>
@@ -35,7 +35,12 @@ const Main = () => {
       <HeaderSection />
       <Wrapper>
         <FirstSection>
-          <Card className="camera">
+          <Card
+            className="camera"
+            onClick={() => {
+              navigate("/camera");
+            }}
+          >
             <div>
               <p>사진</p>
               <p>찍으러 가기</p>
@@ -57,7 +62,6 @@ const Main = () => {
 
         <ThirdSection></ThirdSection>
 
-        <Calendar />
       </Wrapper>
     </>
   );

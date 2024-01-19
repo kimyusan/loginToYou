@@ -3,7 +3,6 @@ import { Card } from "../common/card";
 
 const Wrapper = styled.div``;
 
-
 const BurgerButton = styled.button`
   z-index: 10000;
   position: fixed;
@@ -14,7 +13,6 @@ const BurgerButton = styled.button`
   font-size: 1.7rem;
 `;
 
-
 const FirstSection = styled.div`
   display: grid;
   grid-template:
@@ -22,12 +20,13 @@ const FirstSection = styled.div`
     "b c" 1fr / 1fr 1fr;
   gap: 1em;
   padding-left: 5%;
-  padding-right: 5%;
+  padding-right: 10%;
   .camera {
     grid-area: b;
     aspect-ratio: 0.5;
     position: relative;
     background-color: #ff9aab;
+    margin: 0;
     div {
       position: absolute;
       right: 0;
@@ -45,12 +44,14 @@ const FirstSection = styled.div`
     aspect-ratio: 1;
     position: relative;
     background-color: pink;
+    margin: 0;
     p {
       position: absolute;
       margin-left: 10%;
       bottom: 0;
       font-size: 1.2rem;
       color: white;
+      padding-bottom: 10%;
     }
   }
   .chat {
@@ -58,12 +59,14 @@ const FirstSection = styled.div`
     aspect-ratio: 1;
     position: relative;
     background-color: #ffcdd9;
+    margin: 0;
     .chat_name {
       position: absolute;
       bottom: 0;
       margin-left: 10%;
       font-size: 1.2rem;
       color: white;
+      padding-bottom: 10%;
     }
     .chat_num {
       margin: 0;
@@ -85,8 +88,6 @@ const SecondSection = styled.div`
   }
 `;
 
-const ThirdSection = styled.div`
-  
-`
+const ThirdSection = styled.div``;
 
 export { Wrapper, FirstSection, SecondSection, ThirdSection };
