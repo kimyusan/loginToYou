@@ -1,20 +1,13 @@
 import React from "react";
-import { Header } from "../../styles/common/header";
-import bgimg from "../../styles/Main/header.webp";
-import { Badge } from "@mui/material";
-import MailIcon from "@mui/icons-material/Mail";
+import { Header, UserName, Dday } from "../../styles/Main/Header";
 
 type Props = {};
 
 const HeaderSection = (props: Props) => {
   return (
-    <Header $bgimg={bgimg}>
-      <div>캐릭캐릭체인지</div>
-      <span>
-        <Badge badgeContent={12} color="primary">
-          <MailIcon color="action" />
-        </Badge>
-      </span>
+    <Header>
+      <UserName>이싸피 & 김싸피</UserName>
+      <Dday>D-2000</Dday>
     </Header>
   );
 };

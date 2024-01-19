@@ -7,7 +7,7 @@ const CalendarCard = (props: Props) => {
   return (
     <Card>
       <div>
-        <h4 style={{ margin: 0 }}>예정된 일정</h4>
+        <h4 style={{ margin: 0 }}>캘린더 / 일정</h4>
         <hr />
       </div>
     </Card>
