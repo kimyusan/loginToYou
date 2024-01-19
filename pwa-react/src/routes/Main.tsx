@@ -20,7 +20,7 @@ import Calendar from "../components/Main/Calendar";
 const Main = () => {
   const { id } = useParams();
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
-  const toggleNav = ()=>{setIsNavigationOpen(!isNavigationOpen)}
+  const toggleNavigation = ()=>{setIsNavigationOpen(!isNavigationOpen)}
 
   const navigate = useNavigate();
 
