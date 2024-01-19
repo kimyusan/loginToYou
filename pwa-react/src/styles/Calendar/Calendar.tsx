@@ -2,11 +2,8 @@ import styled from "styled-components";
 import Modal from "react-modal";
 
 const Wrapper = styled.div`
-  &.ReactModal__Overlay {
-    z-index: 10;
-  }
-  &.ReactModal__Content {
-    z-index: 30;
+  .ReactModal__Overlay {
+    z-index: 10 !important;
   }
 `;
 
@@ -37,7 +34,7 @@ const MyCalendar = styled.div`
 
     background-color: #67b3d1 !important;
   }
-  .fc-dom-86 {
+  .fc-dom-1 {
     z-index: 1 !important;
   }
 `;
@@ -53,10 +50,17 @@ const CalendarModal = styled(Modal)`
   left: 50%;
   transform: translate(-50%, -110%);
   transition: transform 0.3s ease-in-out;
+  &.ReactModal__Overlay {
+    z-index: 10 !important;
+    background-color: red !important;
+  }
+  &.ReactModal__Content {
+    z-index: 30 !important;
+  }
   &.ReactModal__Content--after-open {
     transform: translate(-50%, -100%);
+    z-index: 50;
   }
-
   h4 {
     font-size: 1.2rem;
     margin: 0;
