@@ -4,6 +4,17 @@ import { Card } from "../common/card";
 const Wrapper = styled.div``;
 
 
+const BurgerButton = styled.button`
+  z-index: 10000;
+  position: fixed;
+  top: 1%;
+  right: 2%;
+  background-color: transparent;
+  border: none;
+  font-size: 1.7rem;
+`;
+
+
 const FirstSection = styled.div`
   display: grid;
   grid-template:

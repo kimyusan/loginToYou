@@ -26,7 +26,11 @@ const Main = () => {
 
   return (
     <>
-      <BurgerButton onClick={toggleNav}>☰</BurgerButton>
+
+      <BurgerButton onClick={toggleNavigation}>
+        {isNavigationOpen ? "×" : "☰"}
+      </BurgerButton>
+
       <Navbar isOpen={isNavigationOpen} />
       <HeaderSection />
       <Wrapper>
