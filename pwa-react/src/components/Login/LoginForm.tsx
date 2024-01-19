@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { LoginBox } from "../../styles/Login/Login";
 
 import useAuthStore from "../../stores/AuthStore";
 import useUserStore from "../../stores/UserStore";
-import { UserInterface } from "../../interface/UserInterface";
 
 const LoginForm = () => {
   const [id, setId] = useState("");
@@ -14,6 +13,7 @@ const LoginForm = () => {
   const { login, PATH } = useAuthStore();
   const { setUser } = useUserStore();
   const navigate = useNavigate();
+  const path = useLocation();
 
   const changeId = (event: React.ChangeEvent<HTMLInputElement>) => {
     setId(event.target.value);
@@ -42,7 +42,9 @@ const LoginForm = () => {
         setUser(response.data);
 
         login();
-        navigate("/");
+        path.search && path.search == "?redirect"
+          ? navigate(-1)
+          : navigate("/");
       })
       .catch((error) => {
         console.log(error.response);
