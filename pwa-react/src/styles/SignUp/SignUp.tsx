@@ -9,27 +9,25 @@ const Logo = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-shadow: 2px 2px gray;
 
   & .logo {
-      margin-bottom: 50px;
-      font-size: 30px;
+    margin-bottom: 50px;
+    font-size: 30px;
   }
 `
+
 const SignUpBox = styled.form`
   display: flex;
   flex-direction: column;
   width: 80%;
   margin: 0 auto;
 
-  & .comment {
-    width: 100%;
-    margin-bottom: 30px;
-    margin-top: 3px;
-    font-size: 10px;
-    text-shadow: none;
-    text-align: start;
-    margin-left: 5px;
+  & div {
+    margin-bottom: 15px;
+
+    & input {
+      border-bottom: 2px solid #ffd1da !important;
+    }
   }
 
   & .correct {
@@ -41,7 +39,7 @@ const SignUpBox = styled.form`
   }
 
   & .goSignUp {
-    margin-top: 10px;
+    margin: 20px 0;
     width: auto;
     padding: 10px;
     border: 0;
@@ -59,39 +57,4 @@ const SignUpBox = styled.form`
   }
 `
 
-const IdBox = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: auto;
-  height: 36px;
-  
-  & input {
-    width: 50%;
-  }
-
-  & button {
-    border: 0;
-    border-radius: 5px;
-    padding: 10px;
-    text-align: center;
-    margin-left: 10px;
-  }
-`
-
-const InputBox = styled.input`
-  width: auto;
-  border: 0;
-  border-radius: 5px;
-  padding: 10px;
-
-  &:focus {
-    outline: 2px solid #ffd1da;
-  }
-
-  &[type='date'] {
-    font-family: 'Noto Sans KR';
-    color: #8A8A8A;
-  }
-`
-
-export { Logo, SignUpBox, InputBox, IdBox }
+export { Logo, SignUpBox, }

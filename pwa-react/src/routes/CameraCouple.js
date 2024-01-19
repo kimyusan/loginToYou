@@ -168,7 +168,7 @@ export default function App() {
     <div>
       {session === undefined ? (
         <div>
-          <form className="form-group" onSubmit={joinSession}>
+          <form onSubmit={joinSession}>
             <input
               type="text"
               value={myUserName}
