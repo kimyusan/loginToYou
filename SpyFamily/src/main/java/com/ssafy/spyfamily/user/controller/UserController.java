@@ -104,7 +104,7 @@ public class UserController {
      * 카카오 로그인
      */
     @PostMapping("/login/kakao")
-    public ResponseEntity<?> kakaoLoginPost(@RequestParam(name="formData") String code) throws JsonProcessingException {
+    public ResponseEntity<?> kakaoLoginPost(@RequestParam(name="code") String code) throws JsonProcessingException {
 //        System.out.println("kakao login");
 
         // Kakao API에 POST 요청
@@ -151,7 +151,7 @@ public class UserController {
      * 네이버 로그인
      */
     @RequestMapping(value = "/login/naver")
-    public ResponseEntity<?> naverLogin(@RequestParam(name="formData") String code, @RequestParam String state) {
+    public ResponseEntity<?> naverLogin(@RequestParam(name="code") String code, @RequestParam(name="state") String state) {
 
         // naver API에 POST 요청
         ResponseEntity<UserInfo> responseEntity = userService.getNaverPost(code, state);

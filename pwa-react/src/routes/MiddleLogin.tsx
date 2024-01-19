@@ -15,7 +15,7 @@ const MiddleLogin = () => {
 
     const hashParams = new URLSearchParams(window.location.hash.slice(1));
     const accessToken = hashParams.get('access_token');
-    
+
     if (code) {
       // 카카오 또는 네이버 로그인 처리
       const provider = state ? "naver" : "kakao";
