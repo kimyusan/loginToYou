@@ -6,15 +6,15 @@ import defaultProf from "../styles/Invite/prof.png";
 import { useNavigate } from "react-router-dom";
 
 const testUser: UserInterface = {
-  user_id: 1,
+  userId: 1,
   email: "ssafy@ssafy.com",
   name: "김싸피",
   mobile: null,
   birthday: null,
   gender: null,
-  couple_id: null,
+  coupleId: null,
   nickname: null,
-  profile_image:
+  profileImage:
     "https://dimg.donga.com/wps/NEWS/IMAGE/2023/12/15/122638071.2.jpg",
 };
 
@@ -24,7 +24,7 @@ function Invited() {
   return (
     <Wrapper>
       <img
-        src={testUser.profile_image ? testUser.profile_image : defaultProf}
+        src={testUser.profileImage ? testUser.profileImage : defaultProf}
         alt="프로필사진"
         className="prof-img mb-30"
       />

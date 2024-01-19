@@ -1,7 +1,7 @@
 import React from "react";
 import { UserInterface } from "../../interface/UserInterface";
 
-function InvitePage({ user_id, name, email }: UserInterface) {
+function InvitePage({ userId, name, email }: UserInterface) {
   return (
     <>
       <div className="flex f-col mb-30">

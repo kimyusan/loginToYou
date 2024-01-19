@@ -1,13 +1,13 @@
 interface UserInterface {
-  user_id: number;
-  email: string;
-  name: string;
+  userId: number | null;
+  email: string | null;
+  name: string | null;
   mobile?: string | null;
   birthday?: string | null;
   gender?: string | null;
-  couple_id?: number | null;
+  coupleId?: number | null;
   nickname?: string | null;
-  profile_image?: string | null;
+  profileImage?: string | null;
 }
 
 export type { UserInterface };
