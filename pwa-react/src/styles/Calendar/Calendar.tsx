@@ -2,11 +2,8 @@ import styled from "styled-components";
 import Modal from "react-modal";
 
 const Wrapper = styled.div`
-  .ReactModal__Overlay {
-    z-index: 10 !important;
-  }
-  .ReactModal__Content {
-    z-index: 30 !important;
+  .jrpeep {
+    padding-bottom: 7% !important;
   }
 `;
 
@@ -75,4 +72,8 @@ const CalendarModal = styled(Modal)`
   }
 `;
 
-export { Wrapper, MyCalendar, CalendarModal };
+const ListWrapper = styled.div`
+  padding: 0 5%;
+`;
+
+export { Wrapper, MyCalendar, CalendarModal, ListWrapper };
