@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { BurgerButton } from "../styles/common/hamburger";
 import Navbar from "../components/Navbar";
 
-import "../components/Main/Calendar.css";
 import { Wrapper, MyCalendar } from "../styles/Calendar/Calendar";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import { CalendarStore } from "../stores/CalendarStore";
 import { CalendarModal } from "../styles/Calendar/Calendar";
 import FullCalendar from "@fullcalendar/react";
+import "../styles/Calendar/Calendar.css";
 
 type Props = {};
 
