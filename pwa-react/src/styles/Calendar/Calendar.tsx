@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Modal from "react-modal";
 
 const Wrapper = styled.div`
-  .jrpeep {
+  .fiSDCT {
     padding-bottom: 7% !important;
   }
 `;
@@ -32,7 +32,8 @@ const MyCalendar = styled.div`
   .fc-myCustomButton-button {
     border: 0 !important;
     padding: 0.2rem 0.4rem !important ;
-    background-color: #67b3d1 !important;
+    background-color: #fba1b7;
+    color: white;
   }
 `;
 
@@ -73,7 +74,22 @@ const CalendarModal = styled(Modal)`
 `;
 
 const ListWrapper = styled.div`
-  padding: 0 5%;
+  background-color: #ececec;
+  margin: 0 5%;
+  margin-bottom: 5%;
+  border-radius: 5px;
+  > .list_header {
+    font-size: 1.2rem;
+    padding: 3%;
+    border-bottom: 1px solid #a0a0a0;
+  }
+  > ul {
+    padding: 0;
+  }
+  > .no_event {
+    color: #fba1b7;
+    padding: 5%;
+  }
 `;
 
 export { Wrapper, MyCalendar, CalendarModal, ListWrapper };

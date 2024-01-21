@@ -7,6 +7,7 @@ import Avatar from "@mui/material/Avatar";
 import ImageIcon from "@mui/icons-material/Image";
 
 import { Event } from "../../interface/CalendarInterface";
+import { CalendarStore } from "../../stores/CalendarStore";
 
 type Props = {
   event: Event;
@@ -20,22 +21,33 @@ const dateInfo = (event: Event) => {
 };
 
 const CalendarItem = ({ event }: Props) => {
+  const { isOpen, editMode, openModal, closeModal, addEvent, events, getEvent, deleteEvent } =
+    CalendarStore();
+  const goEdit = () => {
+    openModal();
+    editMode();
+    getEvent(event);
+  };
+  const goDelete = () =>{
+    deleteEvent(event.id)
+  }
+
+
   return (
-    <div>
-      <List sx={{ width: "100%", maxWidth: 360}}>
+    <>
+      <List sx={{ width: "100%", maxWidth: 360 }}>
         <ListItem>
           <ListItemAvatar>
             <Avatar>
               <ImageIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText
-            primary={event.title}
-            secondary={dateInfo(event)}
-          />
+          <ListItemText primary={event.title} secondary={dateInfo(event)} />
+          <button onClick={goEdit}>수정</button>
+          <button onClick={goDelete}>삭제</button>
         </ListItem>
       </List>
-    </div>
+    </>
   );
 };
 

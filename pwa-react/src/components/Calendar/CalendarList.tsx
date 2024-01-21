@@ -9,7 +9,7 @@ type Props = {
   currentMonth: number;
 };
 
-const CalendarList = ({currentMonth}: Props) => {
+const CalendarList = ({ currentMonth }: Props) => {
   const { events, event } = CalendarStore();
 
   const toDate = (date: string) => {
@@ -28,7 +28,7 @@ const CalendarList = ({currentMonth}: Props) => {
   };
 
   const filterdEvents = events.filter(
-    (event) => toDate(event.start).getMonth()+1 === currentMonth
+    (event) => toDate(event.start).getMonth() + 1 === currentMonth
   );
 
   const sortedEvents = filterdEvents.sort(compare);
@@ -37,12 +37,14 @@ const CalendarList = ({currentMonth}: Props) => {
   return (
     <>
       <ListWrapper>
-        <p>{currentMonth}월의 일정</p>
-        {sortedEvents.map((event, idx) => (
-          <p key={idx}>
-            <CalendarItem event={event} />
-          </p>
-        ))}
+        <p className="list_header">{currentMonth}월의 일정</p>
+        {sortedEvents.length >= 1 ? (
+          sortedEvents.map((event, idx) => (
+            <CalendarItem key={idx} event={event} />
+          ))
+        ) : (
+          <p className="no_event">예정된 일정이 없어요</p>
+        )}
       </ListWrapper>
     </>
   );
