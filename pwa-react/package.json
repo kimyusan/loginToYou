@@ -24,10 +24,7 @@
     "axios": "^1.6.5",
     "express": "^4.18.2",
     "openvidu-browser": "^2.29.1",
-<<<<<<< HEAD
-=======
     "qrcode.react": "^3.1.0",
->>>>>>> 6bc7bc998d25daf24d2dbf789dba0b2efb4d6fff
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-modal": "^3.16.1",
