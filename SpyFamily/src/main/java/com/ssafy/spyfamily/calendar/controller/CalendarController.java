@@ -2,11 +2,12 @@ package com.ssafy.spyfamily.calendar.controller;
 
 
 import com.ssafy.spyfamily.calendar.model.Calendar;
-import com.ssafy.spyfamily.calendar.service.CalendarService;
 import com.ssafy.spyfamily.calendar.service.CalendarServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/calendar", produces = "application/json")
@@ -34,17 +35,59 @@ public class CalendarController {
         }
     }
 
-    @RequestMapping("/read")
-    public ResponseEntity<?> readCalendar(@RequestParam Integer calendar_id) {
+    @PostMapping("/read")
+    public ResponseEntity<?> readCalendar(@RequestParam Integer couple_id) {
         try {
-            System.out.println("캘린더 불러오기 시도, calender_id : " + calendar_id);
+            System.out.println("캘린더 불러오기 시도, couple_id: " + couple_id);
+            List<Calendar> calendars = calendarService.getCalendarByCoupleId(couple_id);
 
-//            Calendar calendar = calendarService.
-
-            return new ResponseEntity<Calendar>(HttpStatus.OK);
+            if (!calendars.isEmpty()) {
+                for (Calendar calendar : calendars) {
+                    System.out.println(calendar.toString());
+                }
+                return new ResponseEntity<List<Calendar>>(calendars, HttpStatus.OK);
+            } else {
+                // 캘린더가 없을 경우에 대한 처리
+                System.out.println("캘린더가 존재하지 않습니다.");
+                return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+            }
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
         }
     }
+
+
+
+    @PostMapping("/update")
+    public ResponseEntity<?> updatecalendar(@RequestBody Calendar calendar) {
+        try {
+            System.out.println("캘린더 업데이트 불러오기 시도");
+            System.out.println(calendar.toString());
+
+            calendarService.updateCalendar(calendar);
+
+            return new ResponseEntity<Void>(HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println("캘린더 업데이트 불러오기 실패");
+            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteCalendar(@RequestParam Integer calender_id) {
+        try {
+            // 삭제 로직 수행
+            calendarService.deleteCalendar(calender_id);
+
+            System.out.println("캘린더 삭제 성공");
+            return new ResponseEntity<Void>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("캘린더 삭제 실패");
+            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }
 

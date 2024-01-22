@@ -73,4 +73,17 @@ public class Calendar {
     public void setContents(String contents) {
         this.contents = contents;
     }
+
+    @Override
+    public String toString() {
+        return "Calendar{" +
+                "calendar_id=" + calendar_id +
+                ", couple_id=" + couple_id +
+                ", user_id=" + user_id +
+                ", start_date='" + start_date + '\'' +
+                ", end_date='" + end_date + '\'' +
+                ", event_type='" + event_type + '\'' +
+                ", contents='" + contents + '\'' +
+                '}';
+    }
 }

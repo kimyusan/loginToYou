@@ -4,6 +4,8 @@ import com.ssafy.spyfamily.calendar.model.Calendar;
 import com.ssafy.spyfamily.calendar.repositroy.CalendarRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CalendarServiceImpl implements CalendarService {
 
@@ -19,14 +21,12 @@ public class CalendarServiceImpl implements CalendarService {
     }
 
     @Override
-    public Calendar getCalendarById(Integer calendar_id) {
-        return calendarRepository.findById(calendar_id).orElse(null);
+    public List<Calendar> getCalendarByCoupleId(Integer coupleId) {
+        return calendarRepository.findByCoupleId(coupleId);
     }
-
     @Override
     public Calendar updateCalendar(Calendar calendar) {
-        // 추가
-
+        // 추가 할 필요가 없는듯
 
         return calendarRepository.save(calendar);
     }
