@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { Event } from "../interface/CalendarInterface";
+import axios from "axios";
 
 interface Calendar {
   isOpen: boolean;
@@ -19,6 +20,8 @@ interface Calendar {
   getEvent: (event: Event) => void;
 
   addEvent: (newEvent: Event) => void;
+  postEventToServer: (newEvent: Event) => void; // post API
+  getEventsFromServer: () => void; // get API
   updateEvent: (id: string, updatedEvent: Event) => void;
   deleteEvent: (id: string) => void;
 }
@@ -67,6 +70,55 @@ export const CalendarStore = create(
         set((state) => ({
           events: state.events.filter((event) => event.id !== id),
         })),
+
+      // "couple_id": 2,
+      // "user_id": 16,
+      // "start_date": "20240122",
+      // "end_date": "20240122",
+      // "event_type": "birthday",
+      // "contents": "생일축하2"
+
+      postEventToServer: async (newEvent) => {
+        axios
+          .post("http://localhost:8080/calendar/create/", {
+            couple_id: "couple_id",
+            user_id: "user_id",
+            start_date: newEvent.start,
+            end_date: newEvent.end,
+            event_type: null,
+            contents: newEvent.title,
+          })
+          .then((response) => {
+            console.log(response.data);
+          })
+          .catch((error) => {
+            console.log(error.response);
+          });
+      }, // post API
+
+      getEventsFromServer: async () => {
+        axios
+          .get("http://localhost:8080/calendar/read/")
+          .then((response) => {
+            const fullEvents: Event[] = response.data.map(
+              (item: {
+                calendar_id: string;
+                contents: string;
+                start_date: string;
+                end_date: string;
+              }) => ({
+                id: item.calendar_id,
+                title: item.contents,
+                start: item.start_date,
+                end: item.end_date,
+              })
+            );
+            set({ events: fullEvents });
+          })
+          .catch((error) => {
+            console.log(error.response);
+          });
+      }, // get API
     }),
     { name: "calendarStatus" }
   )
