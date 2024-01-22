@@ -7,7 +7,7 @@ const MiddleLogin = () => {
   const navigate = useNavigate();
   const { PATH, login } = useAuthStore();
 
-  const idCheck = (email:String) => {
+  const idCheck = (email:String , name: String) => {
     axios
       .get(`${PATH}/user/info?email=${email}`)
       .then((res) => {
@@ -17,7 +17,7 @@ const MiddleLogin = () => {
       })
       .catch((error) => {
         console.log("아이디 없음");
-        navigate("/signup");
+        navigate("/signup",{state: {email , name}});
       });
   }
 
@@ -54,7 +54,7 @@ const MiddleLogin = () => {
           .then((response) => {
             console.log("로그인 성공");
             console.log(response.data);
-            // idCheck()
+            idCheck(response.data.email , response.data.name)
           })
           .catch((error) => {
             console.error("로그인 실패");
@@ -79,7 +79,7 @@ const MiddleLogin = () => {
         .then((response) => {
           console.log("Google 로그인 성공");
           console.log(response.data);
-          idCheck(response.data.email)
+          idCheck(response.data.email, response.data.name)
         })
         .catch((error) => {
           console.error("Google 로그인 실패");

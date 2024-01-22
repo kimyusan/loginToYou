@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { SignUpBox } from '../../styles/SignUp/SignUp'
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import useAuthStore from '../../stores/AuthStore';
 
@@ -14,10 +14,11 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import TextField from '@mui/material/TextField';
 
 const SignUpForm = () => {
-  const [id, setId] = useState("");
+  const location = useLocation();
+  const [id, setId] = useState(location.state.email ? location.state.email : "");
   const [pw, setPw] = useState("");
   const [pw2, setPw2] = useState("");
-  const [name, setName] = useState("");
+  const [name, setName] = useState(location.state.name ? location.state.name : "");
   const [samePw, setSamePw] = useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
   const [showPassword2, setShowPassword2] = React.useState(false);
@@ -57,12 +58,12 @@ const SignUpForm = () => {
   const goSignUp = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    // if (/[a-zA-Z]/.test(pw) && /[0-9]/.test(pw) && /[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/.test(pw) && 7 < pw.length && pw.length< 16) {
-    //   console.log("비밀번호 확인")
-    // } else {
-    //   alert("비밀번호 형식이 올바르지 않습니다!")
-    //   return
-    // }
+    if (/[a-zA-Z]/.test(pw) && /[0-9]/.test(pw) && /[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/.test(pw) && 7 < pw.length && pw.length< 16) {
+      console.log("비밀번호 확인")
+    } else {
+      alert("비밀번호 형식이 올바르지 않습니다!")
+      return
+    }
 
     axios.post(`${PATH}/user/signup`, {
       "email": id,
