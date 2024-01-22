@@ -9,7 +9,7 @@ const MiddleLogin = () => {
 
   const idCheck = (email:String) => {
     axios
-      .get(`${PATH}/user/info/email=${email}`)
+      .get(`${PATH}/user/info?email=${email}`)
       .then((res) => {
         console.log("아이디 있음", res.data);
         login();
