@@ -5,12 +5,23 @@ type Props = {};
 
 const QuestionCard = (props: Props) => {
   return (
-    <Card>
-      <div>
-        <h4 style={{ margin: 0 }}>오늘의 Q</h4>
-        <hr />
-      </div>
-    </Card>
+    <>
+      <Card className="question_card">
+        <div className="question">
+          <h3 style={{ margin: 0 }}>오늘의</h3>
+          <p>오늘의 질문에 대해서 어떻게 생각해?</p>
+        </div>
+        <div className="answer">
+          <div>
+            <p>나의 답변</p>
+          </div>
+          <div>
+            <p>상대의 답변</p>
+          </div>
+        </div>
+        <div className="q">Q</div>
+      </Card>
+    </>
   );
 };
 

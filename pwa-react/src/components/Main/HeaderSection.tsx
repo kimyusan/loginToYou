@@ -10,7 +10,7 @@ const HeaderSection = (props: Props) => {
   return (
     <Header>
       <UserName>{user.name} & 김싸피</UserName>
-      <Dday>D-2000</Dday>
+      <Dday>D+2000</Dday>
     </Header>
   );
 };

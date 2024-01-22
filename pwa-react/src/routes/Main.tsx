@@ -60,8 +60,18 @@ const Main = () => {
           <QuestionCard />
         </SecondSection>
 
-        <ThirdSection></ThirdSection>
-
+        <ThirdSection>
+          <Card className="balance_game">
+            <p>밸런스게임</p>
+            <p>VS</p>
+          </Card>
+          <Card className="challenge">
+            <div>
+              <p>매일</p>
+              <p>챌린지</p>
+            </div>
+          </Card>
+        </ThirdSection>
       </Wrapper>
     </>
   );

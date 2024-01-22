@@ -58,7 +58,7 @@ const CalendarModalCard = () => {
       setEnd("");
       setContent("");
     }
-  }, [isEdit]);
+  }, [isEdit, targetEvent]);
 
   return (
     <CalendarModal

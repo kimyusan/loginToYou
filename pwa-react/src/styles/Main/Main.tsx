@@ -80,14 +80,138 @@ const FirstSection = styled.div`
   }
 `;
 
+const CalendarSec = styled(Card)`
+  padding: 3%;
+  margin: 5%;
+  height: 20vh;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  .left_side {
+    position: relative;
+    width: 50%;
+    .year_month {
+      position: absolute;
+      left: 5%;
+      top: 0;
+      font-size: 1.4rem;
+    }
+    .date {
+      position: absolute;
+      left: 5%;
+      top: 5%;
+      line-height: 1.2;
+      color: #ff9aab;
+      font-size: 8rem;
+    }
+  }
+  .right_side {
+    position: relative;
+    width: 50%;
+    .next_schedule {
+      position: absolute;
+      bottom: 5%;
+    }
+  }
+`;
+
 const SecondSection = styled.div`
   ${Card} {
     padding: 3%;
     margin: 5%;
-    height: 20vh;
+    margin-bottom: 3%;
+    height: 17vh;
+  }
+  .question_card {
+    height: 15vh;
+    position: relative;
+    .question {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #9b9b9b;
+      padding-bottom: 3%;
+      h3,
+      p {
+        z-index: 5;
+      }
+    }
+    .answer {
+      z-index: 3;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5%;
+      margin-top: 5%;
+      div {
+        border-radius: 5%;
+        z-index: 3;
+        aspect-ratio: 2;
+        background-color: #ececec73;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        p {
+          font-size: 1.3rem;
+        }
+      }
+    }
+    .q {
+      z-index: 1;
+      position: absolute;
+      font-size: 8rem;
+      font-weight: 700;
+      color: #ffdde2;
+      top: 0;
+      line-height: 0.9;
+      left: 7%;
+    }
   }
 `;
 
-const ThirdSection = styled.div``;
+const ThirdSection = styled.div`
+  margin-bottom: 10%;
+  display: flex;
+  ${Card} {
+    width: 50%;
+    aspect-ratio: 1.5;
+  }
+  .balance_game {
+    background-color: #ff9aab;
+    position: relative;
+    p:nth-child(1) {
+      z-index: 2;
+      position: absolute;
+      bottom: 5%;
+      font-size: 1.3rem;
+      color: white;
+      padding: 5%;
+    }
+    p:nth-child(2) {
+      z-index: 1;
+      line-height: 1;
+      position: absolute;
+      font-size: 5rem;
+      font-weight: 700;
+      color: #ffc0ce;
+      right: 0;
+      top: 0;
+      padding: 0 5%;
+    }
+  }
+  .challenge {
+    margin-left: 0;
+    position: relative;
+    div {
+      display: flex;
+      flex-direction: column;
+      align-items: end;
+      position: absolute;
+      bottom: 5%;
+      right: 5%;
+      p {
+        font-size: 1.3rem;
+      }
+    }
+  }
+`;
 
-export { Wrapper, FirstSection, SecondSection, ThirdSection };
+export { Wrapper, FirstSection, SecondSection, ThirdSection, CalendarSec };
