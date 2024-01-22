@@ -2,16 +2,19 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../stores/AuthStore';
+import useUserStore from '../stores/UserStore';
 
 const MiddleLogin = () => {
   const navigate = useNavigate();
   const { PATH, login } = useAuthStore();
+  const { setUser } = useUserStore();
 
   const idCheck = (email:String , name: String) => {
     axios
       .get(`${PATH}/user/info?email=${email}`)
       .then((res) => {
         console.log("아이디 있음", res.data);
+        setUser(res.data);
         login();
         navigate("/main");
       })
