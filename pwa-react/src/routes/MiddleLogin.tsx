@@ -6,7 +6,20 @@ import useAuthStore from '../stores/AuthStore';
 const MiddleLogin = () => {
   const navigate = useNavigate();
   const { PATH, login } = useAuthStore();
-  const [email, setEmail] = useState("");
+
+  const idCheck = (email:String) => {
+    axios
+      .get(`${PATH}/user/info/email=${email}`)
+      .then((res) => {
+        console.log("아이디 있음", res.data);
+        login();
+        navigate("/main");
+      })
+      .catch((error) => {
+        console.log("아이디 없음");
+        navigate("/signup");
+      });
+  }
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -41,7 +54,7 @@ const MiddleLogin = () => {
           .then((response) => {
             console.log("로그인 성공");
             console.log(response.data);
-            setEmail(response.data)
+            // idCheck()
           })
           .catch((error) => {
             console.error("로그인 실패");
@@ -65,25 +78,14 @@ const MiddleLogin = () => {
         )
         .then((response) => {
           console.log("Google 로그인 성공");
-          console.log(response);
+          console.log(response.data);
+          idCheck(response.data.email)
         })
         .catch((error) => {
           console.error("Google 로그인 실패");
           console.error(error);
         });
     }
-
-    axios
-      .get(`${PATH}/user/info`)
-      .then((res) => {
-        console.log("아이디 있음", res.data);
-        login();
-        navigate("/main");
-      })
-      .catch((error) => {
-        console.log("아이디 없음");
-        navigate("/signup");
-      });
   }, []);
 
   return <div></div>;

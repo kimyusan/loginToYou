@@ -71,7 +71,7 @@ const OptionsContainer = styled.div`
   
   & div {
     font-size: 20px;
-    margin: 0 25px;
+    margin: 0 auto;
 
     & svg {
       width: 30px;
