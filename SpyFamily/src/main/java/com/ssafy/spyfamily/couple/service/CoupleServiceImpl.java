@@ -2,9 +2,7 @@ package com.ssafy.spyfamily.couple.service;
 
 import com.ssafy.spyfamily.couple.model.Couple;
 import com.ssafy.spyfamily.couple.repository.CoupleRepository;
-import com.ssafy.spyfamily.user.model.User;
 import com.ssafy.spyfamily.user.repository.UserRepository;
-import com.ssafy.spyfamily.user.service.UserService;
 import org.springframework.stereotype.Service;
 
 @Service

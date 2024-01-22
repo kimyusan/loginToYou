@@ -1,7 +1,6 @@
 package com.ssafy.spyfamily.couple.controller;
 
 import com.ssafy.spyfamily.couple.service.CoupleServiceImpl;
-import com.ssafy.spyfamily.user.service.UserServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +14,7 @@ public class CoupleController {
 
     private final CoupleServiceImpl coupleService;
 
-    public CoupleController(CoupleServiceImpl coupleService, UserServiceImpl userService) {
+    public CoupleController(CoupleServiceImpl coupleService) {
         this.coupleService = coupleService;
     }
 
