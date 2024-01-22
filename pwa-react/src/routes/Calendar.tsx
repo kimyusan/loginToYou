@@ -1,3 +1,16 @@
+<<<<<<< HEAD
+import React from 'react'
+
+type Props = {}
+
+const Calendar = (props: Props) => {
+  return (
+    <div>Calendar</div>
+  )
+}
+
+export default Calendar
+=======
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BurgerButton } from "../styles/common/hamburger";
@@ -83,3 +96,4 @@ const Calendar = (props: Props) => {
 };
 
 export default Calendar;
+>>>>>>> 6bc7bc998d25daf24d2dbf789dba0b2efb4d6fff

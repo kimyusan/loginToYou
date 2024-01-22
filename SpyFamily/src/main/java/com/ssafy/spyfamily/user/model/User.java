@@ -11,6 +11,7 @@ public class User {
     private String name;
     private String mobile;
     private String birthday;
+
     private String gender;
     private int coupleId;
     private String nickname;
