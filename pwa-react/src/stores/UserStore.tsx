@@ -1,7 +1,4 @@
 import { create } from "zustand";
-<<<<<<< HEAD
-import { persist } from "zustand/middleware";
-=======
 import { persist } from "zustand/middleware";
 import { UserInterface } from "../interface/UserInterface";
 
@@ -43,4 +40,3 @@ const useUserStore = create(
 );
 
 export default useUserStore;
->>>>>>> 6bc7bc998d25daf24d2dbf789dba0b2efb4d6fff
