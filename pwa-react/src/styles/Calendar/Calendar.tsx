@@ -1,6 +1,13 @@
 import styled from "styled-components";
 import Modal from "react-modal";
 
+<<<<<<< HEAD
+const CalendarModal = styled(Modal)`
+  background: #ececec;
+  border-radius: 7%;
+  padding: 7%;
+  position: absolute;
+=======
 const Wrapper = styled.div`
   .fiSDCT {
     padding-bottom: 7% !important;
@@ -43,13 +50,17 @@ const CalendarModal = styled(Modal)`
   border-radius: 7%;
   padding: 7%;
   position: fixed;
+>>>>>>> 6bc7bc998d25daf24d2dbf789dba0b2efb4d6fff
   width: 65%;
   height: 40%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -110%);
   transition: transform 0.3s ease-in-out;
+<<<<<<< HEAD
+=======
 
+>>>>>>> 6bc7bc998d25daf24d2dbf789dba0b2efb4d6fff
   &.ReactModal__Content--after-open {
     transform: translate(-50%, -100%);
   }
@@ -73,6 +84,9 @@ const CalendarModal = styled(Modal)`
   }
 `;
 
+<<<<<<< HEAD
+export { CalendarModal };
+=======
 const ListWrapper = styled.div`
   background-color: #ececec;
   margin: 0 5%;
@@ -93,3 +107,4 @@ const ListWrapper = styled.div`
 `;
 
 export { Wrapper, MyCalendar, CalendarModal, ListWrapper };
+>>>>>>> 6bc7bc998d25daf24d2dbf789dba0b2efb4d6fff

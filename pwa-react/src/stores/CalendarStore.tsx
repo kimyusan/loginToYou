@@ -1,3 +1,25 @@
+<<<<<<< HEAD
+import { create } from "zustand";
+
+interface Calendar {
+  isOpen: boolean;
+  events: { title: string; start: string; end: string }[];
+
+  openModal: () => void;
+  closeModal: () => void;
+  
+  addEvent: (newEvent: { title: string; start: string; end: string }) => void;
+}
+
+export const CalendarStore = create<Calendar>((set) => ({
+  isOpen: false,
+  events: [],
+
+  openModal: () => set({ isOpen: true }),
+  closeModal: () => set({ isOpen: false }),
+  addEvent: (newEvent) => set((state) => ({ events: [...state.events, newEvent] })),
+}));
+=======
 import React, { useRef } from "react";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
@@ -71,3 +93,4 @@ export const CalendarStore = create(
     { name: "calendarStatus" }
   )
 );
+>>>>>>> 6bc7bc998d25daf24d2dbf789dba0b2efb4d6fff

@@ -60,6 +60,7 @@ public class UserController {
      * 이메일로 회원 정보 가져오기
      */
     @GetMapping("/info")
+
     public ResponseEntity<?> info(@RequestParam(name="email") String email) {
         User user = userService.getUserByEmail(email);
 
@@ -74,6 +75,7 @@ public class UserController {
      * 구글 로그인
      */
     @PostMapping("/login/google")
+
     public ResponseEntity<?> googleLoginPost(@RequestParam(name="access_Token") String access_Token) {
         try {
             // Google API로부터 사용자 정보 얻기
@@ -91,6 +93,7 @@ public class UserController {
             user = new User();
             user.setEmail(email);
             user.setName(googleUser.getName());
+
             return new ResponseEntity<User>(user, HttpStatus.OK);
         }
         // 오류 처리
@@ -104,6 +107,7 @@ public class UserController {
      * 카카오 로그인
      */
     @PostMapping("/login/kakao")
+
     public ResponseEntity<?> kakaoLoginPost(@RequestParam(name="code") String code) throws JsonProcessingException {
 //        System.out.println("kakao login");
 
@@ -138,6 +142,7 @@ public class UserController {
             user = new User();
             user.setEmail(email);
             user.setName(userData.get("nickname"));
+
             return new ResponseEntity<User>(user, HttpStatus.OK);
 
         } else {
@@ -151,6 +156,7 @@ public class UserController {
      * 네이버 로그인
      */
     @RequestMapping(value = "/login/naver")
+
     public ResponseEntity<?> naverLogin(@RequestParam(name="code") String code, @RequestParam(name="state") String state) {
 
         // naver API에 POST 요청
@@ -178,6 +184,7 @@ public class UserController {
             user.setEmail(email);
             user.setName(userData.get("name"));
             System.out.println(user.toString());
+
             return new ResponseEntity<User>(user, HttpStatus.OK);
 
         } else {

@@ -1,53 +1,81 @@
 import React, { useRef, useState, useEffect } from 'react';
+<<<<<<< HEAD
+=======
 import { TimerText, CameraBox, CameraButton, OptionsContainer, SaveBox, SaveBoxItem } from '../styles/Camera/CameraSolo';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import TimerIcon from '@mui/icons-material/Timer';
 import CollectionsIcon from '@mui/icons-material/Collections';
+>>>>>>> 6bc7bc998d25daf24d2dbf789dba0b2efb4d6fff
 
 const CameraSolo: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [time, setTime] = useState(0);
   const [selectTime, setSelectTime] = useState("");
+<<<<<<< HEAD
+=======
   const [photo, setPhoto] = useState(true);
   const [showOptions, setShowOptions] = useState(false);
+>>>>>>> 6bc7bc998d25daf24d2dbf789dba0b2efb4d6fff
 
   const startCamera = async () => {
     try {
       const constraints = { video: true };
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
+<<<<<<< HEAD
+      if(videoRef.current) {
+        videoRef.current.srcObject = stream;
+=======
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
         console.log(videoRef.current.clientHeight)
+>>>>>>> 6bc7bc998d25daf24d2dbf789dba0b2efb4d6fff
       }
     } catch (error) {
       console.error('Error opening video camera.', error);
     }
   };
+<<<<<<< HEAD
+=======
 
   useEffect(() => {
     startCamera()
   }, [])
+>>>>>>> 6bc7bc998d25daf24d2dbf789dba0b2efb4d6fff
   
   const takePhoto = (timer: number) => {
     setTime(timer)
     setTimeout(() => {
+<<<<<<< HEAD
+      if(videoRef.current && canvasRef.current) {
+        const context = canvasRef.current.getContext('2d');
+        if(context) {
+=======
       if (videoRef.current && canvasRef.current) {
         const context = canvasRef.current.getContext('2d');
         if (context) {
+>>>>>>> 6bc7bc998d25daf24d2dbf789dba0b2efb4d6fff
           context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
           const data = canvasRef.current.toDataURL('image/png');
           console.log(data);  // 이 부분에서 data를 서버로 전송하거나 앱 내에 저장할 수 있습니다.
         }
       }
+<<<<<<< HEAD
+    }, timer*1000)
+=======
       setPhoto(false)
     }, timer * 1000)
+>>>>>>> 6bc7bc998d25daf24d2dbf789dba0b2efb4d6fff
   };
 
   useEffect(() => {
     time > 0 && setTimeout(() => setTime(time - 1), 1000);
   }, [time]);
 
+<<<<<<< HEAD
+  const TimeChange = (event : React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectTime(event.target.value)
+=======
   const TimeChange = (event: string) => {
     setSelectTime(event)
     setShowOptions(!showOptions)
@@ -60,10 +88,24 @@ const CameraSolo: React.FC = () => {
   const PicAgain = (event : React.MouseEvent<HTMLDivElement>) => {
     setPhoto(!photo)
     startCamera()
+>>>>>>> 6bc7bc998d25daf24d2dbf789dba0b2efb4d6fff
   }
 
   return (
     <div>
+<<<<<<< HEAD
+      <h1>{time}</h1>
+      <select onChange={TimeChange}>
+        <option>0</option>
+        <option>3</option>
+        <option>5</option>
+        <option>10</option>
+      </select>
+      <button onClick={startCamera}>Start Camera</button>
+      <button onClick={() => {takePhoto(Number(selectTime))}}>Take Photo</button>
+      <video ref={videoRef} autoPlay={true} />
+      <canvas ref={canvasRef} />
+=======
       <TimerText>
         {time > 0 ? <div>{time}</div> : null}
       </TimerText>
@@ -92,6 +134,7 @@ const CameraSolo: React.FC = () => {
         {!showOptions && <CollectionsIcon className='timer'></CollectionsIcon>}
       </CameraButton> : null}
 
+>>>>>>> 6bc7bc998d25daf24d2dbf789dba0b2efb4d6fff
     </div>
   );
 };
