@@ -10,14 +10,17 @@ type Props = {
 };
 
 const CalendarList = ({ currentMonth }: Props) => {
-  const { events, event } = CalendarStore();
+  const { events } = CalendarStore();
 
   const toDate = (date: string) => {
     const dateString = date.split("-");
     return new Date(
       parseInt(dateString[0], 10),
       parseInt(dateString[1], 10) - 1,
-      parseInt(dateString[2], 10)
+      parseInt(dateString[2], 10),
+      24,
+      0,
+      0
     );
   };
 

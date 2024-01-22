@@ -42,7 +42,7 @@ const LoginForm = () => {
         setUser(response.data);
 
         login();
-        path.search && path.search == "?redirect"
+        path.search && path.search === "?redirect"
           ? navigate(-1)
           : navigate("/");
       })

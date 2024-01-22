@@ -43,9 +43,7 @@ const Calendar = (props: Props) => {
     console.log(currentMonth);
   };
 
-  useEffect(() => {
-    console.log(events);
-  }, []);
+  useEffect(() => {}, []);
   return (
     <>
       <BurgerButton onClick={toggleNav}>☰</BurgerButton>
