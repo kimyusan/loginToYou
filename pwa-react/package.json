@@ -10,6 +10,8 @@
     "@fullcalendar/interaction": "^6.1.10",
     "@fullcalendar/react": "^6.1.10",
     "@fullcalendar/timegrid": "^6.1.10",
+    "@mediapipe/camera_utils": "^0.3.1675466862",
+    "@mediapipe/selfie_segmentation": "^0.1.1675465747",
     "@mui/icons-material": "^5.15.4",
     "@mui/material": "^5.15.5",
     "@mui/material-next": "^6.0.0-alpha.118",
