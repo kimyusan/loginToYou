@@ -2,8 +2,6 @@ import { OpenVidu } from 'openvidu-browser';
 import axios from 'axios';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import UserVideoComponent from '../components/Camera/UserVideoComponents';
-import { Camera } from '@mediapipe/camera_utils';
-import { SelfieSegmentation } from '@mediapipe/selfie_segmentation';
 
 const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://demos.openvidu.io/';
 
@@ -14,8 +12,6 @@ export default function App() {
   const [publisher, setPublisher] = useState(undefined);
   const [subscribers, setSubscribers] = useState([]);
   const [currentVideoDevice, setCurrentVideoDevice] = useState(null);
-  const videoRef = useRef(null);
-  const canvasRef = useRef(null);
   
   const OV = useRef(new OpenVidu());
 
@@ -33,6 +29,7 @@ export default function App() {
     mySession.on('streamCreated', (event) => {
       const subscriber = mySession.subscribe(event.stream, undefined);
       setSubscribers((subscribers) => [...subscribers, subscriber]);
+      console.log("안녕 나는 스트림", subscriber)
     });
 
     mySession.on('streamDestroyed', (event) => {
@@ -63,51 +60,6 @@ export default function App() {
             insertMode: 'APPEND',
             mirror: true,
           });
-
-          const selfieSegmentation = new SelfieSegmentation({
-            locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/${file}`,
-          });
-
-          selfieSegmentation.setOptions({
-            modelSelection: 0,
-          });
-
-          selfieSegmentation.onResults((results) => {
-            const canvasCtx = canvasRef.current.getContext('2d');
-            canvasCtx.save();
-            canvasCtx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-
-            // 결과의 세그먼테이션 마스크를 캔버스에 그립니다.
-            canvasCtx.drawImage(
-              results.segmentationMask,
-              0,
-              0,
-              canvasRef.current.width,
-              canvasRef.current.height
-            );
-
-            // 실루엣을 추출하여 원본 이미지와 병합합니다.
-            canvasCtx.globalCompositeOperation = 'source-in';
-            canvasCtx.drawImage(
-              results.image,
-              0,
-              0,
-              canvasRef.current.width,
-              canvasRef.current.height
-            );
-
-            canvasCtx.restore();
-          });
-
-          // 웹캠 설정
-          const camera = new Camera(videoRef.current, {
-            onFrame: async () => {
-              await selfieSegmentation.send({ image: videoRef.current });
-            },
-            width: 500,
-            height: 800,
-          });
-          camera.start();
 
           session.publish(publisher);
 
@@ -250,23 +202,17 @@ export default function App() {
             />
           </div>
 
-          <div>
+          <div style={{ display: "flex", flexDirection: "column"}}>
             {publisher !== undefined ? (
-              <div style={{display: "none"}}>
+              <div style={{ paddingTop: "200px"}}>
                 <UserVideoComponent
                   streamManager={publisher} />
               </div>
             ) : null}
 
 
-            <div style={{ width: "100%", height: "292px", overflow: "hidden", display: 'flex' }}>
-              <video ref={videoRef} playsInline className="input_video" style={{ display: 'none', width: '100%', height: '100%', transform: "scaleX(-1)" }}></video>
-              <canvas ref={canvasRef} className="output_canvas" style={{ width: "100%", height: "100%", transform: "scaleX(-1)" }}></canvas>
-            </div>
-
-
             {subscribers.map((sub, i) => (
-              <div key={sub.id}>
+              <div key={sub.id} >
                 <span>{sub.id}</span>
                 <UserVideoComponent streamManager={sub} />
               </div>
