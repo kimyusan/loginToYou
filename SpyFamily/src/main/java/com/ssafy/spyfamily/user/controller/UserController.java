@@ -62,7 +62,7 @@ public class UserController {
     @GetMapping("/info")
     public ResponseEntity<?> info(@RequestParam String email) {
         User user = userService.getUserByEmail(email);
-
+        System.out.println("들어옴 ");
         if(user != null) {
             return new ResponseEntity<User>(user, HttpStatus.OK);
         }
