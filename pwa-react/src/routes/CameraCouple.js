@@ -12,7 +12,7 @@ export default function App() {
   const [publisher, setPublisher] = useState(undefined);
   const [subscribers, setSubscribers] = useState([]);
   const [currentVideoDevice, setCurrentVideoDevice] = useState(null);
-  
+
   const OV = useRef(new OpenVidu());
 
   const handleChangeSessionId = useCallback((e) => {
@@ -29,7 +29,6 @@ export default function App() {
     mySession.on('streamCreated', (event) => {
       const subscriber = mySession.subscribe(event.stream, undefined);
       setSubscribers((subscribers) => [...subscribers, subscriber]);
-      console.log("안녕 나는 스트림", subscriber)
     });
 
     mySession.on('streamDestroyed', (event) => {
@@ -202,17 +201,18 @@ export default function App() {
             />
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column"}}>
+          <div>
             {publisher !== undefined ? (
-              <div style={{ paddingTop: "200px"}}>
+              <div>
                 <UserVideoComponent
                   streamManager={publisher} />
               </div>
             ) : null}
 
 
+            
             {subscribers.map((sub, i) => (
-              <div key={sub.id} >
+              <div key={sub.id}>
                 <span>{sub.id}</span>
                 <UserVideoComponent streamManager={sub} />
               </div>
