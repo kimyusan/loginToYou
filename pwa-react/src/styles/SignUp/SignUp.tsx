@@ -9,6 +9,7 @@ const Logo = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+<<<<<<< HEAD
   text-shadow: 2px 2px gray;
 
   & .logo {
@@ -16,12 +17,22 @@ const Logo = styled.div`
       font-size: 30px;
   }
 `
+=======
+
+  & .logo {
+    margin-bottom: 50px;
+    font-size: 30px;
+  }
+`
+
+>>>>>>> 6bc7bc998d25daf24d2dbf789dba0b2efb4d6fff
 const SignUpBox = styled.form`
   display: flex;
   flex-direction: column;
   width: 80%;
   margin: 0 auto;
 
+<<<<<<< HEAD
   & .comment {
     width: 100%;
     margin-bottom: 30px;
@@ -30,6 +41,14 @@ const SignUpBox = styled.form`
     text-shadow: none;
     text-align: start;
     margin-left: 5px;
+=======
+  & div {
+    margin-bottom: 15px;
+
+    & input {
+      border-bottom: 2px solid #ffd1da !important;
+    }
+>>>>>>> 6bc7bc998d25daf24d2dbf789dba0b2efb4d6fff
   }
 
   & .correct {
@@ -41,7 +60,11 @@ const SignUpBox = styled.form`
   }
 
   & .goSignUp {
+<<<<<<< HEAD
     margin-top: 10px;
+=======
+    margin: 20px 0;
+>>>>>>> 6bc7bc998d25daf24d2dbf789dba0b2efb4d6fff
     width: auto;
     padding: 10px;
     border: 0;
@@ -59,6 +82,7 @@ const SignUpBox = styled.form`
   }
 `
 
+<<<<<<< HEAD
 const IdBox = styled.div`
   display: flex;
   flex-direction: row;
@@ -95,3 +119,6 @@ const InputBox = styled.input`
 `
 
 export { Logo, SignUpBox, InputBox, IdBox }
+=======
+export { Logo, SignUpBox, }
+>>>>>>> 6bc7bc998d25daf24d2dbf789dba0b2efb4d6fff

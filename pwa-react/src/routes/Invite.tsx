@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState } from "react";
 import InviteMain from "../components/Invite/InviteMain";
 import InviteWaiting from "../components/Invite/InviteWaiting";
@@ -32,6 +33,28 @@ const Invite = () => {
         />
       )}
     </div>
+=======
+import React, { useEffect, useState } from "react";
+import { UserInterface } from "../interface/UserInterface";
+import { Wrapper } from "../styles/Invite/Compos";
+import { QRCodeCanvas } from "qrcode.react";
+import InvitePage from "../components/Invite/InvitePage";
+import ShareButton from "../components/Invite/ShareButton";
+import useUserStore from "../stores/UserStore";
+
+const Invite = () => {
+  const user = useUserStore();
+
+  return (
+    <Wrapper>
+      <InvitePage userId={user.userId} name={user.name} email={user.email} />
+      <QRCodeCanvas
+        value={`http://localhost:3000/invite/${user.userId}/${user.name}/`}
+        className="mb-30"
+      />
+      <ShareButton />
+    </Wrapper>
+>>>>>>> 6bc7bc998d25daf24d2dbf789dba0b2efb4d6fff
   );
 };
 

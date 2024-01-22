@@ -1,17 +1,66 @@
 import styled from "styled-components";
 import Modal from "react-modal";
 
+<<<<<<< HEAD
 const CalendarModal = styled(Modal)`
   background: #ececec;
   border-radius: 7%;
   padding: 7%;
   position: absolute;
+=======
+const Wrapper = styled.div`
+  .fiSDCT {
+    padding-bottom: 7% !important;
+  }
+`;
+
+const MyCalendar = styled.div`
+  z-index: 1 !important;
+  padding: 20% 5%;
+  .fc-toolbar-title {
+    font-size: 1.3rem !important;
+  }
+  .fc-today-button {
+    background-color: #b7b7b7 !important;
+    color: white !important;
+    border: 0 !important;
+    padding: 0.2rem 0.4rem !important ;
+  }
+  .fc-prev-button,
+  .fc-next-button {
+    border: none !important;
+    padding: 0.4rem !important;
+    background: #bfbfbf !important;
+    display: flex !important;
+    span {
+      font-size: 1.2rem !important;
+    }
+  }
+  .fc-myCustomButton-button {
+    border: 0 !important;
+    padding: 0.2rem 0.4rem !important ;
+    background-color: #fba1b7;
+    color: white;
+  }
+`;
+
+const CalendarModal = styled(Modal)`
+  z-index: 1;
+  background: #ececec;
+  border-radius: 7%;
+  padding: 7%;
+  position: fixed;
+>>>>>>> 6bc7bc998d25daf24d2dbf789dba0b2efb4d6fff
   width: 65%;
   height: 40%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -110%);
   transition: transform 0.3s ease-in-out;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6bc7bc998d25daf24d2dbf789dba0b2efb4d6fff
   &.ReactModal__Content--after-open {
     transform: translate(-50%, -100%);
   }
@@ -35,4 +84,27 @@ const CalendarModal = styled(Modal)`
   }
 `;
 
+<<<<<<< HEAD
 export { CalendarModal };
+=======
+const ListWrapper = styled.div`
+  background-color: #ececec;
+  margin: 0 5%;
+  margin-bottom: 5%;
+  border-radius: 5px;
+  > .list_header {
+    font-size: 1.2rem;
+    padding: 3%;
+    border-bottom: 1px solid #a0a0a0;
+  }
+  > ul {
+    padding: 0;
+  }
+  > .no_event {
+    color: #fba1b7;
+    padding: 5%;
+  }
+`;
+
+export { Wrapper, MyCalendar, CalendarModal, ListWrapper };
+>>>>>>> 6bc7bc998d25daf24d2dbf789dba0b2efb4d6fff

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 const NavigationContainer = styled.div<{ $isOpen: boolean }>`
+<<<<<<< HEAD
   width: 40%;
   height: 100%;
   position: fixed;
@@ -10,6 +11,19 @@ const NavigationContainer = styled.div<{ $isOpen: boolean }>`
   right: ${({ $isOpen }) => ($isOpen ? '0' : '-40%')};
   background-color: #a9a9a9a4;
   transition: right 0.3s ease-in-out;
+=======
+  width: 80%;
+  height: 100%;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  padding-top: 20%;
+  right: ${({ $isOpen }) => ($isOpen ? "0" : "-80%")};
+  background-color: #ffffff;
+  border-left: 1px solid #8a8a8a;
+  transition: right 0.3s ease-in-out;
+
+>>>>>>> 6bc7bc998d25daf24d2dbf789dba0b2efb4d6fff
   button {
     font-size: 20px;
     position: absolute;

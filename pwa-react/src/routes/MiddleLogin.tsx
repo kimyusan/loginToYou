@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React, { useEffect } from 'react'
+=======
+import React, { useEffect, useState } from 'react'
+>>>>>>> 6bc7bc998d25daf24d2dbf789dba0b2efb4d6fff
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../stores/AuthStore';
@@ -7,19 +11,46 @@ const MiddleLogin = () => {
   const navigate = useNavigate();
   const { PATH, login } = useAuthStore();
 
+<<<<<<< HEAD
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const code = params.get('code');
     const state = params.get('state');
+=======
+  const idCheck = (email:String , name: String) => {
+    axios
+      .get(`${PATH}/user/info?email=${email}`)
+      .then((res) => {
+        console.log("아이디 있음", res.data);
+        login();
+        navigate("/main");
+      })
+      .catch((error) => {
+        console.log("아이디 없음");
+        navigate("/signup",{state: {email , name}});
+      });
+  }
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+    const state = params.get("state");
+>>>>>>> 6bc7bc998d25daf24d2dbf789dba0b2efb4d6fff
 
     const hashParams = new URLSearchParams(window.location.hash.slice(1));
     const accessToken = hashParams.get('access_token');
 
     if (code) {
       // 카카오 또는 네이버 로그인 처리
+<<<<<<< HEAD
       const provider = state ? 'naver' : 'kakao';
       const apiUrl = provider === 'naver' ?`${PATH}/user/login/naver` :
         provider === 'kakao' ? `${PATH}/user/login/kakao` : null;
+=======
+      const provider = state ? "naver" : "kakao";
+      const apiUrl =
+        provider === "naver" ? `${PATH}/user/login/naver` : provider === "kakao" ? `${PATH}/user/login/kakao` : null;
+>>>>>>> 6bc7bc998d25daf24d2dbf789dba0b2efb4d6fff
 
       if (apiUrl) {
         console.log(`${provider} 로그인 : `, code);
@@ -27,6 +58,7 @@ const MiddleLogin = () => {
         formData.append("code", code);
 
         // 네이버의 경우 state 값을 함께 전송
+<<<<<<< HEAD
         if (provider === 'naver' && state) {
           formData.append("state", state);
         }
@@ -41,6 +73,24 @@ const MiddleLogin = () => {
             console.log(response.data);
           })
           .catch(error => {
+=======
+        if (provider === "naver" && state) {
+          formData.append("state", state);
+        }
+
+        axios
+          .post(apiUrl, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then((response) => {
+            console.log("로그인 성공");
+            console.log(response.data);
+            idCheck(response.data.email , response.data.name)
+          })
+          .catch((error) => {
+>>>>>>> 6bc7bc998d25daf24d2dbf789dba0b2efb4d6fff
             console.error("로그인 실패");
             console.error(error);
           });
@@ -49,6 +99,7 @@ const MiddleLogin = () => {
       // 구글 로그인 처리
       const googleApiUrl = `${PATH}/user/login/google`;
 
+<<<<<<< HEAD
       console.log('구글 로그인 : ', accessToken)
       axios.post(googleApiUrl, { "access_Token": accessToken }, {
         headers: {
@@ -60,10 +111,30 @@ const MiddleLogin = () => {
           console.log(response.data);
         })
         .catch(error => {
+=======
+      console.log("구글 로그인 : ", accessToken);
+      axios
+        .post(
+          googleApiUrl,
+          { access_Token: accessToken },
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
+        .then((response) => {
+          console.log("Google 로그인 성공");
+          console.log(response.data);
+          idCheck(response.data.email, response.data.name)
+        })
+        .catch((error) => {
+>>>>>>> 6bc7bc998d25daf24d2dbf789dba0b2efb4d6fff
           console.error("Google 로그인 실패");
           console.error(error);
         });
     }
+<<<<<<< HEAD
 
     axios.get(`${PATH}/user/info`)
       .then((res) => {
@@ -81,5 +152,11 @@ const MiddleLogin = () => {
     <div></div>
   )
 }
+=======
+  }, []);
+
+  return <div></div>;
+};
+>>>>>>> 6bc7bc998d25daf24d2dbf789dba0b2efb4d6fff
 
 export default MiddleLogin;
