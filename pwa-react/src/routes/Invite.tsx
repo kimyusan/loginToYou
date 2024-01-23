@@ -13,7 +13,12 @@ const Invite = () => {
     <Wrapper>
       <InvitePage userId={user.userId} name={user.name} email={user.email} />
       <QRCodeCanvas
-        value={`http://localhost:3000/invite/${user.userId}/${user.name}/`}
+        onClick={() => {
+          window.open(
+            `http://localhost:3000/invited/${user.email}/${user.name}/`
+          );
+        }}
+        value={`http://localhost:3000/invited/${user.email}/${user.name}/`}
         className="mb-30"
       />
       <ShareButton />

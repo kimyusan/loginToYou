@@ -15,10 +15,10 @@ import TextField from '@mui/material/TextField';
 
 const SignUpForm = () => {
   const location = useLocation();
-  const [id, setId] = useState(location.state.email ? location.state.email : "");
+  const [id, setId] = useState(location.state !== null ? location.state.email : "");
   const [pw, setPw] = useState("");
   const [pw2, setPw2] = useState("");
-  const [name, setName] = useState(location.state.name ? location.state.name : "");
+  const [name, setName] = useState(location.state !== null ? location.state.name : "");
   const [samePw, setSamePw] = useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
   const [showPassword2, setShowPassword2] = React.useState(false);
