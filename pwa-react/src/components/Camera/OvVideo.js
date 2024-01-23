@@ -61,7 +61,7 @@ export default function OpenViduVideoComponent({ streamManager,zi }) {
   }, [streamManager]);
 
   return (
-    <div style={{width: "100%" , height: "292px", zIndex: zi, position: "absolute", top:"0"}}>
+    <div style={{width: "100%" , height: "292px", zIndex: "0", position: "absolute", top:"0"}}>
       <video autoPlay={true} ref={videoRef} playsInline style={{ display: 'none', width: '100%', height: '100%', transform: "scaleX(-1)" }}/>;
       <canvas ref={canvasRef} className="output_canvas" style={{ width: "100%", height: "100%", transform: "scaleX(-1)"} }></canvas>
     </div>
