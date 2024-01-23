@@ -47,7 +47,6 @@ const CalendarModalCard = () => {
     setEnd("");
     setContent("");
     closeModal();
-    getEventsFromServer(0);
   };
 
   useEffect(() => {
@@ -61,7 +60,7 @@ const CalendarModalCard = () => {
       setContent("");
     }
     getEventsFromServer(0);
-  }, [isOpen, isEdit, targetEvent]);
+  }, [targetEvent]);
 
   return (
     <CalendarModal

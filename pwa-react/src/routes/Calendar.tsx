@@ -24,7 +24,7 @@ const Calendar = (props: Props) => {
     openModal,
     isOpen,
     isEdit,
-    goDelete,
+    isDelete,
     addMode,
     events,
     getEventsFromServer,
@@ -52,7 +52,7 @@ const Calendar = (props: Props) => {
 
   useEffect(() => {
     getEventsFromServer(0);
-  }, [isEdit, goDelete]);
+  }, [isEdit, isDelete]);
 
   return (
     <>
