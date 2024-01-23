@@ -46,12 +46,13 @@ const FirstSection = styled.div`
     background-color: pink;
     margin: 0;
     p {
+      z-index: 2;
       position: absolute;
-      margin-left: 10%;
+      left: 0;
       bottom: 0;
-      font-size: 1.2rem;
+      margin: 10%;
+      font-size: 1.3rem;
       color: white;
-      padding-bottom: 10%;
     }
   }
   .chat {
@@ -61,14 +62,16 @@ const FirstSection = styled.div`
     background-color: #ffcdd9;
     margin: 0;
     .chat_name {
+      z-index: 2;
       position: absolute;
+      left: 0;
       bottom: 0;
-      margin-left: 10%;
-      font-size: 1.2rem;
+      margin: 10%;
+      font-size: 1.3rem;
       color: white;
-      padding-bottom: 10%;
     }
     .chat_num {
+      z-index: 1;
       margin: 0;
       position: absolute;
       right: 0;
@@ -95,14 +98,16 @@ const CalendarSec = styled(Card)`
       left: 5%;
       top: 0;
       font-size: 1.4rem;
+      margin: 0;
     }
     .date {
       position: absolute;
+      margin: 0;
       left: 5%;
       top: 5%;
-      line-height: 1.2;
+      line-height: 1.5;
       color: #ff9aab;
-      font-size: 8rem;
+      font-size: 6rem;
     }
   }
   .right_side {
@@ -123,15 +128,17 @@ const SecondSection = styled.div`
     height: 17vh;
   }
   .question_card {
-    height: 15vh;
     position: relative;
     .question {
       display: flex;
       justify-content: space-between;
       border-bottom: 1px solid #9b9b9b;
       padding-bottom: 3%;
-      h3,
+      :nth-child(1) {
+        font-size: 1.2rem;
+      }
       p {
+        margin: 0;
         z-index: 5;
       }
     }
@@ -150,7 +157,7 @@ const SecondSection = styled.div`
         align-items: center;
         justify-content: center;
         p {
-          font-size: 1.3rem;
+          font-size: 1rem;
         }
       }
     }
@@ -180,10 +187,11 @@ const ThirdSection = styled.div`
     p:nth-child(1) {
       z-index: 2;
       position: absolute;
-      bottom: 5%;
+      margin: 0;
+      bottom: 0;
       font-size: 1.3rem;
       color: white;
-      padding: 5%;
+      padding: 7% 3%;
     }
     p:nth-child(2) {
       z-index: 1;
@@ -194,6 +202,7 @@ const ThirdSection = styled.div`
       color: #ffc0ce;
       right: 0;
       top: 0;
+      margin: 0;
       padding: 0 5%;
     }
   }
@@ -208,6 +217,7 @@ const ThirdSection = styled.div`
       bottom: 5%;
       right: 5%;
       p {
+        margin: 0;
         font-size: 1.3rem;
       }
     }
