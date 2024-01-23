@@ -3,6 +3,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { Event } from "../interface/CalendarInterface";
 import axios from "axios";
+import useUserStore from "./UserStore";
 
 interface Calendar {
   isOpen: boolean;
@@ -21,7 +22,7 @@ interface Calendar {
 
   addEvent: (newEvent: Event) => void;
   postEventToServer: (newEvent: Event) => void; // post API
-  getEventsFromServer: () => void; // get API
+  getEventsFromServer: (couple_id: number) => void; // get API
   updateEvent: (id: string, updatedEvent: Event) => void;
   deleteEvent: (id: string) => void;
 }
@@ -78,11 +79,11 @@ export const CalendarStore = create(
       // "event_type": "birthday",
       // "contents": "생일축하2"
 
-      postEventToServer: async (newEvent) => {
+      postEventToServer: (newEvent) => {
         axios
-          .post("http://localhost:8080/calendar/create/", {
-            couple_id: "couple_id",
-            user_id: "user_id",
+          .post("http://localhost:8080/calendar/create", {
+            couple_id: 0,
+            user_id: 1,
             start_date: newEvent.start,
             end_date: newEvent.end,
             event_type: null,
@@ -96,16 +97,21 @@ export const CalendarStore = create(
           });
       }, // post API
 
-      getEventsFromServer: async () => {
+      getEventsFromServer: (couple_id) => {
         axios
-          .get("http://localhost:8080/calendar/read/")
+          .get("http://localhost:8080/calendar/read", {
+            params: { couple_id: couple_id },
+          })
           .then((response) => {
             const fullEvents: Event[] = response.data.map(
               (item: {
-                calendar_id: string;
-                contents: string;
+                calendar_id: number;
+                couple_id: number;
+                user_id: number;
                 start_date: string;
                 end_date: string;
+                event_type: string | null;
+                contents: string | null;
               }) => ({
                 id: item.calendar_id,
                 title: item.contents,

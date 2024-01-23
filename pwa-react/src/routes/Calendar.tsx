@@ -20,7 +20,7 @@ const Calendar = (props: Props) => {
     setIsNavigationOpen(!isNavigationOpen);
   };
 
-  const { isOpen, isEdit, openModal, addMode, closeModal, addEvent, events } =
+  const { openModal, addMode, events, getEventsFromServer } =
     CalendarStore();
   const [currentMonth, setCurrentMonth] = useState(0);
 
@@ -43,7 +43,9 @@ const Calendar = (props: Props) => {
     console.log(currentMonth);
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    getEventsFromServer(0)
+  }, [events]);
   return (
     <>
       <BurgerButton onClick={toggleNav}>☰</BurgerButton>

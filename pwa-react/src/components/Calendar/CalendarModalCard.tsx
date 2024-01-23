@@ -13,6 +13,7 @@ const CalendarModalCard = () => {
     nextId,
     isEdit,
     targetEvent,
+    postEventToServer,
   } = CalendarStore();
 
   const [start, setStart] = useState("");
@@ -40,7 +41,7 @@ const CalendarModalCard = () => {
     if (isEdit && targetEvent) {
       updateEvent(targetEvent.id, editEvent);
     } else {
-      addEvent(newEvent);
+      postEventToServer(newEvent)
     }
     setStart("");
     setEnd("");
