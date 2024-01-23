@@ -15,6 +15,7 @@ import CameraSolo from "./routes/CameraSolo";
 import MiddleLogin from "./routes/MiddleLogin";
 import useAuthStore from "./stores/AuthStore";
 import Calendar from "./routes/Calendar";
+import UserInfo from "./routes/UserInfo";
 
 function App() {
   const { isLogIn } = useAuthStore();
@@ -52,6 +53,7 @@ function App() {
           <Route path="/camera/solo" element={<CameraSolo />}></Route>
           <Route path="/camera/couple" element={<CameraCouple />}></Route>
           <Route path="/calendar" element={<Calendar />}></Route>
+          <Route path="/user_info/:user_id" element={<UserInfo />}></Route>
         </Routes>
       </div>
     </BrowserRouter>

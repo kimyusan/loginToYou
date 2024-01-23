@@ -35,7 +35,6 @@ const CalendarList = ({ currentMonth }: Props) => {
   );
 
   const sortedEvents = filterdEvents.sort(compare);
-  useEffect(() => {}, []);
 
   return (
     <>

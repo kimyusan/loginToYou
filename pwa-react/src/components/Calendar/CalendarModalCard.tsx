@@ -40,7 +40,7 @@ const CalendarModalCard = () => {
     if (isEdit && targetEvent) {
       updateEventToServer(editEvent);
     } else {
-      postEventToServer(newEvent)
+      postEventToServer(newEvent);
     }
     setStart("");
     setEnd("");
