@@ -30,10 +30,10 @@ const CalendarItem = ({ event }: Props) => {
     getEvent,
     deleteEventFromServer,
   } = CalendarStore();
+  
   const goEdit = () => {
     openModal();
     editMode();
-    console.log(event)
     getEvent(event);
   };
   const goDelete = () => {

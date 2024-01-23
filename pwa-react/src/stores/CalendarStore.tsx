@@ -52,33 +52,13 @@ export const CalendarStore = create(
           },
         }),
 
-      postEventToServer: (newEvent) => {
-        axios
-          .post("http://localhost:8080/calendar/create", {
-            couple_id: 0,
-            user_id: 1,
-            start_date: newEvent.start,
-            end_date: newEvent.end,
-            event_type: null,
-            contents: newEvent.title,
-          })
-          .then((response) => {
-            console.log(response.data);
-          })
-          .catch((error) => {
-            console.log(error.response);
-          });
-      }, // post API
-
       getEventsFromServer: (couple_id) => {
         axios
           .get("http://localhost:8080/calendar/read", {
             params: { couple_id: couple_id },
           })
           .then((response) => {
-
             console.log(response);
-
             const fullEvents: Event[] = response.data.map(
               (item: {
                 calendar_id: number;
@@ -103,6 +83,24 @@ export const CalendarStore = create(
             console.log(error.response);
           });
       }, // get API
+
+      postEventToServer: (newEvent) => {
+        axios
+          .post("http://localhost:8080/calendar/create", {
+            couple_id: 0,
+            user_id: 1,
+            start_date: newEvent.start,
+            end_date: newEvent.end,
+            event_type: null,
+            contents: newEvent.title,
+          })
+          .then((response) => {
+            console.log(response.data);
+          })
+          .catch((error) => {
+            console.log(error.response);
+          });
+      }, // post API
 
       updateEventToServer: (editEvent) => {
         axios
