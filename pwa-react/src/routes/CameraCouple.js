@@ -205,7 +205,7 @@ export default function App() {
             {publisher !== undefined ? (
               <div>
                 <UserVideoComponent
-                  streamManager={publisher} />
+                  streamManager={publisher} zi={-1}/>
               </div>
             ) : null}
 
@@ -214,7 +214,7 @@ export default function App() {
             {subscribers.map((sub, i) => (
               <div key={sub.id}>
                 <span>{sub.id}</span>
-                <UserVideoComponent streamManager={sub} />
+                <UserVideoComponent streamManager={sub} zi={1}/>
               </div>
             ))}
           </div>
