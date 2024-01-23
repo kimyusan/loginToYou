@@ -1,13 +1,20 @@
 import { OpenVidu } from 'openvidu-browser';
 import axios from 'axios';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import UserVideoComponent from '../components/Camera/UserVideoComponents';
+import WebCam from "react-webcam"
+
+import { ReadyRoomText, ReadyBtn, JoinForm, GoBack } from "../styles/Camera/CameraCouple"
+
+import { BurgerButton } from "../styles/common/hamburger";
+import Navbar from "../components/Navbar";
 
 const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://demos.openvidu.io/';
 
 export default function App() {
-  const [mySessionId, setMySessionId] = useState('')
-  const [myUserName, setMyUserName] = useState(``)
+  const [mySessionId, setMySessionId] = useState('ssafy')
+  const [myUserName, setMyUserName] = useState(`012`)
   const [session, setSession] = useState(undefined);
   const [publisher, setPublisher] = useState(undefined);
   const [subscribers, setSubscribers] = useState([]);
@@ -87,8 +94,8 @@ export default function App() {
     OV.current = new OpenVidu();
     setSession(undefined);
     setSubscribers([]);
-    setMySessionId('');
-    setMyUserName(``);
+    setMySessionId('ssafy');
+    setMyUserName(`012`);
     setPublisher(undefined);
   }, [session]);
 
@@ -164,25 +171,44 @@ export default function App() {
     return response.data; // The token
   };
 
+  const [isNavigationOpen, setIsNavigationOpen] = useState(false);
+  const toggleNavigation = () => {
+    setIsNavigationOpen(!isNavigationOpen);
+  };
+
+
   return (
     <div>
       {session === undefined ? (
         <div>
-          <form onSubmit={joinSession}>
+          <GoBack>
+            <Link to="/camera">←</Link>
+            <BurgerButton onClick={toggleNavigation}>
+              {isNavigationOpen ? "×" : "☰"}
+            </BurgerButton>
+          </GoBack>
+
+          <Navbar isOpen={isNavigationOpen} />
+          
+          <ReadyRoomText>대기방</ReadyRoomText>
+          <WebCam style={{ width: "100%", height: "300px", transform: "scaleX(-1)" }} />
+          <JoinForm onSubmit={joinSession} >
             <input
               type="text"
               value={myUserName}
               onChange={handleChangeUserName}
               required
+              style={{ display: "none" }}
             />
             <input
               type="text"
               value={mySessionId}
               onChange={handleChangeSessionId}
               required
+              style={{ display: "none" }}
             />
-            <input name="commit" type="submit" value="JOIN" />
-          </form>
+            <ReadyBtn name="commit" type="submit" value="Ready" />
+          </JoinForm>
         </div>
       ) : null}
 
@@ -201,20 +227,22 @@ export default function App() {
             />
           </div>
 
+
+
           <div>
             {publisher !== undefined ? (
               <div>
                 <UserVideoComponent
-                  streamManager={publisher} zi={-1}/>
+                  streamManager={publisher} zi={-1} />
               </div>
             ) : null}
 
 
-            
+
             {subscribers.map((sub, i) => (
               <div key={sub.id}>
                 <span>{sub.id}</span>
-                <UserVideoComponent streamManager={sub} zi={1}/>
+                <UserVideoComponent streamManager={sub} zi={1} />
               </div>
             ))}
           </div>
