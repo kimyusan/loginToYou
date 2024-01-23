@@ -2,15 +2,18 @@ package com.ssafy.spyfamily.couple.service;
 
 import com.ssafy.spyfamily.couple.model.Couple;
 import com.ssafy.spyfamily.couple.repository.CoupleRepository;
+import com.ssafy.spyfamily.user.model.User;
 import com.ssafy.spyfamily.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.zip.CheckedOutputStream;
 
 @Service
 public class CoupleServiceImpl implements CoupleService{
 
     private final CoupleRepository coupleRepository;
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public CoupleServiceImpl(CoupleRepository coupleRepository, UserRepository userRepository) {
         this.coupleRepository = coupleRepository;
@@ -22,20 +25,31 @@ public class CoupleServiceImpl implements CoupleService{
 
         Couple couple = new Couple();
 
-        System.out.println("확인용---------------------1");
-        System.out.println(userA);
-        System.out.println(userB);
+        // 이메일로 유저 정보 가져오기
+        User userA_info = userRepository.findByEmail(userA);
+        User userB_info = userRepository.findByEmail(userB);
 
-        Integer userIdA = userRepository.getUserIdByEmail(userA);
-        Integer userIdB = userRepository.getUserIdByEmail(userB);
+        // 커플에 유저 id 담기
+        couple.setF_user_id(userA_info.getUserId());
+        couple.setS_user_id(userB_info.getUserId());
 
-        couple.setF_user_id(userIdA);
-        couple.setS_user_id(userIdB);
+        // 커플저장
+        couple = coupleRepository.save(couple);
 
-        System.out.println(couple.getF_user_id());
-        System.out.println(couple.getS_user_id());
+        // 생성된 커플id 유저 정보에 넣어주기
+        userA_info.setCoupleId(couple.getCouple_id());
+        userB_info.setCoupleId(couple.getCouple_id());
 
-        // Couple 저장
-        return coupleRepository.save(couple);
+        System.out.println("커플 구성원 1 : " + userA_info.toString());
+        System.out.println("커플 구성원 2 : " + userB_info.toString());
+        System.out.println("커플 방 : " + couple.toString());
+
+        // 유저 정보 갱신
+        userRepository.save(userA_info);
+        userRepository.save(userB_info);
+
+        System.out.println("유저 정보 저장 완료");
+
+        return couple;
     }
 }
