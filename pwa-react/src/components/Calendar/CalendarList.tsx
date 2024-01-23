@@ -41,7 +41,7 @@ const CalendarList = ({ currentMonth }: Props) => {
     <>
       <ListWrapper>
         <p className="list_header">{currentMonth}월의 일정</p>
-        {sortedEvents.length >= 1 ? (
+        {events.length >= 1 ? (
           sortedEvents.map((event, idx) => (
             <CalendarItem key={idx} event={event} />
           ))

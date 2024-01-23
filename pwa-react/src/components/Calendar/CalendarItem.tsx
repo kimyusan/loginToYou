@@ -21,17 +21,24 @@ const dateInfo = (event: Event) => {
 };
 
 const CalendarItem = ({ event }: Props) => {
-  const { isOpen, editMode, openModal, closeModal, addEvent, events, getEvent, deleteEvent } =
-    CalendarStore();
+  const {
+    isOpen,
+    editMode,
+    openModal,
+    closeModal,
+    events,
+    getEvent,
+    deleteEventFromServer,
+  } = CalendarStore();
   const goEdit = () => {
     openModal();
     editMode();
+    console.log(event)
     getEvent(event);
   };
-  const goDelete = () =>{
-    deleteEvent(event.id)
-  }
-
+  const goDelete = () => {
+    deleteEventFromServer(parseInt(event.id));
+  };
 
   return (
     <>
