@@ -36,7 +36,7 @@ public class CalendarController {
     }
 
     @GetMapping("/read")
-    public ResponseEntity<?> readCalendar(@RequestParam Integer couple_id) {
+    public ResponseEntity<?> readCalendar(@RequestParam(name="couple_id") Integer couple_id) {
         try {
             System.out.println("캘린더 불러오기 시도, couple_id: " + couple_id);
             List<Calendar> calendars = calendarService.getCalendarByCoupleId(couple_id);

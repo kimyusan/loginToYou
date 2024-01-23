@@ -1,8 +1,14 @@
 import React, { useRef, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { TimerText, CameraBox, CameraButton, OptionsContainer, SaveBox, SaveBoxItem } from '../styles/Camera/CameraSolo';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import TimerIcon from '@mui/icons-material/Timer';
 import CollectionsIcon from '@mui/icons-material/Collections';
+
+import { GoBack } from "../styles/Camera/CameraCouple"
+
+import { BurgerButton } from "../styles/common/hamburger";
+import Navbar from "../components/Navbar";
 
 const CameraSolo: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -14,11 +20,10 @@ const CameraSolo: React.FC = () => {
 
   const startCamera = async () => {
     try {
-      const constraints = { video: true };
+      const constraints = { video: { width: 1280, height: 720 } };
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
-        console.log(videoRef.current.clientHeight)
       }
     } catch (error) {
       console.error('Error opening video camera.', error);
@@ -28,11 +33,13 @@ const CameraSolo: React.FC = () => {
   useEffect(() => {
     startCamera()
   }, [])
-  
+
   const takePhoto = (timer: number) => {
     setTime(timer)
     setTimeout(() => {
       if (videoRef.current && canvasRef.current) {
+        canvasRef.current.width = videoRef.current.videoWidth;
+        canvasRef.current.height = videoRef.current.videoHeight;
         const context = canvasRef.current.getContext('2d');
         if (context) {
           context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
@@ -57,19 +64,34 @@ const CameraSolo: React.FC = () => {
     setShowOptions(!showOptions); // showOptions 상태 토글
   }
 
-  const PicAgain = (event : React.MouseEvent<HTMLDivElement>) => {
+  const PicAgain = (event: React.MouseEvent<HTMLDivElement>) => {
     setPhoto(!photo)
     startCamera()
   }
 
+
+  const [isNavigationOpen, setIsNavigationOpen] = useState(false);
+  const toggleNavigation = () => {
+    setIsNavigationOpen(!isNavigationOpen);
+  };
+
   return (
     <div>
+      <GoBack>
+        <Link to="/camera">←</Link>
+        <BurgerButton onClick={toggleNavigation}>
+          {isNavigationOpen ? "×" : "☰"}
+        </BurgerButton>
+      </GoBack>
+
+      <Navbar isOpen={isNavigationOpen} />
+
       <TimerText>
         {time > 0 ? <div>{time}</div> : null}
       </TimerText>
       <CameraBox>
-        {photo ? <video ref={videoRef} autoPlay={true} style={{ transform: "scaleX(-1)" }} /> : null}
-        <canvas ref={canvasRef} style={{ transform: "scaleX(-1)", width: window.innerWidth, height: videoRef.current?.clientHeight }} />
+        {photo ? <video ref={videoRef} autoPlay={true} style={{ width: "100%", height: "300px", transform: "scaleX(-1)" }} /> : null}
+        <canvas ref={canvasRef} style={{ transform: "scaleX(-1)", width: "100%", height: "275px", display: photo ? "none" : "" }} />
       </CameraBox>
       {photo ? null : <SaveBox><SaveBoxItem>저장하기</SaveBoxItem><SaveBoxItem onClick={PicAgain}>다시 찍기</SaveBoxItem></SaveBox>}
 

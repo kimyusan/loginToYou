@@ -45,7 +45,7 @@ function App() {
           <Route path="/main" element={<Main />} />
           <Route path="/invite" element={<Invite />}></Route>
           <Route
-            path="/invited/:user_id/:user_name"
+            path="/invited/:user_email/:user_name"
             element={<Invited />}
           ></Route>
           <Route path="/camera" element={<ModeSelect />}></Route>

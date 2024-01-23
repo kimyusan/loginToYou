@@ -13,7 +13,7 @@ public class User {
     private String birthday;
 
     private String gender;
-    private int coupleId;
+    private Integer coupleId;
     private String nickname;
     private String password;
 
@@ -65,11 +65,11 @@ public class User {
         this.gender = gender;
     }
 
-    public int getCoupleId() {
+    public Integer getCoupleId() {
         return coupleId;
     }
 
-    public void setCoupleId(int coupleId) {
+    public void setCoupleId(Integer coupleId) {
         this.coupleId = coupleId;
     }
 

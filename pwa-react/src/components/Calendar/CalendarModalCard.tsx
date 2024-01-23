@@ -13,6 +13,7 @@ const CalendarModalCard = () => {
     targetEvent,
     postEventToServer,
     updateEventToServer,
+    getEventsFromServer,
   } = CalendarStore();
 
   const [start, setStart] = useState("");

@@ -4,6 +4,7 @@ import { UserInterface } from "../interface/UserInterface";
 
 interface UserStore extends UserInterface {
   setUser: (userInfo: UserInterface) => void;
+  setCoupleId: (newId: number) => void;
 }
 
 const useUserStore = create(
@@ -19,6 +20,11 @@ const useUserStore = create(
       nickname: null,
       profileImage: null,
 
+      setCoupleId: (newId) => {
+        set({
+          coupleId: newId,
+        });
+      },
       setUser: (userInfo) => {
         set({
           userId: userInfo.userId,
