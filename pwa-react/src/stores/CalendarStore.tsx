@@ -8,6 +8,7 @@ import useUserStore from "./UserStore";
 interface Calendar {
   isOpen: boolean;
   isEdit: boolean;
+  goDelete: boolean;
   events: Event[];
   event: { id: string; title: string; start: string; end: string };
   targetEvent: { id: string; title: string; start: string; end: string };
@@ -20,11 +21,10 @@ interface Calendar {
   editMode: () => void;
   getEvent: (event: Event) => void;
 
-  addEvent: (newEvent: Event) => void;
   postEventToServer: (newEvent: Event) => void; // post API
   getEventsFromServer: (couple_id: number) => void; // get API
-  updateEvent: (id: string, updatedEvent: Event) => void;
-  deleteEvent: (id: string) => void;
+  updateEventToServer: (newEvent: Event) => void; // update API
+  deleteEventFromServer: (calendar_id: number) => void; //delete API
 }
 
 export const CalendarStore = create(
@@ -32,6 +32,7 @@ export const CalendarStore = create(
     (set) => ({
       isOpen: false,
       isEdit: false,
+      goDelete: false,
       events: [],
       event: { id: "", title: "", start: "", end: "" },
       nextId: 0,
@@ -50,34 +51,6 @@ export const CalendarStore = create(
             end: event.end,
           },
         }),
-
-      addEvent: (newEvent) =>
-        set((state) => ({
-          events: [...state.events, newEvent],
-          nextId: (state.nextId += 1),
-          isOpen: false,
-        })),
-
-      updateEvent: (id, updatedEvent) =>
-        set((state) => ({
-          events: state.events.map((event) =>
-            event.id === id ? { ...event, ...updatedEvent } : event
-          ),
-          isOpen: false,
-          targetId: "-1",
-        })),
-
-      deleteEvent: (id) =>
-        set((state) => ({
-          events: state.events.filter((event) => event.id !== id),
-        })),
-
-      // "couple_id": 2,
-      // "user_id": 16,
-      // "start_date": "20240122",
-      // "end_date": "20240122",
-      // "event_type": "birthday",
-      // "contents": "생일축하2"
 
       postEventToServer: (newEvent) => {
         axios
@@ -103,7 +76,9 @@ export const CalendarStore = create(
             params: { couple_id: couple_id },
           })
           .then((response) => {
+
             console.log(response);
+
             const fullEvents: Event[] = response.data.map(
               (item: {
                 calendar_id: number;
@@ -121,11 +96,46 @@ export const CalendarStore = create(
               })
             );
             set({ events: fullEvents });
+            set({ goDelete: false });
           })
           .catch((error) => {
+            set({ events: [] });
             console.log(error.response);
           });
       }, // get API
+
+      updateEventToServer: (editEvent) => {
+        axios
+          .post("http://localhost:8080/calendar/update", {
+            calendar_id: editEvent.id,
+            couple_id: 0,
+            user_id: 1,
+            start_date: editEvent.start,
+            end_date: editEvent.end,
+            event_type: null,
+            contents: editEvent.title,
+          })
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error.data);
+          });
+      }, // update API
+
+      deleteEventFromServer: (calendar_id) => {
+        axios
+          .delete("http://localhost:8080/calendar/delete", {
+            params: { calender_id: calendar_id },
+          })
+          .then((response) => {
+            set({ goDelete: true });
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      },
     }),
     { name: "calendarStatus" }
   )

@@ -20,7 +20,9 @@ const Calendar = (props: Props) => {
     setIsNavigationOpen(!isNavigationOpen);
   };
 
-  const { openModal, addMode, events, getEventsFromServer } = CalendarStore();
+
+  const { openModal, isOpen, isEdit, goDelete, addMode, events, getEventsFromServer } =
+    CalendarStore();
   const [currentMonth, setCurrentMonth] = useState(0);
 
   const goAdd = () => {
@@ -43,8 +45,12 @@ const Calendar = (props: Props) => {
   };
 
   useEffect(() => {
+
+    console.log(events);
     getEventsFromServer(0);
-  }, [events]);
+  }, [isOpen, isEdit, goDelete]);
+
+
   return (
     <>
       <BurgerButton onClick={toggleNav}>☰</BurgerButton>
@@ -72,6 +78,7 @@ const Calendar = (props: Props) => {
             datesSet={handleDatesSet}
             eventBackgroundColor="pink"
             eventBorderColor="pink"
+            defaultAllDay={true}
           />
         </MyCalendar>
         <CalendarModalCard />
