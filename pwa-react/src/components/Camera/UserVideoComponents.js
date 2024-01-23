@@ -1,19 +1,12 @@
 import React from 'react';
 import OpenViduVideoComponent from './OvVideo';
-import './UserVideo.css';
 
-export default function UserVideoComponent({ streamManager }) {
-
-  const getNicknameTag = () => {
-    // Gets the nickName of the user
-    return JSON.parse(streamManager.stream.connection.data).clientData;
-  }
-
+export default function UserVideoComponent({ streamManager,zi }) {
   return (
     <div>
       {streamManager !== undefined ? (
-        <div className="streamcomponent">
-          <OpenViduVideoComponent streamManager={streamManager} />
+        <div>
+          <OpenViduVideoComponent streamManager={streamManager} zi={zi}/>
         </div>
       ) : null}
     </div>
