@@ -6,6 +6,8 @@ import com.ssafy.spyfamily.user.model.User;
 import com.ssafy.spyfamily.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Optional;
 import java.util.zip.CheckedOutputStream;
 
 @Service
@@ -51,5 +53,14 @@ public class CoupleServiceImpl implements CoupleService{
         System.out.println("유저 정보 저장 완료");
 
         return couple;
+    }
+
+    @Override
+    public ArrayList<Couple> mainCoupleInfo(Integer couple_id) {
+
+        Optional<Couple> couple = coupleRepository.findById(couple_id);
+        System.out.println(couple.toString());
+
+        return null;
     }
 }
