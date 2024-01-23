@@ -1,6 +1,7 @@
 package com.ssafy.spyfamily.couple.controller;
 
 import com.ssafy.spyfamily.couple.service.CoupleServiceImpl;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,14 @@ public class CoupleController {
     @RequestMapping(value = "/create/couple")
     public ResponseEntity<?> createCouple(@RequestParam String emailA, @RequestParam String emailB) {
         return ResponseEntity.ok(coupleService.coupleCteate(emailA, emailB));
+    }
+
+    @GetMapping("/main")
+    public ResponseEntity<?> getCoupleInfo(@RequestParam Integer couple_id) {
+
+        coupleService.mainCoupleInfo(couple_id);
+
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
 }
