@@ -1,4 +1,4 @@
-package com.ssafy.spyfamily.chat.config;
+package com.ssafy.spyfamily.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
