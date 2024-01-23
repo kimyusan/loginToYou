@@ -32,7 +32,7 @@ const UserName = styled.div`
 const Dday = styled.div`
   z-index: 99;
   color: #ff83a8;
-  font-size: 2.5rem;
+  font-size: 2.3rem;
   padding-right: 10%;
 `;
 

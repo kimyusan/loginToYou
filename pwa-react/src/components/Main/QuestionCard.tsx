@@ -8,8 +8,8 @@ const QuestionCard = (props: Props) => {
     <>
       <Card className="question_card">
         <div className="question">
-          <h3 style={{ margin: 0 }}>오늘의</h3>
-          <p>오늘의 질문에 대해서 어떻게 생각해?</p>
+          <p>오늘의</p>
+          <p>A에 대해서 어떻게 생각해?</p>
         </div>
         <div className="answer">
           <div>

@@ -44,6 +44,7 @@ const Calendar = (props: Props) => {
     console.log(currentMonth);
   };
 
+
   useEffect(() => {
 
     console.log(events);
