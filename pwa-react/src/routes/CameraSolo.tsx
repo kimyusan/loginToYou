@@ -18,9 +18,25 @@ const CameraSolo: React.FC = () => {
   const [photo, setPhoto] = useState(true);
   const [showOptions, setShowOptions] = useState(false);
 
-  const startCamera = async () => {
+  // 카메라 전환 버튼 상태 추가
+  const [useFrontCamera, setUseFrontCamera] = useState(true);
+
+  // 카메라 전환 함수 추가
+  const switchCamera = () => {
+    setUseFrontCamera(!useFrontCamera);
+    startCamera(!useFrontCamera);
+  };
+
+  // startCamera 함수 수정
+  const startCamera = async (isFrontCamera = true) => {
     try {
-      const constraints = { video: { width: 1280, height: 720 } };
+      const constraints = {
+        video: {
+          width: 1280,
+          height: 720,
+          facingMode: isFrontCamera ? "user" : "environment",
+        },
+      };
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
@@ -79,6 +95,11 @@ const CameraSolo: React.FC = () => {
     <div>
       <GoBack>
         <Link to="/camera">←</Link>
+        <div style={{ position: "absolute", top: "5%", right: "5%" }}>
+          <button onClick={switchCamera}>
+            {useFrontCamera ? "후면 카메라" : "전면 카메라"}
+          </button>
+        </div>
         <BurgerButton onClick={toggleNavigation}>
           {isNavigationOpen ? "×" : "☰"}
         </BurgerButton>
@@ -90,8 +111,8 @@ const CameraSolo: React.FC = () => {
         {time > 0 ? <div>{time}</div> : null}
       </TimerText>
       <CameraBox>
-        {photo ? <video ref={videoRef} autoPlay={true} style={{ width: "100%", height: "300px", transform: "scaleX(-1)" }} /> : null}
-        <canvas ref={canvasRef} style={{ transform: "scaleX(-1)", width: "100%", height: "275px", display: photo ? "none" : "" }} />
+        {photo ? <video ref={videoRef} playsInline autoPlay={true} style={{ width: "100%", height: "300px", transform: useFrontCamera ? "scaleX(-1)" : "scaleX(1)" }} /> : null}
+        <canvas ref={canvasRef} style={{ width: "100%", height: "275px", display: photo ? "none" : "" }} />
       </CameraBox>
       {photo ? null : <SaveBox><SaveBoxItem>저장하기</SaveBoxItem><SaveBoxItem onClick={PicAgain}>다시 찍기</SaveBoxItem></SaveBox>}
 
