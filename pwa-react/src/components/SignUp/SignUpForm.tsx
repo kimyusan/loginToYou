@@ -58,6 +58,11 @@ const SignUpForm = () => {
   const goSignUp = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
+    if (pw !== pw2) {
+      alert("비밀번호가 같지 않습니다!")
+      return
+    }
+
     if (/[a-zA-Z]/.test(pw) && /[0-9]/.test(pw) && /[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/.test(pw) && 7 < pw.length && pw.length< 16) {
       console.log("비밀번호 확인")
     } else {

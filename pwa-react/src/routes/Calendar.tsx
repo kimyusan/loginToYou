@@ -20,9 +20,15 @@ const Calendar = (props: Props) => {
     setIsNavigationOpen(!isNavigationOpen);
   };
 
-
-  const { openModal, isOpen, isEdit, goDelete, addMode, events, getEventsFromServer } =
-    CalendarStore();
+  const {
+    openModal,
+    isOpen,
+    isEdit,
+    isDelete,
+    addMode,
+    events,
+    getEventsFromServer,
+  } = CalendarStore();
   const [currentMonth, setCurrentMonth] = useState(0);
 
   const goAdd = () => {
@@ -44,13 +50,9 @@ const Calendar = (props: Props) => {
     console.log(currentMonth);
   };
 
-
   useEffect(() => {
-
-    console.log(events);
     getEventsFromServer(0);
-  }, [isOpen, isEdit, goDelete]);
-
+  }, [isEdit, isDelete]);
 
   return (
     <>

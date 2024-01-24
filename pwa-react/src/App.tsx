@@ -3,6 +3,7 @@ import Global from "./styles/common/global";
 
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import useUserStore from "./stores/UserStore";
+import useAuthStore from "./stores/AuthStore";
 
 import Login from "./routes/Login";
 import Main from "./routes/Main";
@@ -13,9 +14,9 @@ import ModeSelect from "./routes/ModeSelect";
 import CameraCouple from "./routes/CameraCouple";
 import CameraSolo from "./routes/CameraSolo";
 import MiddleLogin from "./routes/MiddleLogin";
-import useAuthStore from "./stores/AuthStore";
 import Calendar from "./routes/Calendar";
 import UserInfo from "./routes/UserInfo";
+import Chat from "./routes/Chat";
 
 function App() {
   const { isLogIn } = useAuthStore();
@@ -54,6 +55,7 @@ function App() {
           <Route path="/camera/couple" element={<CameraCouple />}></Route>
           <Route path="/calendar" element={<Calendar />}></Route>
           <Route path="/user_info/:user_id" element={<UserInfo />}></Route>
+          <Route path="/chat/:room_id" element={<Chat />}></Route>
         </Routes>
       </div>
     </BrowserRouter>

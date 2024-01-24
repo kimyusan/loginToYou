@@ -24,19 +24,22 @@ const CalendarItem = ({ event }: Props) => {
   const {
     isOpen,
     editMode,
+    deleteMode,
     openModal,
     closeModal,
     events,
     getEvent,
     deleteEventFromServer,
   } = CalendarStore();
+
   const goEdit = () => {
     openModal();
     editMode();
-    console.log(event)
     getEvent(event);
   };
+
   const goDelete = () => {
+    deleteMode();
     deleteEventFromServer(parseInt(event.id));
   };
 
