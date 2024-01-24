@@ -3,6 +3,7 @@ import KakaoLoginBtn from '../styles/Login/kakao_login.png';
 import GoogleLoginBtn from '../styles/Login/Google_login.png';
 import NaverLoginBtn from '../styles/Login/Naver_login.png'
 import LoginForm from '../components/Login/LoginForm';
+import AppLogo from "../styles/common/AppLogo.png"
 
 const Login = () => {
   const kakao_url = "https://kauth.kakao.com/oauth/authorize?client_id=5a8a53240d6799ecf38d7454ab5579b3&" +
@@ -22,7 +23,7 @@ const Login = () => {
   return (
     <div>
       <Logo>
-        <div>SPY x COUPLE</div>
+      <img src={AppLogo} alt='앱 로고'></img>
         <LoginForm></LoginForm>
       </Logo>
       <MiddleMsg><div>⚡ 빠르게 가입해보세요! ↓</div></MiddleMsg>
