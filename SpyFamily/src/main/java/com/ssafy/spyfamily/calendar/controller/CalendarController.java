@@ -24,6 +24,7 @@ public class CalendarController {
     public ResponseEntity<?> createCalendar(@RequestBody Calendar calendar) {
         try {
             System.out.println("캘린더 이벤트 등록 시도");
+            System.out.println(calendar.toString());
             calendarService.saveCalendar(calendar);
 
             System.out.println("캘린더 이벤트 등록 성공");
@@ -59,7 +60,7 @@ public class CalendarController {
 
 
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseEntity<?> updatecalendar(@RequestBody Calendar calendar) {
         try {
             System.out.println("캘린더 업데이트 불러오기 시도");

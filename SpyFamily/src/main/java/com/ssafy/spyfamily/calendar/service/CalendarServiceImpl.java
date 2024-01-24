@@ -17,6 +17,7 @@ public class CalendarServiceImpl implements CalendarService {
 
     @Override
     public Calendar saveCalendar(Calendar calendar) {
+        System.out.println("서비스 들어옴 !!" + calendar.toString());
         return calendarRepository.save(calendar);
     }
 
