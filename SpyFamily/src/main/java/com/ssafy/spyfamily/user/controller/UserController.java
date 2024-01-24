@@ -3,6 +3,7 @@ package com.ssafy.spyfamily.user.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ssafy.spyfamily.user.model.User;
 import com.ssafy.spyfamily.user.model.UserInfo;
+import com.ssafy.spyfamily.user.service.UserService;
 import com.ssafy.spyfamily.user.service.UserServiceImpl;
 import com.ssafy.spyfamily.util.JsonUtil;
 import org.springframework.http.*;
@@ -55,6 +56,18 @@ public class UserController {
 
         return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
     }
+
+    /**
+     * 유저 정보 수정
+     * @param user 수정해야할 유저 정보
+     * @return 수정된 유저정보
+     */
+    @PutMapping("/update")
+    public ResponseEntity<?> userUpdate(@RequestBody User user) {
+        User new_user = userService.userUpdate(user);
+        return new ResponseEntity<User>(new_user, HttpStatus.OK);
+    }
+
 
     /**
      * 이메일로 회원 정보 가져오기
