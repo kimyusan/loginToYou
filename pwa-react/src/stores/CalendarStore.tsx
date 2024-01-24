@@ -53,28 +53,30 @@ export const CalendarStore = create(
             start: event.start,
             end: event.end,
           },
-        }),
+        }), //
 
       getEventsFromServer: (couple_id) => {
         axios
-          .get("http://i10c105.p.ssafy.io:3000/calendar/read", {
+          .get("http://localhost:8080/calendar/read", {
             params: { couple_id: couple_id },
           })
           .then((response) => {
+            console.log(response);
+
             const fullEvents: Event[] = response.data.map(
               (item: {
-                calendar_id: number;
-                couple_id: number;
-                user_id: number;
-                start_date: string;
-                end_date: string;
-                event_type: string | null;
+                calendarId: number;
+                coupleId: number;
+                userId: number;
+                startDate: string;
+                endDate: string;
+                eventType: string | null;
                 contents: string | null;
               }) => ({
-                id: item.calendar_id,
+                id: item.calendarId,
                 title: item.contents,
-                start: item.start_date,
-                end: item.end_date,
+                start: item.startDate,
+                end: item.endDate,
               })
             );
             set({ events: fullEvents });
@@ -87,12 +89,12 @@ export const CalendarStore = create(
 
       postEventToServer: (newEvent) => {
         axios
-          .post("http://i10c105.p.ssafy.io:3000/calendar/create", {
-            couple_id: 0,
-            user_id: 1,
-            start_date: newEvent.start,
-            end_date: newEvent.end,
-            event_type: null,
+          .post("http://localhost:8080/calendar/create", {
+            coupleId: 0,
+            userId: 1,
+            startDate: newEvent.start,
+            endDate: newEvent.end,
+            eventType: null,
             contents: newEvent.title,
           })
           .then((response) => {
@@ -106,13 +108,13 @@ export const CalendarStore = create(
 
       updateEventToServer: (editEvent) => {
         axios
-          .post("http://i10c105.p.ssafy.io:3000/calendar/update", {
-            calendar_id: editEvent.id,
-            couple_id: 0,
-            user_id: 1,
-            start_date: editEvent.start,
-            end_date: editEvent.end,
-            event_type: null,
+          .post("http://localhost:8080/calendar/update", {
+            calendarId: editEvent.id,
+            coupleId: 0,
+            userId: 1,
+            startDate: editEvent.start,
+            endDate: editEvent.end,
+            eventType: null,
             contents: editEvent.title,
           })
           .then((response) => {
@@ -126,8 +128,8 @@ export const CalendarStore = create(
 
       deleteEventFromServer: (calendar_id) => {
         axios
-          .delete("http://i10c105.p.ssafy.io:3000/calendar/delete", {
-            params: { calender_id: calendar_id },
+          .delete("http://localhost:8080/calendar/delete", {
+            params: { calenderId: calendar_id },
           })
           .then((response) => {
             console.log(response);
