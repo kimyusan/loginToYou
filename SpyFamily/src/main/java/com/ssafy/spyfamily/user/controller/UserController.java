@@ -60,7 +60,6 @@ public class UserController {
      * 이메일로 회원 정보 가져오기
      */
     @GetMapping("/info")
-
     public ResponseEntity<?> info(@RequestParam(name="email") String email) {
         User user = userService.getUserByEmail(email);
 
