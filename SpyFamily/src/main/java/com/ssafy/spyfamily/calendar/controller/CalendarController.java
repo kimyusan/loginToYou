@@ -75,7 +75,7 @@ public class CalendarController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteCalendar(@RequestParam Integer calender_id) {
+    public ResponseEntity<?> deleteCalendar(@RequestParam(name="calender_id") Integer calender_id) {
         try {
             // 삭제 로직 수행
             calendarService.deleteCalendar(calender_id);
