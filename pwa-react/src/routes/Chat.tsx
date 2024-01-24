@@ -7,7 +7,7 @@ import React, { useEffect, useRef, useState } from "react";
 // import useAuthStore from "../stores/AuthStore";
 
 function Chat() {
-  // const sock = new SockJS("http://localhost:8080/ws-stomp");
+  // const sock = new SockJS("http://i10c105.p.ssafy.io:3000/ws-stomp");
   // const ws = Stomp.over(sock);
   // const reconnect = 0;
 
