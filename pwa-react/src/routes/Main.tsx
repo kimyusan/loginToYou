@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 
 import {
   Wrapper,
@@ -15,12 +16,28 @@ import HeaderSection from "../components/Main/HeaderSection";
 import { Card } from "../styles/common/card";
 import CalendarCard from "../components/Main/CalendarCard";
 import QuestionCard from "../components/Main/QuestionCard";
+import useAuthStore from "../stores/AuthStore";
+import useUserStore from "../stores/UserStore";
 
 const Main = () => {
   const { id } = useParams();
+  const { PATH } = useAuthStore();
+  const { coupleId } = useUserStore();
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const toggleNavigation = () => {
     setIsNavigationOpen(!isNavigationOpen);
+  };
+
+  const goChat = async () => {
+    const res = await axios({
+      url: `${PATH}/chat/enter`,
+      method: "GET",
+      params: {
+        coupleId: coupleId,
+      },
+    });
+
+    navigate(`/chat/${res.data}`);
   };
 
   const navigate = useNavigate();
@@ -49,7 +66,7 @@ const Main = () => {
           <Card className="diary">
             <p>다이어리</p>
           </Card>
-          <Card className="chat">
+          <Card className="chat" onClick={goChat}>
             <p className="chat_name">채팅</p>
             <p className="chat_num">N</p>
           </Card>
