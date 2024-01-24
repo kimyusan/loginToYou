@@ -7,8 +7,9 @@ import com.ssafy.spyfamily.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
-import java.util.zip.CheckedOutputStream;
 
 @Service
 public class CoupleServiceImpl implements CoupleService{
@@ -32,15 +33,15 @@ public class CoupleServiceImpl implements CoupleService{
         User userB_info = userRepository.findByEmail(userB);
 
         // 커플에 유저 id 담기
-        couple.setF_user_id(userA_info.getUserId());
-        couple.setS_user_id(userB_info.getUserId());
+        couple.setFUserId(userA_info.getUserId());
+        couple.setSUserId(userB_info.getUserId());
 
         // 커플저장
         couple = coupleRepository.save(couple);
 
         // 생성된 커플id 유저 정보에 넣어주기
-        userA_info.setCoupleId(couple.getCouple_id());
-        userB_info.setCoupleId(couple.getCouple_id());
+        userA_info.setCoupleId(couple.getCoupleId());
+        userB_info.setCoupleId(couple.getCoupleId());
 
         System.out.println("커플 구성원 1 : " + userA_info.toString());
         System.out.println("커플 구성원 2 : " + userB_info.toString());
@@ -56,11 +57,40 @@ public class CoupleServiceImpl implements CoupleService{
     }
 
     @Override
-    public ArrayList<Couple> mainCoupleInfo(Integer couple_id) {
+    public ArrayList<Object> mainCoupleInfo(Integer coupleId) {
+        System.out.println(coupleId);
 
-        Optional<Couple> couple = coupleRepository.findById(couple_id);
-        System.out.println(couple.toString());
+        // CoupleRepository에서 couple_id로 Couple을 조회
+        Optional<Couple> coupleOptional = coupleRepository.findById(coupleId);
+        System.out.println(coupleOptional);
 
+        if (coupleOptional.isPresent()) {
+            Couple couple = coupleOptional.get();
+
+            // Couple에서 f_user_id와 s_user_id로 User를 조회
+            Optional<User> userFOptional = userRepository.findById(couple.getFUserId());
+            Optional<User> userSOptional = userRepository.findById(couple.getSUserId());
+
+            // User가 존재하는지 확인하고 Map에 추가
+            ArrayList<Object> resultList = new ArrayList<>();
+            userFOptional.ifPresent(user -> resultList.add(user));
+            userSOptional.ifPresent(user -> resultList.add(user));
+
+            // Couple 정보를 Map 또는 DTO에 추가
+            Map<String, Object> coupleInfo = new HashMap<>();
+            coupleInfo.put("coupleId", couple.getCoupleId());
+            coupleInfo.put("name", couple.getName());
+            coupleInfo.put("startDate", couple.getStartDate());
+            coupleInfo.put("fuserId", couple.getFUserId());
+            coupleInfo.put("suserId", couple.getSUserId());
+
+            resultList.add(coupleInfo);
+
+            return resultList;
+        }
         return null;
     }
+
+
+
 }

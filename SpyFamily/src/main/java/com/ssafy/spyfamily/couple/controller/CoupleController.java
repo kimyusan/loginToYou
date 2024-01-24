@@ -1,12 +1,15 @@
 package com.ssafy.spyfamily.couple.controller;
 
 import com.ssafy.spyfamily.couple.service.CoupleServiceImpl;
+import com.ssafy.spyfamily.user.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
 
 @RestController()
 @RequestMapping(value = "/couple", produces = "application/json")
@@ -25,11 +28,11 @@ public class CoupleController {
     }
 
     @GetMapping("/main")
-    public ResponseEntity<?> getCoupleInfo(@RequestParam Integer couple_id) {
+    public ResponseEntity<?> getCoupleInfo(@RequestParam Integer coupleId) {
 
-        coupleService.mainCoupleInfo(couple_id);
+        ArrayList<Object> list = coupleService.mainCoupleInfo(coupleId);
 
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<ArrayList<Object>>(list, HttpStatus.OK);
     }
 
 }

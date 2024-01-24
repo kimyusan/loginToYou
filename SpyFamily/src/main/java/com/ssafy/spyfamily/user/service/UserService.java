@@ -14,6 +14,11 @@ public interface UserService {
     User getUserByEmail(String email);
 
     /**
+     * 유저정보 수정
+     */
+    User userUpdate(User user);
+
+    /**
      * 입력받은 데이터를 바탕으로 회원가입 진행
      * key: email, password, name
      */

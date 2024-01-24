@@ -24,6 +24,7 @@ public class CalendarController {
     public ResponseEntity<?> createCalendar(@RequestBody Calendar calendar) {
         try {
             System.out.println("캘린더 이벤트 등록 시도");
+            System.out.println(calendar.toString());
             calendarService.saveCalendar(calendar);
 
             System.out.println("캘린더 이벤트 등록 성공");
@@ -59,7 +60,7 @@ public class CalendarController {
 
 
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseEntity<?> updatecalendar(@RequestBody Calendar calendar) {
         try {
             System.out.println("캘린더 업데이트 불러오기 시도");
@@ -75,10 +76,10 @@ public class CalendarController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteCalendar(@RequestParam(name="calender_id") Integer calender_id) {
+    public ResponseEntity<?> deleteCalendar(@RequestParam Integer calenderId) {
         try {
             // 삭제 로직 수행
-            calendarService.deleteCalendar(calender_id);
+            calendarService.deleteCalendar(calenderId);
 
             System.out.println("캘린더 삭제 성공");
             return new ResponseEntity<Void>(HttpStatus.OK);
