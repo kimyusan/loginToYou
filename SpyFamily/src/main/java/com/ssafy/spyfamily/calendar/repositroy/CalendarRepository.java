@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface CalendarRepository extends JpaRepository<Calendar, Integer> {
 
-    @Query("SELECT c FROM Calendar c WHERE c.couple_id = :coupleId")
+    @Query("SELECT c FROM Calendar c WHERE c.coupleId = :coupleId")
     List<Calendar> findByCoupleId(Integer coupleId);
 
 }

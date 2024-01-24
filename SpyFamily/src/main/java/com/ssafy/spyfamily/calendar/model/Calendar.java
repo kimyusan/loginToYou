@@ -1,27 +1,36 @@
 package com.ssafy.spyfamily.calendar.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 @ToString
-@Setter
 @Getter
+@Setter
 @Entity
 public class Calendar {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer calendar_id;
-    private Integer couple_id;
-    private Integer user_id;
-    private String start_date;
-    private String end_date;
-    private String event_type;
+    @Column(name="calendar_id")
+    private Integer calendarId;
+
+    @Column(name="couple_id")
+    private Integer coupleId;
+
+    @Column(name="user_id")
+    private Integer userId;
+
+    @Column(name="start_date")
+    private String startDate;
+
+    @Column(name="end_date")
+    private String endDate;
+
+    @Column(name="event_type")
+    private String eventType;
+
     private String contents;
 
 }

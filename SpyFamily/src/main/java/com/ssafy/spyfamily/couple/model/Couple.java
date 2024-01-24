@@ -1,9 +1,6 @@
 package com.ssafy.spyfamily.couple.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,14 +11,18 @@ public class Couple {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer couple_id;
+    @Column(name="couple_id")
+    private Integer coupleId;
 
     private String name;
 
-    private String start_date;
+    @Column(name="start_date")
+    private String startDate;
 
-    private Integer f_user_id;
+    @Column(name="f_user_id")
+    private Integer fUserId;
 
-    private Integer s_user_id;
+    @Column(name="s_user_id")
+    private Integer sUserId;
 
 }
