@@ -24,7 +24,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      < >
+      <div>
         <Global />
         <Routes>
           <Route
@@ -57,7 +57,7 @@ function App() {
           <Route path="/user_info/:user_id" element={<UserInfo />}></Route>
           <Route path="/chat/:room_id" element={<Chat />}></Route>
         </Routes>
-      </>
+      </div>
     </BrowserRouter>
   );
 }
