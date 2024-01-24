@@ -14,7 +14,7 @@ function Invited() {
 
   useEffect(() => {
     if (!isLogIn) navigate("/login?redirect");
-    if (coupleId !== 0) navigate("/");
+    if (coupleId !== 0 && coupleId !== null) navigate("/");
     if (email == user_email) navigate("/");
   }, []);
 
@@ -28,6 +28,14 @@ function Invited() {
       },
     });
     setCoupleId(res.data.couple_id);
+    await axios({
+      url: `${PATH}/chat/create`,
+      method: "POST",
+      params: {
+        coupleId: res.data.couple_id,
+      },
+    });
+    navigate("/");
     navigate("/");
   };
 
