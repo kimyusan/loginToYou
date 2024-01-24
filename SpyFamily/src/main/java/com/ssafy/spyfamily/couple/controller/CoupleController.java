@@ -30,9 +30,9 @@ public class CoupleController {
     @GetMapping("/main")
     public ResponseEntity<?> getCoupleInfo(@RequestParam Integer coupleId) {
 
-        ArrayList<User> list = coupleService.mainCoupleInfo(coupleId);
+        ArrayList<Object> list = coupleService.mainCoupleInfo(coupleId);
 
-        return new ResponseEntity<ArrayList<User>>(list, HttpStatus.OK);
+        return new ResponseEntity<ArrayList<Object>>(list, HttpStatus.OK);
     }
 
 }

@@ -10,6 +10,6 @@ public interface CoupleService {
     // 커플방 만들기
     Couple coupleCteate(String userA, String userB);
 
-    ArrayList<User> mainCoupleInfo(Integer coupleId);
+    ArrayList<Object> mainCoupleInfo(Integer coupleId);
 
 }

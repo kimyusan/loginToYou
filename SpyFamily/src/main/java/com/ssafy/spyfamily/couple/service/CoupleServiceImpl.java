@@ -7,6 +7,8 @@ import com.ssafy.spyfamily.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -55,7 +57,7 @@ public class CoupleServiceImpl implements CoupleService{
     }
 
     @Override
-    public ArrayList<User> mainCoupleInfo(Integer coupleId) {
+    public ArrayList<Object> mainCoupleInfo(Integer coupleId) {
         System.out.println(coupleId);
 
         // CoupleRepository에서 couple_id로 Couple을 조회
@@ -69,15 +71,26 @@ public class CoupleServiceImpl implements CoupleService{
             Optional<User> userFOptional = userRepository.findById(couple.getFUserId());
             Optional<User> userSOptional = userRepository.findById(couple.getSUserId());
 
-            // User가 존재하는지 확인하고 List에 추가
-            ArrayList<User> userList = new ArrayList<>();
-            userFOptional.ifPresent(userList::add);
-            userSOptional.ifPresent(userList::add);
+            // User가 존재하는지 확인하고 Map에 추가
+            ArrayList<Object> resultList = new ArrayList<>();
+            userFOptional.ifPresent(user -> resultList.add(user));
+            userSOptional.ifPresent(user -> resultList.add(user));
 
-            return userList;
+            // Couple 정보를 Map 또는 DTO에 추가
+            Map<String, Object> coupleInfo = new HashMap<>();
+            coupleInfo.put("coupleId", couple.getCoupleId());
+            coupleInfo.put("name", couple.getName());
+            coupleInfo.put("startDate", couple.getStartDate());
+            coupleInfo.put("fuserId", couple.getFUserId());
+            coupleInfo.put("suserId", couple.getSUserId());
+
+            resultList.add(coupleInfo);
+
+            return resultList;
         }
         return null;
     }
+
 
 
 }
