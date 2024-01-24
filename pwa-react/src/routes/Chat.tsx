@@ -1,32 +1,32 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Stomp } from "@stomp/stompjs";
-import SockJS from "sockjs-client";
-import { useParams } from "react-router-dom";
-import useUserStore from "../stores/UserStore";
-import axios from "axios";
-import useAuthStore from "../stores/AuthStore";
+// import { Stomp } from "@stomp/stompjs";
+// import SockJS from "sockjs-client";
+// import { useParams } from "react-router-dom";
+// import useUserStore from "../stores/UserStore";
+// import axios from "axios";
+// import useAuthStore from "../stores/AuthStore";
 
 function Chat() {
-  const sock = new SockJS("http://localhost:8080/ws-stomp");
-  const ws = Stomp.over(sock);
-  const reconnect = 0;
+  // const sock = new SockJS("http://localhost:8080/ws-stomp");
+  // const ws = Stomp.over(sock);
+  // const reconnect = 0;
 
-  const { userId } = useUserStore();
-  const { room_id } = useParams();
-  const { PATH } = useAuthStore();
-  const [chatlog, setChatlog] = useState([]);
+  // const { userId } = useUserStore();
+  // const { room_id } = useParams();
+  // const { PATH } = useAuthStore();
+  // const [chatlog, setChatlog] = useState([]);
 
-  const findroom = async () => {
-    const roomData = await axios({
-      url: `${PATH}/chat/room/${room_id}`,
-      method: "get",
-    });
-    // setChatlog(roomData);
-  };
+  // const findroom = async () => {
+  //   const roomData = await axios({
+  //     url: `${PATH}/chat/room/${room_id}`,
+  //     method: "get",
+  //   });
+  //   // setChatlog(roomData);
+  // };
 
-  useEffect(() => {
-    findroom();
-  }, []);
+  // useEffect(() => {
+  //   findroom();
+  // }, []);
 
   return <div>Chat</div>;
 }
