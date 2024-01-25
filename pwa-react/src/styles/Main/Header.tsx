@@ -41,7 +41,7 @@ const Dday = styled.div<CompWithClass>`
 
   &.noDate {
     color: #8a8a8a;
-    font-size: 1.3rem;
+    font-size: 1rem;
   }
 `;
 

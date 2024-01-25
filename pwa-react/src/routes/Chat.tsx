@@ -7,7 +7,7 @@ import { CompatClient, Stomp } from "@stomp/stompjs";
 import useUserStore from "../stores/UserStore";
 import useAuthStore from "../stores/AuthStore";
 
-import { Wrapper, InputForm } from "../styles/Chat/UI";
+import { Header, Wrapper, InputForm } from "../styles/Chat/UI";
 
 interface MessageInterface {
   messageId: number | null;
@@ -25,6 +25,8 @@ function Chat() {
   const { PATH } = useAuthStore();
   const { coupleId, userId, name } = useUserStore();
   const { room_id } = useParams();
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const connectHandler = () => {
     client.current = Stomp.over(() => {
@@ -37,7 +39,6 @@ function Chat() {
       client.current.subscribe(`/sub/chat/room/${room_id}`, (msg) => {
         if (!msg.body) return;
         let newMsg = JSON.parse(msg.body);
-        console.log(newMsg);
         setMessages((messages) => {
           return messages ? [...messages, newMsg] : null;
         });
@@ -45,10 +46,17 @@ function Chat() {
     });
   };
 
+  // 채팅방 끝으로 이동
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, [messages]);
+
+  // 정보 받아오기
   useEffect(() => {
     connectHandler();
   }, [room_id]);
 
+  // 채팅 전송
   const sendChat = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -67,6 +75,7 @@ function Chat() {
     setMessage("");
   };
 
+  // 초기 실행 시 채팅 불러오기(1)
   const loadChat = async () => {
     const res = await axios({
       url: `${PATH}/chat/load`,
@@ -78,28 +87,45 @@ function Chat() {
     setMessages(res.data);
   };
 
+  // 초기 실행 시 채팅 불러오기(2)
   useEffect(() => {
     loadChat();
   }, []);
 
-  const updateMessage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const updateMessage = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(event.target.value);
+    inputRef.current?.style.setProperty("height", "auto");
+    inputRef.current?.style.setProperty(
+      "height",
+      inputRef.current?.scrollHeight + "px"
+    );
   };
 
   return (
     <Wrapper>
-      {messages?.map((message, index) => {
-        return (
-          <div
-            key={index}
-            className={userId == message.sendUserId ? "myMsg" : "oppMsg"}
-          >
-            {message.message}
-          </div>
-        );
-      })}
+      <Header>
+        <div>뒤로가기</div>
+        <div>채팅</div>
+      </Header>
+      <div className="msgBox" ref={scrollRef}>
+        {messages?.map((message, index) => {
+          return (
+            <div
+              key={index}
+              className={userId == message.sendUserId ? "myMsg" : "oppMsg"}
+            >
+              {message.message}
+            </div>
+          );
+        })}
+      </div>
       <InputForm onSubmit={sendChat}>
-        <input type="text" value={message} onChange={updateMessage} />
+        <textarea
+          rows={1}
+          value={message}
+          onChange={updateMessage}
+          ref={inputRef}
+        ></textarea>
         <button>전송</button>
       </InputForm>
     </Wrapper>
