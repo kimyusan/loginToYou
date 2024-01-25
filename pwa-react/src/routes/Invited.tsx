@@ -27,12 +27,12 @@ function Invited() {
         emailB: user_email,
       },
     });
-    setCoupleId(res.data.couple_id);
+    setCoupleId(res.data.coupleId);
     await axios({
       url: `${PATH}/chat/create`,
       method: "POST",
       params: {
-        coupleId: res.data.couple_id,
+        coupleId: res.data.coupleId,
       },
     });
     navigate("/");

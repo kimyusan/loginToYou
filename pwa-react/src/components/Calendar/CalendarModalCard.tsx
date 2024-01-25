@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { CalendarStore } from "../../stores/CalendarStore";
 import { CalendarModal } from "../../styles/Calendar/Calendar";
+import useUserStore from "../../stores/UserStore";
 
 type Props = {};
 
@@ -15,6 +16,8 @@ const CalendarModalCard = () => {
     updateEventToServer,
     getEventsFromServer,
   } = CalendarStore();
+
+  const { coupleId } = useUserStore();
 
   const [start, setStart] = useState("");
   const [end, setEnd] = useState("");
@@ -39,9 +42,10 @@ const CalendarModalCard = () => {
       end: endDate,
     };
     if (isEdit && targetEvent) {
-      updateEventToServer(editEvent);
+      console.log(coupleId);
+      updateEventToServer(editEvent, coupleId as number);
     } else {
-      postEventToServer(newEvent);
+      postEventToServer(newEvent, coupleId as number);
     }
     setStart("");
     setEnd("");
