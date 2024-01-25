@@ -10,4 +10,12 @@ interface UserInterface {
   profileImage?: string | null;
 }
 
-export type { UserInterface };
+interface CoupleInterface {
+  coupleId: number | null;
+  name: string | null;
+  startDate: string | null;
+  fuserId: number;
+  suserId: number;
+}
+
+export type { UserInterface, CoupleInterface };
