@@ -8,6 +8,7 @@ interface UserInterface {
   coupleId?: number | null;
   nickname?: string | null;
   profileImage?: string | null;
+  password?: string | null;
 }
 
 interface CoupleInterface {
