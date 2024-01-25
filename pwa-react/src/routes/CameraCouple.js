@@ -10,7 +10,7 @@ import { ReadyRoomText, ReadyBtn, JoinForm, GoBack } from "../styles/Camera/Came
 import { BurgerButton } from "../styles/common/hamburger";
 import Navbar from "../components/Navbar";
 
-const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://demos.openvidu.io/';
+const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://localhost:4443/';
 
 export default function App() {
   const [mySessionId, setMySessionId] = useState('ssafy')
@@ -159,14 +159,14 @@ export default function App() {
 
   const createSession = async (sessionId) => {
     const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions', { customSessionId: sessionId }, {
-      headers: { 'Content-Type': 'application/json', },
+      headers: { 'Content-Type': 'application/json', Authorization: 'Basic ' + btoa('OPENVIDUAPP:MY_SCRET')},
     });
     return response.data; // The sessionId
   };
 
   const createToken = async (sessionId) => {
     const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions/' + sessionId + '/connections', {}, {
-      headers: { 'Content-Type': 'application/json', },
+      headers: { 'Content-Type': 'application/json', Authorization: 'Basic ' + btoa('OPENVIDUAPP:MY_SCRET')},
     });
     return response.data; // The token
   };

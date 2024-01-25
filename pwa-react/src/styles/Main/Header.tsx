@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+interface CompWithClass {
+  className?: string | null;
+}
+
 const Cover = styled.div``;
 
 const Header = styled.div`
@@ -29,11 +33,16 @@ const UserName = styled.div`
   font-size: 1.3rem;
   padding-left: 10%;
 `;
-const Dday = styled.div`
+const Dday = styled.div<CompWithClass>`
   z-index: 99;
   color: #ff83a8;
   font-size: 2.3rem;
   padding-right: 10%;
+
+  &.noDate {
+    color: #8a8a8a;
+    font-size: 1rem;
+  }
 `;
 
 export { Cover, Header, UserName, Dday };

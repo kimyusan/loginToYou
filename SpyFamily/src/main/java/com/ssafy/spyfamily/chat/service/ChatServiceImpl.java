@@ -7,6 +7,8 @@ import com.ssafy.spyfamily.chat.repo.ChatRoomRepo;
 import com.ssafy.spyfamily.chat.repo.ChatRoomRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ChatServiceImpl implements  ChatService{
     private final ChatMessageRepository chatMessageRepository;
@@ -32,6 +34,11 @@ public class ChatServiceImpl implements  ChatService{
     public void createRoom(Long coupleId) {
         ChatRoom chatRoom = ChatRoom.create(coupleId);
         chatRoomRepository.save(chatRoom);
+    }
+
+    @Override
+    public List<ChatMessage> loadMessage(String roomId) {
+        return chatMessageRepository.findByRoomId(roomId);
     }
 
 }

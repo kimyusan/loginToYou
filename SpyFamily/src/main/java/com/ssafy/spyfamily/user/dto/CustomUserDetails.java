@@ -4,9 +4,12 @@ import com.ssafy.spyfamily.user.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.Collection;
 import java.util.Collections;
+
 
 public class CustomUserDetails implements UserDetails {
 

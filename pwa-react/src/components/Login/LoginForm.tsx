@@ -5,6 +5,7 @@ import { LoginBox } from "../../styles/Login/Login";
 
 import useAuthStore from "../../stores/AuthStore";
 import useUserStore from "../../stores/UserStore";
+import { application } from "express";
 
 const LoginForm = () => {
   const [id, setId] = useState("");
@@ -31,13 +32,15 @@ const LoginForm = () => {
       return;
     }
 
+    let data = new FormData;
+    data.append("username", id)
+    data.append("password", pw)
+
+
     axios
-      .post(`${PATH}/user/login`, {
-        email: id,
-        password: pw,
-      })
+      .post(`${PATH}/login`, data)
       .then((response) => {
-        console.log("로그인 성공", response.data);
+        console.log("로그인 성공", response);
 
         setUser(response.data);
 

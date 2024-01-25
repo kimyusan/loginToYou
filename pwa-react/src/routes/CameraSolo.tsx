@@ -1,13 +1,15 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import useAuthStore from '../stores/AuthStore';
+
 import { TimerText, CameraBox, CameraButton, OptionsContainer, SaveBox, SaveBoxItem } from '../styles/Camera/CameraSolo';
+import { GoBack } from "../styles/Camera/CameraCouple"
+import { BurgerButton } from "../styles/common/hamburger";
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import TimerIcon from '@mui/icons-material/Timer';
 import CollectionsIcon from '@mui/icons-material/Collections';
 
-import { GoBack } from "../styles/Camera/CameraCouple"
-
-import { BurgerButton } from "../styles/common/hamburger";
 import Navbar from "../components/Navbar";
 
 const CameraSolo: React.FC = () => {
@@ -17,6 +19,7 @@ const CameraSolo: React.FC = () => {
   const [selectTime, setSelectTime] = useState("");
   const [photo, setPhoto] = useState(true);
   const [showOptions, setShowOptions] = useState(false);
+  const {PATH} = useAuthStore();
 
   // 카메라 전환 버튼 상태 추가
   const [useFrontCamera, setUseFrontCamera] = useState(true);
@@ -32,8 +35,8 @@ const CameraSolo: React.FC = () => {
     try {
       const constraints = {
         video: {
-          width: 1280,
-          height: 720,
+          width: 1920,
+          height: 1080,
           facingMode: isFrontCamera ? "user" : "environment",
         },
       };
@@ -54,13 +57,26 @@ const CameraSolo: React.FC = () => {
     setTime(timer)
     setTimeout(() => {
       if (videoRef.current && canvasRef.current) {
-        canvasRef.current.width = videoRef.current.videoWidth;
-        canvasRef.current.height = videoRef.current.videoHeight;
         const context = canvasRef.current.getContext('2d');
+        canvasRef.current.width = 1920; // 높은 해상도의 너비
+        canvasRef.current.height = 1080; // 높은 해상도의 높이
         if (context) {
           context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
-          const data = canvasRef.current.toDataURL('image/png');
-          console.log(data);  // 이 부분에서 data를 서버로 전송하거나 앱 내에 저장할 수 있습니다.
+
+          // React 컴포넌트 내부 혹은 이벤트 핸들러 내부에서
+          canvasRef.current?.toBlob((blob: Blob | null) => {
+            if (blob) {
+              const formData = new FormData();
+              formData.append('image', blob, 'capture.png');
+              // 사진 저장
+              axios.post(`${PATH}/diary/upload`,formData)
+              .then((res) => console.log("사진 저장 성공"))
+              .catch((error) => console.log("사진 저장 실패",error.response))
+              
+            } else {
+              console.error('Unable to get the blob from the canvas');
+            }
+          }, 'image/png');
         }
       }
       setPhoto(false)
@@ -80,9 +96,8 @@ const CameraSolo: React.FC = () => {
     setShowOptions(!showOptions); // showOptions 상태 토글
   }
 
-  const PicAgain = (event: React.MouseEvent<HTMLDivElement>) => {
+  const PicAgain = () => {
     setPhoto(!photo)
-    startCamera()
   }
 
 
@@ -110,10 +125,12 @@ const CameraSolo: React.FC = () => {
       <TimerText>
         {time > 0 ? <div>{time}</div> : null}
       </TimerText>
+
       <CameraBox>
-        {photo ? <video ref={videoRef} playsInline autoPlay={true} style={{ width: "100%", height: "300px", transform: useFrontCamera ? "scaleX(-1)" : "scaleX(1)" }} /> : null}
-        <canvas ref={canvasRef} style={{ width: "100%", height: "275px", display: photo ? "none" : "" }} />
+        <video ref={videoRef} playsInline autoPlay={true} style={{ display: photo ? "" : "none", width: "100%", height: "300px", transform: useFrontCamera ? "scaleX(-1)" : "scaleX(1)" }} />
+        <canvas ref={canvasRef} style={{ width: "100%", height: "280px", display: photo ? "none" : "", transform: "scaleX(-1)" }} />
       </CameraBox>
+
       {photo ? null : <SaveBox><SaveBoxItem>저장하기</SaveBoxItem><SaveBoxItem onClick={PicAgain}>다시 찍기</SaveBoxItem></SaveBox>}
 
       <div style={{ position: "fixed", bottom: "5%", width: "100%" }}>

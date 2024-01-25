@@ -33,10 +33,12 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String username = obtainUsername(request);
         String password = obtainPassword(request);
 
+        System.out.println("바보");
         System.out.println(username);
 
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password, null);
 
+        System.out.println("토큰만들었다");
         return authenticationManager.authenticate(authToken);
     }
 

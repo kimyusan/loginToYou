@@ -19,6 +19,7 @@ const useUserStore = create(
       coupleId: null,
       nickname: null,
       profileImage: null,
+      password: null,
 
       setCoupleId: (newId) => {
         set({
@@ -36,6 +37,7 @@ const useUserStore = create(
           coupleId: userInfo.coupleId,
           nickname: userInfo.nickname,
           profileImage: userInfo.profileImage,
+          password: userInfo.password,
         });
       },
     }),

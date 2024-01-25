@@ -1,6 +1,7 @@
 package com.ssafy.spyfamily.chat.controller;
 
 
+import com.ssafy.spyfamily.chat.model.ChatMessage;
 import com.ssafy.spyfamily.chat.model.ChatRoom;
 import com.ssafy.spyfamily.chat.repo.ChatRoomRepository;
 import com.ssafy.spyfamily.chat.service.ChatServiceImpl;
@@ -51,6 +52,18 @@ public class ChatRoomController {
         }
 
 
+    }
+
+    @GetMapping("/load")
+    public ResponseEntity<?> loadMessage(@RequestParam String roomId){
+
+        List<ChatMessage> chatMessages = chatService.loadMessage(roomId);
+
+        if(chatMessages == null){
+            return new ResponseEntity<String>("조회된 값이 없습니다." ,HttpStatus.OK);
+        }
+
+        return new ResponseEntity<List<ChatMessage>>(chatMessages, HttpStatus.OK);
     }
 
 //    private final ChatRoomRepository chatRoomRepository;

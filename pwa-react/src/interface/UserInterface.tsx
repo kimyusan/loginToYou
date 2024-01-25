@@ -8,6 +8,15 @@ interface UserInterface {
   coupleId?: number | null;
   nickname?: string | null;
   profileImage?: string | null;
+  password?: string | null;
 }
 
-export type { UserInterface };
+interface CoupleInterface {
+  coupleId: number | null;
+  name: string | null;
+  startDate: string | null;
+  fuserId: number;
+  suserId: number;
+}
+
+export type { UserInterface, CoupleInterface };
