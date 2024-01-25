@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import SockJS from "sockjs-client";
 import { CompatClient, Stomp } from "@stomp/stompjs";
@@ -8,6 +8,7 @@ import useUserStore from "../stores/UserStore";
 import useAuthStore from "../stores/AuthStore";
 
 import { Header, Wrapper, InputForm } from "../styles/Chat/UI";
+import { GoArrowLeft } from "react-icons/go";
 
 interface MessageInterface {
   messageId: number | null;
@@ -27,6 +28,7 @@ function Chat() {
   const { room_id } = useParams();
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   const connectHandler = () => {
     client.current = Stomp.over(() => {
@@ -48,7 +50,7 @@ function Chat() {
 
   // 채팅방 끝으로 이동
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    scrollRef.current?.scrollIntoView({ block: "end" });
   }, [messages]);
 
   // 정보 받아오기
@@ -73,6 +75,7 @@ function Chat() {
       })
     );
     setMessage("");
+    inputRef.current?.style.setProperty("height", "auto");
   };
 
   // 초기 실행 시 채팅 불러오기(1)
@@ -104,7 +107,11 @@ function Chat() {
   return (
     <Wrapper>
       <Header>
-        <div>뒤로가기</div>
+        <GoArrowLeft
+          onClick={() => {
+            navigate("/");
+          }}
+        />
         <div>채팅</div>
       </Header>
       <div className="msgBox" ref={scrollRef}>
