@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
@@ -8,6 +8,7 @@ import {
   SecondSection,
   ThirdSection,
 } from "../styles/Main/Main";
+import { UserInterface, CoupleInterface } from "../interface/UserInterface";
 
 import { BurgerButton } from "../styles/common/hamburger";
 
@@ -24,10 +25,14 @@ const Main = () => {
   const { PATH } = useAuthStore();
   const { coupleId } = useUserStore();
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
+  const [cp1, setCp1] = useState<UserInterface>();
+  const [cp2, setCp2] = useState<UserInterface>();
+  const [cpInfo, setCpInfo] = useState<CoupleInterface>();
   const toggleNavigation = () => {
     setIsNavigationOpen(!isNavigationOpen);
   };
 
+  // 채팅방 이동 시 roomId 조회
   const goChat = async () => {
     const res = await axios({
       url: `${PATH}/chat/enter`,
@@ -36,9 +41,26 @@ const Main = () => {
         coupleId: coupleId,
       },
     });
-
     navigate(`/chat/${res.data}`);
   };
+
+  // 메인화면 접속 시 커플 정보 조회
+  const callData = async () => {
+    const res = await axios({
+      url: `${PATH}/couple/main`,
+      method: "GET",
+      params: {
+        coupleId: coupleId,
+      },
+    });
+    setCp1(res.data[0]);
+    setCp2(res.data[1]);
+    setCpInfo(res.data[2]);
+  };
+
+  useEffect(() => {
+    callData();
+  }, []);
 
   const navigate = useNavigate();
 
@@ -49,7 +71,7 @@ const Main = () => {
       </BurgerButton>
 
       <Navbar isOpen={isNavigationOpen} />
-      <HeaderSection />
+      <HeaderSection cp1={cp1} cp2={cp2} cpInfo={cpInfo} />
       <Wrapper>
         <FirstSection>
           <Card
@@ -73,7 +95,7 @@ const Main = () => {
         </FirstSection>
 
         <SecondSection>
-          <CalendarCard />
+          {/* <CalendarCard /> */}
           <QuestionCard />
         </SecondSection>
 

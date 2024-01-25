@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+
 import { Wrapper } from "../styles/Invite/Compos";
 import { LongButton } from "../styles/Invite/UI";
 import useAuthStore from "../stores/AuthStore";
@@ -27,6 +28,7 @@ function Invited() {
         emailB: user_email,
       },
     });
+    console.log(res.data);
     setCoupleId(res.data.coupleId);
     await axios({
       url: `${PATH}/chat/create`,
@@ -35,7 +37,6 @@ function Invited() {
         coupleId: res.data.coupleId,
       },
     });
-    navigate("/");
     navigate("/");
   };
 
