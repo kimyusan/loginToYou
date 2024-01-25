@@ -95,7 +95,7 @@ const Main = () => {
         </FirstSection>
 
         <SecondSection>
-          {/* <CalendarCard /> */}
+          <CalendarCard />
           <QuestionCard />
         </SecondSection>
 

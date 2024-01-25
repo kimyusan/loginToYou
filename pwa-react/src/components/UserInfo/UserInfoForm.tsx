@@ -22,7 +22,7 @@ const UserInfoForm = (props: Props) => {
   const [phoneNumber, setPhoneNumber] = useState(user.mobile as string);
   const [birth, setBirth] = useState(user.birthday);
   const [gender, setGender] = useState(user.gender);
-  const [alertStyle, setAlertStyle] = useState("");
+  const phoneNumberRef = useRef()
 
   const { PATH } = useAuthStore();
 
@@ -113,6 +113,7 @@ const UserInfoForm = (props: Props) => {
         onChange={(event) => {
           setPhoneNumber(event.target.value);
         }}
+        // ref={phoneNumberRef}
       />
       <UserInfoField
         className="birth_input"
