@@ -22,16 +22,6 @@ const CameraBox = styled.div`
   position: absolute;
   z-index: -1;
   top: 20%;
-
-  & video {
-    position: absolute;
-    z-index: 0;
-  }
-
-  & canvas {
-    position: absolute;
-    z-index: -1;
-  }
 `
 
 const CameraButton = styled.div`

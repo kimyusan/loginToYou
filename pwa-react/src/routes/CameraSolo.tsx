@@ -4,6 +4,7 @@ import { TimerText, CameraBox, CameraButton, OptionsContainer, SaveBox, SaveBoxI
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import TimerIcon from '@mui/icons-material/Timer';
 import CollectionsIcon from '@mui/icons-material/Collections';
+import Webcam from 'react-webcam';
 
 import { GoBack } from "../styles/Camera/CameraCouple"
 
@@ -18,9 +19,25 @@ const CameraSolo: React.FC = () => {
   const [photo, setPhoto] = useState(true);
   const [showOptions, setShowOptions] = useState(false);
 
-  const startCamera = async () => {
+  // 카메라 전환 버튼 상태 추가
+  const [useFrontCamera, setUseFrontCamera] = useState(true);
+
+  // 카메라 전환 함수 추가
+  const switchCamera = () => {
+    setUseFrontCamera(!useFrontCamera);
+    startCamera(!useFrontCamera);
+  };
+
+  // startCamera 함수 수정
+  const startCamera = async (isFrontCamera = true) => {
     try {
-      const constraints = { video: { width: 1280, height: 720 } };
+      const constraints = {
+        video: {
+          width: 1920,
+          height: 1080,
+          facingMode: isFrontCamera ? "user" : "environment",
+        },
+      };
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
@@ -38,13 +55,22 @@ const CameraSolo: React.FC = () => {
     setTime(timer)
     setTimeout(() => {
       if (videoRef.current && canvasRef.current) {
-        canvasRef.current.width = videoRef.current.videoWidth;
-        canvasRef.current.height = videoRef.current.videoHeight;
         const context = canvasRef.current.getContext('2d');
+        canvasRef.current.width = 1920; // 높은 해상도의 너비
+        canvasRef.current.height = 1080; // 높은 해상도의 높이
         if (context) {
           context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
-          const data = canvasRef.current.toDataURL('image/png');
-          console.log(data);  // 이 부분에서 data를 서버로 전송하거나 앱 내에 저장할 수 있습니다.
+          
+          // React 컴포넌트 내부 혹은 이벤트 핸들러 내부에서
+          canvasRef.current?.toBlob((blob: Blob | null) => {
+            if (blob) {
+              const formData = new FormData();
+              formData.append('image', blob, 'capture.png');
+              console.log("나는 폼데이터", blob)
+            } else {
+              console.error('Unable to get the blob from the canvas');
+            }
+          }, 'image/png');
         }
       }
       setPhoto(false)
@@ -64,9 +90,8 @@ const CameraSolo: React.FC = () => {
     setShowOptions(!showOptions); // showOptions 상태 토글
   }
 
-  const PicAgain = (event: React.MouseEvent<HTMLDivElement>) => {
+  const PicAgain = () => {
     setPhoto(!photo)
-    startCamera()
   }
 
 
@@ -79,6 +104,11 @@ const CameraSolo: React.FC = () => {
     <div>
       <GoBack>
         <Link to="/camera">←</Link>
+        <div style={{ position: "absolute", top: "5%", right: "5%" }}>
+          <button onClick={switchCamera}>
+            {useFrontCamera ? "후면 카메라" : "전면 카메라"}
+          </button>
+        </div>
         <BurgerButton onClick={toggleNavigation}>
           {isNavigationOpen ? "×" : "☰"}
         </BurgerButton>
@@ -89,10 +119,12 @@ const CameraSolo: React.FC = () => {
       <TimerText>
         {time > 0 ? <div>{time}</div> : null}
       </TimerText>
+
       <CameraBox>
-        {photo ? <video ref={videoRef} autoPlay={true} style={{ width: "100%", height: "300px", transform: "scaleX(-1)" }} /> : null}
-        <canvas ref={canvasRef} style={{ transform: "scaleX(-1)", width: "100%", height: "275px", display: photo ? "none" : "" }} />
+        <video ref={videoRef} playsInline autoPlay={true} style={{ display: photo ? "" : "none", width: "100%", height: "300px", transform: useFrontCamera ? "scaleX(-1)" : "scaleX(1)" }} />
+        <canvas ref={canvasRef} style={{ width: "100%", height: "280px", display: photo ? "none" : "", transform: "scaleX(-1)" }} />
       </CameraBox>
+
       {photo ? null : <SaveBox><SaveBoxItem>저장하기</SaveBoxItem><SaveBoxItem onClick={PicAgain}>다시 찍기</SaveBoxItem></SaveBox>}
 
       <div style={{ position: "fixed", bottom: "5%", width: "100%" }}>
