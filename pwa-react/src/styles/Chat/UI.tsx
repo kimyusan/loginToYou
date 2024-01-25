@@ -87,5 +87,6 @@ export const InputForm = styled.form`
     background-color: #fba1b7;
     border-radius: 25px;
     border: 1px solid #fba1b7;
+    align-self: flex-end;
   }
 `;
