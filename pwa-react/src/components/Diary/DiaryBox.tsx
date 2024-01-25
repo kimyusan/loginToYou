@@ -1,18 +1,20 @@
-import React from 'react'
 import useUserStore from '../../stores/UserStore'
 
-import { SeeDiary } from '../../styles/Diary/Diary'
-import { DiaryItem } from '../../styles/Diary/DiaryBox'
+import { Diary } from '../../styles/Diary/DiaryBox'
+import Card from '@mui/material/Card';
 
 const DiaryBox = () => {
-  const {name} = useUserStore();
+  const { name } = useUserStore();
 
   return (
-    <SeeDiary>
-      <DiaryItem>{name} 일기 쓰기</DiaryItem>
-      <div className='v-line'></div>
-      <DiaryItem>{name} 일기 쓰기</DiaryItem>
-    </SeeDiary>
+    <Diary>
+      <Card className='item'>
+        {name} 일기 쓰기
+      </Card>
+      <Card className='item'>
+        {name} 일기 쓰기
+      </Card>
+    </Diary>
   )
 }
 
