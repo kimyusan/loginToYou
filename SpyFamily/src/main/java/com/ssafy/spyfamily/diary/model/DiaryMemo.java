@@ -1,8 +1,6 @@
 package com.ssafy.spyfamily.diary.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -14,17 +12,11 @@ import lombok.ToString;
 public class DiaryMemo {
 
     @Id
-    @Column(name="diary_memo_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer diaryMemoId;
-
-    @Column(name="diary_id")
     private Integer diaryId;
-
-    @Column(name="user_id")
     private Integer userId;
-
-    @Column(name="register_date")
     private String registerDate;
-
     private String content;
+
 }

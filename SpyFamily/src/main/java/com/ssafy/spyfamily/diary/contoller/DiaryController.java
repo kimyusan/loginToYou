@@ -2,6 +2,7 @@ package com.ssafy.spyfamily.diary.contoller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.spyfamily.diary.model.Diary;
+import com.ssafy.spyfamily.diary.model.DiaryMemo;
 import com.ssafy.spyfamily.diary.service.DiaryServiceImpl;
 import com.ssafy.spyfamily.util.FileUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -44,6 +45,62 @@ public class DiaryController {
         this.diaryService = diaryService;
     }
 
+    @PostMapping("/memo/regist")
+    public ResponseEntity<?> diaryMemoRegist(@RequestBody DiaryMemo diaryMemo) {
+        try {
+            diaryService.registDiaryMemo(diaryMemo);
+            return new ResponseEntity<Void>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/memo/get")
+    public ResponseEntity<?> getDiaryMemo(@RequestParam Integer userIdA,
+                                          @RequestParam Integer userIdB,
+                                          @RequestParam Integer diaryId) {
+        try {
+            System.out.println("다이어리 메모 불러오기");
+            ArrayList<DiaryMemo> list = diaryService.getDiaryMemo(userIdA, userIdB, diaryId);
+            System.out.println("다이어리 메모 불러오기 성공");
+            return new ResponseEntity<ArrayList<DiaryMemo>>(list, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("다이어리 메모 불러오기 실패");
+            return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/memo/update")
+    public ResponseEntity<?> updateDiaryMemo(@RequestBody DiaryMemo diaryMemo) {
+        try {
+            System.out.println("다이어리 메모 업데이트");
+            diaryService.updateDiaryMemo(diaryMemo);
+            System.out.println("다이어리 메모 업데이트 성공");
+            return new ResponseEntity<Void>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("다이어리 메모 업데이트 실패");
+            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/memo/delete")
+    public ResponseEntity<?> deleteDiaryMemo(@RequestParam Integer diaryId) {
+        try {
+            System.out.println("다이어리 메모 삭제");
+            diaryService.deleteDiaryMemo(diaryId);
+            System.out.println("다이어리 메모 성공");
+            return new ResponseEntity<Void>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("다이어리 메모 실패");
+            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
     @PostMapping("/upload")
     public ResponseEntity<?> diaryUpload(MultipartHttpServletRequest formData) {
         System.out.println("이미지 등록 들어옴 : " + formData);
@@ -55,7 +112,7 @@ public class DiaryController {
             System.out.println("regist multipartFile : " + multipartFiles);
 
             diary = fileUtil.storeImg(multipartFiles, diary);
-            diaryService.uploadPicture(diary);
+            diaryService.uploadDiaryUpload(diary);
 
             return new ResponseEntity<Void>(HttpStatus.OK);
         } catch (Exception e) {
@@ -108,7 +165,7 @@ public class DiaryController {
 
     @PutMapping("/update")
     public ResponseEntity<?> updateDiary(@RequestBody Diary diary) {
-        diaryService.uploadPicture(diary);
+        diaryService.uploadDiaryUpload(diary);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
