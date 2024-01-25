@@ -17,6 +17,7 @@ import MiddleLogin from "./routes/MiddleLogin";
 import Calendar from "./routes/Calendar";
 import UserInfo from "./routes/UserInfo";
 import Chat from "./routes/Chat";
+import Diary from "./routes/Diary";
 
 function App() {
   const { isLogIn } = useAuthStore();
@@ -56,6 +57,7 @@ function App() {
           <Route path="/calendar" element={<Calendar />}></Route>
           <Route path="/user_info/:user_id" element={<UserInfo />}></Route>
           <Route path="/chat/:room_id" element={<Chat />}></Route>
+          <Route path="/diary" element={<Diary />}></Route>
         </Routes>
       </div>
     </BrowserRouter>
