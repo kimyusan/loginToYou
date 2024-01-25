@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Avatar, Radio, FormControlLabel } from "@mui/material";
+import { Avatar, Radio, FormControlLabel, Alert } from "@mui/material";
 import axios from "axios";
 
 import {
@@ -10,6 +10,7 @@ import {
 } from "../../styles/UserInfo/UserInfo";
 import useAuthStore from "../../stores/AuthStore";
 import useUserStore from "../../stores/UserStore";
+import { height } from "@mui/system";
 
 type Props = {};
 
@@ -22,14 +23,15 @@ const UserInfoForm = (props: Props) => {
   const [phoneNumber, setPhoneNumber] = useState(user.mobile as string);
   const [birth, setBirth] = useState(user.birthday);
   const [gender, setGender] = useState(user.gender);
-  const phoneNumberRef = useRef()
+
+  const [errorAlert, setErrorAlert] = useState(false);
+  const [successAlert, setSuccessAlert] = useState(false);
 
   const { PATH } = useAuthStore();
 
   const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (phoneNumber.length !== 13) {
-      alert("전화번호를 확인하삼욬");
       return;
     }
     axios
@@ -45,8 +47,7 @@ const UserInfoForm = (props: Props) => {
         password: user.password,
       })
       .then((response) => {
-        console.log(response.data);
-        alert("등록완");
+        setSuccessAlert(true);
         user.setUser(response.data);
       })
       .catch((response) => {
@@ -73,75 +74,107 @@ const UserInfoForm = (props: Props) => {
       phoneNumber
         .replace(/-/g, "")
         .replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
+      setErrorAlert(false);
+    } else if (phoneNumber.length > 13) {
+      setErrorAlert(true);
     }
+    setSuccessAlert(false);
   }, [phoneNumber, nickname, birth]);
 
   return (
-    <FormBox onSubmit={handleSubmit}>
-      <input
-        type="file"
-        accept="image/jpg,image/jpeg, image/png"
-        name="profile_img"
-        onChange={uploadImg}
-        ref={fileInput}
-        style={{ display: "none" }}
-      />
-      <Avatar
-        alt="user_profile"
-        src={profileImage}
-        sx={{ width: "100px", height: "100px" }}
-        onClick={() => {
-          if (fileInput.current) {
-            fileInput.current.click();
-          }
-        }}
-      />
-      <UserInfoField
-        label="닉네임"
-        type="input"
-        variant="standard"
-        value={nickname}
-        onChange={(event) => {
-          setNickname(event.target.value);
-        }}
-      />
-      <UserInfoField
-        label="전화번호"
-        type="input"
-        variant="standard"
-        value={phoneNumber}
-        onChange={(event) => {
-          setPhoneNumber(event.target.value);
-        }}
-        // ref={phoneNumberRef}
-      />
-      <UserInfoField
-        className="birth_input"
-        label="생년월일"
-        type="date"
-        variant="standard"
-        value={birth}
-        placeholder=""
-        onChange={(event) => {
-          setBirth(event.target.value);
-        }}
-      />
-      <GenderRadio
-        aria-labelledby="demo-controlled-radio-buttons-group"
-        name="controlled-radio-buttons-group"
-        value={gender}
-        onChange={(event) => {
-          setGender(event.target.value);
+    <>
+      <Alert
+        severity="error"
+        style={{
+          transition: "transform 0.5s",
+          transform: errorAlert ? "translateY(0)" : "translateY(-100%)",
+          visibility: errorAlert ? "visible" : "hidden",
+          position: "absolute",
+          zIndex: "1000",
+          width: "70%",
         }}
       >
-        <FormControlLabel value="female" control={<Radio />} label="여성" />
-        <FormControlLabel value="male" control={<Radio />} label="남성" />
-      </GenderRadio>
+        전화번호를 확인하세요 !
+      </Alert>
+      <Alert
+        severity="success"
+        style={{
+          transition: "transform 0.5s",
+          transform: successAlert ? "translateY(0)" : "translateY(-100%)",
+          visibility: successAlert ? "visible" : "hidden",
+          position: "absolute",
+          zIndex: "1000",
+          width: "70%",
+          verticalAlign: "center",
+        }}
+      >
+        저장되었습니다 !
+      </Alert>
+      <FormBox onSubmit={handleSubmit}>
+        <input
+          type="file"
+          accept="image/jpg,image/jpeg, image/png"
+          name="profile_img"
+          onChange={uploadImg}
+          ref={fileInput}
+          style={{ display: "none" }}
+        />
+        <Avatar
+          alt="user_profile"
+          src={profileImage}
+          sx={{ width: "100px", height: "100px" }}
+          onClick={() => {
+            if (fileInput.current) {
+              fileInput.current.click();
+            }
+          }}
+        />
+        <UserInfoField
+          label="닉네임"
+          type="input"
+          variant="standard"
+          value={nickname}
+          onChange={(event) => {
+            setNickname(event.target.value);
+          }}
+        />
+        <UserInfoField
+          label="전화번호"
+          type="input"
+          variant="standard"
+          value={phoneNumber}
+          onChange={(event) => {
+            setPhoneNumber(event.target.value);
+          }}
+        />
+        <UserInfoField
+          className="birth_input"
+          label="생년월일"
+          type="date"
+          variant="standard"
+          value={birth}
+          placeholder=""
+          onChange={(event) => {
+            setBirth(event.target.value);
+          }}
+        />
+        <GenderRadio
+          aria-labelledby="demo-controlled-radio-buttons-group"
+          name="controlled-radio-buttons-group"
+          value={gender}
+          onChange={(event) => {
+            setGender(event.target.value);
+          }}
+        >
+          <FormControlLabel value="female" control={<Radio />} label="여성" />
+          <FormControlLabel value="male" control={<Radio />} label="남성" />
+        </GenderRadio>
 
-      <SaveButton variant="outlined" type="submit">
-        수정하기
-      </SaveButton>
-    </FormBox>
+        <SaveButton variant="outlined" type="submit">
+          수정하기
+        </SaveButton>
+      </FormBox>
+    </>
   );
 };
 
