@@ -45,22 +45,22 @@ const Main = () => {
   };
 
   // 메인화면 접속 시 커플 정보 조회
-  const callData = async () => {
-    const res = await axios({
-      url: `${PATH}/couple/main`,
-      method: "GET",
-      params: {
-        coupleId: coupleId,
-      },
-    });
-    setCp1(res.data[0]);
-    setCp2(res.data[1]);
-    setCpInfo(res.data[2]);
-  };
+  // const callData = async () => {
+  //   const res = await axios({
+  //     url: `${PATH}/couple/main`,
+  //     method: "GET",
+  //     params: {
+  //       coupleId: coupleId,
+  //     },
+  //   });
+  //   setCp1(res.data[0]);
+  //   setCp2(res.data[1]);
+  //   setCpInfo(res.data[2]);
+  // };
 
-  useEffect(() => {
-    callData();
-  }, []);
+  // useEffect(() => {
+  //   callData();
+  // }, []);
 
   const navigate = useNavigate();
 

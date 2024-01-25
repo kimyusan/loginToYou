@@ -10,6 +10,7 @@ import {
 } from "../../styles/Main/Header";
 import useUserStore from "../../stores/UserStore";
 import { UserInterface, CoupleInterface } from "../../interface/UserInterface";
+import { preventDefault } from "@fullcalendar/core/internal";
 
 type Props = {
   cp1: UserInterface | undefined;
@@ -23,15 +24,23 @@ const HeaderSection = ({ cp1, cp2, cpInfo }: Props) => {
   const [dDay, setDday] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
+  const { startDate, setStartDate } = useUserStore();
+
   const getDday = () => {
-    if (!cpInfo) return;
-    if (!cpInfo.startDate) {
-      setDday("우리가 시작한 날짜를 입력해주세요.");
+    // if (!cpInfo) return;
+    // if (!cpInfo.startDate) {
+    //   setDday("우리가 시작한 날짜를 입력해주세요.");
+    //   return;
+    // }
+    if (!startDate) {
+      setDday("디데이 계산하기");
       return;
     }
 
     const today = new Date().getTime();
-    let temp = cpInfo.startDate.split("-");
+    // let temp = cpInfo.startDate.split("-");
+    console.log(startDate);
+    let temp = startDate?.split("-");
     let date = new Date(
       Number(temp[0]),
       Number(temp[1]) - 1,
@@ -41,9 +50,15 @@ const HeaderSection = ({ cp1, cp2, cpInfo }: Props) => {
     setDday(Math.round((today - date) / 1000 / 60 / 60 / 24).toString());
   };
 
+  const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setStartDate(dDay);
+    setIsOpen(false);
+  };
+
   useEffect(() => {
     getDday();
-  }, [cpInfo?.startDate]);
+  }, [startDate]);
 
   return (
     <Header>
@@ -54,7 +69,8 @@ const HeaderSection = ({ cp1, cp2, cpInfo }: Props) => {
         className={!cpInfo?.startDate ? "noDate" : null}
         onClick={() => setIsOpen(true)}
       >
-        {cpInfo?.startDate ? `D-${dDay}` : dDay}
+        {/* {cpInfo?.startDate ? `D-${dDay}` : dDay} */}
+        {startDate ? `D+${dDay}` : dDay}
       </Dday>
       <DdayModal
         isOpen={isOpen}
@@ -62,10 +78,16 @@ const HeaderSection = ({ cp1, cp2, cpInfo }: Props) => {
         ariaHideApp={false}
         shouldCloseOnOverlayClick={true}
       >
-        <DdayForm>
+        <DdayForm onSubmit={handleSubmit}>
           <p>디데이 설정하기</p>
-          <DdayInput type="date" />
-          <SaveDday variant="contained">Contained</SaveDday>
+          <DdayInput
+            type="date"
+            value={dDay}
+            onChange={(event) => setDday(event.target.value)}
+          />
+          <SaveDday variant="contained" type="submit">
+            저장
+          </SaveDday>
         </DdayForm>
       </DdayModal>
     </Header>

@@ -50,23 +50,28 @@ const Dday = styled.div<CompWithClass>`
 
 const DdayModal = styled(Modal)`
   margin: 30% 10%;
-  display: flex;
-  flex-direction: column;
+  position: relative;
+
   &.ReactModal__Content--after-open {
     z-index: 100000;
     transition: transform 0.3s ease-in-out;
     transform: translateY(20%);
     border-radius: 10px;
-    background-color: pink;
+    background-color: #ffd0d6;
     padding: 7%;
     height: 20%;
+  }
+  div {
+    border-radius: 10px !important;
   }
 `;
 
 const DdayInput = styled(TextField)`
   width: 100% !important;
+  background-color: #ffe7ea;
+  border: none !important;
+  border-radius: 30%;
   label {
-    background-color: pink;
     width: 50%;
     height: 2rem;
     z-index: 3 !important;
@@ -79,9 +84,24 @@ const DdayInput = styled(TextField)`
   }
 `;
 
-const DdayForm = styled.form``;
+const DdayForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  p {
+    font-size: 1.2rem;
+    margin: 0;
+    margin-bottom: 10%;
+  }
+`;
+
 const SaveDday = styled(Button)`
-  margin: 10% !important;
+  position: absolute !important;
+  right: 7%;
+  bottom: 7%;
+  background-color: white !important;
+  font-size: 1rem !important;
+  color: grey !important;
+  margin-top: 10% !important;
 `;
 
 export {
