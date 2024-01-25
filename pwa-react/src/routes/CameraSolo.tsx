@@ -1,14 +1,15 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import useAuthStore from '../stores/AuthStore';
+
 import { TimerText, CameraBox, CameraButton, OptionsContainer, SaveBox, SaveBoxItem } from '../styles/Camera/CameraSolo';
+import { GoBack } from "../styles/Camera/CameraCouple"
+import { BurgerButton } from "../styles/common/hamburger";
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import TimerIcon from '@mui/icons-material/Timer';
 import CollectionsIcon from '@mui/icons-material/Collections';
-import Webcam from 'react-webcam';
 
-import { GoBack } from "../styles/Camera/CameraCouple"
-
-import { BurgerButton } from "../styles/common/hamburger";
 import Navbar from "../components/Navbar";
 
 const CameraSolo: React.FC = () => {
@@ -18,6 +19,7 @@ const CameraSolo: React.FC = () => {
   const [selectTime, setSelectTime] = useState("");
   const [photo, setPhoto] = useState(true);
   const [showOptions, setShowOptions] = useState(false);
+  const {PATH} = useAuthStore();
 
   // 카메라 전환 버튼 상태 추가
   const [useFrontCamera, setUseFrontCamera] = useState(true);
@@ -60,13 +62,17 @@ const CameraSolo: React.FC = () => {
         canvasRef.current.height = 1080; // 높은 해상도의 높이
         if (context) {
           context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
-          
+
           // React 컴포넌트 내부 혹은 이벤트 핸들러 내부에서
           canvasRef.current?.toBlob((blob: Blob | null) => {
             if (blob) {
               const formData = new FormData();
               formData.append('image', blob, 'capture.png');
-              console.log("나는 폼데이터", blob)
+              // 사진 저장
+              axios.post(`${PATH}/diary/upload`,formData)
+              .then((res) => console.log("사진 저장 성공"))
+              .catch((error) => console.log("사진 저장 실패",error.response))
+              
             } else {
               console.error('Unable to get the blob from the canvas');
             }
