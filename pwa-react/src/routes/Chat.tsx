@@ -67,6 +67,21 @@ function Chat() {
     setMessage("");
   };
 
+  const loadChat = async () => {
+    const res = await axios({
+      url: `${PATH}/chat/load`,
+      method: `GET`,
+      params: {
+        roomId: room_id,
+      },
+    });
+    setMessages(res.data);
+  };
+
+  useEffect(() => {
+    loadChat();
+  }, []);
+
   const updateMessage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(event.target.value);
   };
@@ -85,7 +100,7 @@ function Chat() {
       })}
       <InputForm onSubmit={sendChat}>
         <input type="text" value={message} onChange={updateMessage} />
-        <button>입력</button>
+        <button>전송</button>
       </InputForm>
     </Wrapper>
   );
