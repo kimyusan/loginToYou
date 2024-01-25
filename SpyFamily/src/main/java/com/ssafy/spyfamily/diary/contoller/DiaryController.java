@@ -6,14 +6,21 @@ import com.ssafy.spyfamily.diary.service.DiaryServiceImpl;
 import com.ssafy.spyfamily.util.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 
 @Slf4j
 @RestController
@@ -38,7 +45,7 @@ public class DiaryController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<?> registProfile(MultipartHttpServletRequest formData) {
+    public ResponseEntity<?> diaryUpload(MultipartHttpServletRequest formData) {
         System.out.println("이미지 등록 들어옴 : " + formData);
         try {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -47,7 +54,7 @@ public class DiaryController {
 
             System.out.println("regist multipartFile : " + multipartFiles);
 
-            diary = fileUtil.storeImg(multipartFiles, diary.getDiaryId());
+            diary = fileUtil.storeImg(multipartFiles, diary);
             diaryService.uploadPicture(diary);
 
             return new ResponseEntity<Void>(HttpStatus.OK);
@@ -58,7 +65,51 @@ public class DiaryController {
         }
     }
 
+    @GetMapping("/read")
+    public ResponseEntity<?> getDiary(@RequestParam Integer coupleId) {
+        return new ResponseEntity<ArrayList<Diary>>(diaryService.diaryList(coupleId), HttpStatus.OK);
+    }
 
+    @GetMapping("/getImg/{saveFolder}/{originalName}/{saveName}")
+    public ResponseEntity<?> getImg(@PathVariable("saveFolder") String saveFolder,
+                                    @PathVariable("originalName") String originalName,
+                                    @PathVariable("saveName") String saveName)  {
 
+        String file = uploadImagePath + File.separator +saveFolder + File.separator + saveName;
+
+        try {
+            Path filePath = Paths.get(file);
+
+            Resource resource = new FileSystemResource(file);
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-type", Files.probeContentType(filePath));
+
+            System.out.println("resource! : " + resource);
+
+            return new ResponseEntity<Object>(resource, headers, HttpStatus.OK);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteDiary(@RequestParam Integer diaryId) {
+        try {
+            diaryService.deleteDiary(diaryId);
+            return new ResponseEntity<Void>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<String>("Error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> updateDiary(@RequestBody Diary diary) {
+        diaryService.uploadPicture(diary);
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
 
 }
