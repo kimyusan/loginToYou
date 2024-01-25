@@ -20,6 +20,10 @@ const Login = () => {
   "state=STATE_STRING&" +
   "redirect_uri=http://localhost:3000/middle/login";
 
+  const SNS = (url : string) => {
+    window.location.href = url
+  }
+
   return (
     <div>
       <Logo>
@@ -28,9 +32,9 @@ const Login = () => {
       </Logo>
       <MiddleMsg><div>⚡ 빠르게 가입해보세요! ↓</div></MiddleMsg>
       <SnsLogin>
-        <LoginBtn onClick={() => { window.open(kakao_url) }} $img={KakaoLoginBtn}></LoginBtn>
-        <LoginBtn onClick={() => { window.open(google_url) }} $img={GoogleLoginBtn}></LoginBtn>
-        <LoginBtn onClick={() => { window.open(naver_url) }} $img={NaverLoginBtn}></LoginBtn>
+        <LoginBtn onClick={() => SNS(kakao_url)} $img={KakaoLoginBtn}></LoginBtn>
+        <LoginBtn onClick={() => SNS(google_url)} $img={GoogleLoginBtn}></LoginBtn>
+        <LoginBtn onClick={() => SNS(naver_url)} $img={NaverLoginBtn}></LoginBtn>
       </SnsLogin>
     </div>
   )
