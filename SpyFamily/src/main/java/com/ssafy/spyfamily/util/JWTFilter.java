@@ -29,8 +29,8 @@ public class JWTFilter extends OncePerRequestFilter {
 
         //request에서 Authorization 헤더를 찾음
         String authorization= request.getHeader("Authorization");
-        System.out.println(authorization);
-        System.out.println(request);
+        System.out.println( "JWT필터인증" + authorization);
+        System.out.println(request.toString());
         //Authorization 헤더 검증
         if (authorization == null || !authorization.startsWith("Bearer ")) {
 
@@ -62,7 +62,7 @@ public class JWTFilter extends OncePerRequestFilter {
         userEntity.setPassword("temppassword");
         //userEntity.setCoupleId(coupleId);
         //userEntity.setRole(role);
-
+        System.out.println(userEntity.toString());
         CustomUserDetails customUserDetails = new CustomUserDetails(userEntity);
 
         Authentication authToken = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
