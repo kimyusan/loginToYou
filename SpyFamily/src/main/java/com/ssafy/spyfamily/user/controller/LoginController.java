@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ssafy.spyfamily.user.model.User;
 import com.ssafy.spyfamily.user.model.UserInfo;
 import com.ssafy.spyfamily.user.service.UserServiceImpl;
+import com.ssafy.spyfamily.util.JWTUtil;
 import com.ssafy.spyfamily.util.JsonUtil;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +22,12 @@ public class LoginController {
 
     private final UserServiceImpl userService;
     private final JsonUtil jsonUtil;
+    private final JWTUtil jwtUtil;
 
-    public LoginController(UserServiceImpl userService, JsonUtil jsonUtil) {
+    public LoginController(UserServiceImpl userService, JsonUtil jsonUtil,JWTUtil jwtUtil) {
         this.userService = userService;
         this.jsonUtil = jsonUtil;
+        this.jwtUtil = jwtUtil;
     }
 
     /**
@@ -63,7 +67,7 @@ public class LoginController {
      */
     @PostMapping("/login/google")
 
-    public ResponseEntity<?> googleLoginPost(@RequestParam(name="access_Token") String access_Token) {
+    public ResponseEntity<?> googleLoginPost(@RequestParam(name="access_Token") String access_Token, HttpServletResponse response) {
         try {
             // Google API로부터 사용자 정보 얻기
             UserInfo googleUser = userService.getGoogleUserInfo(access_Token);
@@ -73,8 +77,15 @@ public class LoginController {
             User user = userService.getUserByEmail(email);
             // 사용자 정보가 있다면 해당 유저 정보 리턴해주기
             if(user != null) {
+
+                String token = jwtUtil.createJwt(user.getEmail(), user.getRole(), user.getUserId(),user.getCoupleId(),user.getName(),60*60*60*60*10L);
+
+                response.addHeader("Authorization", "Bearer " + token);
+
                 return new ResponseEntity<User>(user, HttpStatus.OK);
             }
+
+
 
             // 사용자 정보가 없다면 회원가입 페이지로 유도하기
             user = new User();
@@ -129,8 +140,8 @@ public class LoginController {
             user = new User();
             user.setEmail(email);
             user.setName(userData.get("nickname"));
-
             return new ResponseEntity<User>(user, HttpStatus.OK);
+
 
         } else {
             // 에러 처리 등을 수행
