@@ -91,7 +91,7 @@ public class WebSecurityConfig {
 
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/login","/user/login", "/", "/signup").permitAll()
+                        .requestMatchers("/login","/user/login/*", "/", "/signup", "/user/login/google","/user/update", "user/info").permitAll()
                         .anyRequest().authenticated());
 
 
