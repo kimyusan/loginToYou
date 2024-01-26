@@ -4,8 +4,6 @@ import com.ssafy.spyfamily.user.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -25,10 +23,21 @@ public class CustomUserDetails implements UserDetails {
         return Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
+    public int getUserId() {
+        return user.getUserId();
+    }
+
+    public int getCoupleId() {
+        return user.getCoupleId();
+    }
+
+
+
     @Override
     public String getPassword() {
         return user.getPassword();
     }
+
 
     @Override
     public String getUsername() {

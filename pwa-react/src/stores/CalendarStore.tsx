@@ -5,6 +5,7 @@ import { Event } from "../interface/CalendarInterface";
 import axios from "axios";
 import useUserStore from "./UserStore";
 import FullCalendar from "@fullcalendar/react";
+import useAuthStore from "./AuthStore";
 
 interface Calendar {
   isOpen: boolean;
@@ -59,6 +60,9 @@ export const CalendarStore = create(
         axios
           .get("http://localhost:8080/calendar/read", {
             params: { coupleId: coupleId },
+            headers: {
+              Authorization: useAuthStore.getState().token
+            }
           })
           .then((response) => {
             console.log(response);
@@ -96,6 +100,10 @@ export const CalendarStore = create(
             endDate: newEvent.end,
             eventType: null,
             contents: newEvent.title,
+          }, {
+            headers: {
+              Authorization: useAuthStore.getState().token
+            }
           })
           .then((response) => {
             console.log(response.data);
@@ -116,6 +124,10 @@ export const CalendarStore = create(
             endDate: editEvent.end,
             eventType: null,
             contents: editEvent.title,
+          }, {
+            headers: {
+              Authorization: useAuthStore.getState().token
+            }
           })
           .then((response) => {
             console.log(response);
@@ -130,6 +142,9 @@ export const CalendarStore = create(
         axios
           .delete("http://localhost:8080/calendar/delete", {
             params: { calenderId: calendar_id },
+            headers: {
+              Authorization: useAuthStore.getState().token
+            }
           })
           .then((response) => {
             console.log(response);
