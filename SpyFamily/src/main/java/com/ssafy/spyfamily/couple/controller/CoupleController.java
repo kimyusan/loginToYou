@@ -2,6 +2,8 @@ package com.ssafy.spyfamily.couple.controller;
 
 import com.ssafy.spyfamily.couple.service.CoupleServiceImpl;
 import com.ssafy.spyfamily.user.model.User;
+import org.apache.coyote.Request;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +24,10 @@ public class CoupleController {
         this.coupleService = coupleService;
     }
 
-    @RequestMapping(value = "/create/couple")
-    public ResponseEntity<?> createCouple(@RequestParam String emailA, @RequestParam String emailB) {
+    @RequestMapping(value = "/create/couple/{emailA}/{emailB}")
+    public ResponseEntity<?> createCouple(@RequestParam String emailA, @RequestParam String emailB , @RequestHeader HttpHeaders headers) {
+        System.out.println(headers.get("Authrization"));
+        System.out.println(headers.toString());
         return ResponseEntity.ok(coupleService.coupleCteate(emailA, emailB));
     }
 
