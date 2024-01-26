@@ -17,6 +17,7 @@ interface MessageInterface {
   sendUserId: string | null;
   message: string | null;
   contentType: string | null;
+  createdAt: string | null;
 }
 
 function Chat() {
@@ -30,6 +31,7 @@ function Chat() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
+  // 웹소켓
   const connectHandler = () => {
     client.current = Stomp.over(() => {
       const sock = new SockJS(`${PATH}/ws-stomp`);
@@ -37,7 +39,7 @@ function Chat() {
     });
     client.current.connect({}, () => {
       if (!client.current) return;
-      // 신규 메세지 체크
+
       client.current.subscribe(`/sub/chat/room/${room_id}`, (msg) => {
         if (!msg.body) return;
         let newMsg = JSON.parse(msg.body);
@@ -64,6 +66,8 @@ function Chat() {
 
     if (!client.current) return;
     if (message == "") return;
+    let now = new Date();
+
     client.current.send(
       `/pub/chat/message`,
       {},
@@ -72,6 +76,7 @@ function Chat() {
         roomId: room_id,
         sendUserId: userId,
         message: message,
+        createdAt: now.toLocaleString(),
       })
     );
     setMessage("");
@@ -119,9 +124,43 @@ function Chat() {
           return (
             <div
               key={index}
-              className={userId == message.sendUserId ? "myMsg" : "oppMsg"}
+              className={
+                userId == message.sendUserId ? "myMsg line" : "oppMsg line"
+              }
             >
-              {message.message}
+              <div
+                style={{
+                  display: userId == message.sendUserId ? "block" : "none",
+                }}
+                className={"time"}
+              >
+                {message.createdAt
+                  ?.substring(0, message.createdAt.length - 3)
+                  .split(" ")
+                  .splice(0, 3)}
+                <br />
+                {message.createdAt
+                  ?.substring(0, message.createdAt.length - 3)
+                  .split(" ")
+                  .splice(3)}
+              </div>
+              <div className={"content"}>{message.message}</div>
+              <div
+                style={{
+                  display: userId == message.sendUserId ? "none" : "block",
+                }}
+                className={"time"}
+              >
+                {message.createdAt
+                  ?.substring(0, message.createdAt.length - 3)
+                  .split(" ")
+                  .splice(0, 3)}
+                <br />
+                {message.createdAt
+                  ?.substring(0, message.createdAt.length - 3)
+                  .split(" ")
+                  .splice(3)}
+              </div>
             </div>
           );
         })}

@@ -10,6 +10,8 @@ import {
 } from "../../styles/Main/Header";
 import useUserStore from "../../stores/UserStore";
 import { UserInterface, CoupleInterface } from "../../interface/UserInterface";
+import { useNavigate } from "react-router";
+import CoupleInfo from "../../routes/CoupleInfo";
 
 type Props = {
   cp1: UserInterface | undefined;
@@ -21,9 +23,7 @@ const HeaderSection = ({ cp1, cp2, cpInfo }: Props) => {
   const mName = cp1 ? (cp1.nickname ? cp1.nickname : cp1.name) : null;
   const fName = cp2 ? (cp2.nickname ? cp2.nickname : cp2.name) : null;
   const [dDay, setDday] = useState<string | null>(null);
-  const [isOpen, setIsOpen] = useState(false);
-
-  const { startDate, setStartDate } = useUserStore();
+  const naivate = useNavigate();
 
   const getDday = () => {
     if (!cpInfo) return;
@@ -54,7 +54,11 @@ const HeaderSection = ({ cp1, cp2, cpInfo }: Props) => {
   }, [cpInfo]);
 
   return (
-    <Header>
+    <Header
+      onClick={() => {
+        naivate(`/couple_info/${cpInfo?.coupleId}`, { state: cpInfo });
+      }}
+    >
       <UserName>
         {mName} & {fName}
       </UserName>

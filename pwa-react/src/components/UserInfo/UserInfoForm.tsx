@@ -68,9 +68,9 @@ const UserInfoForm = (props: Props) => {
   };
 
   useEffect(() => {
-    if (phoneNumber.length === 11) {
+    if (phoneNumber?.length === 11) {
       setPhoneNumber(phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3"));
-    } else if (phoneNumber.length === 13) {
+    } else if (phoneNumber?.length === 13) {
       phoneNumber
         .replace(/-/g, "")
         .replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
