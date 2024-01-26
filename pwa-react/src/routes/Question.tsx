@@ -1,10 +1,21 @@
 import React, { useState } from "react";
-import { DaySelect } from "../styles/Question/Question";
+
+import { BurgerButton } from "../styles/common/hamburger";
+import Navbar from "../components/Navbar";
+import AnswerBox from "../components/Question/AnswerBox";
+
+import { MonthHeader, DaySelect } from "../styles/Question/Question";
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
+import QuestionBox from "../components/Question/QuestionBox";
 
 type Props = {};
 
 const Question = (props: Props) => {
+  const [isNavigationOpen, setIsNavigationOpen] = useState(false);
+  const toggleNavigation = () => {
+    setIsNavigationOpen(!isNavigationOpen);
+  };
+
   const today = new Date();
   const [year, setYear] = useState(today.getFullYear());
   const [month, setMonth] = useState(today.getMonth() + 1);
@@ -32,17 +43,26 @@ const Question = (props: Props) => {
   };
 
   return (
-    <div>
-      <DaySelect>
-        <div className="subBox">
-          <SlArrowLeft onClick={decreaseMonth}></SlArrowLeft>
-          <div className="dayBox">
-            {year}.{month.toString().padStart(2, "0")}
+    <>
+      <MonthHeader>
+        <BurgerButton onClick={toggleNavigation} style={{ position: "fixed" }}>
+          {isNavigationOpen ? "×" : "☰"}
+        </BurgerButton>
+        <Navbar isOpen={isNavigationOpen} />
+        <DaySelect>
+          <div className="subBox">
+            <SlArrowLeft onClick={decreaseMonth}></SlArrowLeft>
+            <div className="dayBox">
+              {year}.{month.toString().padStart(2, "0")}
+            </div>
+            <SlArrowRight onClick={increaseMonth}></SlArrowRight>
           </div>
-          <SlArrowRight onClick={increaseMonth}></SlArrowRight>
-        </div>
-      </DaySelect>
-    </div>
+        </DaySelect>
+      </MonthHeader>
+
+      <QuestionBox />
+      <AnswerBox />
+    </>
   );
 };
 

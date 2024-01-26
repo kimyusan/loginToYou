@@ -4,7 +4,7 @@ const NavigationContainer = styled.div<{ $isOpen: boolean }>`
   width: 80%;
   height: 100%;
   position: fixed;
-  z-index: 1000;
+  z-index: 99;
   top: 0;
   padding-top: 20%;
   right: ${({ $isOpen }) => ($isOpen ? "0" : "-80%")};
@@ -29,6 +29,7 @@ const NavigationList = styled.ul`
   padding: 10%;
   margin: 0;
   color: black;
+  z-index: 99;
   li {
     font-size: 1.2rem;
     margin-bottom: 10%;
