@@ -23,7 +23,7 @@ function Chat() {
   const [messages, setMessages] = useState<MessageInterface[] | null>([]);
   const [message, setMessage] = useState("");
   const client = useRef<CompatClient>();
-  const { PATH } = useAuthStore();
+  const { PATH, token } = useAuthStore();
   const { coupleId, userId, name } = useUserStore();
   const { room_id } = useParams();
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -35,17 +35,23 @@ function Chat() {
       const sock = new SockJS(`${PATH}/ws-stomp`);
       return sock;
     });
-    client.current.connect({}, () => {
-      if (!client.current) return;
-      // 신규 메세지 체크
-      client.current.subscribe(`/sub/chat/room/${room_id}`, (msg) => {
-        if (!msg.body) return;
-        let newMsg = JSON.parse(msg.body);
-        setMessages((messages) => {
-          return messages ? [...messages, newMsg] : null;
+
+    client.current.connect(
+      {
+        Authorization: token,
+      },
+      () => {
+        if (!client.current) return;
+        // 신규 메세지 체크
+        client.current.subscribe(`/sub/chat/room/${room_id}`, (msg) => {
+          if (!msg.body) return;
+          let newMsg = JSON.parse(msg.body);
+          setMessages((messages) => {
+            return messages ? [...messages, newMsg] : null;
+          });
         });
-      });
-    });
+      }
+    );
   };
 
   // 채팅방 끝으로 이동
@@ -85,6 +91,9 @@ function Chat() {
       method: `GET`,
       params: {
         roomId: room_id,
+      },
+      headers: {
+        Authorization: token,
       },
     });
     setMessages(res.data);
