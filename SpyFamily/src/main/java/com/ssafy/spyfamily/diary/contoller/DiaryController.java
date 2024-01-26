@@ -26,6 +26,7 @@ import java.util.ArrayList;
 @Slf4j
 @RestController
 @RequestMapping(value = "/diary", produces = "application/json")
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE}, maxAge = 6000)
 public class DiaryController {
 
     @Value("${file.path}")
