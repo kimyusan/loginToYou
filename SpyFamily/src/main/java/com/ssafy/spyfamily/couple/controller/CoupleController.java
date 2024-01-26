@@ -1,5 +1,6 @@
 package com.ssafy.spyfamily.couple.controller;
 
+import com.ssafy.spyfamily.couple.model.Couple;
 import com.ssafy.spyfamily.couple.service.CoupleServiceImpl;
 import com.ssafy.spyfamily.user.model.User;
 import org.apache.coyote.Request;
@@ -30,9 +31,9 @@ public class CoupleController {
 
         System.out.println(emailA + " " + emailB);
         System.out.println("create 시작");
-        coupleService.coupleCteate(emailA,emailB);
+        Couple couple = coupleService.coupleCteate(emailA,emailB);
 
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<Couple>(couple ,HttpStatus.OK);
     }
 
     @GetMapping("/main")
