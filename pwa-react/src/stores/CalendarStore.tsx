@@ -61,8 +61,8 @@ export const CalendarStore = create(
           .get("http://localhost:8080/calendar/read", {
             params: { coupleId: coupleId },
             headers: {
-              Authorization: useAuthStore.getState().token
-            }
+              Authorization: useAuthStore.getState().token,
+            },
           })
           .then((response) => {
             console.log(response);
@@ -93,18 +93,22 @@ export const CalendarStore = create(
 
       postEventToServer: (newEvent, coupleId) => {
         axios
-          .post("http://localhost:8080/calendar/create", {
-            coupleId: coupleId,
-            userId: 1,
-            startDate: newEvent.start,
-            endDate: newEvent.end,
-            eventType: null,
-            contents: newEvent.title,
-          }, {
-            headers: {
-              Authorization: useAuthStore.getState().token
+          .post(
+            "http://localhost:8080/calendar/create",
+            {
+              coupleId: coupleId,
+              userId: 1,
+              startDate: newEvent.start,
+              endDate: newEvent.end,
+              eventType: null,
+              contents: newEvent.title,
+            },
+            {
+              headers: {
+                Authorization: useAuthStore.getState().token,
+              },
             }
-          })
+          )
           .then((response) => {
             console.log(response.data);
             get().getEventsFromServer(coupleId);

@@ -11,7 +11,7 @@ function Invited() {
   const navigate = useNavigate();
   const { user_email, user_name } = useParams();
   const { email, setCoupleId, coupleId } = useUserStore();
-  const { isLogIn, PATH ,token} = useAuthStore();
+  const { isLogIn, PATH, token } = useAuthStore();
 
   useEffect(() => {
     if (!isLogIn) navigate("/login?redirect");
@@ -24,14 +24,14 @@ function Invited() {
       url: `${PATH}/couple/create/couple/{emailA}/{emailB}`,
       method: "GET",
       params: {
-        emailA: "asdf@asdf",
-        emailB: "qwer@qwer",
+        emailA: "a@a",
+        emailB: "b@b",
       },
       headers: {
         Authorization: token,
       },
     });
-    console.log(res.data);
+
     // setCoupleId(res.data.coupleId);
     // await axios({
     //   url: `${PATH}/chat/create`,
