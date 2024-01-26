@@ -16,7 +16,7 @@ const MiddleLogin = () => {
         console.log("아이디 있음", res.data);
         setUser(res.data);
         login();
-        navigate("/main");
+        navigate("/");
       })
       .catch((error) => {
         console.log("아이디 없음");

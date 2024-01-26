@@ -19,32 +19,34 @@ public class FileUtil {
     private String uploadImagePath;
 
     // 이미지 저장 및 엔티티로 변환
-    public Diary storeImg(MultipartFile multipartFile, Integer diaryId) throws IOException {
+    public Diary storeImg(MultipartFile multipartFile, Diary diary) throws IOException {
         if(multipartFile.isEmpty()) {
             return null;
         }
 
         String today = new SimpleDateFormat("yyMMdd").format(new Date());
+        String diaty_date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
         String saveFolder = uploadImagePath + File.separator + today;
         File folder = new File(saveFolder);
         if (!folder.exists())
             folder.mkdirs();
 
-        Diary imgInfoDto = new Diary();
         String originalFileName = multipartFile.getOriginalFilename();
         if (!originalFileName.isEmpty()) {
             String saveFileName = UUID.randomUUID().toString()
                     + originalFileName.substring(originalFileName.lastIndexOf('.'));
-            imgInfoDto.setSaveFolder(today);
-            imgInfoDto.setOriginalName(originalFileName);
-            imgInfoDto.setSaveName(saveFileName);
-            imgInfoDto.setDiaryId(diaryId);
+            diary.setSaveFolder(today);
+            diary.setOriginalName(originalFileName);
+            diary.setSaveName(saveFileName);
+            diary.setDiaryId(diary.getDiaryId());
+            diary.setRegisterDate(diaty_date);
 
             // 파일 실제 저장
             multipartFile.transferTo(new File(folder, saveFileName));
         }
 
-        return imgInfoDto;
+        return diary;
     }
 
 
