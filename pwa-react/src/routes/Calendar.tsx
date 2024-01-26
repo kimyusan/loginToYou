@@ -86,6 +86,7 @@ const Calendar = (props: Props) => {
             eventBackgroundColor="pink"
             eventBorderColor="pink"
             defaultAllDay={true}
+            
           />
         </MyCalendar>
         <CalendarModalCard />
