@@ -77,22 +77,28 @@ const CameraSolo: React.FC = () => {
   };
 
   const SavePhoto = () => {
-    const formData = new FormData();
-
     canvasRef.current?.toBlob((blob: Blob | null) => {
       if (blob) {
-        formData.append('image', blob, 'capture.png');
+        const formData = new FormData();
+
+        formData.append('imgInfo', blob);
+
+        const data = {
+          coupleId: coupleId,
+          subject: ImageContent,
+        }
+    
+        formData.append("diary", JSON.stringify(data))
+    
+        axios.post(`${PATH}/diary/upload`,formData)
+          .then((res) => console.log("사진 저장 성공"))
+          .catch((error) => console.log("사진 저장 실패",error))
       } else {
         console.error('Unable to get the blob from the canvas');
       }
     }, 'image/png');
 
-    formData.append("coupleId", `${coupleId}`)
-    formData.append("subject", ImageContent)
-
-    axios.post(`${PATH}/diary/upload`,formData)
-      .then((res) => console.log("사진 저장 성공"))
-      .catch((error) => console.log("사진 저장 실패",error.response))
+    
   }
 
   useEffect(() => {
@@ -112,7 +118,6 @@ const CameraSolo: React.FC = () => {
     setPhoto(!photo)
   }
   
-
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const toggleNavigation = () => {
     setIsNavigationOpen(!isNavigationOpen);
