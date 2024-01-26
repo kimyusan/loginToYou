@@ -33,6 +33,11 @@ public class FileUtil {
             folder.mkdirs();
 
         String originalFileName = multipartFile.getOriginalFilename();
+
+        if (!originalFileName.contains(".")) {
+            originalFileName += ".png";
+        }
+
         if (!originalFileName.isEmpty()) {
             String saveFileName = UUID.randomUUID().toString()
                     + originalFileName.substring(originalFileName.lastIndexOf('.'));
