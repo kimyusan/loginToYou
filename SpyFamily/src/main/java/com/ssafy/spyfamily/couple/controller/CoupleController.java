@@ -24,11 +24,13 @@ public class CoupleController {
         this.coupleService = coupleService;
     }
 
-    @RequestMapping(value = "/create/couple/{emailA}/{emailB}")
-    public ResponseEntity<?> createCouple(@RequestParam String emailA, @RequestParam String emailB , @RequestHeader HttpHeaders headers) {
-        System.out.println(headers.get("Authrization"));
-        System.out.println(headers.toString());
-        return ResponseEntity.ok(coupleService.coupleCteate(emailA, emailB));
+    public ResponseEntity<?> createCouple(@RequestParam String emailA, @RequestParam String emailB) {
+
+        System.out.println(emailA + " " + emailB);
+        System.out.println("create 시작");
+        coupleService.coupleCteate(emailA,emailB);
+
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
     @GetMapping("/main")
