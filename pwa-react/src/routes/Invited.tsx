@@ -6,6 +6,7 @@ import { Wrapper } from "../styles/Invite/Compos";
 import { LongButton } from "../styles/Invite/UI";
 import useAuthStore from "../stores/AuthStore";
 import useUserStore from "../stores/UserStore";
+import { parseJwt } from "../util/token";
 
 function Invited() {
   const navigate = useNavigate();
@@ -32,14 +33,18 @@ function Invited() {
       },
     });
 
-    // setCoupleId(res.data.coupleId);
-    // await axios({
-    //   url: `${PATH}/chat/create`,
-    //   method: "POST",
-    //   params: {
-    //     coupleId: res.data.coupleId,
-    //   },
-    // });
+    setCoupleId(res.data.coupleId);
+
+    await axios({
+      url: `${PATH}/chat/create`,
+      method: "POST",
+      params: {
+        coupleId: res.data.coupleId,
+      },
+      headers: {
+        Authorization: token,
+      },
+    });
     navigate("/");
   };
 

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { LoginBox } from "../../styles/Login/Login";
+import { parseJwt } from "../../util/token";
 
 import useAuthStore from "../../stores/AuthStore";
 import useUserStore from "../../stores/UserStore";
@@ -11,9 +12,9 @@ const LoginForm = () => {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
 
-  const { login, PATH, setToken } = useAuthStore();
-  const { setUser } = useUserStore();
+  const { login, PATH, setToken, token } = useAuthStore();
   const navigate = useNavigate();
+  const { setUser } = useUserStore();
   const path = useLocation();
 
   const changeId = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,6 +44,10 @@ const LoginForm = () => {
         setToken(response.headers.authorization);
 
         login();
+
+        const userData = parseJwt(response.headers.authorization);
+        setUser(userData);
+
         path.search && path.search === "?redirect"
           ? navigate(-1)
           : navigate("/");
