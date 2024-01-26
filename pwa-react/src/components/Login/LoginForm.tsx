@@ -46,7 +46,6 @@ const LoginForm = () => {
         login();
 
         const userData = parseJwt(response.headers.authorization);
-        console.log(userData);
         setUser(userData);
 
         path.search && path.search === "?redirect"
