@@ -7,9 +7,11 @@ import com.ssafy.spyfamily.diary.repository.DiaryRepository;
 import com.ssafy.spyfamily.util.FileUtil;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class DiaryServiceImpl implements DiaryService{
@@ -80,6 +82,21 @@ public class DiaryServiceImpl implements DiaryService{
 
     @Override
     public void deleteDiary(Integer diaryId) {
+        try {
+            fileUtil.deleteFile(getDiary(diaryId));
+            System.out.println("다이어리 사진 삭제(서버) 성공");
+        } catch (IOException e) {
+            System.out.println("다이어리 사진 삭제(서버) 실패");
+            throw new RuntimeException(e);
+        }
         diaryRepository.deleteById(diaryId);
+        System.out.println("다이어리 사진 삭제 단계(DB) 성공");
     }
+
+    @Override
+    public Optional<Diary> getDiary(Integer diaryId) {
+        return diaryRepository.findById(diaryId);
+    }
+
+
 }

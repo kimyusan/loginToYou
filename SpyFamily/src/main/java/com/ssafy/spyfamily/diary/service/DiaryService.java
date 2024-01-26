@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public interface DiaryService {
@@ -23,4 +24,6 @@ public interface DiaryService {
     ArrayList<Diary> diaryList(Integer coupleId);
 
     void deleteDiary(Integer diaryId);
+
+    Optional<Diary> getDiary(Integer diaryId);
 }
