@@ -88,10 +88,14 @@ public class WebSecurityConfig {
 
         http
                 .httpBasic((auth) -> auth.disable());
+        http
+                .headers(headers -> headers
+                        .frameOptions(frameOptions -> frameOptions.sameOrigin())
+                );
 
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/login","/user/login/*", "/", "/signup", "/user/login/google","/user/update", "user/info").permitAll()
+                        .requestMatchers("/login","/user/login/*", "/", "/signup", "/login/google","/user/update", "user/info").permitAll()
                         .anyRequest().authenticated());
 
 

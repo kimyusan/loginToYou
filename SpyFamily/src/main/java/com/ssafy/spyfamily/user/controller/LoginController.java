@@ -7,6 +7,7 @@ import com.ssafy.spyfamily.user.service.UserServiceImpl;
 import com.ssafy.spyfamily.util.JWTUtil;
 import com.ssafy.spyfamily.util.JsonUtil;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -67,7 +68,7 @@ public class LoginController {
      */
     @PostMapping("/login/google")
 
-    public ResponseEntity<?> googleLoginPost(@RequestParam(name="access_Token") String access_Token, HttpServletResponse response) {
+    public ResponseEntity<User> googleLoginPost(@RequestParam(name="access_Token") String access_Token) {
         try {
             // Google API로부터 사용자 정보 얻기
             UserInfo googleUser = userService.getGoogleUserInfo(access_Token);
@@ -75,14 +76,22 @@ public class LoginController {
             // 해당 유저가 가입했는지 확인하기
             String email = googleUser.getEmail();
             User user = userService.getUserByEmail(email);
+
+            System.out.println(user.toString());
             // 사용자 정보가 있다면 해당 유저 정보 리턴해주기
+
             if(user != null) {
 
                 String token = jwtUtil.createJwt(user.getEmail(), user.getRole(), user.getUserId(),user.getCoupleId(),user.getName(),60*60*60*60*10L);
+                System.out.println("token 생성 완료" + token);
+                HttpHeaders httpHeaders = new HttpHeaders();
+                httpHeaders.add("Authorization", "Bearer " + token);
 
-                response.addHeader("Authorization", "Bearer " + token);
+                System.out.println("http헤더" + httpHeaders.toString());
+               // response.addHeader("Authorization", "Bearer " + token);
 
-                return new ResponseEntity<User>(user, HttpStatus.OK);
+                return ResponseEntity.ok().headers(httpHeaders).body(user);
+             //   return new ResponseEntity<User>(user, httpHeaders, HttpStatus.OK);
             }
 
 
