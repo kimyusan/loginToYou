@@ -22,15 +22,22 @@ function CoupleInfo() {
     state.startDate && setStartDate(state.startDate);
   }, []);
 
+  const changeCouple = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+  };
+
   return (
     <>
       <BurgerButton onClick={toggleNav}>☰</BurgerButton>
       <Navbar isOpen={isNavigationOpen} />
       <UserInfoBox>
         <h3>커플 정보 수정</h3>
-        <form>
+        <form onSubmit={changeCouple}>
           <CoupleInfoName cpName={cpName} setCpName={setCpName} />
-          <CoupleInfoCalendar />
+          <CoupleInfoCalendar
+            startDate={startDate}
+            setStartDate={setStartDate}
+          />
           <SaveButton>변경하기</SaveButton>
         </form>
       </UserInfoBox>

@@ -33,7 +33,24 @@ export const NameInput = styled.input`
 `;
 
 export const CalendarInput = styled(TextField)`
-  &[type="date"] {
-    width: 100%;
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid #ff95aa;
+
+  & fieldset {
+    border: none;
+    border-bottom: 2px solid #ff95aa;
+  }
+
+  & .MuiOutlinedInput-root {
+    & fieldset {
+      border-color: #ff95aa;
+    }
+    &:hover fieldset {
+      border-color: #ff95aa;
+    }
+    &.Mui-focused fieldset {
+      border-color: #ff95aa;
+    }
   }
 `;
