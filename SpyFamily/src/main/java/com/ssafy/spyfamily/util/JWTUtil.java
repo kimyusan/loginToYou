@@ -41,9 +41,7 @@ public class JWTUtil {
                 .claim("username", username)
                 .claim("role", role)
                 .claim("userId",userId)
-
                 .claim("coupleId",coupleId)
-
                 .claim("name" , name)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expiredMs))
