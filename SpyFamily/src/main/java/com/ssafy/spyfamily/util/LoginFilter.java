@@ -58,11 +58,11 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         int coupleId = customUserDetails.getCoupleId();
         int userId = customUserDetails.getUserId();
-
+        String name = customUserDetails.getName();
 //        String role = "ROLE_USER";
 
 
-        String token = jwtUtil.createJwt(username, role, userId , coupleId, 60*60*60*60*10L);
+        String token = jwtUtil.createJwt(username, role, userId , coupleId, name , 60*60*60*60*10L);
 
         response.addHeader("Authorization", "Bearer " + token);
     }
