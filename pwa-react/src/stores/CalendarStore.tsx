@@ -120,19 +120,23 @@ export const CalendarStore = create(
 
       updateEventToServer: (editEvent, coupleId) => {
         axios
-          .put("http://localhost:8080/calendar/update", {
-            calendarId: editEvent.id,
-            coupleId: coupleId,
-            userId: 1,
-            startDate: editEvent.start,
-            endDate: editEvent.end,
-            eventType: null,
-            contents: editEvent.title,
-          }, {
-            headers: {
-              Authorization: useAuthStore.getState().token
+          .put(
+            "http://localhost:8080/calendar/update",
+            {
+              calendarId: editEvent.id,
+              coupleId: coupleId,
+              userId: 1,
+              startDate: editEvent.start,
+              endDate: editEvent.end,
+              eventType: null,
+              contents: editEvent.title,
+            },
+            {
+              headers: {
+                Authorization: useAuthStore.getState().token,
+              },
             }
-          })
+          )
           .then((response) => {
             console.log(response);
             set({ isEdit: false });
@@ -147,8 +151,8 @@ export const CalendarStore = create(
           .delete("http://localhost:8080/calendar/delete", {
             params: { calenderId: calendar_id },
             headers: {
-              Authorization: useAuthStore.getState().token
-            }
+              Authorization: useAuthStore.getState().token,
+            },
           })
           .then((response) => {
             console.log(response);

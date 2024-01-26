@@ -53,9 +53,10 @@ const Main = () => {
         Authorization: token,
       },
       params: {
-        coupleId: coupleId,
+        coupleId: 1,
       },
     });
+    console.log(res);
     setCp1(res.data[0]);
     setCp2(res.data[1]);
     setCpInfo(res.data[2]);
