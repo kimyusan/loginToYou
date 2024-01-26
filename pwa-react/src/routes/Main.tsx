@@ -22,7 +22,7 @@ import useUserStore from "../stores/UserStore";
 
 const Main = () => {
   const { id } = useParams();
-  const { PATH } = useAuthStore();
+  const { PATH, token } = useAuthStore();
   const { coupleId } = useUserStore();
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const [cp1, setCp1] = useState<UserInterface>();
@@ -49,6 +49,9 @@ const Main = () => {
     const res = await axios({
       url: `${PATH}/couple/main`,
       method: "GET",
+      headers: {
+        Authorization: token,
+      },
       params: {
         coupleId: coupleId,
       },
