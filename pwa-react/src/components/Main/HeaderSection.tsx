@@ -23,10 +23,12 @@ const HeaderSection = ({ cp1, cp2, cpInfo }: Props) => {
   const [dDay, setDday] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
+  const { startDate, setStartDate } = useUserStore();
+
   const getDday = () => {
     if (!cpInfo) return;
     if (!cpInfo.startDate) {
-      setDday("우리가 시작한 날짜를 입력해주세요.");
+      setDday("디데이 시작하기");
       return;
     }
 
@@ -41,9 +43,15 @@ const HeaderSection = ({ cp1, cp2, cpInfo }: Props) => {
     setDday(Math.round((today - date) / 1000 / 60 / 60 / 24).toString());
   };
 
+  const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    
+    setIsOpen(false);
+  };
+
   useEffect(() => {
     getDday();
-  }, [cpInfo?.startDate]);
+  }, [cpInfo]);
 
   return (
     <Header>
@@ -62,10 +70,16 @@ const HeaderSection = ({ cp1, cp2, cpInfo }: Props) => {
         ariaHideApp={false}
         shouldCloseOnOverlayClick={true}
       >
-        <DdayForm>
+        <DdayForm onSubmit={handleSubmit}>
           <p>디데이 설정하기</p>
-          <DdayInput type="date" />
-          <SaveDday variant="contained">Contained</SaveDday>
+          <DdayInput
+            type="date"
+            value={dDay}
+            onChange={(event) => setDday(event.target.value)}
+          />
+          <SaveDday variant="contained" type="submit">
+            저장
+          </SaveDday>
         </DdayForm>
       </DdayModal>
     </Header>
