@@ -61,7 +61,7 @@ export const CalendarStore = create(
             params: { coupleId: coupleId },
           })
           .then((response) => {
-            console.log(response);
+            // console.log(response);
 
             const fullEvents: Event[] = response.data.map(
               (item: {
