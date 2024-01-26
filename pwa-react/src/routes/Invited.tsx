@@ -6,6 +6,7 @@ import { Wrapper } from "../styles/Invite/Compos";
 import { LongButton } from "../styles/Invite/UI";
 import useAuthStore from "../stores/AuthStore";
 import useUserStore from "../stores/UserStore";
+import { parseJwt } from "../util/token";
 
 function Invited() {
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ function Invited() {
         Authorization: token,
       },
     });
+    console.log(token ? parseJwt(token) : null);
 
     // setCoupleId(res.data.coupleId);
     // await axios({
@@ -40,7 +42,7 @@ function Invited() {
     //     coupleId: res.data.coupleId,
     //   },
     // });
-    navigate("/");
+    // navigate("/");
   };
 
   return (
