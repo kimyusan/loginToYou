@@ -11,7 +11,6 @@ import {
 import { UserInterface, CoupleInterface } from "../interface/UserInterface";
 
 import { BurgerButton } from "../styles/common/hamburger";
-
 import Navbar from "../components/Navbar";
 import HeaderSection from "../components/Main/HeaderSection";
 import { Card } from "../styles/common/card";
