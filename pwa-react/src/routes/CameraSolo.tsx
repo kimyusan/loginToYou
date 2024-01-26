@@ -86,9 +86,13 @@ const CameraSolo: React.FC = () => {
         console.error('Unable to get the blob from the canvas');
       }
     }, 'image/png');
+    
+    const data = {
+      coupleId: coupleId,
+      subject: ImageContent,
+    }
 
-    formData.append("coupleId", `${coupleId}`)
-    formData.append("subject", ImageContent)
+    formData.append("diary", JSON.stringify(data))
 
     axios.post(`${PATH}/diary/upload`,formData)
       .then((res) => console.log("사진 저장 성공"))
