@@ -1,18 +1,17 @@
-import useUserStore from '../../stores/UserStore'
-
 import { Diary } from '../../styles/Diary/DiaryBox'
 import Card from '@mui/material/Card';
 
+import DiaryDetail from './DiaryDetail';
 const DiaryBox = () => {
-  const { name } = useUserStore();
+  
 
   return (
     <Diary>
       <Card className='item'>
-        {name} 일기 쓰기
+        <DiaryDetail></DiaryDetail>
       </Card>
       <Card className='item'>
-        {name} 일기 쓰기
+        <DiaryDetail></DiaryDetail>
       </Card>
     </Diary>
   )

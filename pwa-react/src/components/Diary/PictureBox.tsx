@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
-import { Pictures, PicItem } from '../../styles/Diary/PictureBox';
+import React, { useState } from "react";
+import { Pictures, PicItem } from "../../styles/Diary/PictureBox";
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 
 const PictureBox = () => {
-  const a = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,3,3];
+  const a = [
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    3, 3, 3, 3, 3,
+  ];
   const [x, setX] = useState(0);
 
   const goLeft = () => {
@@ -20,10 +23,18 @@ const PictureBox = () => {
       <PicItem>
         {a.map((item, idx) => {
           const middleIdx = -(x / 100) + 1;
-          const className = idx === middleIdx ? 'slide middle' : 'slide'
+          const className = idx === middleIdx ? "slide middle" : "slide";
           return (
-            <div key={idx} className={className} style={{ transform: `translateX(${x}%)` }}>
-              {idx+1}
+            <div
+              key={idx}
+              className={className}
+              style={
+                className === "slide middle"
+                  ? { transform: `translateX(${x}%) scale(1.7)` }
+                  : { transform: `translateX(${x}%)` }
+              }
+            >
+              {idx + 1}
             </div>
           );
         })}
