@@ -6,7 +6,8 @@ const DaySelect = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 15%;
-
+  background-color: #F9F9F9;
+  
   & .subBox {
     display: flex;
     flex-direction: row;
@@ -21,18 +22,4 @@ const DaySelect = styled.div`
   }
 `
 
-const SeeDiary = styled.div`
-  width: 100%;
-  height: auto;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin-top: 20px;
-
-  & .v-line {
-    border-left : 2px solid #ffd1da;
-    height : auto;
-  }
-`
-
-export {DaySelect, SeeDiary}
+export {DaySelect}
