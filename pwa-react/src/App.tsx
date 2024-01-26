@@ -19,6 +19,7 @@ import UserInfo from "./routes/UserInfo";
 import CoupleInfo from "./routes/CoupleInfo";
 import Chat from "./routes/Chat";
 import Diary from "./routes/Diary";
+import Question from "./routes/Question";
 
 function App() {
   const { isLogIn } = useAuthStore();
@@ -63,6 +64,7 @@ function App() {
           ></Route>
           <Route path="/chat/:room_id" element={<Chat />}></Route>
           <Route path="/diary" element={<Diary />}></Route>
+          <Route path="/question" element={<Question />}></Route>
         </Routes>
       </div>
     </BrowserRouter>

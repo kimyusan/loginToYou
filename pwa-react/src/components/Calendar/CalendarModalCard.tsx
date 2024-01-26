@@ -23,7 +23,7 @@ const CalendarModalCard = () => {
   const [start, setStart] = useState("");
   const [end, setEnd] = useState("");
   const [content, setContent] = useState("");
-  const [errorAlert, setErrorAlert] = useState(false);
+  const [errorAlert, setErrorAlert] = useState<string | null>(null);
 
   // 2024-01-24 형식의 문자열로 들어오는 날짜를 Date객체 형식으로 변환하는 함수
   const toDate = (date: string) => {
@@ -40,11 +40,20 @@ const CalendarModalCard = () => {
 
   const handleSaveEvent = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
+    let currentEnd = new Date(end);
+    currentEnd.setDate(currentEnd.getDate() + 1);
+    let nextEnd = currentEnd.toISOString().split("T")[0];
+
     const startDate = start;
-    const endDate = end;
+    const endDate = nextEnd;
     const title = content;
+
     if (toDate(startDate) > toDate(endDate)) {
-      setErrorAlert(true);
+      setErrorAlert("dateError");
+      return;
+    }
+    if (title.length === 0) {
+      setErrorAlert("contentError");
       return;
     }
 
@@ -79,11 +88,11 @@ const CalendarModalCard = () => {
 
   useEffect(() => {
     if (toDate(start) > toDate(end)) {
-      setErrorAlert(true);
+      setErrorAlert("dateError");
     } else {
-      setErrorAlert(false);
+      setErrorAlert(null);
     }
-  }, [start, end]);
+  }, [start, end, content]);
 
   useEffect(() => {
     if (isEdit) {
@@ -111,14 +120,20 @@ const CalendarModalCard = () => {
           severity="error"
           style={{
             transition: "transform 0.5s",
-            transform: errorAlert ? "translateY(-100%)" : "translateY(-100%)",
+            transform: errorAlert ? "translateY(0)" : "translateY(-100%)",
             visibility: errorAlert ? "visible" : "hidden",
             position: "absolute",
             zIndex: "1000",
             width: "70%",
           }}
         >
-          날짜를 확인하세요!
+          {errorAlert === "dateError" ? (
+            <span>날짜를 확인하세요</span>
+          ) : errorAlert === "contentError" ? (
+            <span>내용을 확인하세요</span>
+          ) : (
+            ""
+          )}
         </Alert>
         {isEdit ? <h4>일정 수정하기</h4> : <h4>일정 추가하기</h4>}
         <hr />
