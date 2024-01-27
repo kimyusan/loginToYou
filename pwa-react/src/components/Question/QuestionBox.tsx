@@ -20,13 +20,18 @@ const QuestionBox = (props: Props) => {
         <p className="question">
           {todayMonth}/{todayDate} 오늘의 질문
         </p>
-        <p>어쩌구 저쩌구에 대해서 어떻게 생각해?</p>
+        <p>A에 대해서 어떻게 생각해?</p>
         <div className="btn_container">
           <SaveButton variant="contained" onClick={handleModal}>
-            답변하기
+            답변 작성하기
           </SaveButton>
         </div>
-        <QuestionModal isOpen={isOpen} handleModal={handleModal} />
+        <QuestionModal
+          isOpen={isOpen}
+          handleModal={handleModal}
+          todayMonth={todayMonth}
+          todayDate={todayDate}
+        />
       </QBox>
     </>
   );

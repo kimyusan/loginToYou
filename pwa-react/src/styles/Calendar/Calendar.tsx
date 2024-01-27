@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Modal from "react-modal";
+import { TextField } from "@mui/material";
 
 const Wrapper = styled.div`
   .fiSDCT {
@@ -44,8 +45,8 @@ const CalendarModal = styled(Modal)`
   padding: 7%;
   position: fixed;
   width: 65%;
-  height: 40%;
-  top: 50%;
+  height: 45%;
+  top: 60%;
   left: 50%;
   transform: translate(-50%, -110%);
   transition: transform 0.3s ease-in-out;
@@ -70,6 +71,32 @@ const CalendarModal = styled(Modal)`
     padding: 3% 10%;
     font-size: 1rem;
   }
+  p {
+    margin: 0;
+    margin-bottom: 3%;
+  }
+`;
+
+const DateInput = styled(TextField)`
+  display: block !important;
+  margin-bottom: 3% !important;
+  div {
+    width: 100% !important;
+  }
+  input {
+    padding: 3% !important;
+  }
+`;
+
+const TitleInput = styled(TextField)`
+  margin-top: 12% !important;
+  display: block !important;
+  div {
+    width: 100% !important;
+  }
+  input {
+    padding: 3% !important;
+  }
 `;
 
 const ListWrapper = styled.div`
@@ -91,4 +118,11 @@ const ListWrapper = styled.div`
   }
 `;
 
-export { Wrapper, MyCalendar, CalendarModal, ListWrapper };
+export {
+  Wrapper,
+  MyCalendar,
+  CalendarModal,
+  DateInput,
+  TitleInput,
+  ListWrapper,
+};
