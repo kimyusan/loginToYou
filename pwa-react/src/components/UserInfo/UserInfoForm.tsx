@@ -11,6 +11,7 @@ import {
 import useAuthStore from "../../stores/AuthStore";
 import useUserStore from "../../stores/UserStore";
 import { height } from "@mui/system";
+import { SlEarphones } from "react-icons/sl";
 
 type Props = {};
 
@@ -18,8 +19,8 @@ const UserInfoForm = (props: Props) => {
   const user = useUserStore();
   const defaultProfile =
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
-  const [profileImage, setprofileImage] = useState(defaultProfile);
-  const [uploadFile, setUploadFile] = useState<any>(null);
+  const [profileImage, setprofileImage] = useState(user.profileImage as string);
+  const [profileFile, setProfileFile] = useState<any>(user.profileImage);
   const [nickname, setNickname] = useState(user.nickname);
   const [phoneNumber, setPhoneNumber] = useState(user.mobile as string);
   const [birth, setBirth] = useState(user.birthday);
@@ -34,22 +35,22 @@ const UserInfoForm = (props: Props) => {
 
   const uploadImg = (event: any) => {
     const { files } = event.target;
-    // const uploadFile = files[0]
-    // console.log(typeof uploadFile)
-    setUploadFile(files[0]);
+    const uploadFile = files[0];
+    setProfileFile(files[0]);
     const reader = new FileReader();
     if (uploadFile) {
       reader.readAsDataURL(uploadFile);
       reader.onloadend = () => {
         const result = reader.result as string;
         setprofileImage(result);
+        user.setProfileImage(result);
       };
     }
   };
 
   const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (phoneNumber.length !== 13) {
+    if (phoneNumber?.length !== 13) {
       return;
     }
     axios
@@ -74,10 +75,9 @@ const UserInfoForm = (props: Props) => {
 
     if (profileImage !== defaultProfile) {
       const formData = new FormData();
-      formData.append("imgInfo", uploadFile);
+      formData.append("imgInfo", profileFile);
       const data = {
         userId: user.userId,
-        subject: uploadFile,
       };
       formData.append("profileImg", JSON.stringify(data));
 
