@@ -23,6 +23,7 @@ const Calendar = (props: Props) => {
 
   const {
     openModal,
+    closeModal,
     isOpen,
     isEdit,
     isDelete,
@@ -58,6 +59,10 @@ const Calendar = (props: Props) => {
     getEventsFromServer(coupleId as number);
   }, [isEdit, isDelete]);
 
+  useEffect(() => {
+    closeModal();
+  },[]);
+
   return (
     <>
       <BurgerButton onClick={toggleNav}>☰</BurgerButton>
@@ -86,7 +91,6 @@ const Calendar = (props: Props) => {
             eventBackgroundColor="pink"
             eventBorderColor="pink"
             defaultAllDay={true}
-            
           />
         </MyCalendar>
         <CalendarModalCard />

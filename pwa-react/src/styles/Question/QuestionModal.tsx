@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Modal from "react-modal";
+import { TextField } from "@mui/material";
 
 const QModal = styled(Modal)`
   z-index: 1;
@@ -16,6 +17,21 @@ const QModal = styled(Modal)`
   &.ReactModal__Content--after-open {
     transform: translate(-50%, -100%);
   }
+  .today {
+    margin: 0;
+  }
+  .question {
+    font-size: 1.2rem;
+  }
 `;
 
-export { QModal };
+const AnswerInput = styled(TextField)`
+  display: block !important;
+  div {
+    width: 100% !important;
+  }
+`;
+
+
+
+export { QModal, AnswerInput };

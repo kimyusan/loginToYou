@@ -1,12 +1,20 @@
 import React from "react";
-import { QModal } from "../../styles/Question/QuestionModal";
+import { QModal, AnswerInput } from "../../styles/Question/QuestionModal";
+import { SaveButton } from "../../styles/Question/Question";
 
 type Props = {
   isOpen: boolean;
+  todayMonth: string;
+  todayDate: string;
   handleModal: () => void;
 };
 
-const QuestionModal = ({ isOpen, handleModal }: Props) => {
+const QuestionModal = ({
+  isOpen,
+  handleModal,
+  todayMonth,
+  todayDate,
+}: Props) => {
   return (
     <>
       <QModal
@@ -15,7 +23,18 @@ const QuestionModal = ({ isOpen, handleModal }: Props) => {
         ariaHideApp={false}
         shouldCloseOnOverlayClick={true}
       >
-        QuestionModal
+        <p className="today">
+          {todayMonth}/{todayDate}
+        </p>
+        <p className="question">A에 대해서 어떻게 생각해?</p>
+        <AnswerInput multiline rows={4} />
+        <SaveButton
+          variant="contained"
+          onClick={handleModal}
+          style={{ marginTop: "10%"}}
+        >
+          저장하기
+        </SaveButton>
       </QModal>
     </>
   );

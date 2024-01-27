@@ -1,6 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { CalendarStore } from "../../stores/CalendarStore";
-import { CalendarModal } from "../../styles/Calendar/Calendar";
+import {
+  CalendarModal,
+  DateInput,
+  TitleInput,
+} from "../../styles/Calendar/Calendar";
 import useUserStore from "../../stores/UserStore";
 import { Alert } from "@mui/material";
 
@@ -38,16 +42,33 @@ const CalendarModalCard = () => {
     );
   };
 
+  // FullCalendar 종료날짜 이슈로, 데이터베이스에 저장할 때 종료날짜에 +1일 하여 저장할것임
+  // 종료날짜에 +1일하는 함수
+  const addOneDay = (date: string) => {
+    if (date?.length < 1) {
+      return date;
+    } else {
+      let currentEnd = new Date(date);
+      currentEnd.setDate(currentEnd.getDate() + 1);
+      let nextEnd = currentEnd.toISOString().split("T")[0];
+      return nextEnd;
+    }
+  };
+
   const handleSaveEvent = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    let currentEnd = new Date(end);
-    currentEnd.setDate(currentEnd.getDate() + 1);
-    let nextEnd = currentEnd.toISOString().split("T")[0];
+
+    // 시작날짜 미입력시 에러 alert , return
+    if (start?.length === 0) {
+      setErrorAlert("dateError");
+      return;
+    }
 
     const startDate = start;
-    const endDate = nextEnd;
+    const endDate = addOneDay(end);
     const title = content;
 
+    // 시작날짜가 종료날짜보다 큰 경우 에러 alert , return
     if (toDate(startDate) > toDate(endDate)) {
       setErrorAlert("dateError");
       return;
@@ -139,23 +160,19 @@ const CalendarModalCard = () => {
         <hr />
         <form onSubmit={handleSaveEvent}>
           <div>
-            <p>
-              시작날짜
-              <input
-                type="date"
-                onChange={(e) => setStart(e.target.value)}
-                value={start}
-              />
-            </p>
-            <p>
-              종료날짜
-              <input
-                type="date"
-                onChange={(e) => setEnd(e.target.value)}
-                value={end}
-              />
-            </p>
-            <input
+            <p>시작날짜</p>
+            <DateInput
+              type="date"
+              onChange={(e) => setStart(e.target.value)}
+              value={start}
+            />
+            <p>종료날짜</p>
+            <DateInput
+              type="date"
+              onChange={(e) => setEnd(e.target.value)}
+              value={end}
+            />
+            <TitleInput
               className="title_box"
               onChange={(e) => setContent(e.target.value)}
               value={content}
