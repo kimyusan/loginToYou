@@ -22,6 +22,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -156,7 +157,10 @@ public class DiaryController {
     @DeleteMapping("/delete")
     public ResponseEntity<?> deleteDiary(@RequestParam Integer diaryId) {
         try {
+            Optional<Diary> diary = diaryService.getDiary(diaryId);
             diaryService.deleteDiary(diaryId);
+
+            System.out.println("다이어리 사진 삭제 성공");
             return new ResponseEntity<Void>(HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

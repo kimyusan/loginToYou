@@ -108,7 +108,7 @@ const UserInfoForm = (props: Props) => {
         .replace(/-/g, "")
         .replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
       setErrorAlert(false);
-    } else if (phoneNumber.length > 13) {
+    } else if (phoneNumber?.length > 13) {
       setErrorAlert(true);
     }
     setSuccessAlert(false);

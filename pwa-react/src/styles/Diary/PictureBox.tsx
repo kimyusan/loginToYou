@@ -4,45 +4,61 @@ const Pictures = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: auto;
-  margin-top: 50px;
+  height: 70vh;
+  background-color: #F9F9F9;
 `;
 
 const PicItem = styled.div`
-  width: 80%;
+  width: 82%;
   display: flex;
   flex-direction: row;
   justify-content: start;
+  align-items: center;
   overflow: hidden;
+  height: 100%;
 
   & .slide {
     flex: 0 0 33.3333%;
     height: 230px;
     position: relative;
     text-align: center;
-    align-items: center;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     opacity: 1;
     margin-top: 10%;
+    border: 1px solid #cecece;
 
-    background-image: url("https://img.khan.co.kr/news/2023/01/02/news-p.v1.20230102.1f95577a65fc42a79ae7f990b39e7c21_P1.webp");
-    background-size: cover;
-    background-repeat: no-repeat;
     transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-    filter: blur(3px);
-    -webkit-filter: blur(3px);
+    filter: blur(1px);
+    -webkit-filter: blur(1px);
+    background-color: white;
   }
 
   & .middle {
-    /* background-color: tomato; */
-    /* height: 400px !important; */
-    background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/170924_%ED%91%B8%EB%93%9C%ED%8A%B8%EB%9F%AD%EC%9D%B4%EB%B2%A4%ED%8A%B8.jpg/250px-170924_%ED%91%B8%EB%93%9C%ED%8A%B8%EB%9F%AD%EC%9D%B4%EB%B2%A4%ED%8A%B8.jpg");
-    z-index: 10000000;
+    z-index: 1;
     height: 250px;
     filter: blur(0px);
     -webkit-filter: blur(0px);
   }
 `;
 
-export { Pictures, PicItem };
+const PicBox = styled.div`
+  width: 90%;
+  height: 85%;
+  border: 1px solid #cecece;
+  margin-top: 8%;
+  background-color: lightgray;
+  background-image: url("https://img.khan.co.kr/news/2023/01/02/news-p.v1.20230102.1f95577a65fc42a79ae7f990b39e7c21_P1.webp");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+`
+
+const PicContent = styled.div`
+  text-align: center;
+  width: 90%;
+  font-size: 12px;
+  padding: 10px;
+`
+export { Pictures, PicItem,PicBox,PicContent };
