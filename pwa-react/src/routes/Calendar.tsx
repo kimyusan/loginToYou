@@ -31,7 +31,8 @@ const Calendar = (props: Props) => {
     getEventsFromServer,
   } = CalendarStore();
 
-  const { coupleId } = useUserStore();
+  console.log(useUserStore.getState());
+  const coupleId = useUserStore.getState().coupleId;
 
   const [currentMonth, setCurrentMonth] = useState(0);
 

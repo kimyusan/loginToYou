@@ -42,13 +42,13 @@ function Chat() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
+  // 소켓 연결 함수
   const connectHandler = () => {
     client.current = Stomp.over(() => {
-      const sock = new SockJS(`${PATH}/ws-stomp`, null, 
-        );
+      const sock = new SockJS(`${PATH}/ws-stomp`, null);
       return sock;
     });
-    
+
     client.current.connect(
       {
         Authorization: token,
