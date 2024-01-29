@@ -47,11 +47,11 @@ public class JWTUtil {
                 .claim("name" , name)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expiredMs))
-                .signWith(secretKey)
+                .signWith(                   secretKey)
                 .compact();
     }
 
-///////////////////////////////////////////////////////////////////////////
+
     /**
      * Jwt Token을 복호화 하여 이름을 얻는다.
      */

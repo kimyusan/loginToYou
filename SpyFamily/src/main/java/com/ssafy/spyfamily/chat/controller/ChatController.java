@@ -29,7 +29,10 @@ public class ChatController {
     @MessageMapping("/chat/message")
     public void message(ChatMessage message, @Header("Authorization") String authorization) {
 
+        System.out.println("/chat/message 입장");
         String nicname = jwtUtil.getUsername(authorization);
+
+        System.out.println(nicname);
         if (ChatMessage.MessageType.ENTER.equals(message.getType()))
             message.setMessage(nicname + "님이 입장하셨습니다.");
 

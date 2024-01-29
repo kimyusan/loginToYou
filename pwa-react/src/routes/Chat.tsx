@@ -6,6 +6,7 @@ import { CompatClient, Stomp } from "@stomp/stompjs";
 
 import useUserStore from "../stores/UserStore";
 import useAuthStore from "../stores/AuthStore";
+import { useShallow } from "zustand/react/shallow";
 
 import { Header, Wrapper, InputForm } from "../styles/Chat/UI";
 import { GoArrowLeft } from "react-icons/go";
@@ -23,8 +24,19 @@ function Chat() {
   const [messages, setMessages] = useState<MessageInterface[] | null>([]);
   const [message, setMessage] = useState("");
   const client = useRef<CompatClient>();
-  const { PATH, token } = useAuthStore();
-  const { coupleId, userId, name } = useUserStore();
+  const { PATH, token } = useAuthStore(
+    useShallow((state) => ({
+      PATH: state.PATH,
+      token: state.token,
+    }))
+  );
+  const { coupleId, userId, name } = useUserStore(
+    useShallow((state) => ({
+      userId: state.userId,
+      coupleId: state.coupleId,
+      name: state.name,
+    }))
+  );
   const { room_id } = useParams();
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -32,24 +44,32 @@ function Chat() {
 
   const connectHandler = () => {
     client.current = Stomp.over(() => {
-      const sock = new SockJS(`${PATH}/ws-stomp`);
+      const sock = new SockJS(`${PATH}/ws-stomp`, null, 
+        );
       return sock;
     });
 
     client.current.connect(
       {
-        Authorization: useAuthStore.getState().token,
+        Authorization: token,
       },
       () => {
         if (!client.current) return;
+        if (!token) return;
         // 신규 메세지 체크
-        client.current.subscribe(`/sub/chat/room/${room_id}`, (msg) => {
-          if (!msg.body) return;
-          let newMsg = JSON.parse(msg.body);
-          setMessages((messages) => {
-            return messages ? [...messages, newMsg] : null;
-          });
-        });
+        client.current.subscribe(
+          `/sub/chat/room/${room_id}`,
+          (msg) => {
+            if (!msg.body) return;
+            let newMsg = JSON.parse(msg.body);
+            setMessages((messages) => {
+              return messages ? [...messages, newMsg] : null;
+            });
+          },
+          {
+            Authorization: token,
+          }
+        );
       }
     );
   };
@@ -72,7 +92,9 @@ function Chat() {
     if (message == "") return;
     client.current.send(
       `/pub/chat/message`,
-      {},
+      {
+        Authorization: token,
+      },
       JSON.stringify({
         type: "TALK",
         roomId: room_id,
@@ -93,7 +115,7 @@ function Chat() {
         roomId: room_id,
       },
       headers: {
-        Authorization: useAuthStore.getState().token,
+        Authorization: token,
       },
     });
     setMessages(res.data);

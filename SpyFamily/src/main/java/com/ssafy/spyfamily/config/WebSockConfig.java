@@ -3,11 +3,17 @@ package com.ssafy.spyfamily.config;
 import com.ssafy.spyfamily.handler.StompHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
+
+import java.util.Map;
 
 @Configuration
 @EnableWebSocketMessageBroker
@@ -24,14 +30,15 @@ public class WebSockConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-
+        System.out.println("stompendpoint 설정");
         registry.addEndpoint("/ws-stomp").setAllowedOrigins("http://localhost:3000")
                 .withSockJS();
     }
 
-    //stomp핸들러가 websocket 앞단에서 token체크 
+    // stomp핸들러가 websocket 앞단에서 token체크
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
+        // System.out.println("//stomp핸들러가 websocket 앞단에서 token체크");
         registration.interceptors(stompHandler);
     }
 
