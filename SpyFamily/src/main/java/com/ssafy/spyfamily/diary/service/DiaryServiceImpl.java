@@ -39,6 +39,7 @@ public class DiaryServiceImpl implements DiaryService{
             list.add(diaryMemoRepository.findByDiaryId(diaryId, userIdA));
         } else {
             DiaryMemo diaryMemo = new DiaryMemo();
+            diaryMemo.setUserId(userIdA);
             list.add(diaryMemo);
         }
 
@@ -46,6 +47,7 @@ public class DiaryServiceImpl implements DiaryService{
             list.add(diaryMemoRepository.findByDiaryId(diaryId, userIdB));
         } else {
             DiaryMemo diaryMemo = new DiaryMemo();
+            diaryMemo.setUserId(userIdB);
             list.add(diaryMemo);
         }
 
