@@ -44,9 +44,9 @@ const MiddleLogin = () => {
       const provider = state ? "naver" : "kakao";
       const apiUrl =
         provider === "naver"
-          ? `${PATH}/user/login/naver`
+          ? `${PATH}/login/naver`
           : provider === "kakao"
-          ? `${PATH}/user/login/kakao`
+          ? `${PATH}/login/kakao`
           : null;
 
       if (apiUrl) {
