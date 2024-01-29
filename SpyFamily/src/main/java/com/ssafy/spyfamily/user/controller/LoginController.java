@@ -79,7 +79,7 @@ public class LoginController {
 
             //System.out.println(user.toString());
             // 사용자 정보가 있다면 해당 유저 정보 리턴해주기
-
+            System.out.println("구글로그인 시작");
             if(user != null) {
 
                 String token = jwtUtil.createJwt(user.getEmail(), user.getRole(), user.getUserId(),user.getCoupleId(),user.getName(),60*60*60*60*10L);
@@ -141,8 +141,20 @@ public class LoginController {
             String email = userData.get("email");
             User user = userService.getUserByEmail(email);
             // 사용자 정보가 있다면 해당 유저 정보 리턴해주기
+
+
+
             if(user != null) {
-                return new ResponseEntity<User>(user, HttpStatus.OK);
+                String jwtToken = jwtUtil.createJwt(user.getEmail(), user.getRole(), user.getUserId(),user.getCoupleId(),user.getName(),60*60*60*60*10L);
+                System.out.println("token 생성 완료" + jwtToken);
+                HttpHeaders httpHeaders = new HttpHeaders();
+                httpHeaders.add("Authorization", "Bearer " + jwtToken);
+
+                System.out.println("http헤더" + httpHeaders.toString());
+                // response.addHeader("Authorization", "Bearer " + token);
+
+                return ResponseEntity.ok().headers(httpHeaders).body(user);
+
             }
 
             // 사용자 정보가 없다면 회원가입 페이지로 유도하기
@@ -181,9 +193,18 @@ public class LoginController {
             // 해당 유저가 가입했는지 확인하기
             String email = userData.get("email");
             User user = userService.getUserByEmail(email);
-            // 사용자 정보가 있다면 해당 유저 정보 리턴해주기
+            // 사용자 정보가 있다면 해당 유저 정보 토큰 담아서 리턴해주기
             if(user != null) {
-                return new ResponseEntity<User>(user, HttpStatus.OK);
+                String jwtToken = jwtUtil.createJwt(user.getEmail(), user.getRole(), user.getUserId(),user.getCoupleId(),user.getName(),60*60*60*60*10L);
+                System.out.println("token 생성 완료" + jwtToken);
+                HttpHeaders httpHeaders = new HttpHeaders();
+                httpHeaders.add("Authorization", "Bearer " + jwtToken);
+
+                System.out.println("http헤더" + httpHeaders.toString());
+                // response.addHeader("Authorization", "Bearer " + token);
+
+                return ResponseEntity.ok().headers(httpHeaders).body(user);
+
             }
 
             // 사용자 정보가 없다면 회원가입 페이지로 유도하기

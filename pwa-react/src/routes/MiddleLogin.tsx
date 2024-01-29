@@ -64,6 +64,7 @@ const MiddleLogin = () => {
           .then((response) => {
             console.log("로그인 성공");
             console.log(response.data);
+            console.log(response.headers);
             idCheck(response.data.email, response.data.name);
           })
           .catch((error) => {
@@ -90,6 +91,7 @@ const MiddleLogin = () => {
         .then((response) => {
           console.log("Google 로그인 성공");
           console.log(response.data);
+          console.log(response.headers);
           idCheck(response.data.email, response.data.name);
         })
         .catch((error) => {
