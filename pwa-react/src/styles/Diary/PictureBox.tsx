@@ -61,4 +61,40 @@ const PicContent = styled.div`
   font-size: 12px;
   padding: 10px;
 `
-export { Pictures, PicItem,PicBox,PicContent };
+
+const SelectBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+  text-align: center;
+
+  .item {
+    width: 100%;
+    height: 10vh;
+    margin-top: 10px;
+    border: 1px solid lightgray;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    flex-direction: row;
+    padding: 10px;
+    border-radius: 10px;
+
+    .subItem {
+      height: auto;
+      font-size: 17px;
+    }
+
+    svg {
+      width: 25px;
+      height: 25px;
+    }
+
+    .complete {
+      color: #ffd1da;
+    }
+  }
+`
+export { Pictures, PicItem,PicBox,PicContent,SelectBox };
