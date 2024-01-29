@@ -30,7 +30,8 @@ public class FileUtil {
         }
 
         String today = new SimpleDateFormat("yyMMdd").format(new Date());
-        String diaty_date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        String diary_date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
 
         String saveFolder = uploadImagePath + File.separator + today;
         File folder = new File(saveFolder);
@@ -50,7 +51,7 @@ public class FileUtil {
             diary.setOriginalName(originalFileName);
             diary.setSaveName(saveFileName);
             diary.setDiaryId(diary.getDiaryId());
-            diary.setRegisterDate(diaty_date);
+            diary.setRegisterDate(diary_date);
 
             // 파일 실제 저장
             multipartFile.transferTo(new File(folder, saveFileName));
