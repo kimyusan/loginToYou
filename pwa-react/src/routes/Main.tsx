@@ -24,7 +24,7 @@ const Main = () => {
   const { id } = useParams();
   const { PATH } = useAuthStore();
   const { coupleId, userId } = useUserStore();
-  const { setCouple, setYourName } = useCoupleStore();
+  const { setCouple, setYourName, name, startDate } = useCoupleStore();
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const [cp1, setCp1] = useState<UserInterface>();
   const [cp2, setCp2] = useState<UserInterface>();
@@ -54,14 +54,20 @@ const Main = () => {
         coupleId: coupleId,
       },
     });
-    setCouple(res.data[2]);
+    setCouple({
+      coupleId: res.data[2].coupleId,
+      name: name,
+      startDate: startDate,
+      fuserId: res.data[2].fuserId,
+      suserId: res.data[2].suserId,
+    });
 
     if (res.data[0].userId === userId) {
-      setYourName(res.data[1].userId, res.data[1].name, res.data[1].nickname)
+      setYourName(res.data[1].userId, res.data[1].name, res.data[1].nickname);
     } else {
-      setYourName(res.data[0].userId, res.data[0].name, res.data[0].nickname)
+      setYourName(res.data[0].userId, res.data[0].name, res.data[0].nickname);
     }
-    
+
     setCp1(res.data[0]);
     setCp2(res.data[1]);
     setCpInfo(res.data[2]);
@@ -74,8 +80,8 @@ const Main = () => {
   const navigate = useNavigate();
 
   const goDiary = () => {
-    navigate("/diary")
-  }
+    navigate("/diary");
+  };
 
   return (
     <>

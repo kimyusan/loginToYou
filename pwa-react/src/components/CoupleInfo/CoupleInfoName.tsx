@@ -2,7 +2,7 @@ import React from "react";
 import { Wrapper, NameInput } from "../../styles/CoupleInfo/UI";
 
 type Props = {
-  cpName: string;
+  cpName: string | null;
   setCpName: (name: string) => void;
 };
 
@@ -14,7 +14,7 @@ function CoupleInfoName({ cpName, setCpName }: Props) {
   return (
     <Wrapper>
       <label>우리 커플 이름은</label>
-      <NameInput type="text" value={cpName} onChange={onChange} />
+      <NameInput type="text" value={cpName ? cpName : ""} onChange={onChange} />
     </Wrapper>
   );
 }
