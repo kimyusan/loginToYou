@@ -1,55 +1,73 @@
 package com.ssafy.spyfamily.util;
 
+
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.Date;
 
 @Slf4j
 @Component
 public class JWTUtil {
 
-    private SecretKey secretKey;
+    private Key key;
 
     public JWTUtil(@Value("${jwt.secret}")String secret) {
 
-        this.secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), Jwts.SIG.HS256.key().build().getAlgorithm());
+
+        byte[] byteSecretKey = Decoders.BASE64.decode(secret);
+        key = Keys.hmacShaKeyFor(byteSecretKey);
     }
 
     public String getUsername(String token) {
 
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("username", String.class);
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("username", String.class);
     }
 
     public String getRole(String token) {
 
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("role", String.class);
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("role", String.class);
     }
 
     public Boolean isExpired(String token) {
 
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getExpiration().before(new Date());
     }
 
+    public String createJwt(String email, String role, int userId ,Integer coupleId ,String name, Long expiredMs) {
 
-    public String createJwt(String username, String role, int userId ,Integer coupleId ,String name, Long expiredMs) {
-
+        Claims claims = Jwts.claims();
+        claims.put("email", email);
+        claims.put("role", role);
+        claims.put("userId",userId);
+        claims.put("coupleId",coupleId);
+        claims.put("name" , name);
         return Jwts.builder()
-                .claim("username", username)
-                .claim("role", role)
-                .claim("userId",userId)
-                .claim("coupleId",coupleId)
-                .claim("name" , name)
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + expiredMs))
-                .signWith(                   secretKey)
+                .setClaims(claims)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + expiredMs))
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
+
+//    public String createJwt(String email, String role, int userId ,Integer coupleId ,String name, Long expiredMs) {
+//
+//        return Jwts.builder()
+//                .claim("email", email)
+//                .claim("role", role)
+//                .claim("userId",userId)
+//                .claim("coupleId",coupleId)
+//                .claim("name" , name)
+//                .issuedAt(new Date(System.currentTimeMillis()))
+//                .expiration(new Date(System.currentTimeMillis() + expiredMs))
+//                .signWith(                   secretKey)
+//                .compact();
+//    }
 
 
     /**
@@ -70,7 +88,7 @@ public class JWTUtil {
         try {
 
             System.out.println("validateToken" +jwt);
-            return Jwts.parser().setSigningKey(secretKey).build().parseSignedClaims(jwt);
+            return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt);
         } catch (SignatureException ex) {
             log.error("Invalid JWT signature");
             throw ex;
