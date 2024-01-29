@@ -1,10 +1,17 @@
 import React from "react";
 import KakaoIco from "../../styles/Login/kakao_login.png";
 import { ButtonBox } from "../../styles/Invite/Compos";
+import axios from "axios";
 
 function ShareButton() {
   const clickKakao = () => {
-    alert("카카오 공유");
+    // axios({
+    //   url: 'https://kapi.kakao.com/v2/api/talk/memo/default/send',
+    //   method: 'post',
+    //   headers: {
+    //     Authorization:
+    //   }
+    // })
   };
 
   return (

@@ -10,14 +10,18 @@ const MiddleLogin = () => {
   const { PATH, login } = useAuthStore();
   const { setUser } = useUserStore();
 
-  const idCheck = (email: String, name: String) => {
+  const idCheck = (email: String, name: String, authtoken: string | null) => {
     axios
       .get(`${PATH}/user/info?email=${email}`)
       .then((res) => {
         console.log("아이디 있음");
-        console.log(res);
-        const userData = parseJwt(res.headers.authorization);
-        // setUser(userData);
+        if (!authtoken) return;
+        const userData = parseJwt(authtoken);
+        setUser({
+          name: userData.name,
+          userId: userData.userId,
+          email: userData.username,
+        });
         navigate("/");
         login();
       })
@@ -63,9 +67,12 @@ const MiddleLogin = () => {
           })
           .then((response) => {
             console.log("로그인 성공");
-            console.log(response.data);
-            console.log(response.headers);
-            idCheck(response.data.email, response.data.name);
+            console.log(response);
+            idCheck(
+              response.data.email,
+              response.data.name,
+              response.headers?.authorization
+            );
           })
           .catch((error) => {
             console.error("로그인 실패");
@@ -90,9 +97,11 @@ const MiddleLogin = () => {
         )
         .then((response) => {
           console.log("Google 로그인 성공");
-          console.log(response.data);
-          console.log(response.headers);
-          idCheck(response.data.email, response.data.name);
+          idCheck(
+            response.data.email,
+            response.data.name,
+            response.headers?.authorization
+          );
         })
         .catch((error) => {
           console.error("Google 로그인 실패");
