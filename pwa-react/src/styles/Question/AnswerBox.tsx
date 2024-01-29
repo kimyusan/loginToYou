@@ -21,8 +21,7 @@ const AnsCard = styled(Card)`
     color: #000000 !important;
   }
   .css-8je8zh-MuiTouchRipple-root {
-    position: none;
-    z-index: -1 !important;
+    position: static;
   }
 `;
 

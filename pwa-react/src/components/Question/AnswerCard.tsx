@@ -11,6 +11,9 @@ import {
   Tab,
 } from "@mui/material";
 
+import useUserStore from "../../stores/UserStore";
+import useCoupleStore from "../../stores/CoupleStore";
+
 type Props = {};
 
 interface TabPanelProps {
@@ -51,11 +54,14 @@ function AnswerCard({}: Props) {
   const todayMonth = (today.getMonth() + 1).toString().padStart(2, "0");
   const todayDate = today.getDate().toString().padStart(2, "0");
 
+  // Tab 전환
   const [value, setValue] = React.useState(0);
-
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  const { name, nickname } = useUserStore();
+  const { yourName, yourNickName } = useCoupleStore();
 
   return (
     <>
@@ -72,18 +78,17 @@ function AnswerCard({}: Props) {
                 value={value}
                 onChange={handleChange}
                 aria-label="basic tabs example"
+                sx={{ position: "static" }}
               >
                 <Tab
-                  label="나 ㅋ"
+                  label={nickname ? nickname : name}
                   {...a11yProps(0)}
-                  sx={{ width: "50%" }}
-                  style={{ padding: 0 }}
+                  sx={{ width: "50%", padding: 0 }}
                 />
                 <Tab
-                  label="너 ㅋ"
+                  label={yourNickName ? yourNickName : yourName}
                   {...a11yProps(1)}
-                  sx={{ width: "50%" }}
-                  style={{ padding: 0 }}
+                  sx={{ width: "50%", padding: 0 }}
                 />
               </Tabs>
             </Box>
