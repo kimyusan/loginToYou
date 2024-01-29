@@ -27,7 +27,7 @@ const QuestionModal = ({
           {todayMonth}/{todayDate}
         </p>
         <p className="question">A에 대해서 어떻게 생각해?</p>
-        <AnswerInput multiline rows={4} />
+        <AnswerInput className="answer" multiline rows={4} />
         <SaveButton
           variant="contained"
           onClick={handleModal}

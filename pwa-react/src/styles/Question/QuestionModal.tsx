@@ -23,6 +23,9 @@ const QModal = styled(Modal)`
   .question {
     font-size: 1.2rem;
   }
+  .answer {
+    background-color: white !important;
+  }
 `;
 
 const AnswerInput = styled(TextField)`
@@ -31,7 +34,5 @@ const AnswerInput = styled(TextField)`
     width: 100% !important;
   }
 `;
-
-
 
 export { QModal, AnswerInput };
