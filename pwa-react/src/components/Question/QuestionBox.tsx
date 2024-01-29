@@ -10,6 +10,8 @@ const QuestionBox = (props: Props) => {
   const todayDate = today.getDate().toString().padStart(2, "0");
 
   const [isOpen, setIsOpen] = useState(false);
+
+  // 답변 작성하기 모달 핸들
   const handleModal = () => {
     setIsOpen(!isOpen);
   };
