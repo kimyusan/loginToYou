@@ -2,7 +2,6 @@ import React, {useState} from 'react'
 
 import Navbar from "../components/Navbar";
 import PictureBox from '../components/Diary/PictureBox';
-import ShowGallery from "../components/Diary/ShowGallery"
 
 import { BurgerButton } from "../styles/common/hamburger";
 import { DaySelect } from '../styles/Diary/Diary';
@@ -59,7 +58,6 @@ const Diary = () => {
         </div>
       </DaySelect>
       <PictureBox></PictureBox>
-      <ShowGallery></ShowGallery>
     </div>
   )
 }
