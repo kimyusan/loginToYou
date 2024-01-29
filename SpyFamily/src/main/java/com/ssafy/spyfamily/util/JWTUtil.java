@@ -37,10 +37,10 @@ public class JWTUtil {
     }
 
 
-    public String createJwt(String username, String role, int userId ,Integer coupleId ,String name, Long expiredMs) {
+    public String createJwt(String email, String role, int userId ,Integer coupleId ,String name, Long expiredMs) {
 
         return Jwts.builder()
-                .claim("username", username)
+                .claim("email", email)
                 .claim("role", role)
                 .claim("userId",userId)
                 .claim("coupleId",coupleId)
