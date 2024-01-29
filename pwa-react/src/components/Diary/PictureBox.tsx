@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-import { Pictures, PicItem, PicBox, PicContent } from "../../styles/Diary/PictureBox";
+import { Pictures, PicItem, PicBox, PicContent, SelectBox } from "../../styles/Diary/PictureBox";
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
+import { MdOutlineClose } from "react-icons/md";
+import { IoCreateOutline } from "react-icons/io5";
 
 import useAuthStore from '../../stores/AuthStore';
 import useUserStore from '../../stores/UserStore';
 
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-
+import useCoupleStore from "../../stores/CoupleStore";
 const style = {
   position: 'absolute' as 'absolute',
   top: '50%',
@@ -20,7 +22,7 @@ const style = {
   border: 0,
   boxShadow: 24,
   borderRadius: "5px",
-  p: 4,
+  p: 3,
 };
 
 const PictureBox = () => {
@@ -28,7 +30,8 @@ const PictureBox = () => {
   const [open, setOpen] = useState(false);
 
   const { PATH } = useAuthStore();
-  const { coupleId } = useUserStore();
+  const { coupleId,userId } = useUserStore();
+  const { fuserId,suserId } = useCoupleStore();
 
   const today = new Date();
   const card = new Array(today.getDate()).fill(0);
@@ -56,7 +59,7 @@ const PictureBox = () => {
   }
 
   return (
-    <Pictures>
+    <Pictures >
       <SlArrowLeft onClick={goLeft}></SlArrowLeft>
       <PicItem>
         {card.map((item, idx) => {
@@ -85,7 +88,22 @@ const PictureBox = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          gkdl
+          <div style={{ display: "flex", justifyContent: "end" }}>
+            <MdOutlineClose onClick={() => setOpen(false)} style={{width: "20px", height: "20px", marginBottom: "15px"}}></MdOutlineClose>
+          </div>
+
+          <SelectBox>
+            <div className="item">
+              <div className="subItem">나의 일기</div>
+              <IoCreateOutline className="subItem"></IoCreateOutline>
+            </div>
+            <div className="item">
+              <div className="subItem">나의 일기</div>
+              <IoCreateOutline className="subItem"></IoCreateOutline>
+            </div>
+          </SelectBox>
+
+          {}
         </Box>
       </Modal>
       <SlArrowRight onClick={goRight}></SlArrowRight>
