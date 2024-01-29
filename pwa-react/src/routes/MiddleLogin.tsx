@@ -4,11 +4,20 @@ import { useNavigate } from "react-router-dom";
 import useAuthStore from "../stores/AuthStore";
 import useUserStore from "../stores/UserStore";
 import { parseJwt } from "../util/token";
+import { useShallow } from "zustand/react/shallow";
+import { log } from "console";
 
 const MiddleLogin = () => {
   const navigate = useNavigate();
-  const { PATH, login } = useAuthStore();
-  const { setUser } = useUserStore();
+  const { PATH, login, token, setToken } = useAuthStore(
+    useShallow((state) => ({
+      PATH: state.PATH,
+      login: state.login,
+      token: state.token,
+      setToken: state.setToken,
+    }))
+  );
+  const setUser = useUserStore.getState().setUser;
 
   const idCheck = (email: String, name: String, authtoken: string | null) => {
     axios
@@ -22,6 +31,7 @@ const MiddleLogin = () => {
           userId: userData.userId,
           email: userData.username,
         });
+        setToken(authtoken);
         navigate("/");
         login();
       })
