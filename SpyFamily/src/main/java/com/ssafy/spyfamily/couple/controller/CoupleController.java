@@ -1,5 +1,6 @@
 package com.ssafy.spyfamily.couple.controller;
 
+import com.ssafy.spyfamily.couple.model.Couple;
 import com.ssafy.spyfamily.couple.service.CoupleServiceImpl;
 import com.ssafy.spyfamily.user.model.User;
 import org.springframework.http.HttpStatus;
@@ -22,17 +23,46 @@ public class CoupleController {
         this.coupleService = coupleService;
     }
 
-    @RequestMapping(value = "/create/couple")
+    // 초기 커플 생성
+    @RequestMapping(value = "/create")
     public ResponseEntity<?> createCouple(@RequestParam String emailA, @RequestParam String emailB) {
-        return ResponseEntity.ok(coupleService.coupleCteate(emailA, emailB));
+        try {
+            System.out.println("커플방 생성");
+            return ResponseEntity.ok(coupleService.coupleCteate(emailA, emailB));
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("커플방 생성 오류");
+            return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
+    // 커플정보 불러오기
     @GetMapping("/main")
     public ResponseEntity<?> getCoupleInfo(@RequestParam Integer coupleId) {
+        try {
+            ArrayList<Object> list = coupleService.mainCoupleInfo(coupleId);
+            System.out.println("커플정보 불러오기 성공");
+            return new ResponseEntity<ArrayList<Object>>(list, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("커플정보 불러오기 실패");
+            return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
-        ArrayList<Object> list = coupleService.mainCoupleInfo(coupleId);
+    }
 
-        return new ResponseEntity<ArrayList<Object>>(list, HttpStatus.OK);
+    // 커플정보 업데이트
+    @PutMapping("/update")
+    public ResponseEntity<?> updateCouple(@RequestBody Couple couple) {
+        try {
+            couple = coupleService.updateCouple(couple);
+            System.out.println("커플정보 업데이트 성공");
+            return new ResponseEntity<Couple>(couple, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("커플정보 업데이트 실패");
+            return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }

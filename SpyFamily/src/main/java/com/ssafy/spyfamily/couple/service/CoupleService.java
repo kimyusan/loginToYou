@@ -12,4 +12,5 @@ public interface CoupleService {
 
     ArrayList<Object> mainCoupleInfo(Integer coupleId);
 
+    Couple updateCouple(Couple couple);
 }
