@@ -30,7 +30,8 @@ public class ChatController {
     public void message(ChatMessage message, @Header("Authorization") String authorization) {
 
         System.out.println("/chat/message 입장");
-        String nicname = jwtUtil.getUsername(authorization);
+        String[] token = authorization.split(" ");
+        String nicname = jwtUtil.getUsername(token[1]);
 
         System.out.println(nicname);
         if (ChatMessage.MessageType.ENTER.equals(message.getType()))
