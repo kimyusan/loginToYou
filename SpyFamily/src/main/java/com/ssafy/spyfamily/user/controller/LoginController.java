@@ -77,7 +77,7 @@ public class LoginController {
             String email = googleUser.getEmail();
             User user = userService.getUserByEmail(email);
 
-            System.out.println(user.toString());
+            //System.out.println(user.toString());
             // 사용자 정보가 있다면 해당 유저 정보 리턴해주기
 
             if(user != null) {
