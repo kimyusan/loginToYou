@@ -20,6 +20,7 @@ const Question = (props: Props) => {
   const [year, setYear] = useState(today.getFullYear());
   const [month, setMonth] = useState(today.getMonth() + 1);
 
+  // 이전 달로 가기
   const decreaseMonth = () => {
     setMonth((prevMonth) => {
       if (prevMonth === 1) {
@@ -31,6 +32,7 @@ const Question = (props: Props) => {
     });
   };
 
+  // 다음 달로 가기
   const increaseMonth = () => {
     setMonth((prevMonth) => {
       if (prevMonth === 12) {

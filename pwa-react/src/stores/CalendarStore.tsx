@@ -3,10 +3,9 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { Event } from "../interface/CalendarInterface";
 import axios from "axios";
-import useUserStore from "./UserStore";
-import FullCalendar from "@fullcalendar/react";
 
 interface Calendar {
+  PATH: string;
   isOpen: boolean;
   isEdit: boolean;
   isDelete: boolean;
@@ -32,6 +31,7 @@ interface Calendar {
 export const CalendarStore = create(
   persist<Calendar>(
     (set, get) => ({
+      PATH: "http://localhost:8080",
       isOpen: false,
       isEdit: false,
       isDelete: false,
@@ -53,16 +53,14 @@ export const CalendarStore = create(
             start: event.start,
             end: event.end,
           },
-        }), //
+        }),
 
       getEventsFromServer: (coupleId) => {
         axios
-          .get("http://localhost:8080/calendar/read", {
+          .get(`${get().PATH}/calendar/read`, {
             params: { coupleId: coupleId },
           })
           .then((response) => {
-            // console.log(response);
-
             const fullEvents: Event[] = response.data.map(
               (item: {
                 calendarId: number;
@@ -89,7 +87,7 @@ export const CalendarStore = create(
 
       postEventToServer: (newEvent, coupleId) => {
         axios
-          .post("http://localhost:8080/calendar/create", {
+          .post(`${get().PATH}/calendar/create`, {
             coupleId: coupleId,
             userId: 1,
             startDate: newEvent.start,
@@ -108,7 +106,7 @@ export const CalendarStore = create(
 
       updateEventToServer: (editEvent, coupleId) => {
         axios
-          .put("http://localhost:8080/calendar/update", {
+          .put(`${get().PATH}/calendar/update`, {
             calendarId: editEvent.id,
             coupleId: coupleId,
             userId: 1,
@@ -128,7 +126,7 @@ export const CalendarStore = create(
 
       deleteEventFromServer: (calendar_id) => {
         axios
-          .delete("http://localhost:8080/calendar/delete", {
+          .delete(`${get().PATH}/calendar/delete`, {
             params: { calenderId: calendar_id },
           })
           .then((response) => {
