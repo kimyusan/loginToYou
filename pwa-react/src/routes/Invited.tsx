@@ -31,7 +31,7 @@ function Invited() {
 
   const createCouple = async () => {
     const res = await axios({
-      url: `${PATH}/couple/create/couple/{emailA}/{emailB}`,
+      url: `${PATH}/couple/create/{emailA}/{emailB}`,
       method: "GET",
       params: {
         emailA: "a@a",

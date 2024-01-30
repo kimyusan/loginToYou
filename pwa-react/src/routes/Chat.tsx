@@ -172,7 +172,7 @@ function Chat() {
         }, 1);
 
         setShowChatNum((num) => {
-          if (num == 0) window.removeEventListener("scroll", addScroll);
+          if (num - 50 <= 0) window.removeEventListener("scroll", addScroll);
           return num - 50 > 0 ? num - 50 : 0;
         });
       }

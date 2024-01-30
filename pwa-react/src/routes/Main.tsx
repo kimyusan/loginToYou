@@ -19,6 +19,7 @@ import QuestionCard from "../components/Main/QuestionCard";
 import useAuthStore from "../stores/AuthStore";
 import useUserStore from "../stores/UserStore";
 import { useShallow } from "zustand/react/shallow";
+import useCoupleStore from "../stores/CoupleStore";
 
 const Main = () => {
   const { id } = useParams();
@@ -28,6 +29,13 @@ const Main = () => {
       token: state.token,
     }))
   );
+  const { setCouple, setYourName } = useCoupleStore(
+    useShallow((state) => ({
+      setCouple: state.setCouple,
+      setYourName: state.setYourName,
+    }))
+  );
+  const userId = useUserStore.getState().userId;
   const coupleId = useUserStore.getState().coupleId;
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const [cp1, setCp1] = useState<UserInterface>();
@@ -67,11 +75,11 @@ const Main = () => {
     setCouple(res.data[2]);
 
     if (res.data[0].userId === userId) {
-      setYourName(res.data[1].userId, res.data[1].name, res.data[1].nickname)
+      setYourName(res.data[1].userId, res.data[1].name, res.data[1].nickname);
     } else {
-      setYourName(res.data[0].userId, res.data[0].name, res.data[0].nickname)
+      setYourName(res.data[0].userId, res.data[0].name, res.data[0].nickname);
     }
-    
+
     setCp1(res.data[0]);
     setCp2(res.data[1]);
     setCpInfo(res.data[2]);
@@ -84,8 +92,8 @@ const Main = () => {
   const navigate = useNavigate();
 
   const goDiary = () => {
-    navigate("/diary")
-  }
+    navigate("/diary");
+  };
 
   return (
     <>
