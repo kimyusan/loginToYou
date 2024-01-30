@@ -55,6 +55,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User userUpdate(Map<String, Object> userData) {
+        int userId = (int) userData.get("user_id");
+        User new_user = userRepository.findByUserId(userId);
+
+        // gender, birthday, nickname, mobile,
+        String gender = (String) userData.get("gender");
+
+
+//        return userRepository.save(user);
+        return new_user;
+    }
+
+    @Override
     public User signup(Map<String, String> userData) {
 
         User user = getUserByEmail(userData.get("email"));

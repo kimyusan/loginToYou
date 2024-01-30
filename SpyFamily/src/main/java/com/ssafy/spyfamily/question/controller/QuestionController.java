@@ -2,7 +2,6 @@ package com.ssafy.spyfamily.question.controller;
 
 
 import com.ssafy.spyfamily.question.model.CoupleTodayQuestion;
-import com.ssafy.spyfamily.question.repository.CoupleTodayQuestionRepository;
 import com.ssafy.spyfamily.question.service.QuestionServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +46,7 @@ public class QuestionController {
         }
     }
 
+    // 질문 저장
     @PostMapping("/save")
     public ResponseEntity<?> saveQuestion(@RequestBody CoupleTodayQuestion coupleTodayQuestion) {
         try {
@@ -63,6 +63,7 @@ public class QuestionController {
         }
     }
 
+    // 질문 수정
     @PostMapping("/update")
     public ResponseEntity<?> updateQuestion(@RequestBody CoupleTodayQuestion coupleTodayQuestion) {
         try {
@@ -78,6 +79,7 @@ public class QuestionController {
         }
     }
 
+    // 질문 대답 불러오기
     @GetMapping("/get/answer")
     public ResponseEntity<?> getQuestionAnswerByUserId(
             @RequestParam Integer todayQuestionId,
@@ -90,7 +92,7 @@ public class QuestionController {
 
             System.out.println("질문 대답 불러오기 성공");
             System.out.println(coupleTodayQuestion.toString());
-            
+
             return new ResponseEntity<CoupleTodayQuestion>(coupleTodayQuestion, HttpStatus.OK);
 
         } catch (Exception e) {
