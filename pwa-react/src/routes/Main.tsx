@@ -74,8 +74,8 @@ const Main = () => {
     });
     setCouple({
       coupleId: res.data[2].coupleId,
-      name: name,
-      startDate: startDate,
+      name: res.data[2].name,
+      startDate: res.data[2].startDate,
       fuserId: res.data[2].fuserId,
       suserId: res.data[2].suserId,
     });
