@@ -22,10 +22,21 @@ public class CustomUserDetails implements UserDetails {
         return Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
+    public int getUserId() {
+        return user.getUserId();
+    }
+
+    public int getCoupleId() {
+        return user.getCoupleId();
+    }
+
+
+
     @Override
     public String getPassword() {
         return user.getPassword();
     }
+
 
     @Override
     public String getUsername() {
