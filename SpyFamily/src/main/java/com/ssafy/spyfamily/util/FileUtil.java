@@ -61,6 +61,9 @@ public class FileUtil {
     }
 
     public ProfileImg storeImg(MultipartFile multipartFile, ProfileImg profileImg) throws IOException {
+        if (multipartFile == null) {
+            return null;
+        }
         if(multipartFile.isEmpty()) {
             return null;
         }
