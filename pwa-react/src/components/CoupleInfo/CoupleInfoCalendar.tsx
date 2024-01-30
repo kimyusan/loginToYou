@@ -14,7 +14,11 @@ function CoupleInfoCalendar({ start, setStart }: Props) {
   return (
     <Wrapper>
       <label>우리 사랑이 시작된 날은</label>
-      <CalendarInput type="date" value={start} onChange={changeDate} />
+      <CalendarInput
+        type="date"
+        value={start ? start : ""}
+        onChange={changeDate}
+      />
     </Wrapper>
   );
 }
