@@ -50,7 +50,7 @@ function Chat() {
 
     client.current.connect(
       {
-        Authorization: token,
+        Authorization: useAuthStore.getState().token,
       },
       () => {
         if (!client.current) return;
@@ -109,7 +109,7 @@ function Chat() {
         roomId: room_id,
       },
       headers: {
-        Authorization: token,
+        Authorization: useAuthStore.getState().token,
       },
     });
     setMessages(res.data);
