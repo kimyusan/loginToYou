@@ -11,7 +11,7 @@ function Invited() {
   const navigate = useNavigate();
   const { user_email, user_name } = useParams();
   const { email, setCoupleId, coupleId } = useUserStore();
-  const { isLogIn, PATH } = useAuthStore();
+  const { isLogIn, PATH ,token} = useAuthStore();
 
   useEffect(() => {
     if (!isLogIn) navigate("/login?redirect");
@@ -21,22 +21,25 @@ function Invited() {
 
   const createCouple = async () => {
     const res = await axios({
-      url: `${PATH}/couple/create/couple`,
+      url: `${PATH}/couple/create/couple/{emailA}/{emailB}`,
       method: "GET",
       params: {
-        emailA: email,
-        emailB: user_email,
+        emailA: "asdf@asdf",
+        emailB: "qwer@qwer",
+      },
+      headers: {
+        Authorization: token,
       },
     });
     console.log(res.data);
-    setCoupleId(res.data.coupleId);
-    await axios({
-      url: `${PATH}/chat/create`,
-      method: "POST",
-      params: {
-        coupleId: res.data.coupleId,
-      },
-    });
+    // setCoupleId(res.data.coupleId);
+    // await axios({
+    //   url: `${PATH}/chat/create`,
+    //   method: "POST",
+    //   params: {
+    //     coupleId: res.data.coupleId,
+    //   },
+    // });
     navigate("/");
   };
 
