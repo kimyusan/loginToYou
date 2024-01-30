@@ -22,9 +22,14 @@ import useCoupleStore from "../stores/CoupleStore";
 
 const Main = () => {
   const { id } = useParams();
+<<<<<<< HEAD
   const { PATH } = useAuthStore();
   const { coupleId, userId } = useUserStore();
   const { setCouple, setYourName } = useCoupleStore();
+=======
+  const { PATH, token } = useAuthStore();
+  const { coupleId } = useUserStore();
+>>>>>>> 4088ded ([update] 로컬에 토큰 저장)
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const [cp1, setCp1] = useState<UserInterface>();
   const [cp2, setCp2] = useState<UserInterface>();
@@ -50,6 +55,9 @@ const Main = () => {
     const res = await axios({
       url: `${PATH}/couple/main`,
       method: "GET",
+      headers: {
+        Authorization: token,
+      },
       params: {
         coupleId: coupleId,
       },

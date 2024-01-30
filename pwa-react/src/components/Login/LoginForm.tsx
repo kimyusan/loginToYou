@@ -10,7 +10,7 @@ const LoginForm = () => {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
 
-  const { login, PATH } = useAuthStore();
+  const { login, PATH, setToken } = useAuthStore();
   const { setUser } = useUserStore();
   const navigate = useNavigate();
   const path = useLocation();
@@ -31,15 +31,18 @@ const LoginForm = () => {
       return;
     }
 
+    let data = new FormData();
+    data.append("username", id);
+    data.append("password", pw);
+
     axios
       .post(`${PATH}/user/login`, {
         email: id,
         password: pw,
       })
       .then((response) => {
-        console.log("로그인 성공", response.data);
-
-        setUser(response.data);
+        console.log("로그인 성공", response);
+        setToken(response.headers.authorization);
 
         login();
         path.search && path.search === "?redirect"
