@@ -54,8 +54,8 @@ const UserInfoForm = (props: Props) => {
       reader.onloadend = () => {
         const result = reader.result as string;
         // Avatar에 띄워줄 사진 파일
-        user.setProfileImage(result)
-        // setAvatar(result);
+        // user.setProfileImage(result)
+        setAvatar(result);
       };
     }
   };
@@ -131,8 +131,7 @@ const UserInfoForm = (props: Props) => {
         },
       });
     }
-
-
+    user.setProfileImage(avatar);
   };
 
   // 전화번호 형식 정규화 '000-0000-0000' 검사
@@ -153,26 +152,28 @@ const UserInfoForm = (props: Props) => {
 
   useEffect(() => {
     axios
-    .get(`${PATH}/profile/read`, {
-      params: { userId: user.userId },
-    })
-    .then((response) => {
-      const image = response.data;
-      console.log(response.data);
-      user.setProfileImage(
-        `${PATH}/profile/getImg/${image.saveFolder}/${image.originalName}/${image.saveName}`
-      );
-      // oldProfile에 객체로 저장해둠 -> 사진 업데이트할 때 필요함
-      setOldProfile({
-        profileImgId: image.profileImgId,
-        userId: image.userId,
-        saveFolder: image.saveFolder,
-        originalName: image.originalName,
-        saveName: image.saveName,
-      });
-    })
-    .catch((error) => console.log(error));
-  }, []);
+      .get(`${PATH}/profile/read`, {
+        params: { userId: user.userId },
+      })
+      .then((response) => {
+        const image = response.data;
+        setAvatar(
+          `${PATH}/profile/getImg/${image.saveFolder}/${image.originalName}/${image.saveName}`
+        );
+        user.setProfileImage(
+          `${PATH}/profile/getImg/${image.saveFolder}/${image.originalName}/${image.saveName}`
+        );
+        // oldProfile에 객체로 저장해둠 -> 사진 업데이트할 때 필요함
+        setOldProfile({
+          profileImgId: image.profileImgId,
+          userId: image.userId,
+          saveFolder: image.saveFolder,
+          originalName: image.originalName,
+          saveName: image.saveName,
+        });
+      })
+      .catch((error) => console.log(error));
+  }, [user.profileImage]);
 
   return (
     <>
@@ -214,7 +215,7 @@ const UserInfoForm = (props: Props) => {
         />
         <Avatar
           alt="user_profile"
-          src={user.profileImage}
+          src={avatar}
           sx={{ width: "100px", height: "100px" }}
           onClick={() => {
             if (fileInput.current) {
