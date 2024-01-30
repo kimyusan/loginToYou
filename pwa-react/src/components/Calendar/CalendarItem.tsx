@@ -15,7 +15,11 @@ type Props = {
 const dateInfo = (event: Event) => {
   const info = `${event.start.split("-")[1]}/${event.start.split("-")[2]}
     ${
-      event.end ? `-${event.end.split("-")[1]}/${event.end.split("-")[2]}` : ""
+      event.end
+        ? `-${event.end.split("-")[1]}/${(parseInt(event.end.split("-")[2]) - 1)
+            .toString()
+            .padStart(2, "0")}`
+        : ""
     }`;
   return info;
 };

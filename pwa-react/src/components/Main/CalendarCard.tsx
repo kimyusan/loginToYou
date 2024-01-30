@@ -10,7 +10,8 @@ const CalendarCard = () => {
   const today = new Date();
   const todayYear = today.getFullYear();
   const todayMonth = (today.getMonth() + 1).toString().padStart(2, "0");
-  const todayDate = today.getDate();
+  const todayDate = today.getDate().toString().padStart(2, "0");
+
   const { events } = CalendarStore();
 
   const toDate = (date: string) => {
@@ -32,7 +33,7 @@ const CalendarCard = () => {
   };
 
   const filterdEvents = events.filter(
-    (event) => toDate(event.start) >= new Date()
+    (event) => toDate(event.start) <= new Date()
   );
 
   const sortedEvents = filterdEvents.sort(compare);
@@ -51,7 +52,9 @@ const CalendarCard = () => {
       <div className="right_side">
         <ul className="next_schedule">
           {sortedEvents.length >= 2 ? (
-            sortedEvents.splice(0, 2).map((it, idx) => <li key={idx}>{it.title}</li>)
+            sortedEvents
+              .splice(0, 2)
+              .map((it, idx) => <li key={idx}>{it.title}</li>)
           ) : sortedEvents.length >= 1 ? (
             <li>{sortedEvents[0].title}</li>
           ) : null}

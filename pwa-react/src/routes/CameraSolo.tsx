@@ -1,15 +1,17 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import useAuthStore from '../stores/AuthStore';
+
 import { TimerText, CameraBox, CameraButton, OptionsContainer, SaveBox, SaveBoxItem } from '../styles/Camera/CameraSolo';
+import { GoBack } from "../styles/Camera/CameraCouple"
+import { BurgerButton } from "../styles/common/hamburger";
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import TimerIcon from '@mui/icons-material/Timer';
 import CollectionsIcon from '@mui/icons-material/Collections';
-import Webcam from 'react-webcam';
 
-import { GoBack } from "../styles/Camera/CameraCouple"
-
-import { BurgerButton } from "../styles/common/hamburger";
 import Navbar from "../components/Navbar";
+import useUserStore from '../stores/UserStore';
 
 const CameraSolo: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -18,7 +20,11 @@ const CameraSolo: React.FC = () => {
   const [selectTime, setSelectTime] = useState("");
   const [photo, setPhoto] = useState(true);
   const [showOptions, setShowOptions] = useState(false);
+  const [ImageContent, setImageContent] = useState("");
 
+  const {PATH} = useAuthStore();
+  const {coupleId} = useUserStore();
+  
   // 카메라 전환 버튼 상태 추가
   const [useFrontCamera, setUseFrontCamera] = useState(true);
 
@@ -27,6 +33,10 @@ const CameraSolo: React.FC = () => {
     setUseFrontCamera(!useFrontCamera);
     startCamera(!useFrontCamera);
   };
+
+  const changeContent = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setImageContent(event.target.value)
+  }
 
   // startCamera 함수 수정
   const startCamera = async (isFrontCamera = true) => {
@@ -60,22 +70,36 @@ const CameraSolo: React.FC = () => {
         canvasRef.current.height = 1080; // 높은 해상도의 높이
         if (context) {
           context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
-          
-          // React 컴포넌트 내부 혹은 이벤트 핸들러 내부에서
-          canvasRef.current?.toBlob((blob: Blob | null) => {
-            if (blob) {
-              const formData = new FormData();
-              formData.append('image', blob, 'capture.png');
-              console.log("나는 폼데이터", blob)
-            } else {
-              console.error('Unable to get the blob from the canvas');
-            }
-          }, 'image/png');
         }
       }
       setPhoto(false)
     }, timer * 1000)
   };
+
+  const SavePhoto = () => {
+    canvasRef.current?.toBlob((blob: Blob | null) => {
+      if (blob) {
+        const formData = new FormData();
+
+        formData.append('imgInfo', blob);
+
+        const data = {
+          coupleId: coupleId,
+          subject: ImageContent,
+        }
+    
+        formData.append("diary", JSON.stringify(data))
+    
+        axios.post(`${PATH}/diary/upload`,formData)
+          .then((res) => console.log("사진 저장 성공"))
+          .catch((error) => console.log("사진 저장 실패",error))
+      } else {
+        console.error('Unable to get the blob from the canvas');
+      }
+    }, 'image/png');
+
+    
+  }
 
   useEffect(() => {
     time > 0 && setTimeout(() => setTime(time - 1), 1000);
@@ -93,8 +117,7 @@ const CameraSolo: React.FC = () => {
   const PicAgain = () => {
     setPhoto(!photo)
   }
-
-
+  
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const toggleNavigation = () => {
     setIsNavigationOpen(!isNavigationOpen);
@@ -123,9 +146,12 @@ const CameraSolo: React.FC = () => {
       <CameraBox>
         <video ref={videoRef} playsInline autoPlay={true} style={{ display: photo ? "" : "none", width: "100%", height: "300px", transform: useFrontCamera ? "scaleX(-1)" : "scaleX(1)" }} />
         <canvas ref={canvasRef} style={{ width: "100%", height: "280px", display: photo ? "none" : "", transform: "scaleX(-1)" }} />
+        <div>
+          <input placeholder='한줄평' type='text' value={ImageContent} onChange={changeContent}></input>
+        </div>
       </CameraBox>
 
-      {photo ? null : <SaveBox><SaveBoxItem>저장하기</SaveBoxItem><SaveBoxItem onClick={PicAgain}>다시 찍기</SaveBoxItem></SaveBox>}
+      {photo ? null : <SaveBox><SaveBoxItem onClick={SavePhoto}>저장하기</SaveBoxItem><SaveBoxItem onClick={PicAgain}>다시 찍기</SaveBoxItem></SaveBox>}
 
       <div style={{ position: "fixed", bottom: "5%", width: "100%" }}>
         {showOptions && (

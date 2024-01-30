@@ -5,6 +5,12 @@ import { UserInterface } from "../interface/UserInterface";
 interface UserStore extends UserInterface {
   setUser: (userInfo: UserInterface) => void;
   setCoupleId: (newId: number) => void;
+
+  startDate: string | null;
+  setStartDate: (date: string | null) => void;
+
+  profileImage: string;
+  setProfileImage: (image: string) => void;
 }
 
 const useUserStore = create(
@@ -18,7 +24,12 @@ const useUserStore = create(
       gender: null,
       coupleId: null,
       nickname: null,
-      profileImage: null,
+      password: null,
+
+      profileImage:
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+
+      startDate: null,
 
       setCoupleId: (newId) => {
         set({
@@ -35,8 +46,16 @@ const useUserStore = create(
           gender: userInfo.gender,
           coupleId: userInfo.coupleId,
           nickname: userInfo.nickname,
-          profileImage: userInfo.profileImage,
+          password: userInfo.password,
         });
+      },
+
+      setProfileImage: (image) => {
+        set({ profileImage: image });
+      },
+
+      setStartDate: (date) => {
+        set({ startDate: date });
       },
     }),
     {

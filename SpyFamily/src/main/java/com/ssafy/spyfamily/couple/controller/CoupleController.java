@@ -3,6 +3,8 @@ package com.ssafy.spyfamily.couple.controller;
 import com.ssafy.spyfamily.couple.model.Couple;
 import com.ssafy.spyfamily.couple.service.CoupleServiceImpl;
 import com.ssafy.spyfamily.user.model.User;
+import org.apache.coyote.Request;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,9 +25,19 @@ public class CoupleController {
         this.coupleService = coupleService;
     }
 
+
     // 초기 커플 생성
-    @RequestMapping(value = "/create")
-    public ResponseEntity<?> createCouple(@RequestParam String emailA, @RequestParam String emailB) {
+
+
+    @RequestMapping(value = "/create/couple/{emailA}/{emailB}")
+    public ResponseEntity<?> createCouple(@RequestParam String emailA, @RequestParam String emailB , @RequestHeader HttpHeaders headers) {
+        System.out.println(headers.get("Authrization"));
+        System.out.println(headers.toString());
+
+        System.out.println(emailA + " " + emailB);
+        System.out.println("create 시작");
+        Couple couple = coupleService.coupleCteate(emailA,emailB);
+
         try {
             System.out.println("커플방 생성");
             return ResponseEntity.ok(coupleService.coupleCteate(emailA, emailB));
@@ -33,9 +45,10 @@ public class CoupleController {
             e.printStackTrace();
             System.out.println("커플방 생성 오류");
             return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+
         }
     }
-
     // 커플정보 불러오기
     @GetMapping("/main")
     public ResponseEntity<?> getCoupleInfo(@RequestParam Integer coupleId) {

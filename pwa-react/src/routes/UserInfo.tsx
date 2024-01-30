@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { Input } from "@mui/material";
+import React, { useState } from "react";
 import { BurgerButton } from "../styles/common/hamburger";
 import Navbar from "../components/Navbar";
 import UserInfoForm from "../components/UserInfo/UserInfoForm";

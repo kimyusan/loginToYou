@@ -28,5 +28,7 @@ public class ChatMessage {
     private String sendUserId; // 메시지 보낸사람
     private String message; // 메시지
     private String contentType; // 사진 or 문자
+    private boolean isRead;
+    private String createdAt;
 
 }

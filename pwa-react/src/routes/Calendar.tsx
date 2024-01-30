@@ -6,6 +6,7 @@ import Navbar from "../components/Navbar";
 import { Wrapper, MyCalendar } from "../styles/Calendar/Calendar";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import { CalendarStore } from "../stores/CalendarStore";
+import useUserStore from "../stores/UserStore";
 import { CalendarModal } from "../styles/Calendar/Calendar";
 import FullCalendar from "@fullcalendar/react";
 import "../styles/Calendar/Calendar.css";
@@ -22,6 +23,7 @@ const Calendar = (props: Props) => {
 
   const {
     openModal,
+    closeModal,
     isOpen,
     isEdit,
     isDelete,
@@ -29,6 +31,10 @@ const Calendar = (props: Props) => {
     events,
     getEventsFromServer,
   } = CalendarStore();
+
+  console.log(useUserStore.getState());
+  const coupleId = useUserStore.getState().coupleId;
+
   const [currentMonth, setCurrentMonth] = useState(0);
 
   const goAdd = () => {
@@ -51,8 +57,12 @@ const Calendar = (props: Props) => {
   };
 
   useEffect(() => {
-    getEventsFromServer(0);
+    getEventsFromServer(coupleId as number);
   }, [isEdit, isDelete]);
+
+  useEffect(() => {
+    closeModal();
+  },[]);
 
   return (
     <>

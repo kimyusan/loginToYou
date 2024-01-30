@@ -38,7 +38,7 @@ public class ChatServiceImpl implements  ChatService{
 
     @Override
     public List<ChatMessage> loadMessage(String roomId) {
-        return chatMessageRepository.findByRoomIdAndType(roomId, 1);
+        return chatMessageRepository.findByRoomId(roomId);
     }
 
 }
