@@ -70,7 +70,7 @@ const SignUpForm = () => {
       return
     }
 
-    axios.post(`${PATH}/user/signup`, {
+    axios.post(`${PATH}/signup`, {
       "email": id,
       "password": pw,
       "name": name,

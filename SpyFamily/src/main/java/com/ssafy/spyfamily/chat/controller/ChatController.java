@@ -3,7 +3,9 @@ package com.ssafy.spyfamily.chat.controller;
 
 import com.ssafy.spyfamily.chat.model.ChatMessage;
 import com.ssafy.spyfamily.chat.service.ChatServiceImpl;
+import com.ssafy.spyfamily.util.JWTUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
@@ -18,14 +20,22 @@ public class ChatController {
     private final SimpMessageSendingOperations messagingTemplate;
     private final ChatServiceImpl chatService ;
 
-    public ChatController(SimpMessageSendingOperations messagingTemplate, ChatServiceImpl chatService){
+    private final JWTUtil jwtUtil;
+    public ChatController(SimpMessageSendingOperations messagingTemplate, ChatServiceImpl chatService,JWTUtil jwtUtil){
         this.messagingTemplate = messagingTemplate;
         this.chatService = chatService;
+        this.jwtUtil = jwtUtil;
     }
     @MessageMapping("/chat/message")
-    public void message(ChatMessage message) {
-        if (ChatMessage.MessageType.ENTER.equals(message.getType()))
-            message.setMessage(message.getSendUserId() + "님이 입장하셨습니다.");
+    public void message(ChatMessage message, @Header("Authorization") String authorization) {
+
+        System.out.println("/chat/message 입장");
+        String[] token = authorization.split(" ");
+        String nicname = jwtUtil.getUsername(token[1]);
+
+        //System.out.println(nicname);
+//        if (ChatMessage.MessageType.ENTER.equals(message.getType()))
+//            message.setMessage(nicname + "님이 입장하셨습니다.");
 
 
         messagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);

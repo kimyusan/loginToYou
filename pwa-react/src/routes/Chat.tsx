@@ -6,6 +6,7 @@ import { CompatClient, Stomp } from "@stomp/stompjs";
 
 import useUserStore from "../stores/UserStore";
 import useAuthStore from "../stores/AuthStore";
+import { useShallow } from "zustand/react/shallow";
 
 import { Header, Wrapper, InputForm } from "../styles/Chat/UI";
 import { GoArrowLeft } from "react-icons/go";
@@ -24,30 +25,51 @@ function Chat() {
   const [messages, setMessages] = useState<MessageInterface[] | null>([]);
   const [message, setMessage] = useState("");
   const client = useRef<CompatClient>();
-  const { PATH } = useAuthStore();
-  const { coupleId, userId, name } = useUserStore();
+  const { PATH, token } = useAuthStore(
+    useShallow((state) => ({
+      PATH: state.PATH,
+      token: state.token,
+    }))
+  );
+  const { coupleId, userId, name } = useUserStore(
+    useShallow((state) => ({
+      userId: state.userId,
+      coupleId: state.coupleId,
+      name: state.name,
+    }))
+  );
   const { room_id } = useParams();
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
+<<<<<<< HEAD
   // 웹소켓
+=======
+  // 소켓 연결 함수
+>>>>>>> 270a1fd (backup)
   const connectHandler = () => {
     client.current = Stomp.over(() => {
-      const sock = new SockJS(`${PATH}/ws-stomp`);
+      const sock = new SockJS(`${PATH}/ws-stomp`, null);
       return sock;
     });
-    client.current.connect({}, () => {
-      if (!client.current) return;
 
-      client.current.subscribe(`/sub/chat/room/${room_id}`, (msg) => {
-        if (!msg.body) return;
-        let newMsg = JSON.parse(msg.body);
-        setMessages((messages) => {
-          return messages ? [...messages, newMsg] : null;
+    client.current.connect(
+      {
+        Authorization: token,
+      },
+      () => {
+        if (!client.current) return;
+        // 신규 메세지 체크
+        client.current.subscribe(`/sub/chat/room/${room_id}`, (msg) => {
+          if (!msg.body) return;
+          let newMsg = JSON.parse(msg.body);
+          setMessages((messages) => {
+            return messages ? [...messages, newMsg] : null;
+          });
         });
-      });
-    });
+      }
+    );
   };
 
   // 채팅방 끝으로 이동
@@ -60,7 +82,7 @@ function Chat() {
     connectHandler();
   }, [room_id]);
 
-  // 채팅 전송
+  // // 채팅 전송
   const sendChat = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -90,6 +112,9 @@ function Chat() {
       method: `GET`,
       params: {
         roomId: room_id,
+      },
+      headers: {
+        Authorization: token,
       },
     });
     setMessages(res.data);

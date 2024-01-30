@@ -18,13 +18,17 @@ import CalendarCard from "../components/Main/CalendarCard";
 import QuestionCard from "../components/Main/QuestionCard";
 import useAuthStore from "../stores/AuthStore";
 import useUserStore from "../stores/UserStore";
-import useCoupleStore from "../stores/CoupleStore";
+import { useShallow } from "zustand/react/shallow";
 
 const Main = () => {
   const { id } = useParams();
-  const { PATH } = useAuthStore();
-  const { coupleId, userId } = useUserStore();
-  const { setCouple, setYourName } = useCoupleStore();
+  const { PATH, token } = useAuthStore(
+    useShallow((state) => ({
+      PATH: state.PATH,
+      token: state.token,
+    }))
+  );
+  const coupleId = useUserStore.getState().coupleId;
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const [cp1, setCp1] = useState<UserInterface>();
   const [cp2, setCp2] = useState<UserInterface>();
@@ -41,6 +45,9 @@ const Main = () => {
       params: {
         coupleId: coupleId,
       },
+      headers: {
+        Authorization: token,
+      },
     });
     navigate(`/chat/${res.data}`);
   };
@@ -50,6 +57,9 @@ const Main = () => {
     const res = await axios({
       url: `${PATH}/couple/main`,
       method: "GET",
+      headers: {
+        Authorization: token,
+      },
       params: {
         coupleId: coupleId,
       },
