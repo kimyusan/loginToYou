@@ -2,17 +2,19 @@ import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { LoginBox } from "../../styles/Login/Login";
+import { parseJwt } from "../../util/token";
 
 import useAuthStore from "../../stores/AuthStore";
 import useUserStore from "../../stores/UserStore";
+import { application } from "express";
 
 const LoginForm = () => {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
 
-  const { login, PATH, setToken } = useAuthStore();
-  const { setUser } = useUserStore();
+  const { login, PATH, setToken, token } = useAuthStore();
   const navigate = useNavigate();
+  const { setUser } = useUserStore();
   const path = useLocation();
   const { state } = useLocation();
 
@@ -37,10 +39,7 @@ const LoginForm = () => {
     data.append("password", pw);
 
     axios
-      .post(`${PATH}/user/login`, {
-        email: id,
-        password: pw,
-      })
+      .post(`${PATH}/login`, data)
       .then((response) => {
         console.log("로그인 성공", response);
         setToken(response.headers.authorization);

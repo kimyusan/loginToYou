@@ -31,7 +31,7 @@ function Invited() {
 
   const createCouple = async () => {
     const res = await axios({
-      url: `${PATH}/couple/create/couple/{emailA}/{emailB}`,
+      url: `${PATH}/couple/create/{emailA}/{emailB}`,
       method: "GET",
       params: {
         emailA: "a@a",
@@ -41,17 +41,17 @@ function Invited() {
         Authorization: token,
       },
     });
-    console.log(token ? parseJwt(token) : null);
 
-    // setCoupleId(res.data.coupleId);
-    // await axios({
-    //   url: `${PATH}/chat/create`,
-    //   method: "POST",
-    //   params: {
-    //     coupleId: res.data.coupleId,
-    //   },
-    // });
-    // navigate("/");
+    setCoupleId(res.data.coupleId);
+
+    await axios({
+      url: `${PATH}/chat/create`,
+      method: "POST",
+      params: {
+        coupleId: res.data.coupleId,
+      },
+    });
+    navigate("/");
   };
 
   return (

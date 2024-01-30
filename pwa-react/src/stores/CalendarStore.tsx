@@ -63,8 +63,8 @@ export const CalendarStore = create(
           .get(`${get().PATH}/calendar/read`, {
             params: { coupleId: coupleId },
             headers: {
-              Authorization: useAuthStore.getState().token
-            }
+              Authorization: useAuthStore.getState().token,
+            },
           })
           .then((response) => {
             const fullEvents: Event[] = response.data.map(
