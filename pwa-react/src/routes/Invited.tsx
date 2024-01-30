@@ -41,17 +41,17 @@ function Invited() {
         Authorization: token,
       },
     });
-    console.log(token ? parseJwt(token) : null);
 
-    // setCoupleId(res.data.coupleId);
-    // await axios({
-    //   url: `${PATH}/chat/create`,
-    //   method: "POST",
-    //   params: {
-    //     coupleId: res.data.coupleId,
-    //   },
-    // });
-    // navigate("/");
+    setCoupleId(res.data.coupleId);
+
+    await axios({
+      url: `${PATH}/chat/create`,
+      method: "POST",
+      params: {
+        coupleId: res.data.coupleId,
+      },
+    });
+    navigate("/");
   };
 
   return (

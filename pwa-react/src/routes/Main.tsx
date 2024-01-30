@@ -61,7 +61,7 @@ const Main = () => {
         Authorization: token,
       },
       params: {
-        coupleId: coupleId,
+        coupleId: 1,
       },
     });
     setCouple(res.data[2]);
