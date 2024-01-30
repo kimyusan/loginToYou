@@ -145,6 +145,7 @@ const UserInfoForm = (props: Props) => {
         data: formData,
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: token,
         },
       });
     }
@@ -171,6 +172,9 @@ const UserInfoForm = (props: Props) => {
     axios
       .get(`${PATH}/profile/read`, {
         params: { userId: user.userId },
+        headers: {
+          Authorization: token,
+        },
       })
       .then((response) => {
         const image = response.data;
