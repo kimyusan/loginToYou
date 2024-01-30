@@ -2,6 +2,7 @@ package com.ssafy.spyfamily.question.controller;
 
 
 import com.ssafy.spyfamily.question.model.CoupleTodayQuestion;
+import com.ssafy.spyfamily.question.repository.CoupleTodayQuestionRepository;
 import com.ssafy.spyfamily.question.service.QuestionServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,9 +48,10 @@ public class QuestionController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> saveQuestion(CoupleTodayQuestion coupleTodayQuestion) {
+    public ResponseEntity<?> saveQuestion(@RequestBody CoupleTodayQuestion coupleTodayQuestion) {
         try {
             System.out.println("질문 저장들어옴");
+            System.out.println(coupleTodayQuestion.toString());
             questionService.saveQuestion(coupleTodayQuestion);
 
             System.out.println("질문 저장 성공");
@@ -62,7 +64,7 @@ public class QuestionController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<?> updateQuestion(CoupleTodayQuestion coupleTodayQuestion) {
+    public ResponseEntity<?> updateQuestion(@RequestBody CoupleTodayQuestion coupleTodayQuestion) {
         try {
             System.out.println("질문 수정들어옴");
             questionService.updateQuestion(coupleTodayQuestion);
@@ -74,6 +76,29 @@ public class QuestionController {
             System.out.println("질문 수정 실패");
             return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping("/get/answer")
+    public ResponseEntity<?> getQuestionAnswerByUserId(
+            @RequestParam Integer todayQuestionId,
+            @RequestParam Integer userId) {
+
+        try {
+            System.out.println("질문 대답 불러오기");
+            CoupleTodayQuestion coupleTodayQuestion =
+                    questionService.getCoupleTodayQuestionById(todayQuestionId, userId);
+
+            System.out.println("질문 대답 불러오기 성공");
+            System.out.println(coupleTodayQuestion.toString());
+            
+            return new ResponseEntity<CoupleTodayQuestion>(coupleTodayQuestion, HttpStatus.OK);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("질문 대답 불러오기 실패");
+            return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
 
