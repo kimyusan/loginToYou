@@ -59,9 +59,9 @@ public class ChatRoomController {
 
         List<ChatMessage> chatMessages = chatService.loadMessage(roomId);
 
-        if(chatMessages == null){
-            return new ResponseEntity<String>("조회된 값이 없습니다." ,HttpStatus.OK);
-        }
+//        if(chatMessages == null){
+//            return new ResponseEntity<Void>(HttpStatus.OK);
+//        }
 
         return new ResponseEntity<List<ChatMessage>>(chatMessages, HttpStatus.OK);
     }
