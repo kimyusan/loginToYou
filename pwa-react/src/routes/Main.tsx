@@ -72,7 +72,13 @@ const Main = () => {
         coupleId: 1,
       },
     });
-    setCouple(res.data[2]);
+    setCouple({
+      coupleId: res.data[2].coupleId,
+      name: name,
+      startDate: startDate,
+      fuserId: res.data[2].fuserId,
+      suserId: res.data[2].suserId,
+    });
 
     if (res.data[0].userId === userId) {
       setYourName(res.data[1].userId, res.data[1].name, res.data[1].nickname);

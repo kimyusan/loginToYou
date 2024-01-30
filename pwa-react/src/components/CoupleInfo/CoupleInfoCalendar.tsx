@@ -2,19 +2,19 @@ import React, { useState } from "react";
 import { CalendarInput, Wrapper } from "../../styles/CoupleInfo/UI";
 
 type Props = {
-  startDate: string;
-  setStartDate: (date: string) => void;
+  start: string | null;
+  setStart: (date: string) => void;
 };
 
-function CoupleInfoCalendar({ startDate, setStartDate }: Props) {
+function CoupleInfoCalendar({ start, setStart }: Props) {
   const changeDate = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setStartDate(event.target.value);
+    setStart(event.target.value);
   };
 
   return (
     <Wrapper>
       <label>우리 사랑이 시작된 날은</label>
-      <CalendarInput type="date" value={startDate} onChange={changeDate} />
+      <CalendarInput type="date" value={start} onChange={changeDate} />
     </Wrapper>
   );
 }

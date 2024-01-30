@@ -7,23 +7,27 @@ import { SaveButton } from "../styles/UserInfo/UserInfo";
 
 import { UserInfoBox } from "../styles/UserInfo/UserInfo";
 import { useLocation } from "react-router";
+import useCoupleStore from "../stores/CoupleStore";
 
 function CoupleInfo() {
-  const [cpName, setCpName] = useState<string>("");
-  const [startDate, setStartDate] = useState<string>("");
+  const couple = useCoupleStore();
+
+  const [cpName, setCpName] = useState<string | null>(couple.name);
+  const [start, setStart] = useState<string | null>(couple.startDate);
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const toggleNav = () => {
     setIsNavigationOpen(!isNavigationOpen);
   };
-  const { state } = useLocation();
-
-  useEffect(() => {
-    state.name && setCpName(state.name);
-    state.startDate && setStartDate(state.startDate);
-  }, []);
 
   const changeCouple = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    couple.setCouple({
+      coupleId: couple.coupleId,
+      name: cpName,
+      startDate: start,
+      fuserId: couple.fuserId,
+      suserId: couple.suserId,
+    });
   };
 
   return (
@@ -34,11 +38,8 @@ function CoupleInfo() {
         <h3>커플 정보 수정</h3>
         <form onSubmit={changeCouple}>
           <CoupleInfoName cpName={cpName} setCpName={setCpName} />
-          <CoupleInfoCalendar
-            startDate={startDate}
-            setStartDate={setStartDate}
-          />
-          <SaveButton>변경하기</SaveButton>
+          <CoupleInfoCalendar start={start} setStart={setStart} />
+          <SaveButton type="submit">변경하기</SaveButton>
         </form>
       </UserInfoBox>
     </>
