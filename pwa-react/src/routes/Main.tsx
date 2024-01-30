@@ -42,6 +42,9 @@ const Main = () => {
       params: {
         coupleId: coupleId,
       },
+      headers: {
+        Authorization: token,
+      },
     });
     navigate(`/chat/${res.data}`);
   };
