@@ -33,9 +33,9 @@ public class ChatController {
         String[] token = authorization.split(" ");
         String nicname = jwtUtil.getUsername(token[1]);
 
-        System.out.println(nicname);
-        if (ChatMessage.MessageType.ENTER.equals(message.getType()))
-            message.setMessage(nicname + "님이 입장하셨습니다.");
+        //System.out.println(nicname);
+//        if (ChatMessage.MessageType.ENTER.equals(message.getType()))
+//            message.setMessage(nicname + "님이 입장하셨습니다.");
 
 
         messagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);

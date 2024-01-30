@@ -32,7 +32,7 @@ public class StompHandler implements ChannelInterceptor {
         // 꼭확인하세요 ** 토큰값이 유효할때 채팅이 되야하는데 invaled jwt 토큰이 뜸 일단 주석처리 해놨음 나중에 풀고 꼭 인증 처리 해주어야합니다.
         if (StompCommand.CONNECT == accessor.getCommand()) {
             System.out.println("connect 성공");
-            //jwtTokenProvider.validateToken(accessor.getFirstNativeHeader("Authorization"));
+//            jwtTokenProvider.validateToken(accessor.getFirstNativeHeader("Authorization"));
 
             System.out.println("accessor값 확인" + accessor.getFirstNativeHeader("Authorization").toString());
         }
