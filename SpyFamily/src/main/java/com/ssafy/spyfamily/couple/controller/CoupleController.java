@@ -25,10 +25,18 @@ public class CoupleController {
         this.coupleService = coupleService;
     }
 
-<<<<<<< HEAD
+
     // 초기 커플 생성
     @RequestMapping(value = "/create")
     public ResponseEntity<?> createCouple(@RequestParam String emailA, @RequestParam String emailB) {
+
+        }
+
+    @RequestMapping(value = "/create/couple/{emailA}/{emailB}")
+    public ResponseEntity<?> createCouple(@RequestParam String emailA, @RequestParam String emailB , @RequestHeader HttpHeaders headers) {
+        System.out.println(headers.get("Authrization"));
+        System.out.println(headers.toString());
+
         try {
             System.out.println("커플방 생성");
             return ResponseEntity.ok(coupleService.coupleCteate(emailA, emailB));
@@ -36,16 +44,10 @@ public class CoupleController {
             e.printStackTrace();
             System.out.println("커플방 생성 오류");
             return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-=======
-    @RequestMapping(value = "/create/couple/{emailA}/{emailB}")
-    public ResponseEntity<?> createCouple(@RequestParam String emailA, @RequestParam String emailB , @RequestHeader HttpHeaders headers) {
-        System.out.println(headers.get("Authrization"));
-        System.out.println(headers.toString());
-        return ResponseEntity.ok(coupleService.coupleCteate(emailA, emailB));
->>>>>>> 0fd6470 (jwt createcouple)
-    }
 
+
+        }
+    }
     // 커플정보 불러오기
     @GetMapping("/main")
     public ResponseEntity<?> getCoupleInfo(@RequestParam Integer coupleId) {
