@@ -1,8 +1,7 @@
 package com.ssafy.spyfamily.question.controller;
 
 
-import com.ssafy.spyfamily.question.model.TodayQuestion;
-import com.ssafy.spyfamily.question.service.QuestionService;
+import com.ssafy.spyfamily.question.model.CoupleTodayQuestion;
 import com.ssafy.spyfamily.question.service.QuestionServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
+
 
 @RestController()
 @RequestMapping(value = "/question", produces = "application/json")
@@ -47,6 +46,35 @@ public class QuestionController {
         }
     }
 
-    
+    @PostMapping("/save")
+    public ResponseEntity<?> saveQuestion(CoupleTodayQuestion coupleTodayQuestion) {
+        try {
+            System.out.println("질문 저장들어옴");
+            questionService.saveQuestion(coupleTodayQuestion);
+
+            System.out.println("질문 저장 성공");
+            return new ResponseEntity<Void>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("질문 저장 실패");
+            return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<?> updateQuestion(CoupleTodayQuestion coupleTodayQuestion) {
+        try {
+            System.out.println("질문 수정들어옴");
+            questionService.updateQuestion(coupleTodayQuestion);
+
+            System.out.println("질문 수정 성공");
+            return new ResponseEntity<Void>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("질문 수정 실패");
+            return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 }

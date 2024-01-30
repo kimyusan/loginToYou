@@ -1,12 +1,11 @@
 package com.ssafy.spyfamily.question.service;
 
 
+import com.ssafy.spyfamily.question.model.CoupleTodayQuestion;
 import com.ssafy.spyfamily.question.model.TodayQuestion;
 import com.ssafy.spyfamily.question.repository.CoupleTodayQuestionRepository;
 import com.ssafy.spyfamily.question.repository.TodayQuestionRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class QuestionServiceImpl implements QuestionService{
@@ -23,6 +22,15 @@ public class QuestionServiceImpl implements QuestionService{
     @Override
     public TodayQuestion  getQuestion(Integer todayQuestionId) {
         return todayQuestionRepository.getQuestionById(todayQuestionId);
+    }
+
+    @Override
+    public void saveQuestion(CoupleTodayQuestion coupleTodayQuestion) {
+        coupleTodayQuestionRepository.save(coupleTodayQuestion);
+    }
+
+    public void updateQuestion(CoupleTodayQuestion coupleTodayQuestion) {
+        coupleTodayQuestionRepository.save(coupleTodayQuestion);
     }
 
 }
