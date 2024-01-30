@@ -43,23 +43,16 @@ function Chat() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
+<<<<<<< HEAD
   // 웹소켓
+=======
+  // 소켓 연결 함수
+>>>>>>> 270a1fd (backup)
   const connectHandler = () => {
     client.current = Stomp.over(() => {
-      const sock = new SockJS(`${PATH}/ws-stomp`, null, 
-        );
+      const sock = new SockJS(`${PATH}/ws-stomp`, null);
       return sock;
     });
-
-    client.current.connect({}, () => {
-      if (!client.current) return;
-
-      client.current.subscribe(`/sub/chat/room/${room_id}`, (msg) => {
-        if (!msg.body) return;
-        let newMsg = JSON.parse(msg.body);
-        setMessages((messages) => {
-          return messages ? [...messages, newMsg] : null;
-
 
     client.current.connect(
       {

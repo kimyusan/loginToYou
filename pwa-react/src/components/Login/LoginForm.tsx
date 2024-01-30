@@ -14,6 +14,7 @@ const LoginForm = () => {
   const { setUser } = useUserStore();
   const navigate = useNavigate();
   const path = useLocation();
+  const { state } = useLocation();
 
   const changeId = (event: React.ChangeEvent<HTMLInputElement>) => {
     setId(event.target.value);
@@ -45,9 +46,11 @@ const LoginForm = () => {
         setToken(response.headers.authorization);
 
         login();
-        path.search && path.search === "?redirect"
-          ? navigate(-1)
-          : navigate("/");
+
+        const userData = parseJwt(response.headers.authorization);
+        setUser(userData);
+
+        state ? navigate(state) : navigate("/");
       })
       .catch((error) => {
         console.log(error.response);
