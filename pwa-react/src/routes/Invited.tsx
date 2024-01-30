@@ -31,11 +31,11 @@ function Invited() {
 
   const createCouple = async () => {
     const res = await axios({
-      url: `${PATH}/couple/create/{emailA}/{emailB}`,
+      url: `${PATH}/couple/create/couple/{emailA}/{emailB}`,
       method: "GET",
       params: {
-        emailA: "a@a",
-        emailB: "b@b",
+        emailA: user_email,
+        emailB: email,
       },
       headers: {
         Authorization: token,
@@ -49,6 +49,9 @@ function Invited() {
       method: "POST",
       params: {
         coupleId: res.data.coupleId,
+      },
+      headers: {
+        Authorization: token,
       },
     });
     navigate("/");
