@@ -13,7 +13,7 @@ import lombok.ToString;
 public class User {
     @Id
     private int userId;
-    private String email;
+    private String email; // login id
     private String name;
     private String mobile;
     private String birthday;
@@ -22,5 +22,6 @@ public class User {
     private Integer coupleId;
     private String nickname;
     private String password;
+    private String role;
 
 }

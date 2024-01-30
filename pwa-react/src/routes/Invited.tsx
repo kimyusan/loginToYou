@@ -1,35 +1,49 @@
 import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 
 import { Wrapper } from "../styles/Invite/Compos";
 import { LongButton } from "../styles/Invite/UI";
 import useAuthStore from "../stores/AuthStore";
 import useUserStore from "../stores/UserStore";
+import { useShallow } from "zustand/react/shallow";
+import { parseJwt } from "../util/token";
 
 function Invited() {
   const navigate = useNavigate();
   const { user_email, user_name } = useParams();
   const { email, setCoupleId, coupleId } = useUserStore();
-  const { isLogIn, PATH } = useAuthStore();
+  const { isLogin, PATH, token } = useAuthStore(
+    useShallow((state) => ({
+      isLogin: state.isLogIn,
+      PATH: state.PATH,
+      token: state.token,
+    }))
+  );
+  const location = useLocation();
 
   useEffect(() => {
-    if (!isLogIn) navigate("/login?redirect");
-    if (coupleId !== 0 && coupleId !== null) navigate("/");
+    if (!isLogin) navigate("/login", { state: location.pathname });
+    // if (coupleId !== 0 && coupleId !== null) navigate("/");
     if (email == user_email) navigate("/");
   }, []);
 
   const createCouple = async () => {
     const res = await axios({
-      url: `${PATH}/couple/create/couple`,
+      url: `${PATH}/couple/create/{emailA}/{emailB}`,
       method: "GET",
       params: {
-        emailA: email,
-        emailB: user_email,
+        emailA: "a@a",
+        emailB: "b@b",
+      },
+      headers: {
+        Authorization: token,
       },
     });
-    console.log(res.data);
+
     setCoupleId(res.data.coupleId);
+
     await axios({
       url: `${PATH}/chat/create`,
       method: "POST",

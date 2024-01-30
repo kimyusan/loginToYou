@@ -24,10 +24,11 @@ DROP TABLE IF EXISTS `couple_today_question`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `couple_today_question` (
   `couple_today_question_id` int NOT NULL AUTO_INCREMENT,
-  `couple_id` int DEFAULT NULL,
+  `couple_id` int NOT NULL,
+  `user_id` int NOT NULL,
   `today_question_id` int DEFAULT NULL,
-  `f_user_answer` varchar(255) DEFAULT NULL,
-  `s_user_answer` varchar(255) DEFAULT NULL,
+  `user_answer` varchar(255) DEFAULT NULL,
+  `register_date` timestamp,
   PRIMARY KEY (`couple_today_question_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;

@@ -3,6 +3,9 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { Event } from "../interface/CalendarInterface";
 import axios from "axios";
+import useUserStore from "./UserStore";
+import FullCalendar from "@fullcalendar/react";
+import useAuthStore from "./AuthStore";
 
 interface Calendar {
   PATH: string;
@@ -59,6 +62,9 @@ export const CalendarStore = create(
         axios
           .get(`${get().PATH}/calendar/read`, {
             params: { coupleId: coupleId },
+            headers: {
+              Authorization: useAuthStore.getState().token,
+            },
           })
           .then((response) => {
             const fullEvents: Event[] = response.data.map(
@@ -94,6 +100,10 @@ export const CalendarStore = create(
             endDate: newEvent.end,
             eventType: null,
             contents: newEvent.title,
+          }, {
+            headers: {
+              Authorization: useAuthStore.getState().token
+            }
           })
           .then((response) => {
             console.log(response.data);
@@ -114,6 +124,10 @@ export const CalendarStore = create(
             endDate: editEvent.end,
             eventType: null,
             contents: editEvent.title,
+          }, {
+            headers: {
+              Authorization: useAuthStore.getState().token
+            }
           })
           .then((response) => {
             console.log(response);
@@ -128,6 +142,9 @@ export const CalendarStore = create(
         axios
           .delete(`${get().PATH}/calendar/delete`, {
             params: { calenderId: calendar_id },
+            headers: {
+              Authorization: useAuthStore.getState().token
+            }
           })
           .then((response) => {
             console.log(response);

@@ -10,6 +10,9 @@ import {
 } from "../../styles/UserInfo/UserInfo";
 import useAuthStore from "../../stores/AuthStore";
 import useUserStore from "../../stores/UserStore";
+import { height } from "@mui/system";
+import { SlEarphones } from "react-icons/sl";
+import { useShallow } from "zustand/react/shallow";
 
 type Props = {};
 
@@ -36,7 +39,12 @@ const UserInfoForm = (props: Props) => {
   const [errorAlert, setErrorAlert] = useState(false);
   const [successAlert, setSuccessAlert] = useState(false);
 
-  const { PATH } = useAuthStore();
+  const { PATH, token } = useAuthStore(
+    useShallow((state) => ({
+      PATH: state.PATH,
+      token: state.token,
+    }))
+  );
 
   // 프로필이미지 input 참조 // Avatar을 클릭하면 연결된 이 input이 열리도록
   const fileInput = useRef<HTMLInputElement>(null);
@@ -68,17 +76,25 @@ const UserInfoForm = (props: Props) => {
     }
     // user정보 업데이트 요청 // mobile, birthday, gender, nickname만 수정
     axios
-      .put(`${PATH}/user/update`, {
-        userId: user.userId,
-        email: user.email,
-        name: user.name,
-        mobile: phoneNumber,
-        birthday: birth,
-        gender: gender,
-        coupleId: user.coupleId,
-        nickname: nickname,
-        password: user.password,
-      })
+      .put(
+        `${PATH}/user/update`,
+        {
+          userId: user.userId,
+          email: user.email,
+          name: user.name,
+          mobile: phoneNumber,
+          birthday: birth,
+          gender: gender,
+          coupleId: user.coupleId,
+          nickname: nickname,
+          password: user.password,
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      )
       .then((response) => {
         setSuccessAlert(true);
         user.setUser(response.data);
@@ -103,6 +119,7 @@ const UserInfoForm = (props: Props) => {
         data: formData,
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: token,
         },
       });
     }
