@@ -8,6 +8,7 @@ import FullCalendar from "@fullcalendar/react";
 import useAuthStore from "./AuthStore";
 
 interface Calendar {
+  PATH: string;
   isOpen: boolean;
   isEdit: boolean;
   isDelete: boolean;
@@ -33,6 +34,7 @@ interface Calendar {
 export const CalendarStore = create(
   persist<Calendar>(
     (set, get) => ({
+      PATH: "http://localhost:8080",
       isOpen: false,
       isEdit: false,
       isDelete: false,
@@ -54,19 +56,17 @@ export const CalendarStore = create(
             start: event.start,
             end: event.end,
           },
-        }), //
+        }),
 
       getEventsFromServer: (coupleId) => {
         axios
-          .get("http://localhost:8080/calendar/read", {
+          .get(`${get().PATH}/calendar/read`, {
             params: { coupleId: coupleId },
             headers: {
               Authorization: useAuthStore.getState().token,
             },
           })
           .then((response) => {
-            console.log(response);
-
             const fullEvents: Event[] = response.data.map(
               (item: {
                 calendarId: number;
@@ -93,22 +93,18 @@ export const CalendarStore = create(
 
       postEventToServer: (newEvent, coupleId) => {
         axios
-          .post(
-            "http://localhost:8080/calendar/create",
-            {
-              coupleId: coupleId,
-              userId: 1,
-              startDate: newEvent.start,
-              endDate: newEvent.end,
-              eventType: null,
-              contents: newEvent.title,
-            },
-            {
-              headers: {
-                Authorization: useAuthStore.getState().token,
-              },
+          .post(`${get().PATH}/calendar/create`, {
+            coupleId: coupleId,
+            userId: 1,
+            startDate: newEvent.start,
+            endDate: newEvent.end,
+            eventType: null,
+            contents: newEvent.title,
+          }, {
+            headers: {
+              Authorization: useAuthStore.getState().token
             }
-          )
+          })
           .then((response) => {
             console.log(response.data);
             get().getEventsFromServer(coupleId);
@@ -120,23 +116,19 @@ export const CalendarStore = create(
 
       updateEventToServer: (editEvent, coupleId) => {
         axios
-          .put(
-            "http://localhost:8080/calendar/update",
-            {
-              calendarId: editEvent.id,
-              coupleId: coupleId,
-              userId: 1,
-              startDate: editEvent.start,
-              endDate: editEvent.end,
-              eventType: null,
-              contents: editEvent.title,
-            },
-            {
-              headers: {
-                Authorization: useAuthStore.getState().token,
-              },
+          .put(`${get().PATH}/calendar/update`, {
+            calendarId: editEvent.id,
+            coupleId: coupleId,
+            userId: 1,
+            startDate: editEvent.start,
+            endDate: editEvent.end,
+            eventType: null,
+            contents: editEvent.title,
+          }, {
+            headers: {
+              Authorization: useAuthStore.getState().token
             }
-          )
+          })
           .then((response) => {
             console.log(response);
             set({ isEdit: false });
@@ -148,11 +140,11 @@ export const CalendarStore = create(
 
       deleteEventFromServer: (calendar_id) => {
         axios
-          .delete("http://localhost:8080/calendar/delete", {
+          .delete(`${get().PATH}/calendar/delete`, {
             params: { calenderId: calendar_id },
             headers: {
-              Authorization: useAuthStore.getState().token,
-            },
+              Authorization: useAuthStore.getState().token
+            }
           })
           .then((response) => {
             console.log(response);

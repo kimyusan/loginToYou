@@ -76,7 +76,7 @@ public class CoupleServiceImpl implements CoupleService{
             userFOptional.ifPresent(user -> resultList.add(user));
             userSOptional.ifPresent(user -> resultList.add(user));
 
-            // Couple 정보를 Map 또는 DTO에 추가
+            // Couple 정보를 Map에 추가
             Map<String, Object> coupleInfo = new HashMap<>();
             coupleInfo.put("coupleId", couple.getCoupleId());
             coupleInfo.put("name", couple.getName());
@@ -89,6 +89,11 @@ public class CoupleServiceImpl implements CoupleService{
             return resultList;
         }
         return null;
+    }
+
+    @Override
+    public Couple updateCouple(Couple couple) {
+        return coupleRepository.save(couple);
     }
 
 

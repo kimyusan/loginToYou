@@ -18,10 +18,12 @@ interface MessageInterface {
   sendUserId: string | null;
   message: string | null;
   contentType: string | null;
+  createdAt: string | null;
 }
 
 function Chat() {
-  const [messages, setMessages] = useState<MessageInterface[] | null>([]);
+  const [messages, setMessages] = useState<MessageInterface[]>([]);
+  const [showMessages, setShowMessages] = useState<MessageInterface[]>([]);
   const [message, setMessage] = useState("");
   const client = useRef<CompatClient>();
   const { PATH, token } = useAuthStore(
@@ -37,10 +39,12 @@ function Chat() {
       name: state.name,
     }))
   );
+
+  const navigate = useNavigate();
   const { room_id } = useParams();
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const navigate = useNavigate();
+  const [showChatNum, setShowChatNum] = useState(0);
 
   // 소켓 연결 함수
   const connectHandler = () => {
@@ -57,13 +61,15 @@ function Chat() {
         if (!client.current) return;
         if (!token) return;
         // 신규 메세지 체크
+
         client.current.subscribe(
           `/sub/chat/room/${room_id}`,
           (msg) => {
             if (!msg.body) return;
             let newMsg = JSON.parse(msg.body);
-            setMessages((messages) => {
-              return messages ? [...messages, newMsg] : null;
+
+            setShowMessages((showMessages) => {
+              return showMessages ? [...showMessages, newMsg] : [newMsg];
             });
           },
           {
@@ -77,7 +83,7 @@ function Chat() {
   // 채팅방 끝으로 이동
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ block: "end" });
-  }, [messages]);
+  }, [showMessages]);
 
   // 정보 받아오기
   useEffect(() => {
@@ -90,6 +96,9 @@ function Chat() {
 
     if (!client.current) return;
     if (message == "") return;
+
+    let now = new Date();
+
     client.current.send(
       `/pub/chat/message`,
       {
@@ -100,6 +109,7 @@ function Chat() {
         roomId: room_id,
         sendUserId: userId,
         message: message,
+        createdAt: now.toLocaleString(),
       })
     );
     setMessage("");
@@ -118,13 +128,67 @@ function Chat() {
         Authorization: token,
       },
     });
-    setMessages(res.data);
+
+    // 원본 배열 저장
+    setMessages((prev) => {
+      return res.data;
+    });
+
+    // 미로드된 메세지 갯수 지정 (초기 최대 50개까지 보임)
+    setShowChatNum((num) =>
+      res.data.length - 50 > 0 ? res.data.length - 50 : 0
+    );
+
+    // 보일 메세지 배열 세팅
+    setShowMessages((prev) => {
+      return res.data.slice(res.data.length - 50, res.data.length);
+    });
+  };
+
+  // 위로 스크롤 시 추가 로딩 함수
+  const addScroll = () => {
+    if (document.documentElement.scrollTop < 100) {
+      if (!messages || messages.length < 50) return;
+      if (!showMessages || showMessages.length < 50) return;
+
+      let prevHeight = document.documentElement.scrollHeight;
+
+      if (showChatNum > 0) {
+        setShowMessages((message) => {
+          return message
+            ? [
+                ...messages.slice(
+                  showChatNum - 50 > 0 ? showChatNum - 50 : 0,
+                  showChatNum
+                ),
+                ...message,
+              ]
+            : [];
+        });
+
+        setTimeout(() => {
+          document.documentElement.scrollTop =
+            document.documentElement.scrollHeight - prevHeight;
+        }, 1);
+
+        setShowChatNum((num) => {
+          if (num - 50 <= 0) window.removeEventListener("scroll", addScroll);
+          return num - 50 > 0 ? num - 50 : 0;
+        });
+      }
+    }
   };
 
   // 초기 실행 시 채팅 불러오기(2)
   useEffect(() => {
     loadChat();
   }, []);
+
+  // infinite loading을 위한 event 추가
+  useEffect(() => {
+    window.addEventListener("scroll", addScroll);
+    return () => window.removeEventListener("scroll", addScroll);
+  }, [messages]);
 
   const updateMessage = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(event.target.value);
@@ -146,13 +210,47 @@ function Chat() {
         <div>채팅</div>
       </Header>
       <div className="msgBox" ref={scrollRef}>
-        {messages?.map((message, index) => {
+        {showMessages?.map((message, index) => {
           return (
             <div
               key={index}
-              className={userId == message.sendUserId ? "myMsg" : "oppMsg"}
+              className={
+                userId == message.sendUserId ? "myMsg line" : "oppMsg line"
+              }
             >
-              {message.message}
+              <div
+                style={{
+                  display: userId == message.sendUserId ? "block" : "none",
+                }}
+                className={"time"}
+              >
+                {message.createdAt
+                  ?.substring(0, message.createdAt.length - 3)
+                  .split(" ")
+                  .slice(0, 3)}
+                <br />
+                {message.createdAt
+                  ?.substring(0, message.createdAt.length - 3)
+                  .split(" ")
+                  .slice(3)}
+              </div>
+              <div className={"content"}>{message.message}</div>
+              <div
+                style={{
+                  display: userId == message.sendUserId ? "none" : "block",
+                }}
+                className={"time"}
+              >
+                {message.createdAt
+                  ?.substring(0, message.createdAt.length - 3)
+                  .split(" ")
+                  .slice(0, 3)}
+                <br />
+                {message.createdAt
+                  ?.substring(0, message.createdAt.length - 3)
+                  .split(" ")
+                  .slice(3)}
+              </div>
             </div>
           );
         })}

@@ -25,15 +25,14 @@ const MiddleLogin = () => {
       .then((res) => {
         console.log("아이디 있음");
         if (!authtoken) return;
+
         const userData = parseJwt(authtoken);
-        setUser({
-          name: userData.name,
-          userId: userData.userId,
-          email: userData.username,
-        });
+        setUser(userData);
+
         setToken(authtoken);
         navigate("/");
         login();
+        navigate("/main");
       })
       .catch((error) => {
         console.log("아이디 없음");

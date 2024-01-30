@@ -15,8 +15,8 @@ interface CoupleInterface {
   coupleId: number | null;
   name: string | null;
   startDate: string | null;
-  fuserId: number;
-  suserId: number;
+  fuserId: number | null;
+  suserId: number | null;
 }
 
 export type { UserInterface, CoupleInterface };

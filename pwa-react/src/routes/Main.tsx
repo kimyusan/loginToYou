@@ -11,7 +11,6 @@ import {
 import { UserInterface, CoupleInterface } from "../interface/UserInterface";
 
 import { BurgerButton } from "../styles/common/hamburger";
-
 import Navbar from "../components/Navbar";
 import HeaderSection from "../components/Main/HeaderSection";
 import { Card } from "../styles/common/card";
@@ -20,6 +19,7 @@ import QuestionCard from "../components/Main/QuestionCard";
 import useAuthStore from "../stores/AuthStore";
 import useUserStore from "../stores/UserStore";
 import { useShallow } from "zustand/react/shallow";
+import useCoupleStore from "../stores/CoupleStore";
 
 const Main = () => {
   const { id } = useParams();
@@ -29,6 +29,13 @@ const Main = () => {
       token: state.token,
     }))
   );
+  const { setCouple, setYourName } = useCoupleStore(
+    useShallow((state) => ({
+      setCouple: state.setCouple,
+      setYourName: state.setYourName,
+    }))
+  );
+  const userId = useUserStore.getState().userId;
   const coupleId = useUserStore.getState().coupleId;
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const [cp1, setCp1] = useState<UserInterface>();
@@ -65,7 +72,20 @@ const Main = () => {
         coupleId: 1,
       },
     });
-    console.log(res);
+    setCouple({
+      coupleId: res.data[2].coupleId,
+      name: name,
+      startDate: startDate,
+      fuserId: res.data[2].fuserId,
+      suserId: res.data[2].suserId,
+    });
+
+    if (res.data[0].userId === userId) {
+      setYourName(res.data[1].userId, res.data[1].name, res.data[1].nickname);
+    } else {
+      setYourName(res.data[0].userId, res.data[0].name, res.data[0].nickname);
+    }
+
     setCp1(res.data[0]);
     setCp2(res.data[1]);
     setCpInfo(res.data[2]);
@@ -76,6 +96,10 @@ const Main = () => {
   }, []);
 
   const navigate = useNavigate();
+
+  const goDiary = () => {
+    navigate("/diary");
+  };
 
   return (
     <>
@@ -98,7 +122,7 @@ const Main = () => {
               <p>찍으러 가기</p>
             </div>
           </Card>
-          <Card className="diary">
+          <Card className="diary" onClick={goDiary}>
             <p>다이어리</p>
           </Card>
           <Card className="chat" onClick={goChat}>

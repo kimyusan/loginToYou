@@ -23,6 +23,7 @@ const Calendar = (props: Props) => {
 
   const {
     openModal,
+    closeModal,
     isOpen,
     isEdit,
     isDelete,
@@ -58,6 +59,10 @@ const Calendar = (props: Props) => {
   useEffect(() => {
     getEventsFromServer(coupleId as number);
   }, [isEdit, isDelete]);
+
+  useEffect(() => {
+    closeModal();
+  },[]);
 
   return (
     <>
