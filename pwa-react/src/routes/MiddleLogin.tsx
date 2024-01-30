@@ -24,10 +24,9 @@ const MiddleLogin = () => {
         });
         navigate("/");
         login();
-<<<<<<< HEAD
+
         navigate("/");
-=======
->>>>>>> f8553d7 ([update] 로그인)
+
       })
       .catch((error) => {
         console.log("아이디 없음");
@@ -71,12 +70,18 @@ const MiddleLogin = () => {
           })
           .then((response) => {
             console.log("로그인 성공");
+
             console.log(response);
             idCheck(
               response.data.email,
               response.data.name,
               response.headers?.authorization
             );
+
+            console.log(response.data);
+            console.log(response.headers);
+            idCheck(response.data.email, response.data.name);
+
           })
           .catch((error) => {
             console.error("로그인 실패");
