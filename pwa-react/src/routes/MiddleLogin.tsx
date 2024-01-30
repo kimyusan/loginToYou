@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "../stores/AuthStore";
 import useUserStore from "../stores/UserStore";
+import { parseJwt } from "../util/token";
 
 const MiddleLogin = () => {
   const navigate = useNavigate();
@@ -13,10 +14,16 @@ const MiddleLogin = () => {
     axios
       .get(`${PATH}/user/info?email=${email}`)
       .then((res) => {
-        console.log("아이디 있음", res.data);
-        setUser(res.data);
-        login();
+        console.log("아이디 있음");
+        console.log(res);
+        const userData = parseJwt(res.headers.authorization);
+        // setUser(userData);
         navigate("/");
+        login();
+<<<<<<< HEAD
+        navigate("/");
+=======
+>>>>>>> f8553d7 ([update] 로그인)
       })
       .catch((error) => {
         console.log("아이디 없음");
@@ -36,7 +43,11 @@ const MiddleLogin = () => {
       // 카카오 또는 네이버 로그인 처리
       const provider = state ? "naver" : "kakao";
       const apiUrl =
-        provider === "naver" ? `${PATH}/user/login/naver` : provider === "kakao" ? `${PATH}/user/login/kakao` : null;
+        provider === "naver"
+          ? `${PATH}/user/login/naver`
+          : provider === "kakao"
+          ? `${PATH}/user/login/kakao`
+          : null;
 
       if (apiUrl) {
         console.log(`${provider} 로그인 : `, code);
@@ -66,9 +77,10 @@ const MiddleLogin = () => {
       }
     } else if (accessToken) {
       // 구글 로그인 처리
-      const googleApiUrl = `${PATH}/user/login/google`;
+      const googleApiUrl = `${PATH}/login/google`;
 
       console.log("구글 로그인 : ", accessToken);
+
       axios
         .post(
           googleApiUrl,
