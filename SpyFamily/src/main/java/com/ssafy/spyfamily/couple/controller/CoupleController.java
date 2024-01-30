@@ -37,6 +37,13 @@ public class CoupleController {
         System.out.println(headers.get("Authrization"));
         System.out.println(headers.toString());
 
+    @RequestMapping(value = "/create/couple/{emailA}/{emailB}")
+    public ResponseEntity<?> createCouple(@RequestParam String emailA, @RequestParam String emailB ) {
+
+        System.out.println(emailA + " " + emailB);
+        System.out.println("create 시작");
+        coupleService.coupleCteate(emailA,emailB);
+
         try {
             System.out.println("커플방 생성");
             return ResponseEntity.ok(coupleService.coupleCteate(emailA, emailB));
