@@ -9,6 +9,7 @@ import java.util.Optional;
 @Service
 public interface QuestionService {
     TodayQuestion getQuestion(Integer todayQuestionId);
-
     void saveQuestion(CoupleTodayQuestion coupleTodayQuestion);
+
+    void updateQuestion(CoupleTodayQuestion coupleTodayQuestion);
 }

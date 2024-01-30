@@ -26,7 +26,7 @@ CREATE TABLE `couple_today_question` (
   `couple_today_question_id` int NOT NULL AUTO_INCREMENT,
   `couple_id` int NOT NULL,
   `user_id` int NOT NULL,
-  `today_question_id` int DEFAULT NULL,
+  `today_question_id` int NOT NULL,
   `user_answer` varchar(255) DEFAULT NULL,
   `register_date` timestamp,
   PRIMARY KEY (`couple_today_question_id`)

@@ -6,7 +6,6 @@ import com.ssafy.spyfamily.user.model.UserInfo;
 import com.ssafy.spyfamily.user.service.UserServiceImpl;
 import com.ssafy.spyfamily.util.JWTUtil;
 import com.ssafy.spyfamily.util.JsonUtil;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -47,21 +46,6 @@ public class LoginController {
         return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
     }
 
-    /**
-     * 일반 로그인
-     * @param loginData key: email, password
-     */
-//    @PostMapping("/login")
-//    public ResponseEntity<?> login(@RequestBody Map<String, String> loginData) {
-//
-//        User user = userService.login(loginData);
-//
-//        if(user != null) {
-//            return new ResponseEntity<User>(user, HttpStatus.OK);
-//        }
-//
-//        return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
-//    }
 
     /**
      * 구글 로그인
