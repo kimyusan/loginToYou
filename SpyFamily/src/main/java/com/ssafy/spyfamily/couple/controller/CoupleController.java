@@ -27,18 +27,12 @@ public class CoupleController {
 
 
     // 초기 커플 생성
-    @RequestMapping(value = "/create")
-    public ResponseEntity<?> createCouple(@RequestParam String emailA, @RequestParam String emailB) {
 
-        }
 
     @RequestMapping(value = "/create/couple/{emailA}/{emailB}")
     public ResponseEntity<?> createCouple(@RequestParam String emailA, @RequestParam String emailB , @RequestHeader HttpHeaders headers) {
         System.out.println(headers.get("Authrization"));
         System.out.println(headers.toString());
-
-    @RequestMapping(value = "/create/couple/{emailA}/{emailB}")
-    public ResponseEntity<?> createCouple(@RequestParam String emailA, @RequestParam String emailB ) {
 
         System.out.println(emailA + " " + emailB);
         System.out.println("create 시작");

@@ -88,7 +88,7 @@ const MiddleLogin = () => {
 
             console.log(response.data);
             console.log(response.headers);
-            idCheck(response.data.email, response.data.name);
+            //idCheck(response.data.email, response.data.name);
 
           })
           .catch((error) => {
