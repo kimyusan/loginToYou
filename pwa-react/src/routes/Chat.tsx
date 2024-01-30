@@ -89,7 +89,7 @@ function Chat() {
     connectHandler();
   }, [room_id]);
 
-  // 채팅 전송
+  // // 채팅 전송
   const sendChat = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 

@@ -43,7 +43,7 @@ const Main = () => {
         coupleId: coupleId,
       },
       headers: {
-        Authorization: token,
+        Authorization: useAuthStore.getState().token,
       },
     });
     navigate(`/chat/${res.data}`);
