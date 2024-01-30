@@ -42,8 +42,9 @@ public class CoupleController {
 
         System.out.println(emailA + " " + emailB);
         System.out.println("create 시작");
-        coupleService.coupleCteate(emailA,emailB);
+        Couple couple = coupleService.coupleCteate(emailA,emailB);
 
+<<<<<<< HEAD
         try {
             System.out.println("커플방 생성");
             return ResponseEntity.ok(coupleService.coupleCteate(emailA, emailB));
@@ -51,6 +52,10 @@ public class CoupleController {
             e.printStackTrace();
             System.out.println("커플방 생성 오류");
             return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+=======
+        return new ResponseEntity<Couple>(couple ,HttpStatus.OK);
+    }
+>>>>>>> c722f1b ([update] fff)
 
 
         }
