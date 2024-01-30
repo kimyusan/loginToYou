@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
+import java.time.Duration;
 import java.util.Date;
 
 @Slf4j
@@ -16,7 +17,8 @@ import java.util.Date;
 public class JWTUtil {
 
     private Key key;
-
+    private long accessTokenValidTime = Duration.ofMinutes(30).toMillis(); // 만료시간 30분
+    private long refreshTokenValidTime = Duration.ofDays(7).toMillis(); // 만료시간 일주일
     public JWTUtil(@Value("${jwt.secret}")String secret) {
 
 
@@ -39,7 +41,7 @@ public class JWTUtil {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getExpiration().before(new Date());
     }
 
-    public String createJwt(String email, String role, int userId ,Integer coupleId ,String name, Long expiredMs) {
+    public String createJwt(String email, String role, int userId ,Integer coupleId ,String name) {
 
         Claims claims = Jwts.claims();
         claims.put("email", email);
@@ -50,7 +52,7 @@ public class JWTUtil {
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + expiredMs))
+                .setExpiration(new Date(System.currentTimeMillis() + accessTokenValidTime)) // 만료시간 30분
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
