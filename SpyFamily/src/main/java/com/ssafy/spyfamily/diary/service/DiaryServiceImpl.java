@@ -73,7 +73,7 @@ public class DiaryServiceImpl implements DiaryService{
 
 
     @Override
-    public void uploadDiaryUpload(Diary diary) {
+    public void uploadDiary(Diary diary) {
         diaryRepository.save(diary);
     }
 
@@ -104,6 +104,7 @@ public class DiaryServiceImpl implements DiaryService{
     public Integer countDiary(String registDate) {
         return diaryRepository.countByRegisterDate(registDate);
     }
+
 
 
 }

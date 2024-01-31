@@ -26,4 +26,32 @@ const GalleryBox = styled.div`
     margin-top: 25px;
   }
 `
-export {GalleryBox}
+
+const PictureDetailBox = styled.div`
+  width: 100%;
+  height: 300px;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+`
+
+const PictureBtnBox = styled.div`
+  width: 100%;
+  height: auto;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border: 0;
+
+  button {
+    border: 0;
+    border-radius: 5px;
+    width: 45%;
+    text-align: center;
+    padding: 10px;
+  }
+`
+export {GalleryBox, PictureDetailBox, PictureBtnBox}

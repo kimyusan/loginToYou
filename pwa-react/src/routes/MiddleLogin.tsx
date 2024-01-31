@@ -5,7 +5,7 @@ import useAuthStore from "../stores/AuthStore";
 import useUserStore from "../stores/UserStore";
 import { parseJwt } from "../util/token";
 import { useShallow } from "zustand/react/shallow";
-import { log } from "console";
+import { setClientHeaders } from "../util/token";
 
 const MiddleLogin = () => {
   const navigate = useNavigate();
@@ -27,9 +27,11 @@ const MiddleLogin = () => {
         if (!authtoken) return;
 
         const userData = parseJwt(authtoken);
-        setUser(userData);
 
+        setUser(userData);
         setToken(authtoken);
+        setClientHeaders(authtoken);
+
         login();
         navigate("/");
       })

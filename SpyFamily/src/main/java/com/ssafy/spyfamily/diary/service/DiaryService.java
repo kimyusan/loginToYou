@@ -5,7 +5,6 @@ import com.ssafy.spyfamily.diary.model.DiaryMemo;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,7 +18,7 @@ public interface DiaryService {
 
     void updateDiaryMemo(DiaryMemo diaryMemo);
 
-    void uploadDiaryUpload(Diary diary);
+    void uploadDiary(Diary diary);
 
     ArrayList<Diary> diaryList(Integer coupleId);
 

@@ -57,6 +57,11 @@ const PicBox = styled.div`
     width: 100%;
     height: 100%;
   }
+
+  span {
+    font-size: 8px;
+
+  }
 `
 
 const PicContent = styled.div`

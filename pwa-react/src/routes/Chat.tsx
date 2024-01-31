@@ -49,12 +49,16 @@ function Chat() {
   const [isLoading, setIsLoading] = useState(false);
 
   const updateRead = async () => {
-    await axiosAuth.post("/chat/readUser", {
-      params: {
-        roomId: room_id,
-        userId: userId,
-      },
-    });
+    await axiosAuth.post(
+      "/chat/readUser",
+      {},
+      {
+        params: {
+          roomId: room_id,
+          userId: userId,
+        },
+      }
+    );
   };
 
   // 소켓 연결 함수
@@ -71,18 +75,20 @@ function Chat() {
       () => {
         if (!client.current) return;
         if (!token) return;
-        // 신규 메세지 체크
+        updateRead();
 
+        // 신규 메세지 체크
         client.current.subscribe(
           `/sub/chat/room/${room_id}`,
           (msg) => {
             if (!msg.body) return;
             let newMsg = JSON.parse(msg.body);
-            updateRead();
 
             setShowMessages((showMessages) => {
               return showMessages ? [...showMessages, newMsg] : [newMsg];
             });
+
+            updateRead();
           },
           {
             Authorization: token,
@@ -194,9 +200,18 @@ function Chat() {
     setIsLoading(false);
   }, [isLoading]);
 
+  const updateReadCount = () => {
+    setShowMessages((messages) => {
+      return messages.map((each) => ({ ...each, readCount: true }));
+    });
+  };
+
   // 초기 실행 시 채팅 불러오기(2)
   useEffect(() => {
     loadChat();
+    return () => {
+      client.current?.disconnect();
+    };
   }, []);
 
   // infinite loading을 위한 event 추가
@@ -250,6 +265,7 @@ function Chat() {
                   .slice(3)}
               </div>
               <div className={"content"}>{message.message}</div>
+              <div>{message.readCount ? "안읽음" : "읽음"}</div>
               <div
                 style={{
                   display: userId == message.sendUserId ? "none" : "block",
