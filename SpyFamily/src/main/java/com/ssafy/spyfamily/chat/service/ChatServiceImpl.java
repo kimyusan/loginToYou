@@ -41,4 +41,15 @@ public class ChatServiceImpl implements  ChatService{
         return chatMessageRepository.findByRoomId(roomId);
     }
 
+    @Override
+    public void readUser(String roomId, String userId) {
+        List<ChatMessage> chatMessages = chatMessageRepository.findByRoomIdAndSendUserIdNot(roomId,userId);
+
+        for(ChatMessage chatMessage:chatMessages){
+            chatMessage.setReadCount(false);
+            chatMessageRepository.save(chatMessage);
+        }
+
+    }
+
 }

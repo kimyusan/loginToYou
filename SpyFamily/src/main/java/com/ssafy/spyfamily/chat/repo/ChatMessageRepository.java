@@ -13,4 +13,6 @@ public interface ChatMessageRepository extends JpaRepository<ChatMessage , Long>
 
     List<ChatMessage> findByRoomId(String roomId  ) ;
 
+
+    List<ChatMessage> findByRoomIdAndSendUserIdNot(String roomId , String readUser);
 }
