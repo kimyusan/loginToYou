@@ -18,6 +18,8 @@ public interface UserService {
      */
     User userUpdate(User user);
 
+    User userUpdate(Map<String, Object> userData);
+
     /**
      * 입력받은 데이터를 바탕으로 회원가입 진행
      * key: email, password, name

@@ -30,9 +30,8 @@ const MiddleLogin = () => {
         setUser(userData);
 
         setToken(authtoken);
-        navigate("/");
         login();
-        navigate("/main");
+        navigate("/");
       })
       .catch((error) => {
         console.log("아이디 없음");
