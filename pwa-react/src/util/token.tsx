@@ -1,5 +1,6 @@
 import axios from "axios";
 import useAuthStore from "../stores/AuthStore";
+import { stringify } from "querystring";
 
 export const parseJwt = (token: string) => {
   const base64Url = token.split(".")[1];
@@ -33,7 +34,7 @@ export const setClientHeaders = (authToken: string) => {
 axiosAuth.interceptors.request.use(
   (config) => {
     if (!config.headers.Authorization) {
-      config.headers.Authorization = token;
+      config.headers["Authorization"] = token;
     }
     return config;
   },
@@ -50,6 +51,7 @@ axiosAuth.interceptors.response.use(
   async (error) => {
     if (error.response?.status === 403) {
       console.log("토큰없음");
+      console.log(error);
 
       error.config.headers = {
         Authorization: token,

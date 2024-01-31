@@ -37,6 +37,7 @@ const Main = () => {
   const [cp1, setCp1] = useState<UserInterface>();
   const [cp2, setCp2] = useState<UserInterface>();
   const [cpInfo, setCpInfo] = useState<CoupleInterface>();
+  const token = useAuthStore.getState().token;
   const toggleNavigation = () => {
     setIsNavigationOpen(!isNavigationOpen);
   };
