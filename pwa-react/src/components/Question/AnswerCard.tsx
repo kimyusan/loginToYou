@@ -14,7 +14,7 @@ import {
 import useUserStore from "../../stores/UserStore";
 import useCoupleStore from "../../stores/CoupleStore";
 
-type Props = {};
+type Props = { show: boolean };
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -49,7 +49,7 @@ function a11yProps(index: number) {
   };
 }
 
-function AnswerCard({}: Props) {
+function AnswerCard({ show }: Props) {
   const today = new Date();
   const todayMonth = (today.getMonth() + 1).toString().padStart(2, "0");
   const todayDate = today.getDate().toString().padStart(2, "0");
@@ -72,33 +72,35 @@ function AnswerCard({}: Props) {
           </p>
           <p>[해당 날짜 질문]에 대해 어떻게 생각?</p>
           <hr />
-          <Box sx={{ width: "100%" }}>
-            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-              <Tabs
-                value={value}
-                onChange={handleChange}
-                aria-label="basic tabs example"
-                sx={{ position: "static" }}
-              >
-                <Tab
-                  label={nickname ? nickname : name}
-                  {...a11yProps(0)}
-                  sx={{ width: "50%", padding: 0 }}
-                />
-                <Tab
-                  label={yourNickName ? yourNickName : yourName}
-                  {...a11yProps(1)}
-                  sx={{ width: "50%", padding: 0 }}
-                />
-              </Tabs>
+          {show ? null : (
+            <Box sx={{ width: "100%" }}>
+              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                <Tabs
+                  value={value}
+                  onChange={handleChange}
+                  aria-label="basic tabs example"
+                  sx={{ position: "static" }}
+                >
+                  <Tab
+                    label={nickname ? nickname : name}
+                    {...a11yProps(0)}
+                    sx={{ width: "50%", padding: 0 }}
+                  />
+                  <Tab
+                    label={yourNickName ? yourNickName : yourName}
+                    {...a11yProps(1)}
+                    sx={{ width: "50%", padding: 0 }}
+                  />
+                </Tabs>
+              </Box>
+              <CustomTabPanel value={value} index={0}>
+                나의 답변
+              </CustomTabPanel>
+              <CustomTabPanel value={value} index={1}>
+                상대방의 답변
+              </CustomTabPanel>
             </Box>
-            <CustomTabPanel value={value} index={0}>
-              나의 답변
-            </CustomTabPanel>
-            <CustomTabPanel value={value} index={1}>
-              상대방의 답변
-            </CustomTabPanel>
-          </Box>
+          )}
         </CardContent>
         {/* <CardActions>
           <Button size="small">Learn More</Button>
