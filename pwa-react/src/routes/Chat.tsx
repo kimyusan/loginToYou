@@ -18,7 +18,8 @@ interface MessageInterface {
   sendUserId: string | null;
   message: string | null;
   contentType: string | null;
-  createdAt: string;
+  createdAt: string | null;
+  readCount: boolean | true,
 }
 
 function Chat() {
@@ -110,6 +111,8 @@ function Chat() {
         sendUserId: userId,
         message: message,
         createdAt: now.toLocaleString(),
+        readCount: true,
+      
       })
     );
     setMessage("");
