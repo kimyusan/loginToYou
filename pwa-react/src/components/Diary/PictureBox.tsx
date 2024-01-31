@@ -150,6 +150,7 @@ const PictureBox = (props: Props) => {
       }
     });
     setX(100)
+    setDay(0)
   };
 
   const increaseMonth = () => {
@@ -162,6 +163,7 @@ const PictureBox = (props: Props) => {
       }
     });
     setX(100)
+    setDay(0)
   };
   
   const toggleDrawer = (newOpen: boolean) => () => {
@@ -194,13 +196,13 @@ const PictureBox = (props: Props) => {
             data.push(thumbNail.filter((item: any) => item.isThumbnail === 1)[0])
           }
         }
-        
-        setOriginalId(`${data[day]["diaryId"]}`)
+
         setPictures(data)
-        setSelectDay(res.data[day]["saveFolder"])
+        setSelectDay(data.length > 0 ? res.data[day]["saveFolder"] : `${year.toString().substr(2,4)}${month.toString().padStart(2, "0")}01`)
         setDayPictures(res.data.filter((item: any) => item.saveFolder === res.data[day]["saveFolder"]))
         setMyContent("")
         setYourContent("")
+        setOriginalId(data.length > 0 ? `${data[day]["diaryId"]}`:"")
       })
       .catch((error) => console.log(error))
   }, [day,month,year,commit])
@@ -298,7 +300,7 @@ const PictureBox = (props: Props) => {
 
   // 대표 사진 체인지함수 
   const changeThumbNail = () => {
-    axios.put(`${PATH}/diary/thumbnail/update?diaryId=${originalId}&newDiaryId=${thumbNailId}`,{
+    axios.put(`${PATH}/diary/thumbnail/update?diaryId=${originalId}&newDiaryId=${thumbNailId}`,{}, {
       headers: {
         Authorization: token,
       }
@@ -334,6 +336,14 @@ const PictureBox = (props: Props) => {
       <Pictures >
         <SlArrowLeft onClick={goLeft}></SlArrowLeft>
         <PicItem>
+          {pictures.length > 0 ? null: <div
+                className="slide middle"
+                style={{ transform: `translateX(${x}%) scaleX(2.1) scaleY(1.5)` }}
+              >
+                <PicBox>
+                  <span>이번 달 일기가 없어요.</span>
+                </PicBox>
+              </div>}
           {pictures.map((item, idx) => {
             const middleIdx = -(x / 100) + 1;
             const className = idx === middleIdx ? "slide middle" : "slide";
