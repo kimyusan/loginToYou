@@ -24,7 +24,6 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -124,7 +123,7 @@ public class DiaryController {
             }
 
             diary = fileUtil.storeImg(multipartFiles, diary);
-            diaryService.uploadDiaryUpload(diary);
+            diaryService.uploadDiary(diary);
 
             return new ResponseEntity<Void>(HttpStatus.OK);
         } catch (Exception e) {
@@ -167,7 +166,6 @@ public class DiaryController {
     @DeleteMapping("/delete")
     public ResponseEntity<?> deleteDiary(@RequestParam Integer diaryId) {
         try {
-            Optional<Diary> diary = diaryService.getDiary(diaryId);
             diaryService.deleteDiary(diaryId);
 
             System.out.println("다이어리 사진 삭제 성공");
@@ -180,8 +178,36 @@ public class DiaryController {
 
     @PutMapping("/update")
     public ResponseEntity<?> updateDiary(@RequestBody Diary diary) {
-        diaryService.uploadDiaryUpload(diary);
+        diaryService.uploadDiary(diary);
         return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
+    @PutMapping("/thumbnail/update")
+    public ResponseEntity<?> updateThumbnail(
+            @RequestParam Integer diaryId, @RequestParam Integer newDiaryId) {
+
+        try {
+            System.out.println("썸네일 수정");
+            Diary old_diary = diaryService.getDiary(diaryId).get();
+            Diary new_diary = diaryService.getDiary(newDiaryId).get();
+            System.out.println("썸네일 수정 : 객체 받기");
+
+            old_diary.setIsThumbnail(0);
+            new_diary.setIsThumbnail(1);
+
+            System.out.println("썸네일 수정 : 객체 수정");
+            diaryService.uploadDiary(old_diary);
+            diaryService.uploadDiary(new_diary);
+            System.out.println("썸네일 수정 : 객체 수정 성공");
+            System.out.println("old_diary : " + old_diary.toString());
+            System.out.println("new_diary : " + new_diary.toString());
+            
+
+            return new ResponseEntity<Void>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }
