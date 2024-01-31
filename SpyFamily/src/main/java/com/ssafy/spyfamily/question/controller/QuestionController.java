@@ -64,7 +64,7 @@ public class QuestionController {
     }
 
     // 질문 수정
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseEntity<?> updateQuestion(@RequestBody CoupleTodayQuestion coupleTodayQuestion) {
         try {
             System.out.println("질문 수정들어옴");
