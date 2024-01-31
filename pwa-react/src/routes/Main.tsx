@@ -20,15 +20,10 @@ import useAuthStore from "../stores/AuthStore";
 import useUserStore from "../stores/UserStore";
 import { useShallow } from "zustand/react/shallow";
 import useCoupleStore from "../stores/CoupleStore";
+import { axiosAuth } from "../util/token";
 
 const Main = () => {
   const { id } = useParams();
-  const { PATH, token } = useAuthStore(
-    useShallow((state) => ({
-      PATH: state.PATH,
-      token: state.token,
-    }))
-  );
   const { setCouple, setYourName } = useCoupleStore(
     useShallow((state) => ({
       setCouple: state.setCouple,
@@ -48,31 +43,18 @@ const Main = () => {
 
   // 채팅방 이동 시 roomId 조회
   const goChat = async () => {
-    const res = await axios({
-      url: `${PATH}/chat/enter`,
-      method: "GET",
-      params: {
-        coupleId: coupleId,
-      },
-      headers: {
-        Authorization: token,
-      },
+    const res = await axiosAuth.get("/chat/enter", {
+      params: { coupleId: coupleId },
     });
     navigate(`/chat/${res.data}`);
   };
 
   // 메인화면 접속 시 커플 정보 조회
   const callData = async () => {
-    const res = await axios({
-      url: `${PATH}/couple/main`,
-      method: "GET",
-      headers: {
-        Authorization: token,
-      },
-      params: {
-        coupleId: 1,
-      },
+    const res = await axiosAuth.get("/couple/main", {
+      params: { coupleId: coupleId },
     });
+
     setCouple({
       coupleId: res.data[2].coupleId,
       name: res.data[2].name,
