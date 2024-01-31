@@ -55,7 +55,7 @@ public class ChatRoomController {
     }
 
     //상대방이 읽었을때
-    @PostMapping
+    @PostMapping("/readUser")
     public ResponseEntity<?> readUser(@RequestParam String roomId , @RequestParam String userId) {
 
         try {
