@@ -24,18 +24,16 @@ public class UserController {
      */
     @PutMapping("/update")
     public ResponseEntity<?> userUpdate(@RequestBody User user) {
-        User new_user = userService.userUpdate(user);
-        return new ResponseEntity<User>(new_user, HttpStatus.OK);
-    }
-
-    @PutMapping("/update")
-    public ResponseEntity<?> userUpdate(@RequestBody Map<String, Object> userData) {
         try {
-            User new_user = userService.userUpdate(userData);
-
-            return new ResponseEntity<Void>(HttpStatus.OK);
+            System.out.println("유저 정보 업데이트 시작");
+            User new_user = userService.userUpdate(user);
+            System.out.println("유저 정보 업데이트 성공");
+            System.out.println(new_user.toString());
+            System.out.println();
+            return new ResponseEntity<User>(new_user, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("유저 정보 업데이트 실패");
             return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

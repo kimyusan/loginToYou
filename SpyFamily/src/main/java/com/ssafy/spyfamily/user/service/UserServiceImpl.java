@@ -51,21 +51,32 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User userUpdate(User user) {
-        return userRepository.save(user);
+
+        User new_user = userRepository.findByUserId(user.getUserId());
+
+        // mobile 있다면
+        if (user.getMobile() != null) {
+            new_user.setMobile(user.getMobile());
+        }
+
+        // 생일을 입력받았다면
+        if (user.getBirthday() != null) {
+            new_user.setBirthday(user.getBirthday());
+        }
+
+        // 닉네임을 입력했다면
+        if (user.getNickname() != null) {
+            new_user.setNickname(user.getNickname());
+        }
+
+        // 성별을 설정했다면
+        if (user.getGender() != null) {
+            new_user.setGender(user.getGender());
+        }
+
+        return userRepository.save(new_user);
     }
 
-    @Override
-    public User userUpdate(Map<String, Object> userData) {
-        int userId = (int) userData.get("user_id");
-        User new_user = userRepository.findByUserId(userId);
-
-        // gender, birthday, nickname, mobile,
-        String gender = (String) userData.get("gender");
-
-
-//        return userRepository.save(user);
-        return new_user;
-    }
 
     @Override
     public User signup(Map<String, String> userData) {
