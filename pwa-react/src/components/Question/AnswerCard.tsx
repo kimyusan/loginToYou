@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { AnsCard } from "../../styles/Question/AnswerBox";
 import {
   Card,
@@ -11,12 +12,24 @@ import {
   Tab,
 } from "@mui/material";
 
+import useAuthStore from "../../stores/AuthStore";
 import useUserStore from "../../stores/UserStore";
 import useCoupleStore from "../../stores/CoupleStore";
 import useQuestionStore from "../../stores/QuestionStore";
-import zIndex from "@mui/material/styles/zIndex";
+import { useShallow } from "zustand/react/shallow";
 
-type Props = { show: boolean };
+interface Answer {
+  coupleId: number;
+  coupleTodayQuestionId: number;
+  registerDate: string;
+  todayQuestionId: number;
+  userAnswer: string;
+  userId: number;
+}
+type Props = {
+  show: boolean;
+  item: Answer[];
+};
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -51,7 +64,13 @@ function a11yProps(index: number) {
   };
 }
 
-function AnswerCard({ show }: Props) {
+function AnswerCard({ show, item }: Props) {
+  const { PATH, token } = useAuthStore(
+    useShallow((state) => ({
+      PATH: state.PATH,
+      token: state.token,
+    }))
+  );
   const today = new Date();
   const todayMonth = (today.getMonth() + 1).toString().padStart(2, "0");
   const todayDate = today.getDate().toString().padStart(2, "0");
@@ -66,12 +85,33 @@ function AnswerCard({ show }: Props) {
   const { yourName, yourNickName } = useCoupleStore();
   const { isEdit, EditMode, handleModal } = useQuestionStore();
 
+  const [question, setQuestion] = useState();
+
   const openEditModal = () => {
     if (!isEdit) {
       EditMode();
     }
     handleModal();
   };
+
+  const getQuestion = () => {
+    axios
+      .get(`${PATH}/question/get`, {
+        params: { dateString: item[0].todayQuestionId },
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((res) => {
+        setQuestion(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    console.log(item);
+    getQuestion();
+  }, []);
 
   return (
     <>
@@ -80,7 +120,7 @@ function AnswerCard({ show }: Props) {
           <p>
             {todayMonth}/{todayDate}
           </p>
-          <p>[해당 날짜 질문]에 대해 어떻게 생각?</p>
+          <p>{question}</p>
           <hr />
           {show ? null : (
             <Box sx={{ width: "100%" }}>

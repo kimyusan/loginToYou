@@ -15,8 +15,6 @@ const useQuestionStore = create(
       isOpen: false,
       isEdit: false,
 
-      // 답변 작성하기 모달 핸들ad
-
       handleModal: () => {
         set({ isOpen: !get().isOpen });
       },
