@@ -3,6 +3,9 @@ package com.ssafy.spyfamily.util;
 
 import com.ssafy.spyfamily.user.dto.CustomUserDetails;
 import com.ssafy.spyfamily.user.model.User;
+import com.ssafy.spyfamily.user.repository.UserRepository;
+import com.ssafy.spyfamily.user.service.UserService;
+import com.ssafy.spyfamily.user.service.UserServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +24,7 @@ public class JWTFilter extends OncePerRequestFilter {
     public JWTFilter(JWTUtil jwtUtil) {
 
         this.jwtUtil = jwtUtil;
+
     }
 
 
@@ -64,12 +68,14 @@ public class JWTFilter extends OncePerRequestFilter {
         String username = jwtUtil.getUsername(token);
         //String role = jwtUtil.getRole(token);
 
+        String password = "password";
+
         User user = new User();
+
         user.setEmail(username);
-        user.setPassword("temppassword");
         //userEntity.setCoupleId(coupleId);
         //userEntity.setRole(role);
-        System.out.println(user.toString());
+        System.out.println("jwt 필터" + username);
         CustomUserDetails customUserDetails = new CustomUserDetails(user);
 
         Authentication authToken = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());

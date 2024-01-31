@@ -36,6 +36,8 @@ public class StompHandler implements ChannelInterceptor {
 
             System.out.println("accessor값 확인" + accessor.getFirstNativeHeader("Authorization").toString());
         }
+
+
         return message;
     }
 }
