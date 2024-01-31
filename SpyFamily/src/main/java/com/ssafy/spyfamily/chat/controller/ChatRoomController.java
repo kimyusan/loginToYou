@@ -54,6 +54,23 @@ public class ChatRoomController {
 
     }
 
+    //상대방이 읽었을때
+    @PostMapping
+    public ResponseEntity<?> readUser(@RequestParam String roomId , @RequestParam String userId) {
+
+        try {
+            chatService.readUser(roomId, userId);
+
+            return new ResponseEntity<Void>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error(e.getMessage());
+
+            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+
+        }
+    }
+
     @GetMapping("/load")
     public ResponseEntity<?> loadMessage(@RequestParam String roomId){
 

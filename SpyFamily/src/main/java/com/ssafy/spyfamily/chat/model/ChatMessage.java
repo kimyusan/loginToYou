@@ -1,17 +1,17 @@
 package com.ssafy.spyfamily.chat.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.ColumnDefault;
 
 
 @Getter
 @Setter
 @Entity
+@ToString
 public class ChatMessage {
 
     // 메시지 타입 : 입장, 채팅
@@ -21,6 +21,7 @@ public class ChatMessage {
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
+
     private Long messageId;
 
     private MessageType type; // 메시지 타입
@@ -28,7 +29,9 @@ public class ChatMessage {
     private String sendUserId; // 메시지 보낸사람
     private String message; // 메시지
     private String contentType; // 사진 or 문자
-    private boolean isRead;
+    @Column(columnDefinition = "tinyint(1) default 1")
+    private boolean readCount;
+
     private String createdAt;
 
 }

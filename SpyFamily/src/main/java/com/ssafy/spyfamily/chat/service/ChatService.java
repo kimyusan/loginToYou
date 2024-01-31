@@ -13,4 +13,6 @@ public interface ChatService {
     void createRoom(Long coupleId);
 
     List<ChatMessage> loadMessage(String roomId);
+
+    void readUser(String roomId, String userId);
 }
