@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import SockJS from "sockjs-client";
 import { CompatClient, Stomp } from "@stomp/stompjs";
+import { axiosAuth } from "../util/token";
 
 import useUserStore from "../stores/UserStore";
 import useAuthStore from "../stores/AuthStore";
@@ -19,7 +20,7 @@ interface MessageInterface {
   message: string | null;
   contentType: string | null;
   createdAt: string | null;
-  readCount: boolean | true,
+  readCount: boolean | true;
 }
 
 function Chat() {
@@ -47,6 +48,15 @@ function Chat() {
   const [showChatNum, setShowChatNum] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
+  const updateRead = async () => {
+    await axiosAuth.post("/chat/readUser", {
+      params: {
+        roomId: room_id,
+        userId: userId,
+      },
+    });
+  };
+
   // 소켓 연결 함수
   const connectHandler = () => {
     client.current = Stomp.over(() => {
@@ -68,6 +78,7 @@ function Chat() {
           (msg) => {
             if (!msg.body) return;
             let newMsg = JSON.parse(msg.body);
+            updateRead();
 
             setShowMessages((showMessages) => {
               return showMessages ? [...showMessages, newMsg] : [newMsg];
@@ -112,7 +123,6 @@ function Chat() {
         message: message,
         createdAt: now.toLocaleString(),
         readCount: true,
-      
       })
     );
     setMessage("");
@@ -121,14 +131,9 @@ function Chat() {
 
   // 초기 실행 시 채팅 불러오기(1)
   const loadChat = async () => {
-    const res = await axios({
-      url: `${PATH}/chat/load`,
-      method: `GET`,
+    const res = await axiosAuth("chat/load", {
       params: {
         roomId: room_id,
-      },
-      headers: {
-        Authorization: token,
       },
     });
 
