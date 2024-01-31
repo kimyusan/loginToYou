@@ -3,8 +3,8 @@ import axios from "axios";
 import { QBox, SaveButton } from "../../styles/Question/Question";
 import QuestionModal from "./QuestionModal";
 import useAuthStore from "../../stores/AuthStore";
+import useQuestionStore from "../../stores/QuestionStore";
 import { useShallow } from "zustand/react/shallow";
-import { getUniqueDomId } from "@fullcalendar/core/internal";
 
 type Props = {};
 
@@ -15,6 +15,7 @@ const QuestionBox = (props: Props) => {
       token: state.token,
     }))
   );
+  const { isEdit, EditMode, isOpen, handleModal } = useQuestionStore();
 
   const today = new Date();
   const todayYear = today.getFullYear().toString();
@@ -24,14 +25,7 @@ const QuestionBox = (props: Props) => {
     return todayYear + todayMonth + todayDate;
   };
 
-  const [isOpen, setIsOpen] = useState(false);
-
   const [question, setQuestion] = useState("");
-
-  // 답변 작성하기 모달 핸들
-  const handleModal = () => {
-    setIsOpen(!isOpen);
-  };
 
   const getQuestion = () => {
     axios
@@ -41,8 +35,17 @@ const QuestionBox = (props: Props) => {
           Authorization: token,
         },
       })
-      .then((res) => console.log(res.data))
+      .then((res) => {
+        setQuestion(res.data);
+      })
       .catch((err) => console.log(err));
+  };
+
+  const openCreateModal = () => {
+    if (isEdit) {
+      EditMode();
+    }
+    handleModal();
   };
 
   useEffect(() => {
@@ -52,22 +55,27 @@ const QuestionBox = (props: Props) => {
   return (
     <>
       <QBox>
-        <p className="question">
-          {todayMonth}/{todayDate} 오늘의 질문
-        </p>
-        <p>A에 대해서 어떻게 생각해?</p>
+        <div>
+          <p className="date">
+            {todayMonth}/{todayDate} 오늘의 질문
+          </p>
+          <p>{question}</p>
+        </div>
         <div className="btn_container">
-          <SaveButton variant="contained" onClick={handleModal}>
+          <SaveButton variant="contained" onClick={openCreateModal}>
             답변 작성하기
           </SaveButton>
         </div>
-        <QuestionModal
-          isOpen={isOpen}
-          handleModal={handleModal}
-          todayMonth={todayMonth}
-          todayDate={todayDate}
-        />
       </QBox>
+
+      <QuestionModal
+        question={question}
+        todayToString={todayToString}
+        isOpen={isOpen}
+        handleModal={handleModal}
+        todayMonth={todayMonth}
+        todayDate={todayDate}
+      />
     </>
   );
 };
