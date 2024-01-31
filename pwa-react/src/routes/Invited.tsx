@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
@@ -8,11 +8,11 @@ import { LongButton } from "../styles/Invite/UI";
 import useAuthStore from "../stores/AuthStore";
 import useUserStore from "../stores/UserStore";
 import { useShallow } from "zustand/react/shallow";
-import { parseJwt } from "../util/token";
+import { axiosAuth } from "../util/token";
 
 function Invited() {
   const navigate = useNavigate();
-  const { user_email, user_name } = useParams();
+  const { user_email } = useParams();
   const { email, setCoupleId, coupleId } = useUserStore();
   const { isLogin, PATH, token } = useAuthStore(
     useShallow((state) => ({
@@ -22,11 +22,23 @@ function Invited() {
     }))
   );
   const location = useLocation();
+  const [userName, setUserName] = useState("");
+
+  const getUserInfo = async () => {
+    const res = await axiosAuth.get("user/info", {
+      params: {
+        email: user_email,
+      },
+    });
+    if (res.data.coupleId) navigate("/");
+    setUserName((name) => res.data.name);
+  };
 
   useEffect(() => {
     if (!isLogin) navigate("/login", { state: location.pathname });
     if (coupleId !== 0 && coupleId !== null) navigate("/");
     if (email == user_email) navigate("/");
+    getUserInfo();
   }, []);
 
   const createCouple = async () => {
@@ -60,7 +72,7 @@ function Invited() {
   return (
     <Wrapper>
       <div>
-        <span className="ft-bd">{user_name}</span>님께 로그인 하시겠습니까?
+        <span className="ft-bd">{userName}</span>님께 로그인 하시겠습니까?
       </div>
       <div className="fc-grey mb-30">(수락 시 연인 관계로 등록됩니다.)</div>
       <LongButton onClick={createCouple}>확인</LongButton>

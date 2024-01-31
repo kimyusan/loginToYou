@@ -2,27 +2,38 @@ import React, { useState, useEffect } from "react";
 import { useShallow } from "zustand/react/shallow";
 import axios from "axios";
 
-import { Pictures, PicItem, PicBox, PicContent, SelectBox, CreateDiary } from "../../styles/Diary/PictureBox";
-import { GalleryBox, PictureDetailBox, PictureBtnBox } from '../../styles/Diary/ShowGallery';
-import { DaySelect } from '../../styles/Diary/Diary';
+import {
+  Pictures,
+  PicItem,
+  PicBox,
+  PicContent,
+  SelectBox,
+  CreateDiary,
+} from "../../styles/Diary/PictureBox";
+import {
+  GalleryBox,
+  PictureDetailBox,
+  PictureBtnBox,
+} from "../../styles/Diary/ShowGallery";
+import { DaySelect } from "../../styles/Diary/Diary";
 import { BurgerButton } from "../../styles/common/hamburger";
 
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 import { MdOutlineClose } from "react-icons/md";
 import { IoCreateOutline } from "react-icons/io5";
 
-import useAuthStore from '../../stores/AuthStore';
-import useUserStore from '../../stores/UserStore';
+import useAuthStore from "../../stores/AuthStore";
+import useUserStore from "../../stores/UserStore";
 import useCoupleStore from "../../stores/CoupleStore";
 
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import { Global } from '@emotion/react';
-import { styled } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import { grey } from '@mui/material/colors';
-import Typography from '@mui/material/Typography';
-import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import { Global } from "@emotion/react";
+import { styled } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import { grey } from "@mui/material/colors";
+import Typography from "@mui/material/Typography";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
 import Navbar from "../Navbar";
 
@@ -42,33 +53,35 @@ interface Diary {
   subject: String | null;
 }
 
-const Root = styled('div')(({ theme }) => ({
-  height: '100%',
+const Root = styled("div")(({ theme }) => ({
+  height: "100%",
   backgroundColor:
-    theme.palette.mode === 'light' ? grey[100] : theme.palette.background.default,
+    theme.palette.mode === "light"
+      ? grey[100]
+      : theme.palette.background.default,
 }));
 
-const StyledBox = styled('div')(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'light' ? '#fff' : grey[800],
+const StyledBox = styled("div")(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "light" ? "#fff" : grey[800],
 }));
 
-const Puller = styled('div')(({ theme }) => ({
+const Puller = styled("div")(({ theme }) => ({
   width: 30,
   height: 6,
-  backgroundColor: theme.palette.mode === 'light' ? grey[300] : grey[900],
+  backgroundColor: theme.palette.mode === "light" ? grey[300] : grey[900],
   borderRadius: 3,
-  position: 'absolute',
+  position: "absolute",
   top: 8,
-  left: 'calc(50% - 15px)',
+  left: "calc(50% - 15px)",
 }));
 
 const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: '80%',
-  bgcolor: 'background.paper',
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "80%",
+  bgcolor: "background.paper",
   border: 0,
   boxShadow: 24,
   borderRadius: "5px",
@@ -78,7 +91,7 @@ const style = {
 const PictureBox = (props: Props) => {
   const { window } = props;
   const [x, setX] = useState(100);
-  
+
   // 날짜 별 사진 저장 변수
   const [pictures, setPictures] = useState<Diary[]>([]);
 
@@ -108,13 +121,13 @@ const PictureBox = (props: Props) => {
 
   // 작성자 다이어리 아이디
   const [myMemoId, setMyMemoId] = useState("");
-  
+
   // 공용 다이어리 아이디
   const [diaryId, setDiaryId] = useState<String>("");
 
   //썸네일 아이디 변수들
-  const [originalId, setOriginalId] = useState("")
-  const [thumbNailId,setThumbNailId] = useState("");
+  const [originalId, setOriginalId] = useState("");
+  const [thumbNailId, setThumbNailId] = useState("");
   const [commit, setCommit] = useState(true);
 
   const { PATH, token } = useAuthStore(
@@ -141,174 +154,204 @@ const PictureBox = (props: Props) => {
   };
 
   const decreaseMonth = () => {
-    setMonth(prevMonth => {
+    setMonth((prevMonth) => {
       if (prevMonth === 1) {
-        setYear(prevYear => prevYear - 1);
+        setYear((prevYear) => prevYear - 1);
         return 12;
       } else {
         return prevMonth - 1;
       }
     });
-    setX(100)
+    setX(100);
   };
 
   const increaseMonth = () => {
-    setMonth(prevMonth => {
+    setMonth((prevMonth) => {
       if (prevMonth === 12) {
-        setYear(prevYear => prevYear + 1);
+        setYear((prevYear) => prevYear + 1);
         return 1;
       } else {
         return prevMonth + 1;
       }
     });
-    setX(100)
+    setX(100);
   };
-  
+
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen2(newOpen);
   };
 
-  const container = window !== undefined ? () => window().document.body : undefined;
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
 
   // 로그인 된 사용자의 내용
   const changeContent = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setMyContent(event.target.value)
-  }
+    setMyContent(event.target.value);
+  };
 
   // 날짜별 사진 불러오기
   useEffect(() => {
-    axios.get(`${PATH}/diary/read`, {
-      params: {
-        coupleId
-      },
-      headers: {
-        Authorization: token,
-      },
-    })
+    axios
+      .get(`${PATH}/diary/read`, {
+        params: {
+          coupleId,
+        },
+        headers: {
+          Authorization: token,
+        },
+      })
       .then((res) => {
-        const data : Diary[] = [];
+        const data: Diary[] = [];
 
-        for (let i=1; i < today.getDate() + 1; i++) {
-          const thumbNail = res.data.filter((item: any) => "20" + item.saveFolder === `${year}${(month).toString().padStart(2, "0")}${i}`)
+        for (let i = 1; i < today.getDate() + 1; i++) {
+          const thumbNail = res.data.filter(
+            (item: any) =>
+              "20" + item.saveFolder ===
+              `${year}${month.toString().padStart(2, "0")}${i}`
+          );
           if (thumbNail.length > 0) {
-            data.push(thumbNail.filter((item: any) => item.isThumbnail === 1)[0])
+            data.push(
+              thumbNail.filter((item: any) => item.isThumbnail === 1)[0]
+            );
           }
         }
-        
-        setOriginalId(`${data[day]["diaryId"]}`)
-        setPictures(data)
-        setSelectDay(res.data[day]["saveFolder"])
-        setDayPictures(res.data.filter((item: any) => item.saveFolder === res.data[day]["saveFolder"]))
-        setMyContent("")
-        setYourContent("")
+
+        setOriginalId(`${data[day]["diaryId"]}`);
+        setPictures(data);
+        setSelectDay(res.data[day]["saveFolder"]);
+        setDayPictures(
+          res.data.filter(
+            (item: any) => item.saveFolder === res.data[day]["saveFolder"]
+          )
+        );
+        setMyContent("");
+        setYourContent("");
       })
-      .catch((error) => console.log(error))
-  }, [day,month,year,commit])
+      .catch((error) => console.log(error));
+  }, [day, month, year, commit]);
 
   // 캐러셀 css 계산
   const goLeft = () => {
     x === 100 ? setX(100) : setX(x + 100);
-    day === 0 ? setDay(0) : setDay(day-1)
+    day === 0 ? setDay(0) : setDay(day - 1);
   };
 
   const goRight = () => {
-    x === -100 * (pictures.length - 2) ? setX(-100 * (pictures.length - 2)) : setX(x - 100);
-    day === pictures.length - 1 ? setDay(pictures.length - 1) : setDay(day+1)
+    x === -100 * (pictures.length - 2)
+      ? setX(-100 * (pictures.length - 2))
+      : setX(x - 100);
+    day === pictures.length - 1 ? setDay(pictures.length - 1) : setDay(day + 1);
   };
 
-  // 다이어리 모달 오픈 및 개인별 다이어리 조회 
+  // 다이어리 모달 오픈 및 개인별 다이어리 조회
   const openDetail = (id: String) => {
-    setDiaryId(id)
+    setDiaryId(id);
 
-    axios.get(`${PATH}/diary/memo/get`, {
-      params: {
-        userIdA: userId,
-        userIdB: yourId,
-        diaryId: id,
-      },
-      headers: {
-        Authorization: token,
-      },
-    })
+    axios
+      .get(`${PATH}/diary/memo/get`, {
+        params: {
+          userIdA: userId,
+          userIdB: yourId,
+          diaryId: id,
+        },
+        headers: {
+          Authorization: token,
+        },
+      })
       .then((res) => {
-        console.log(res.data)
-        setOpen(true)
-        setMyMemoId(res.data[0].diaryMemoId)
+        console.log(res.data);
+        setOpen(true);
+        setMyMemoId(res.data[0].diaryMemoId);
         if (res.data[0].content) {
-          setMyContent(res.data[0].content)
-          setMyCom(true)
+          setMyContent(res.data[0].content);
+          setMyCom(true);
         } else {
-          setMyCom(false)
+          setMyCom(false);
         }
 
         if (res.data[1].content) {
-          setYourContent(res.data[1].content)
-          setYourCom(true)
+          setYourContent(res.data[1].content);
+          setYourCom(true);
         } else {
-          setYourCom(false)
+          setYourCom(false);
         }
       })
       .catch((error) => {
-        console.log("작성된 다이어리 없음", error)
-      })
-  }
+        console.log("작성된 다이어리 없음", error);
+      });
+  };
 
   // 개인 별 다이어리 작성
   const createDiary = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+    event.preventDefault();
 
-    axios.post(`${PATH}/diary/memo/regist`, {
-      diaryMemoId: null,
-      diaryId,
-      userId,
-      content: myContent,
-    },{
-      headers: {
-        Authorization: token,
-      },
-    })
+    axios
+      .post(
+        `${PATH}/diary/memo/regist`,
+        {
+          diaryMemoId: null,
+          diaryId,
+          userId,
+          content: myContent,
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      )
       .then((res) => {
-        setDiaryOpen(0)
-        setMyCom(true)
-        console.log("다이어리 작성 성공" ,res.data)
+        setDiaryOpen(0);
+        setMyCom(true);
+        console.log("다이어리 작성 성공", res.data);
       })
-      .catch((error) => console.log(error))
-  }
+      .catch((error) => console.log(error));
+  };
 
   // 개인 별 다이어리 업데이트
   const updateDiary = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+    event.preventDefault();
 
-    axios.put(`${PATH}/diary/memo/update`,{
-      diaryMemoId: myMemoId,
-      diaryId,
-      userId,
-      content: myContent,
-    },{
-      headers: {
-        Authorization: token,
-      },
-    })
+    axios
+      .put(
+        `${PATH}/diary/memo/update`,
+        {
+          diaryMemoId: myMemoId,
+          diaryId,
+          userId,
+          content: myContent,
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      )
       .then((res: any) => {
-        setDiaryOpen(0)
-        console.log("다이어리 업데이트 성공", res.data)
+        setDiaryOpen(0);
+        console.log("다이어리 업데이트 성공", res.data);
       })
-      .catch((error) => console.log(error))
-  }
+      .catch((error) => console.log(error));
+  };
 
-  // 대표 사진 체인지함수 
+  // 대표 사진 체인지함수
   const changeThumbNail = () => {
-    axios.put(`${PATH}/diary/thumbnail/update?diaryId=${originalId}&newDiaryId=${thumbNailId}`,{
-      headers: {
-        Authorization: token,
-      }
-    })
-    .then((res) => {
-      console.log("대표사진 수정 성공",res.data)
-      setCommit(!commit)
-    })
-    .catch((error) => console.log(error))
-  }
+    axios
+      .put(
+        `${PATH}/diary/thumbnail/update?diaryId=${originalId}&newDiaryId=${thumbNailId}`,
+        {},
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      )
+      .then((res) => {
+        console.log("대표사진 수정 성공", res.data);
+        setCommit(!commit);
+      })
+      .catch((error) => console.log(error));
+  };
 
   return (
     <div>
@@ -321,31 +364,31 @@ const PictureBox = (props: Props) => {
 
       {/* 날짜 선택 */}
       <DaySelect>
-        <div className='subBox'>
+        <div className="subBox">
           <SlArrowLeft onClick={decreaseMonth}></SlArrowLeft>
-          <div className='dayBox'>
-            {year}.{month.toString().padStart(2, "0")}.{selectDay.substr(4,6)}
+          <div className="dayBox">
+            {year}.{month.toString().padStart(2, "0")}.{selectDay.substr(4, 6)}
           </div>
           <SlArrowRight onClick={increaseMonth}></SlArrowRight>
         </div>
       </DaySelect>
 
       {/* 다이어리 캐러셀 */}
-      <Pictures >
+      <Pictures>
         <SlArrowLeft onClick={goLeft}></SlArrowLeft>
         <PicItem>
           {pictures.map((item, idx) => {
             const middleIdx = -(x / 100) + 1;
             const className = idx === middleIdx ? "slide middle" : "slide";
-            let url = ""
-            let Id = ""
-            let subject = ""
+            let url = "";
+            let Id = "";
+            let subject = "";
             if (item) {
               url = `${PATH}/diary/getImg/${item["saveFolder"]}/${item["originalName"]}/${item["saveName"]}`;
-              Id = `${item["diaryId"]}`
-              subject = `${item["subject"]}`
+              Id = `${item["diaryId"]}`;
+              subject = `${item["subject"]}`;
             } else {
-              url = "https://www.morget.co.kr/shop/img/no_image.gif"
+              url = "https://www.morget.co.kr/shop/img/no_image.gif";
             }
             return (
               <div
@@ -375,56 +418,91 @@ const PictureBox = (props: Props) => {
         >
           <Box sx={style}>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              {diaryOpen === 0 ? <div style={{ display: "flex", alignItems: "center" }}>
-                <IoCreateOutline style={{ width: "20px", height: "20px" }}></IoCreateOutline> 미작성
-                <IoCreateOutline style={{ color: "#f68da2", marginLeft: "15px", width: "20px", height: "20px" }}></IoCreateOutline> 작성
-              </div> :
-                <div style={{ fontWeight: "bold"}}>
-                  {diaryOpen === 1 ? <div>{nickname ? nickname : name} 님의 일기</div> : null}
-                  {diaryOpen === 2 ? <div>{yourNickName ? yourNickName : yourName} 님의 일기</div> : null}
-                </div>}
-              <MdOutlineClose onClick={() => (setOpen(false), setDiaryOpen(0))} style={{ width: "20px", height: "20px", marginBottom: "15px" }}></MdOutlineClose>
+              {diaryOpen === 0 ? (
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <IoCreateOutline
+                    style={{ width: "20px", height: "20px" }}
+                  ></IoCreateOutline>{" "}
+                  미작성
+                  <IoCreateOutline
+                    style={{
+                      color: "#f68da2",
+                      marginLeft: "15px",
+                      width: "20px",
+                      height: "20px",
+                    }}
+                  ></IoCreateOutline>{" "}
+                  작성
+                </div>
+              ) : (
+                <div style={{ fontWeight: "bold" }}>
+                  {diaryOpen === 1 ? (
+                    <div>{nickname ? nickname : name} 님의 일기</div>
+                  ) : null}
+                  {diaryOpen === 2 ? (
+                    <div>
+                      {yourNickName ? yourNickName : yourName} 님의 일기
+                    </div>
+                  ) : null}
+                </div>
+              )}
+              <MdOutlineClose
+                onClick={() => (setOpen(false), setDiaryOpen(0))}
+                style={{ width: "20px", height: "20px", marginBottom: "15px" }}
+              ></MdOutlineClose>
             </div>
 
-            {diaryOpen === 0 ? <SelectBox>
-              <div className="item" onClick={() => setDiaryOpen(1)}>
-                <div>{nickname ? nickname : name} 일기</div>
-                <IoCreateOutline className={myCom ? "subItem complete" : "subItem"}></IoCreateOutline>
+            {diaryOpen === 0 ? (
+              <SelectBox>
+                <div className="item" onClick={() => setDiaryOpen(1)}>
+                  <div>{nickname ? nickname : name} 일기</div>
+                  <IoCreateOutline
+                    className={myCom ? "subItem complete" : "subItem"}
+                  ></IoCreateOutline>
+                </div>
+                <div className="item" onClick={() => setDiaryOpen(2)}>
+                  <div>{yourNickName ? yourNickName : yourName} 일기</div>
+                  <IoCreateOutline
+                    className={yourCom ? "subItem complete" : "subItem"}
+                  ></IoCreateOutline>
+                </div>
+              </SelectBox>
+            ) : null}
+            {diaryOpen === 1 ? (
+              <div>
+                {myCom ? (
+                  <div>
+                    <CreateDiary onSubmit={updateDiary}>
+                      <textarea value={myContent} onChange={changeContent} />
+                      <button type="submit">일기 수정</button>
+                    </CreateDiary>
+                  </div>
+                ) : (
+                  <CreateDiary onSubmit={createDiary}>
+                    <textarea value={myContent} onChange={changeContent} />
+                    <button type="submit">일기 작성</button>
+                  </CreateDiary>
+                )}
               </div>
-              <div className="item" onClick={() => setDiaryOpen(2)}>
-                <div>{yourNickName ? yourNickName : yourName} 일기</div>
-                <IoCreateOutline className={yourCom ? "subItem complete" : "subItem"}></IoCreateOutline>
+            ) : null}
+            {diaryOpen === 2 ? (
+              <div style={{ whiteSpace: "pre" }}>
+                {yourContent ? yourContent : "아직 일기를 쓰지 않았어요 ㅠㅠ"}
               </div>
-            </SelectBox> : null}
-            {diaryOpen === 1 ? <div>
-              {myCom ? <div>
-                <CreateDiary onSubmit={updateDiary}>
-                <textarea value={myContent} onChange={changeContent}/>
-                <button type="submit">일기 수정</button>
-              </CreateDiary>
-              </div> : <CreateDiary onSubmit={createDiary}>
-                <textarea value={myContent} onChange={changeContent} />
-                <button type="submit">일기 작성</button>
-              </CreateDiary>}
-
-            </div> : null}
-            {diaryOpen === 2 ? <div style={{ whiteSpace: "pre"}}>
-              {yourContent ? yourContent : "아직 일기를 쓰지 않았어요 ㅠㅠ"}
-            </div> : null}
+            ) : null}
           </Box>
         </Modal>
         <SlArrowRight onClick={goRight}></SlArrowRight>
       </Pictures>
-
 
       {/* 해당 날짜별 사진들 */}
       <Root style={{ zIndex: "-1" }}>
         <CssBaseline />
         <Global
           styles={{
-            '.MuiDrawer-root > .MuiPaper-root': {
+            ".MuiDrawer-root > .MuiPaper-root": {
               height: `calc(50% - ${drawerBleeding}px)`,
-              overflow: 'visible',
+              overflow: "visible",
             },
           }}
         />
@@ -443,47 +521,59 @@ const PictureBox = (props: Props) => {
         >
           <StyledBox
             sx={{
-              position: 'absolute',
+              position: "absolute",
               top: -drawerBleeding,
               borderTopLeftRadius: 8,
               borderTopRightRadius: 8,
-              visibility: 'visible',
+              visibility: "visible",
               right: 0,
               left: 0,
             }}
           >
             <Puller />
-            <Typography sx={{ p: 2, color: 'text.secondary' }}>{dayPictures.length}개의 사진들</Typography>
+            <Typography sx={{ p: 2, color: "text.secondary" }}>
+              {dayPictures.length}개의 사진들
+            </Typography>
           </StyledBox>
           <GalleryBox>
-            {dayPictures.length === 0 ? <div className='noPic'>사진 없음</div> : null}
+            {dayPictures.length === 0 ? (
+              <div className="noPic">사진 없음</div>
+            ) : null}
             {dayPictures.map((item, idx) => {
-              const url = `${PATH}/diary/getImg/${item["saveFolder"]}/${item["originName"]}/${item["saveName"]}`
+              const url = `${PATH}/diary/getImg/${item["saveFolder"]}/${item["originName"]}/${item["saveName"]}`;
               return (
-                <div key={idx} className='item' onClick={() => (setImgUrl(url), setOpen4(true),setThumbNailId(item["diaryId"]))}>
+                <div
+                  key={idx}
+                  className="item"
+                  onClick={() => (
+                    setImgUrl(url),
+                    setOpen4(true),
+                    setThumbNailId(item["diaryId"])
+                  )}
+                >
                   <img src={url} alt="일별 사진들" />
                 </div>
-              )
+              );
             })}
           </GalleryBox>
 
           {/* 사진 크게 보는 모달 */}
           <Modal
-          open={open4}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>    
-            <PictureDetailBox>
-              <img src={imgUrl} alt="사진 크게 보기"/>
-            </PictureDetailBox>
+            open={open4}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <PictureDetailBox>
+                <img src={imgUrl} alt="사진 크게 보기" />
+              </PictureDetailBox>
 
-            <PictureBtnBox>
-              <button onClick={changeThumbNail}>대표 사진 등록</button>
-              <button onClick={() => setOpen4(false)}>닫기</button>
-            </PictureBtnBox>
-          </Box>
-        </Modal>
+              <PictureBtnBox>
+                <button onClick={changeThumbNail}>대표 사진 등록</button>
+                <button onClick={() => setOpen4(false)}>닫기</button>
+              </PictureBtnBox>
+            </Box>
+          </Modal>
         </SwipeableDrawer>
       </Root>
     </div>

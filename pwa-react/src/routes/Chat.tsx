@@ -49,12 +49,16 @@ function Chat() {
   const [isLoading, setIsLoading] = useState(false);
 
   const updateRead = async () => {
-    await axiosAuth.post("/chat/readUser", {
-      params: {
-        roomId: room_id,
-        userId: userId,
-      },
-    });
+    await axiosAuth.post(
+      "/chat/readUser",
+      {},
+      {
+        params: {
+          roomId: room_id,
+          userId: userId,
+        },
+      }
+    );
   };
 
   // 소켓 연결 함수
@@ -71,18 +75,21 @@ function Chat() {
       () => {
         if (!client.current) return;
         if (!token) return;
-        // 신규 메세지 체크
 
+        // 신규 메세지 체크
         client.current.subscribe(
           `/sub/chat/room/${room_id}`,
           (msg) => {
             if (!msg.body) return;
-            let newMsg = JSON.parse(msg.body);
-            updateRead();
 
-            setShowMessages((showMessages) => {
-              return showMessages ? [...showMessages, newMsg] : [newMsg];
-            });
+            let newMsg = JSON.parse(msg.body);
+
+            if (newMsg.type === "TALK") {
+              setShowMessages((showMessages) => {
+                return showMessages ? [...showMessages, newMsg] : [newMsg];
+              });
+            }
+            updateRead();
           },
           {
             Authorization: token,
