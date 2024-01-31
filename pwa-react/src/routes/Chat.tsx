@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { LegacyRef, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import SockJS from "sockjs-client";
@@ -18,7 +18,7 @@ interface MessageInterface {
   sendUserId: string | null;
   message: string | null;
   contentType: string | null;
-  createdAt: string | null;
+  createdAt: string;
 }
 
 function Chat() {
@@ -39,7 +39,6 @@ function Chat() {
       name: state.name,
     }))
   );
-
   const navigate = useNavigate();
   const { room_id } = useParams();
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -206,7 +205,6 @@ function Chat() {
       inputRef.current?.scrollHeight + "px"
     );
   };
-
   return (
     <Wrapper>
       <Header>
@@ -225,6 +223,7 @@ function Chat() {
               className={
                 userId == message.sendUserId ? "myMsg line" : "oppMsg line"
               }
+              id={`msg${index}`}
             >
               <div
                 style={{
