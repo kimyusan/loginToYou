@@ -1,17 +1,20 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { useShallow } from "zustand/react/shallow";
+
 import useAuthStore from '../stores/AuthStore';
+import useUserStore from '../stores/UserStore';
 
 import { TimerText, CameraBox, CameraButton, OptionsContainer, SaveBox, SaveBoxItem } from '../styles/Camera/CameraSolo';
 import { GoBack } from "../styles/Camera/CameraCouple"
 import { BurgerButton } from "../styles/common/hamburger";
+
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import TimerIcon from '@mui/icons-material/Timer';
 import CollectionsIcon from '@mui/icons-material/Collections';
 
 import Navbar from "../components/Navbar";
-import useUserStore from '../stores/UserStore';
 
 const CameraSolo: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -22,7 +25,12 @@ const CameraSolo: React.FC = () => {
   const [showOptions, setShowOptions] = useState(false);
   const [ImageContent, setImageContent] = useState("");
 
-  const {PATH} = useAuthStore();
+  const { PATH, token } = useAuthStore(
+    useShallow((state) => ({
+      PATH: state.PATH,
+      token: state.token,
+    }))
+  );
   const {coupleId} = useUserStore();
   
   // 카메라 전환 버튼 상태 추가
@@ -90,7 +98,11 @@ const CameraSolo: React.FC = () => {
     
         formData.append("diary", JSON.stringify(data))
     
-        axios.post(`${PATH}/diary/upload`,formData)
+        axios.post(`${PATH}/diary/upload`,formData,{
+          headers: {
+            Authorization: token,
+          },
+        })
           .then((res) => console.log("사진 저장 성공"))
           .catch((error) => console.log("사진 저장 실패",error))
       } else {
