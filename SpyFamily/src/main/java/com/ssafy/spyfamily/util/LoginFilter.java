@@ -3,6 +3,9 @@ package com.ssafy.spyfamily.util;
 
 
 import com.ssafy.spyfamily.user.dto.CustomUserDetails;
+import com.ssafy.spyfamily.user.model.User;
+import com.ssafy.spyfamily.user.repository.UserRepository;
+import com.ssafy.spyfamily.user.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,12 +23,14 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
     private final JWTUtil jwtUtil;
+    private final UserRepository userRepository;
 
 
-    public LoginFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
+    public LoginFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil, UserRepository userRepository) {
 
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -46,6 +51,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
 
+        //useremail
         String username = customUserDetails.getUsername();
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
@@ -55,7 +61,9 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String role = auth.getAuthority();
 
 
-
+        //유저 정보를 받아온다
+        User user = userRepository.findByEmail(username);
+        System.out.println("로그인필터 유저 정보" + user.toString());
 
         Integer coupleId = customUserDetails.getCoupleId();
 
@@ -66,9 +74,13 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 //        String role = "ROLE_USER";
 
 
-        String token = jwtUtil.createJwt(username, role, userId , coupleId  , name ,60*60*60*60*10L);
+        String accessToken = jwtUtil.createJwt(username, role, user.getUserId() , user.getCoupleId() , user.getName() );
+        String refreshToken = jwtUtil.createRefreshToken(username);
+        user.setRefreshToken(refreshToken);
+        response.addHeader("Authorization", "Bearer " + accessToken);
+        response.addHeader("refreshToken","Bearer"+refreshToken);
 
-        response.addHeader("Authorization", "Bearer " + token);
+        userRepository.save(user);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.ssafy.spyfamily.config;
 
+import com.ssafy.spyfamily.user.repository.UserRepository;
 import com.ssafy.spyfamily.util.JWTFilter;
 import com.ssafy.spyfamily.util.JWTUtil;
 import com.ssafy.spyfamily.util.LoginFilter;
@@ -30,10 +31,11 @@ public class WebSecurityConfig {
     private final AuthenticationConfiguration authenticationConfiguration;
     //JWTUtil 주입
     private final JWTUtil jwtUtil;
-
-    public WebSecurityConfig(AuthenticationConfiguration authenticationConfiguration, JWTUtil jwtUtil){
+    private final UserRepository userRepository;
+    public WebSecurityConfig(AuthenticationConfiguration authenticationConfiguration, JWTUtil jwtUtil, UserRepository userRepository){
         this.authenticationConfiguration = authenticationConfiguration;
         this.jwtUtil = jwtUtil;
+        this.userRepository = userRepository;
     }
 
     @Bean
@@ -106,7 +108,7 @@ public class WebSecurityConfig {
 
         //AuthenticationManager()와 JWTUtil 인수 전달
         http
-                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
+                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, userRepository), UsernamePasswordAuthenticationFilter.class);
 
         http
                 .sessionManagement((session) -> session

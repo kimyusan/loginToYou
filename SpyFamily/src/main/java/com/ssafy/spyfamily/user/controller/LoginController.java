@@ -66,7 +66,7 @@ public class LoginController {
             System.out.println("구글로그인 시작");
             if(user != null) {
 
-                String token = jwtUtil.createJwt(user.getEmail(), user.getRole(), user.getUserId(),user.getCoupleId(),user.getName(),60*60*60*60*10L);
+                String token = jwtUtil.createJwt(user.getEmail(), user.getRole(), user.getUserId(),user.getCoupleId(),user.getName());
                 System.out.println("token 생성 완료" + token);
                 HttpHeaders httpHeaders = new HttpHeaders();
                 httpHeaders.add("Authorization", "Bearer " + token);
@@ -129,7 +129,7 @@ public class LoginController {
 
 
             if(user != null) {
-                String jwtToken = jwtUtil.createJwt(user.getEmail(), user.getRole(), user.getUserId(),user.getCoupleId(),user.getName(),60*60*60*60*10L);
+                String jwtToken = jwtUtil.createJwt(user.getEmail(), user.getRole(), user.getUserId(),user.getCoupleId(),user.getName());
                 System.out.println("token 생성 완료" + jwtToken);
                 HttpHeaders httpHeaders = new HttpHeaders();
                 httpHeaders.add("Authorization", "Bearer " + jwtToken);
@@ -179,7 +179,7 @@ public class LoginController {
             User user = userService.getUserByEmail(email);
             // 사용자 정보가 있다면 해당 유저 정보 토큰 담아서 리턴해주기
             if(user != null) {
-                String jwtToken = jwtUtil.createJwt(user.getEmail(), user.getRole(), user.getUserId(),user.getCoupleId(),user.getName(),60*60*60*60*10L);
+                String jwtToken = jwtUtil.createJwt(user.getEmail(), user.getRole(), user.getUserId(),user.getCoupleId(),user.getName());
                 System.out.println("token 생성 완료" + jwtToken);
                 HttpHeaders httpHeaders = new HttpHeaders();
                 httpHeaders.add("Authorization", "Bearer " + jwtToken);
