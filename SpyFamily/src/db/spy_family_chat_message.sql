@@ -23,16 +23,16 @@ DROP TABLE IF EXISTS `chat_message`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `chat_message` (
-  `is_read` tinyint(1) DEFAULT '1',
-  `type` tinyint DEFAULT NULL,
   `message_id` bigint NOT NULL AUTO_INCREMENT,
   `content_type` varchar(255) DEFAULT NULL,
   `created_at` varchar(255) DEFAULT NULL,
   `message` varchar(255) DEFAULT NULL,
+  `read_count` tinyint(1) DEFAULT '1',
   `room_id` varchar(255) DEFAULT NULL,
   `send_user_id` varchar(255) DEFAULT NULL,
+  `type` tinyint DEFAULT NULL,
   PRIMARY KEY (`message_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,6 +41,7 @@ CREATE TABLE `chat_message` (
 
 LOCK TABLES `chat_message` WRITE;
 /*!40000 ALTER TABLE `chat_message` DISABLE KEYS */;
+INSERT INTO `chat_message` VALUES (1,NULL,'2024. 1. 31. 오후 1:36:38','aga',1,'fe143afc-482b-4591-99fb-b856b5acb38f','17',1),(2,NULL,'2024. 1. 31. 오후 1:36:40','hh',1,'fe143afc-482b-4591-99fb-b856b5acb38f','17',1);
 /*!40000 ALTER TABLE `chat_message` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-01-31 11:49:56
+-- Dump completed on 2024-01-31 14:24:39
