@@ -53,6 +53,7 @@ public class JWTFilter extends OncePerRequestFilter {
         if (jwtUtil.isExpired(token)) {
 
             System.out.println("token expired");
+            response.setStatus(401);
             filterChain.doFilter(request, response);
 
             //조건이 해당되면 메소드 종료 (필수)
@@ -63,13 +64,13 @@ public class JWTFilter extends OncePerRequestFilter {
         String username = jwtUtil.getUsername(token);
         //String role = jwtUtil.getRole(token);
 
-        User userEntity = new User();
-        userEntity.setEmail(username);
-        userEntity.setPassword("temppassword");
+        User user = new User();
+        user.setEmail(username);
+        user.setPassword("temppassword");
         //userEntity.setCoupleId(coupleId);
         //userEntity.setRole(role);
-        System.out.println(userEntity.toString());
-        CustomUserDetails customUserDetails = new CustomUserDetails(userEntity);
+        System.out.println(user.toString());
+        CustomUserDetails customUserDetails = new CustomUserDetails(user);
 
         Authentication authToken = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
 
@@ -77,5 +78,25 @@ public class JWTFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
+
+//    // 토큰에서 userId와 role 획득
+//    String userId = jwtUtil.getUserId(token);
+//    String role = jwtUtil.getRole(token);
+//
+//    // User 엔터티를 생성하여 값 set
+//    User user = new User();
+//        user.setUserId(userId);
+////        user.setPassword("temp password");
+//        user.setRole(role);
+//
+//    // UserDetails에 회원 정보 객체 담기
+//    CustomUserDetails customUserDetails = new CustomUserDetails(user);
+//
+//    // 스프링 시큐리티 인증 토큰 생성
+//    Authentication authToken = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities()); // (principal, credentials, authorities)
+//    // 세션에 사용자 등록 (한번의 요청에 대해 일시적으로 세션 생성)
+//        SecurityContextHolder.getContext().setAuthentication(authToken);
+//
+//        filterChain.doFilter(request, response);
 }
 

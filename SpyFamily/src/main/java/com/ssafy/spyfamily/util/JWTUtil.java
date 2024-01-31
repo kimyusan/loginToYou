@@ -57,6 +57,23 @@ public class JWTUtil {
                 .compact();
     }
 
+    public String createRefreshToken(String email) {
+
+        Claims claims = Jwts.claims();
+        claims.put("email", email);
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + refreshTokenValidTime)) // 만료시간 1주
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+
+
+
+
 //    public String createJwt(String email, String role, int userId ,Integer coupleId ,String name, Long expiredMs) {
 //
 //        return Jwts.builder()
