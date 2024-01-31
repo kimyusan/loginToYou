@@ -32,6 +32,8 @@ CREATE TABLE `user` (
   `couple_id` int DEFAULT NULL,
   `nickname` varchar(30) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
+  `role` varchar(255) NULL,
+  `refreshToken` varchar(255) NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

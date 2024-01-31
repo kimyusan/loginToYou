@@ -20,5 +20,6 @@ public class Diary {
     private String saveName;
     private String subject;
     private String registerDate;
+    private int isThumbnail;
 
 }
