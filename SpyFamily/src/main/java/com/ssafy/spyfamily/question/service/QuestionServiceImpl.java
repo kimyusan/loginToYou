@@ -7,6 +7,8 @@ import com.ssafy.spyfamily.question.repository.CoupleTodayQuestionRepository;
 import com.ssafy.spyfamily.question.repository.TodayQuestionRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 public class QuestionServiceImpl implements QuestionService{
 
@@ -34,9 +36,14 @@ public class QuestionServiceImpl implements QuestionService{
         coupleTodayQuestionRepository.save(coupleTodayQuestion);
     }
 
-//    @Override
+    @Override
     public CoupleTodayQuestion getCoupleTodayQuestionById(Integer todayQuestionId, Integer userId) {
         return coupleTodayQuestionRepository.findByTodayQuestionIdAndUserId(todayQuestionId, userId);
+    }
+
+    @Override
+    public ArrayList<CoupleTodayQuestion> getQuestionAnswers(Integer coupleId) {
+        return coupleTodayQuestionRepository.findByCoupleId(coupleId);
     }
 
 }

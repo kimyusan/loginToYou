@@ -78,4 +78,7 @@ public class CoupleController {
         }
     }
 
+//    @PostMapping("/send/message")
+//    public ResponseEntity<?> sendMessage()
+
 }

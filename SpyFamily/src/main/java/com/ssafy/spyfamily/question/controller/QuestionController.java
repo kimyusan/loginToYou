@@ -1,6 +1,7 @@
 package com.ssafy.spyfamily.question.controller;
 
 
+import com.ssafy.spyfamily.couple.service.CoupleServiceImpl;
 import com.ssafy.spyfamily.question.model.CoupleTodayQuestion;
 import com.ssafy.spyfamily.question.service.QuestionServiceImpl;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 
 @RestController()
@@ -98,6 +100,26 @@ public class QuestionController {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("질문 대답 불러오기 실패");
+            return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    @GetMapping("/get/answers")
+    public ResponseEntity<?> getQuestionAnswers(@RequestParam Integer coupleId) {
+        try {
+            System.out.println("질문 대답 전체 불러오기");
+
+            ArrayList<CoupleTodayQuestion> list = questionService.getQuestionAnswers(coupleId);
+
+            System.out.println("질문 대답 목록 불러오기 성공");
+            System.out.println(list);
+
+            return new ResponseEntity<ArrayList<CoupleTodayQuestion>>(list, HttpStatus.OK);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("질문 대답 전체 불러오기 실패");
             return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
