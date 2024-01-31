@@ -21,7 +21,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Optional;
 
 @Slf4j
@@ -112,6 +114,14 @@ public class DiaryController {
             MultipartFile multipartFiles = formData.getFile("imgInfo");
 
             System.out.println("regist multipartFile : " + multipartFiles);
+
+            String diary_date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+            Integer count = diaryService.countDiary(diary_date);
+            if (count != 0) {
+                diary.setIsThumbnail(0);
+            } else {
+                diary.setIsThumbnail(1);
+            }
 
             diary = fileUtil.storeImg(multipartFiles, diary);
             diaryService.uploadDiaryUpload(diary);

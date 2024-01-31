@@ -100,5 +100,10 @@ public class DiaryServiceImpl implements DiaryService{
         return diaryRepository.findById(diaryId);
     }
 
+    @Override
+    public Integer countDiary(String registDate) {
+        return diaryRepository.countByRegisterDate(registDate);
+    }
+
 
 }

@@ -8,12 +8,13 @@ import CoupleInfoCalendar from "../components/CoupleInfo/CoupleInfoCalendar";
 import { SaveButton } from "../styles/UserInfo/UserInfo";
 
 import { UserInfoBox } from "../styles/UserInfo/UserInfo";
-import { useLocation } from "react-router";
+import { useNavigate } from "react-router-dom";
 import useCoupleStore from "../stores/CoupleStore";
 import useAuthStore from "../stores/AuthStore";
 import { useShallow } from "zustand/react/shallow";
 
 function CoupleInfo() {
+  const navigate = useNavigate();
   const couple = useCoupleStore();
   const { PATH, token } = useAuthStore(
     useShallow((state) => ({
@@ -45,7 +46,9 @@ function CoupleInfo() {
           Authorization: token,
         },
       })
-      .then((res) => console.log(res))
+      .then((res) => {
+        navigate("/");
+      })
       .catch((error) => console.log(error));
   };
 
