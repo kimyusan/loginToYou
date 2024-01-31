@@ -26,4 +26,6 @@ public interface DiaryService {
     void deleteDiary(Integer diaryId);
 
     Optional<Diary> getDiary(Integer diaryId);
+
+    Integer countDiary(String registDate);
 }

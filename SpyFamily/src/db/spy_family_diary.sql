@@ -30,6 +30,7 @@ CREATE TABLE `diary` (
   `save_name` varchar(255) DEFAULT NULL,
   `subject` varchar(255) DEFAULT NULL,
   `register_date` timestamp NULL DEFAULT NULL,
+  `is_Thumbnail` int DEFAULT 0,
   PRIMARY KEY (`diary_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;

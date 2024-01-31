@@ -9,4 +9,6 @@ import java.util.ArrayList;
 @Repository
 public interface DiaryRepository extends JpaRepository<Diary, Integer> {
     ArrayList<Diary> findByCoupleId(Integer coupleId);
+
+    Integer countByRegisterDate(String registerDate);
 }
