@@ -34,19 +34,20 @@ const DaySelect = styled.div`
 const QBox = styled(Paper)`
   display: flex;
   flex-direction: column;
-  height: 20svh;
+  justify-content: space-between;
+  min-height: 20svh;
   margin: 5% 3%;
   background-color: #ffe2e7 !important;
   padding: 5%;
-  .question {
+  .date {
     margin: 0;
     font-weight: 600;
     font-size: 1.1rem;
   }
   .btn_container {
+    padding: 0;
     display: flex;
     justify-content: center;
-    margin-top: 7%;
   }
 `;
 

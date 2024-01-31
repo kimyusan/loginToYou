@@ -13,6 +13,7 @@ import {
 
 import useUserStore from "../../stores/UserStore";
 import useCoupleStore from "../../stores/CoupleStore";
+import useQuestionStore from "../../stores/QuestionStore";
 import zIndex from "@mui/material/styles/zIndex";
 
 type Props = { show: boolean };
@@ -61,8 +62,16 @@ function AnswerCard({ show }: Props) {
     setValue(newValue);
   };
 
-  const { name, nickname } = useUserStore();
+  const { userId, name, nickname } = useUserStore();
   const { yourName, yourNickName } = useCoupleStore();
+  const { isEdit, EditMode, handleModal } = useQuestionStore();
+
+  const openEditModal = () => {
+    if (!isEdit) {
+      EditMode();
+    }
+    handleModal();
+  };
 
   return (
     <>
@@ -96,6 +105,7 @@ function AnswerCard({ show }: Props) {
               </Box>
               <CustomTabPanel value={value} index={0}>
                 나의 답변
+                <button onClick={openEditModal}>수정하기</button>
               </CustomTabPanel>
               <CustomTabPanel value={value} index={1}>
                 상대방의 답변
@@ -103,9 +113,6 @@ function AnswerCard({ show }: Props) {
             </Box>
           )}
         </CardContent>
-        {/* <CardActions>
-          <Button size="small">Learn More</Button>
-        </CardActions> */}
       </AnsCard>
     </>
   );

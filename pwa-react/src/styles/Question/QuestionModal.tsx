@@ -9,7 +9,7 @@ const QModal = styled(Modal)`
   padding: 7%;
   position: fixed;
   width: 65%;
-  height: 40%;
+  min-height: 40%;
   top: 60%;
   left: 50%;
   transform: translate(-50%, -110%);
@@ -21,7 +21,7 @@ const QModal = styled(Modal)`
     margin: 0;
   }
   .question {
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
   .answer {
     background-color: white !important;

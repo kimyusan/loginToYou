@@ -138,7 +138,6 @@ const UserInfoForm = (props: Props) => {
         saveName: oldProfile?.saveName,
       };
       formData.append("profileImg", JSON.stringify(data));
-      console.log(formData);
       axios({
         url: `${PATH}/profile/update`,
         method: "PUT",

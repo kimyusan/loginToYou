@@ -11,7 +11,7 @@ import {
 import useUserStore from "../../stores/UserStore";
 import { UserInterface, CoupleInterface } from "../../interface/UserInterface";
 import { useNavigate } from "react-router";
-import CoupleInfo from "../../routes/CoupleInfo";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 type Props = {
   cp1: UserInterface | undefined;
@@ -58,7 +58,7 @@ const HeaderSection = ({ cp1, cp2, cpInfo }: Props) => {
       }}
     >
       <UserName>
-        {mName} & {fName}
+        {mName} <FavoriteIcon /> {fName}
       </UserName>
       <Dday className={!cpInfo?.startDate ? "noDate" : null}>
         {cpInfo?.startDate ? `D+${dDay}` : dDay}
