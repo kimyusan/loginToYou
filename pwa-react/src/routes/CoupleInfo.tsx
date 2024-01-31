@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
+
 import { BurgerButton } from "../styles/common/hamburger";
 import Navbar from "../components/Navbar";
 import CoupleInfoName from "../components/CoupleInfo/CoupleInfoName";
@@ -8,9 +10,17 @@ import { SaveButton } from "../styles/UserInfo/UserInfo";
 import { UserInfoBox } from "../styles/UserInfo/UserInfo";
 import { useLocation } from "react-router";
 import useCoupleStore from "../stores/CoupleStore";
+import useAuthStore from "../stores/AuthStore";
+import { useShallow } from "zustand/react/shallow";
 
 function CoupleInfo() {
   const couple = useCoupleStore();
+  const { PATH, token } = useAuthStore(
+    useShallow((state) => ({
+      PATH: state.PATH,
+      token: state.token,
+    }))
+  );
 
   const [cpName, setCpName] = useState<string | null>(couple.name);
   const [start, setStart] = useState<string | null>(couple.startDate);
@@ -21,13 +31,22 @@ function CoupleInfo() {
 
   const changeCouple = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    couple.setCouple({
+    const newInfo = {
       coupleId: couple.coupleId,
       name: cpName,
       startDate: start,
       fuserId: couple.fuserId,
       suserId: couple.suserId,
-    });
+    };
+    couple.setCouple(newInfo);
+    axios
+      .put(`${PATH}/couple/update`, newInfo, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((res) => console.log(res))
+      .catch((error) => console.log(error));
   };
 
   return (

@@ -34,8 +34,8 @@ function Invited() {
       url: `${PATH}/couple/create/couple/{emailA}/{emailB}`,
       method: "GET",
       params: {
-        emailA: email,
-        emailB: user_email,
+        emailA: user_email,
+        emailB: email,
       },
       headers: {
         Authorization: token,
