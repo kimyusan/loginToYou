@@ -35,6 +35,7 @@ const Main = () => {
       setYourName: state.setYourName,
     }))
   );
+  const { setUser } = useUserStore();
   const userId = useUserStore.getState().userId;
   const coupleId = useUserStore.getState().coupleId;
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
@@ -82,8 +83,10 @@ const Main = () => {
 
     if (res.data[0].userId === userId) {
       setYourName(res.data[1].userId, res.data[1].name, res.data[1].nickname);
+      setUser(res.data[0])
     } else {
       setYourName(res.data[0].userId, res.data[0].name, res.data[0].nickname);
+      setUser(res.data[1])
     }
 
     setCp1(res.data[0]);
