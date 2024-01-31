@@ -21,25 +21,42 @@ const PATH = useAuthStore.getState().PATH;
 
 export const axiosAuth = axios.create({
   baseURL: `${PATH}`,
-  headers: {
-    Authorization: token,
-  },
 });
+
+export const setClientHeaders = (authToken: string) => {
+  axiosAuth.interceptors.request.use((config) => {
+    config.headers["Authorization"] = authToken;
+    return config;
+  });
+};
+
+axiosAuth.interceptors.request.use(
+  (config) => {
+    if (!config.headers.Authorization) {
+      config.headers.Authorization = token;
+    }
+    return config;
+  },
+  (error) => {
+    console.log(error);
+    return Promise.reject(error);
+  }
+);
 
 axiosAuth.interceptors.response.use(
   (response) => {
     return response;
   },
   async (error) => {
-    if (error.response?.status == 403) {
+    if (error.response?.status === 403) {
       console.log("토큰없음");
 
       error.config.headers = {
         Authorization: token,
       };
 
-      const response = await axiosAuth.request(error.config);
-      return response;
+      // const response = await axiosAuth.request(error.config);
+      // return response;
     } else {
       return error;
     }

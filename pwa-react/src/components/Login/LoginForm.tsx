@@ -7,6 +7,7 @@ import { parseJwt } from "../../util/token";
 import useAuthStore from "../../stores/AuthStore";
 import useUserStore from "../../stores/UserStore";
 import { application } from "express";
+import { setClientHeaders } from "../../util/token";
 
 const LoginForm = () => {
   const [id, setId] = useState("");
@@ -43,6 +44,7 @@ const LoginForm = () => {
       .then((response) => {
         console.log("로그인 성공", response);
         setToken(response.headers.authorization);
+        setClientHeaders(response.headers.authorization);
 
         login();
 
