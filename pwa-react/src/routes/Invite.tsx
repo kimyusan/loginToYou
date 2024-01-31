@@ -10,12 +10,13 @@ import { useNavigate } from "react-router-dom";
 import { useShallow } from "zustand/react/shallow";
 
 const Invite = () => {
-  const { name, email, userId, setCoupleId } = useUserStore(
+  const { name, email, userId, setUser, coupleId } = useUserStore(
     useShallow((state) => ({
       name: state.name,
       email: state.email,
       userId: state.userId,
-      setCoupleId: state.setCoupleId,
+      setUser: state.setUser,
+      coupleId: state.coupleId,
     }))
   );
   const navigate = useNavigate();
@@ -26,10 +27,8 @@ const Invite = () => {
         email: email,
       },
     });
-    if (res.data.coupleId != null) {
-      setCoupleId(res.data.coupleId);
-    }
-    navigate("/");
+    setUser(res.data);
+    if (coupleId != null) navigate("/");
   };
 
   useEffect(() => {
