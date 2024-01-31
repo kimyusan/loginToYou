@@ -3,9 +3,9 @@ import { useShallow } from "zustand/react/shallow";
 import axios from "axios";
 
 import { Pictures, PicItem, PicBox, PicContent, SelectBox, CreateDiary } from "../../styles/Diary/PictureBox";
-import { GalleryBox } from '../../styles/Diary/ShowGallery';
-import { BurgerButton } from "../../styles/common/hamburger";
+import { GalleryBox, PictureDetailBox, PictureBtnBox } from '../../styles/Diary/ShowGallery';
 import { DaySelect } from '../../styles/Diary/Diary';
+import { BurgerButton } from "../../styles/common/hamburger";
 
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 import { MdOutlineClose } from "react-icons/md";
@@ -77,13 +77,13 @@ const style = {
 
 const PictureBox = (props: Props) => {
   const { window } = props;
-  const idx = [0,31,28,31,30,31,30,31,31,30,31,30,31]
-
+  const [x, setX] = useState(100);
+  
   // 날짜 별 사진 저장 변수
-  const [pictures, setPictures] = useState([]);
+  const [pictures, setPictures] = useState<Diary[]>([]);
 
-  // 날짜 별 첫번째 대표 사진 저장 변수 
-  const [dayPictures, setDayPictures] = useState<Diary[]>([]);
+  // 일 별 사진 저장 변수
+  const [dayPictures, setDayPictures] = useState([]);
 
   // 다이어리 작성 시 모달 오픈 변수
   const [open, setOpen] = useState(false);
@@ -94,8 +94,9 @@ const PictureBox = (props: Props) => {
   // 날짜 별 갤러리 오픈 변수
   const [open2, setOpen2] = useState(false);
 
-  // 다이어리 미 작성시 모달 오픈 변수
-  const [open3, setOpen3] = useState(false);
+  // 사진 자세히 보는 모달 오픈 변수
+  const [open4, setOpen4] = useState(false);
+  const [imgUrl, setImgUrl] = useState("");
 
   // 개인 별 다이어리 내용
   const [myContent, setMyContent] = useState("");
@@ -107,9 +108,14 @@ const PictureBox = (props: Props) => {
 
   // 작성자 다이어리 아이디
   const [myMemoId, setMyMemoId] = useState("");
-
+  
   // 공용 다이어리 아이디
   const [diaryId, setDiaryId] = useState<String>("");
+
+  //썸네일 아이디 변수들
+  const [originalId, setOriginalId] = useState("")
+  const [thumbNailId,setThumbNailId] = useState("");
+  const [commit, setCommit] = useState(true);
 
   const { PATH, token } = useAuthStore(
     useShallow((state) => ({
@@ -124,7 +130,8 @@ const PictureBox = (props: Props) => {
   const today = new Date();
   const [year, setYear] = useState(today.getFullYear());
   const [month, setMonth] = useState(today.getMonth() + 1);
-  const [day, setDay] = useState(today.getDate());
+  const [day, setDay] = useState(0);
+  const [selectDay, setSelectDay] = useState("");
 
   // 햄버거 네비게이션
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
@@ -142,7 +149,6 @@ const PictureBox = (props: Props) => {
         return prevMonth - 1;
       }
     });
-    setDay(1)
     setX(100)
   };
 
@@ -155,7 +161,6 @@ const PictureBox = (props: Props) => {
         return prevMonth + 1;
       }
     });
-    setDay(1)
     setX(100)
   };
   
@@ -181,37 +186,34 @@ const PictureBox = (props: Props) => {
       },
     })
       .then((res) => {
-        const data: Diary[] = [];
-        const card = new Array(idx[month]).fill(0);
-        for (let i = 1; i < card.length + 1; i++) {
-          const dayData = res.data.filter((item: any) => "20" + item.saveFolder === `${year}${(month).toString().padStart(2, "0")}${i.toString().padStart(2, "0")}`)
-          if (dayData) {
-            data.push(dayData[0])
+        const data : Diary[] = [];
+
+        for (let i=1; i < today.getDate() + 1; i++) {
+          const thumbNail = res.data.filter((item: any) => "20" + item.saveFolder === `${year}${(month).toString().padStart(2, "0")}${i}`)
+          if (thumbNail.length > 0) {
+            data.push(thumbNail.filter((item: any) => item.isThumbnail === 1)[0])
           }
         }
-        setDayPictures(data);
-        setPictures(res.data.filter((item: any) => "20" + item.saveFolder === `${year}${(month).toString().padStart(2, "0")}${day}`))
+        
+        setOriginalId(`${data[day]["diaryId"]}`)
+        setPictures(data)
+        setSelectDay(res.data[day]["saveFolder"])
+        setDayPictures(res.data.filter((item: any) => item.saveFolder === res.data[day]["saveFolder"]))
         setMyContent("")
         setYourContent("")
       })
       .catch((error) => console.log(error))
-  }, [day,month,year])
+  }, [day,month,year,commit])
 
   // 캐러셀 css 계산
-  const [x, setX] = useState(-100 * (today.getDate() - 2));
-
   const goLeft = () => {
     x === 100 ? setX(100) : setX(x + 100);
-    if (x !== 100) {
-      setDay(day - 1)
-    }
+    day === 0 ? setDay(0) : setDay(day-1)
   };
 
   const goRight = () => {
-    x === -100 * (idx[month] - 2) ? setX(-100 * (idx[month] - 2)) : setX(x - 100);
-    if (x !== -100 * (idx[month] - 2)) {
-      setDay(day + 1)
-    }
+    x === -100 * (pictures.length - 2) ? setX(-100 * (pictures.length - 2)) : setX(x - 100);
+    day === pictures.length - 1 ? setDay(pictures.length - 1) : setDay(day+1)
   };
 
   // 다이어리 모달 오픈 및 개인별 다이어리 조회 
@@ -248,7 +250,6 @@ const PictureBox = (props: Props) => {
       })
       .catch((error) => {
         console.log("작성된 다이어리 없음", error)
-        setOpen3(true)
       })
   }
 
@@ -294,7 +295,21 @@ const PictureBox = (props: Props) => {
       })
       .catch((error) => console.log(error))
   }
-  
+
+  // 대표 사진 체인지함수 
+  const changeThumbNail = () => {
+    axios.put(`${PATH}/diary/thumbnail/update?diaryId=${originalId}&newDiaryId=${thumbNailId}`,{
+      headers: {
+        Authorization: token,
+      }
+    })
+    .then((res) => {
+      console.log("대표사진 수정 성공",res.data)
+      setCommit(!commit)
+    })
+    .catch((error) => console.log(error))
+  }
+
   return (
     <div>
       {/* 네비바 */}
@@ -309,7 +324,7 @@ const PictureBox = (props: Props) => {
         <div className='subBox'>
           <SlArrowLeft onClick={decreaseMonth}></SlArrowLeft>
           <div className='dayBox'>
-            {year}.{month.toString().padStart(2, "0")}.{day}
+            {year}.{month.toString().padStart(2, "0")}.{selectDay.substr(4,6)}
           </div>
           <SlArrowRight onClick={increaseMonth}></SlArrowRight>
         </div>
@@ -319,7 +334,7 @@ const PictureBox = (props: Props) => {
       <Pictures >
         <SlArrowLeft onClick={goLeft}></SlArrowLeft>
         <PicItem>
-          {dayPictures.map((item, idx) => {
+          {pictures.map((item, idx) => {
             const middleIdx = -(x / 100) + 1;
             const className = idx === middleIdx ? "slide middle" : "slide";
             let url = ""
@@ -344,29 +359,13 @@ const PictureBox = (props: Props) => {
                 onClick={() => openDetail(Id)}
               >
                 <PicBox>
-                  <img src={url} alt="일별 이미지"/>
+                  <img src={url} alt={`${item["saveFolder"]}`} />
                 </PicBox>
                 <PicContent>{subject}</PicContent>
               </div>
             );
           })}
         </PicItem>
-
-        {/* 다이어리 미 작성시 모달 */}
-        <Modal
-          open={open3}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <div></div>
-              <MdOutlineClose onClick={() => (setOpen3(false), setDiaryOpen(0))} style={{ width: "20px", height: "20px", marginBottom: "15px" }}></MdOutlineClose>
-              
-            </div>
-          </Box>
-        </Modal>
-
 
         {/* 다이어리 작성시 모달 */}
         <Modal
@@ -454,19 +453,37 @@ const PictureBox = (props: Props) => {
             }}
           >
             <Puller />
-            <Typography sx={{ p: 2, color: 'text.secondary' }}>{pictures.length}개의 사진들</Typography>
+            <Typography sx={{ p: 2, color: 'text.secondary' }}>{dayPictures.length}개의 사진들</Typography>
           </StyledBox>
           <GalleryBox>
-            {pictures.length === 0 ? <div className='noPic'>사진 없음</div> : null}
-            {pictures.map((item, idx) => {
+            {dayPictures.length === 0 ? <div className='noPic'>사진 없음</div> : null}
+            {dayPictures.map((item, idx) => {
               const url = `${PATH}/diary/getImg/${item["saveFolder"]}/${item["originName"]}/${item["saveName"]}`
               return (
-                <div key={idx} className='item'>
+                <div key={idx} className='item' onClick={() => (setImgUrl(url), setOpen4(true),setThumbNailId(item["diaryId"]))}>
                   <img src={url} alt="일별 사진들" />
                 </div>
               )
             })}
           </GalleryBox>
+
+          {/* 사진 크게 보는 모달 */}
+          <Modal
+          open={open4}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>    
+            <PictureDetailBox>
+              <img src={imgUrl} alt="사진 크게 보기"/>
+            </PictureDetailBox>
+
+            <PictureBtnBox>
+              <button onClick={changeThumbNail}>대표 사진 등록</button>
+              <button onClick={() => setOpen4(false)}>닫기</button>
+            </PictureBtnBox>
+          </Box>
+        </Modal>
         </SwipeableDrawer>
       </Root>
     </div>
