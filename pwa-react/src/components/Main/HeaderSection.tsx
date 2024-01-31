@@ -40,12 +40,11 @@ const HeaderSection = ({ cp1, cp2, cpInfo }: Props) => {
       Number(temp[2])
     ).getTime();
 
-    setDday(Math.round((today - date) / 1000 / 60 / 60 / 24).toString());
+    setDday((Math.round((today - date) / 1000 / 60 / 60 / 24) + 1).toString());
   };
 
   const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    
   };
 
   useEffect(() => {
@@ -61,12 +60,9 @@ const HeaderSection = ({ cp1, cp2, cpInfo }: Props) => {
       <UserName>
         {mName} & {fName}
       </UserName>
-      <Dday
-        className={!cpInfo?.startDate ? "noDate" : null}
-      >
+      <Dday className={!cpInfo?.startDate ? "noDate" : null}>
         {cpInfo?.startDate ? `D+${dDay}` : dDay}
       </Dday>
-
     </Header>
   );
 };

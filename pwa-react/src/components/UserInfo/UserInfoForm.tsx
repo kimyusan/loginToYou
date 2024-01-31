@@ -30,7 +30,7 @@ const UserInfoForm = (props: Props) => {
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
   const [avatar, setAvatar] = useState(defaultProfile);
   const [oldProfile, setOldProfile] = useState<Profile>();
-  const [profileFile, setProfileFile] = useState("");
+  const [profileFile, setProfileFile] = useState<null | string>(null);
   const [nickname, setNickname] = useState(user.nickname ? user.nickname : "");
   const [phoneNumber, setPhoneNumber] = useState(
     user.mobile ? (user.mobile as string) : ""
@@ -64,7 +64,7 @@ const UserInfoForm = (props: Props) => {
       reader.onloadend = () => {
         const result = reader.result as string;
         // Avatar에 띄워줄 사진 파일
-        // user.setProfileImage(result)
+        // user.setProfileImage(result);
         setAvatar(result);
       };
     }
@@ -73,7 +73,7 @@ const UserInfoForm = (props: Props) => {
   const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     // 전화번호 길이가 13자리('-'포함)가 아닐 경우 return
-    if (phoneNumber != "" && phoneNumber?.length !== 13) {
+    if (phoneNumber !== "" && phoneNumber?.length !== 13) {
       return;
     }
     // user정보 업데이트 요청 // mobile, birthday, gender, nickname만 수정
@@ -82,14 +82,10 @@ const UserInfoForm = (props: Props) => {
         `${PATH}/user/update`,
         {
           userId: user.userId,
-          email: user.email,
-          name: user.name,
           mobile: phoneNumber,
           birthday: birth,
           gender: gender,
-          coupleId: user.coupleId,
           nickname: nickname,
-          password: user.password,
         },
         {
           headers: {
@@ -105,12 +101,13 @@ const UserInfoForm = (props: Props) => {
         console.log(response.data);
       });
 
-    // if (!fileInput.current?.files) return;
+    // 프로필 이미지 변경 안함
+    if (!profileFile) return;
     // 프로필이미지를 처음 생성한 경우
-    if (user.profileImage === defaultProfile) {
+    else if (user.profileImage === defaultProfile) {
       // formData형식으로 imgInfo에 파일경로 입력
       const formData = new FormData();
-      formData.append("imgInfo", profileFile);
+      formData.append("imgInfo", profileFile as string);
       // userId를 함께 보내야 함
       const data = {
         userId: user.userId,
@@ -130,7 +127,7 @@ const UserInfoForm = (props: Props) => {
     else if (avatar !== user.profileImage) {
       const formData = new FormData();
       // 새로 들어온 프로필 사진 파일
-      formData.append("imgInfo", profileFile);
+      formData.append("imgInfo", profileFile as string);
       // 이전 프로필 사진 정보를 같이 보내야 함
       // -> back에서 이를 삭제하고 새로 추가함
       const data = {
@@ -152,7 +149,26 @@ const UserInfoForm = (props: Props) => {
         },
       });
     }
+
+    axios
+      .get(`${PATH}/profile/read`, {
+        params: { userId: user.userId },
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((response) => {
+        if (!response) return;
+        const image = response.data;
+        if (image) {
+          user.setProfileImage(
+            `${PATH}/profile/getImg/${image.saveFolder}/${image.originalName}/${image.saveName}`
+          );
+        }
+      })
+      .catch((error) => console.log(error));
     user.setProfileImage(avatar);
+    setProfileFile(null);
   };
 
   // 전화번호 형식 정규화 '000-0000-0000' 검사
@@ -168,7 +184,7 @@ const UserInfoForm = (props: Props) => {
       setErrorAlert(true);
     }
     setSuccessAlert(false);
-    console.log(oldProfile);
+    console.log(profileFile);
   }, [phoneNumber, nickname, birth]);
 
   useEffect(() => {
@@ -186,10 +202,6 @@ const UserInfoForm = (props: Props) => {
           setAvatar(
             `${PATH}/profile/getImg/${image.saveFolder}/${image.originalName}/${image.saveName}`
           );
-          user.setProfileImage(
-            `${PATH}/profile/getImg/${image.saveFolder}/${image.originalName}/${image.saveName}`
-          );
-          // oldProfile에 객체로 저장해둠 -> 사진 업데이트할 때 필요함
           setOldProfile({
             profileImgId: image.profileImgId,
             userId: image.userId,
@@ -200,7 +212,7 @@ const UserInfoForm = (props: Props) => {
         }
       })
       .catch((error) => console.log(error));
-  }, [user.profileImage]);
+  }, []);
 
   return (
     <>
