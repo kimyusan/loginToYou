@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useShallow } from "zustand/react/shallow";
 import axios from "axios";
 
 import { Pictures, PicItem, PicBox, PicContent, SelectBox, CreateDiary } from "../../styles/Diary/PictureBox";
@@ -110,7 +111,12 @@ const PictureBox = (props: Props) => {
   // 공용 다이어리 아이디
   const [diaryId, setDiaryId] = useState<String>("");
 
-  const { PATH } = useAuthStore();
+  const { PATH, token } = useAuthStore(
+    useShallow((state) => ({
+      PATH: state.PATH,
+      token: state.token,
+    }))
+  );
   const { coupleId, userId, name, nickname } = useUserStore();
   const { yourId, yourName, yourNickName } = useCoupleStore();
 
@@ -166,7 +172,14 @@ const PictureBox = (props: Props) => {
 
   // 날짜별 사진 불러오기
   useEffect(() => {
-    axios.get(`${PATH}/diary/read?coupleId=${coupleId}`)
+    axios.get(`${PATH}/diary/read`, {
+      params: {
+        coupleId
+      },
+      headers: {
+        Authorization: token,
+      },
+    })
       .then((res) => {
         const data: Diary[] = [];
         const card = new Array(idx[month]).fill(0);
@@ -210,7 +223,10 @@ const PictureBox = (props: Props) => {
         userIdA: userId,
         userIdB: yourId,
         diaryId: id,
-      }
+      },
+      headers: {
+        Authorization: token,
+      },
     })
       .then((res) => {
         console.log(res.data)
@@ -245,9 +261,14 @@ const PictureBox = (props: Props) => {
       diaryId,
       userId,
       content: myContent,
+    },{
+      headers: {
+        Authorization: token,
+      },
     })
       .then((res) => {
         setDiaryOpen(0)
+        setMyCom(true)
         console.log("다이어리 작성 성공" ,res.data)
       })
       .catch((error) => console.log(error))
@@ -262,6 +283,10 @@ const PictureBox = (props: Props) => {
       diaryId,
       userId,
       content: myContent,
+    },{
+      headers: {
+        Authorization: token,
+      },
     })
       .then((res: any) => {
         setDiaryOpen(0)
