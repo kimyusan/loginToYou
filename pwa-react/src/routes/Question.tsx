@@ -63,7 +63,7 @@ const Question = (props: Props) => {
       </MonthHeader>
 
       <QuestionBox />
-      <AnswerBox />
+      <AnswerBox show={isNavigationOpen} />
     </>
   );
 };

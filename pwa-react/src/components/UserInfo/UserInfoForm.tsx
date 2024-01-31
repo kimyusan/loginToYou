@@ -31,10 +31,12 @@ const UserInfoForm = (props: Props) => {
   const [avatar, setAvatar] = useState(defaultProfile);
   const [oldProfile, setOldProfile] = useState<Profile>();
   const [profileFile, setProfileFile] = useState("");
-  const [nickname, setNickname] = useState(user.nickname);
-  const [phoneNumber, setPhoneNumber] = useState(user.mobile as string);
-  const [birth, setBirth] = useState(user.birthday);
-  const [gender, setGender] = useState(user.gender);
+  const [nickname, setNickname] = useState(user.nickname ? user.nickname : "");
+  const [phoneNumber, setPhoneNumber] = useState(
+    user.mobile ? (user.mobile as string) : ""
+  );
+  const [birth, setBirth] = useState(user.birthday ? user.birthday : "");
+  const [gender, setGender] = useState(user.gender ? user.gender : "");
 
   const [errorAlert, setErrorAlert] = useState(false);
   const [successAlert, setSuccessAlert] = useState(false);
@@ -71,7 +73,7 @@ const UserInfoForm = (props: Props) => {
   const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     // 전화번호 길이가 13자리('-'포함)가 아닐 경우 return
-    if (phoneNumber?.length !== 13) {
+    if (phoneNumber != "" && phoneNumber?.length !== 13) {
       return;
     }
     // user정보 업데이트 요청 // mobile, birthday, gender, nickname만 수정
@@ -103,6 +105,7 @@ const UserInfoForm = (props: Props) => {
         console.log(response.data);
       });
 
+    // if (!fileInput.current?.files) return;
     // 프로필이미지를 처음 생성한 경우
     if (user.profileImage === defaultProfile) {
       // formData형식으로 imgInfo에 파일경로 입력
@@ -145,6 +148,7 @@ const UserInfoForm = (props: Props) => {
         data: formData,
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: token,
         },
       });
     }
@@ -171,23 +175,29 @@ const UserInfoForm = (props: Props) => {
     axios
       .get(`${PATH}/profile/read`, {
         params: { userId: user.userId },
+        headers: {
+          Authorization: token,
+        },
       })
       .then((response) => {
+        if (!response) return;
         const image = response.data;
-        setAvatar(
-          `${PATH}/profile/getImg/${image.saveFolder}/${image.originalName}/${image.saveName}`
-        );
-        user.setProfileImage(
-          `${PATH}/profile/getImg/${image.saveFolder}/${image.originalName}/${image.saveName}`
-        );
-        // oldProfile에 객체로 저장해둠 -> 사진 업데이트할 때 필요함
-        setOldProfile({
-          profileImgId: image.profileImgId,
-          userId: image.userId,
-          saveFolder: image.saveFolder,
-          originalName: image.originalName,
-          saveName: image.saveName,
-        });
+        if (image) {
+          setAvatar(
+            `${PATH}/profile/getImg/${image.saveFolder}/${image.originalName}/${image.saveName}`
+          );
+          user.setProfileImage(
+            `${PATH}/profile/getImg/${image.saveFolder}/${image.originalName}/${image.saveName}`
+          );
+          // oldProfile에 객체로 저장해둠 -> 사진 업데이트할 때 필요함
+          setOldProfile({
+            profileImgId: image.profileImgId,
+            userId: image.userId,
+            saveFolder: image.saveFolder,
+            originalName: image.originalName,
+            saveName: image.saveName,
+          });
+        }
       })
       .catch((error) => console.log(error));
   }, [user.profileImage]);

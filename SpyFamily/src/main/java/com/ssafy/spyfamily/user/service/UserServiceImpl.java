@@ -3,6 +3,7 @@ package com.ssafy.spyfamily.user.service;
 import com.ssafy.spyfamily.user.model.User;
 import com.ssafy.spyfamily.user.model.UserInfo;
 import com.ssafy.spyfamily.user.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,15 @@ import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    @Value("${naver.clientId}")
+    private String naverClientId;
+
+    @Value("${naver.clientSecret}")
+    private String naverClientSecret;
+
+    @Value("${kakao.clientId}")
+    private String kakaoClientId;
 
     private final RestTemplate restTemplate;
     private final PasswordEncoder passwordEncoder;
@@ -41,8 +51,32 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User userUpdate(User user) {
-        return userRepository.save(user);
+
+        User new_user = userRepository.findByUserId(user.getUserId());
+
+        // mobile 있다면
+        if (user.getMobile() != null) {
+            new_user.setMobile(user.getMobile());
+        }
+
+        // 생일을 입력받았다면
+        if (user.getBirthday() != null) {
+            new_user.setBirthday(user.getBirthday());
+        }
+
+        // 닉네임을 입력했다면
+        if (user.getNickname() != null) {
+            new_user.setNickname(user.getNickname());
+        }
+
+        // 성별을 설정했다면
+        if (user.getGender() != null) {
+            new_user.setGender(user.getGender());
+        }
+
+        return userRepository.save(new_user);
     }
+
 
     @Override
     public User signup(Map<String, String> userData) {
@@ -144,7 +178,7 @@ public class UserServiceImpl implements UserService {
         // Kakao API 요청을 위한 정보
         String kakaoTokenUrl = "https://kauth.kakao.com/oauth/token";
         String grantType = "authorization_code";
-        String clientId = "5a8a53240d6799ecf38d7454ab5579b3";
+        String clientId = kakaoClientId;
         String redirectUri = "http://localhost:3000/middle/login";
 
         // 헤더 설정
@@ -168,8 +202,8 @@ public class UserServiceImpl implements UserService {
 
     public ResponseEntity<UserInfo> getNaverPost(String code, String state) {
         String naver_url = "https://nid.naver.com/oauth2.0/token";
-        String clientId = "H3hbCg2IUznqo9J6IdEO";
-        String Client_Secret = "YnfC2lwoGL";
+        String clientId = naverClientId;
+        String Client_Secret = naverClientSecret;
 
         // 헤더 설정
         HttpHeaders headers = new HttpHeaders();

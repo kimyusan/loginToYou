@@ -17,11 +17,12 @@ const AnsCard = styled(Card)`
     padding: 0;
     margin: 0;
   }
-  .css-gulbw7-MuiButtonBase-root-MuiTab-root.Mui-selected {
+  .Mui-selected {
     color: #000000 !important;
   }
-  .css-8je8zh-MuiTouchRipple-root {
-    position: static;
+
+  .css-1gsv261 {
+    position: static !important;
   }
 `;
 

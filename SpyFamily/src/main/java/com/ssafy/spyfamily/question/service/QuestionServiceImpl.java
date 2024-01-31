@@ -29,8 +29,14 @@ public class QuestionServiceImpl implements QuestionService{
         coupleTodayQuestionRepository.save(coupleTodayQuestion);
     }
 
+    @Override
     public void updateQuestion(CoupleTodayQuestion coupleTodayQuestion) {
         coupleTodayQuestionRepository.save(coupleTodayQuestion);
+    }
+
+//    @Override
+    public CoupleTodayQuestion getCoupleTodayQuestionById(Integer todayQuestionId, Integer userId) {
+        return coupleTodayQuestionRepository.findByTodayQuestionIdAndUserId(todayQuestionId, userId);
     }
 
 }

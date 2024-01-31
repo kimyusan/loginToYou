@@ -61,8 +61,7 @@ const PicBox = styled.div`
 
 const PicContent = styled.div`
   text-align: center;
-  width: 90%;
-  font-size: 12px;
+  font-size: 10px;
   padding: 10px;
 `
 
@@ -101,4 +100,37 @@ const SelectBox = styled.div`
     }
   }
 `
-export { Pictures, PicItem,PicBox,PicContent,SelectBox };
+
+const CreateDiary = styled.form`
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+
+  textarea {
+    width: 100%;
+    height: 200px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    overflow-wrap: break-word;
+    word-break: break-all;
+    white-space: pre;
+  }
+
+  button {
+    width: 100%;
+    border: 0;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 17px;
+    margin-top: 15px;
+  }
+`
+
+const YourDiary = styled.div`
+  width: 100%;
+  height: 40vh;
+  overflow-wrap: break-word;
+  word-break: break-all;
+`
+export { Pictures, PicItem,PicBox,PicContent,SelectBox,CreateDiary };

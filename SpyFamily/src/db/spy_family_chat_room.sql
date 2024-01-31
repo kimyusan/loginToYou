@@ -16,30 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `couple_today_question`
+-- Table structure for table `chat_room`
 --
 
-DROP TABLE IF EXISTS `couple_today_question`;
+DROP TABLE IF EXISTS `chat_room`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `couple_today_question` (
-  `couple_today_question_id` int NOT NULL AUTO_INCREMENT,
-  `couple_id` int NOT NULL,
-  `user_id` int NOT NULL,
-  `today_question_id` int NOT NULL,
-  `user_answer` varchar(255) DEFAULT NULL,
-  `register_date` timestamp,
-  PRIMARY KEY (`couple_today_question_id`)
+CREATE TABLE `chat_room` (
+  `room_id` varchar(255) NOT NULL,
+  `couple_id` bigint DEFAULT NULL,
+  PRIMARY KEY (`room_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `couple_today_question`
+-- Dumping data for table `chat_room`
 --
 
-LOCK TABLES `couple_today_question` WRITE;
-/*!40000 ALTER TABLE `couple_today_question` DISABLE KEYS */;
-/*!40000 ALTER TABLE `couple_today_question` ENABLE KEYS */;
+LOCK TABLES `chat_room` WRITE;
+/*!40000 ALTER TABLE `chat_room` DISABLE KEYS */;
+INSERT INTO `chat_room` VALUES ('2222',33),('3333',6);
+/*!40000 ALTER TABLE `chat_room` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-01-19 13:50:23
+-- Dump completed on 2024-01-30 22:04:24

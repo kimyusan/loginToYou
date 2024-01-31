@@ -45,6 +45,7 @@ function Chat() {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showChatNum, setShowChatNum] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   // 소켓 연결 함수
   const connectHandler = () => {
@@ -150,34 +151,41 @@ function Chat() {
     if (document.documentElement.scrollTop < 100) {
       if (!messages || messages.length < 50) return;
       if (!showMessages || showMessages.length < 50) return;
-
-      let prevHeight = document.documentElement.scrollHeight;
-
-      if (showChatNum > 0) {
-        setShowMessages((message) => {
-          return message
-            ? [
-                ...messages.slice(
-                  showChatNum - 50 > 0 ? showChatNum - 50 : 0,
-                  showChatNum
-                ),
-                ...message,
-              ]
-            : [];
-        });
-
-        setTimeout(() => {
-          document.documentElement.scrollTop =
-            document.documentElement.scrollHeight - prevHeight;
-        }, 1);
-
-        setShowChatNum((num) => {
-          if (num - 50 <= 0) window.removeEventListener("scroll", addScroll);
-          return num - 50 > 0 ? num - 50 : 0;
-        });
-      }
+      if (!isLoading) setIsLoading(true);
     }
   };
+
+  useEffect(() => {
+    if (!isLoading) return;
+
+    let prevHeight = document.documentElement.scrollHeight;
+    console.log("대화 내용을 불러옵니다:남은 대회 갯수", showChatNum);
+
+    if (showChatNum > 0) {
+      setShowMessages((message) => {
+        return message
+          ? [
+              ...messages.slice(
+                showChatNum - 50 > 0 ? showChatNum - 50 : 0,
+                showChatNum
+              ),
+              ...message,
+            ]
+          : [];
+      });
+
+      setTimeout(() => {
+        document.documentElement.scrollTop =
+          document.documentElement.scrollHeight - prevHeight;
+      }, 1);
+
+      setShowChatNum((num) => {
+        if (num - 50 <= 0) window.removeEventListener("scroll", addScroll);
+        return num - 50 > 0 ? num - 50 : 0;
+      });
+    }
+    setIsLoading(false);
+  }, [isLoading]);
 
   // 초기 실행 시 채팅 불러오기(2)
   useEffect(() => {

@@ -64,7 +64,7 @@ const HeaderSection = ({ cp1, cp2, cpInfo }: Props) => {
       <Dday
         className={!cpInfo?.startDate ? "noDate" : null}
       >
-        {cpInfo?.startDate ? `D-${dDay}` : dDay}
+        {cpInfo?.startDate ? `D+${dDay}` : dDay}
       </Dday>
 
     </Header>
