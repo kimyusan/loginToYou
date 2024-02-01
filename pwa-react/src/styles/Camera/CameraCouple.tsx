@@ -14,26 +14,28 @@ const GoBack = styled.div`
   & button {
     padding-top: 10px;
   }
-`
+`;
 
 const ReadyRoomText = styled.div`
   text-align: center;
   font-size: 30px;
   padding: 20px 0;
   width: 100%;
-`
+`;
 
 const JoinForm = styled.form`
   width: 80%;
   margin: 50px auto;
-`
+`;
 const ReadyBtn = styled.input`
   border: 0;
   border-radius: 15px;
   padding: 15px;
   width: 100%;
   cursor: pointer;
-  background-color: #ffd1da;
+  background-color: ${(props) => {
+    return props.theme.color.sub4;
+  }};
   font-weight: bold;
-`
-export {GoBack,ReadyRoomText,ReadyBtn,JoinForm}
+`;
+export { GoBack, ReadyRoomText, ReadyBtn, JoinForm };

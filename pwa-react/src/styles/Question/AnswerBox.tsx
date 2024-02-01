@@ -5,7 +5,9 @@ import { Paper, Card } from "@mui/material";
 const AnswerContainer = styled(Paper)`
   min-height: 100vh;
   margin: 5% 3%;
-  background-color: #ffe2e7 !important;
+  background-color: ${(props) => {
+    return props.theme.color.sub4;
+  }} !important;
   padding: 3%;
 `;
 

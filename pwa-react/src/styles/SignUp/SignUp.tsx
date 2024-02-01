@@ -14,7 +14,7 @@ const Logo = styled.div`
     margin-bottom: 50px;
     font-size: 30px;
   }
-`
+`;
 
 const SignUpBox = styled.form`
   display: flex;
@@ -26,7 +26,10 @@ const SignUpBox = styled.form`
     margin-bottom: 15px;
 
     & input {
-      border-bottom: 2px solid #ffd1da !important;
+      border-bottom: 2px solid
+        ${(props) => {
+          return props.theme.color.sub4;
+        }};
     }
   }
 
@@ -45,7 +48,9 @@ const SignUpBox = styled.form`
     border: 0;
     border-radius: 5px;
     text-align: center;
-    background-color: #ffd1da;
+    background-color: ${(props) => {
+      return props.theme.color.sub4;
+    }};
   }
 
   & p {
@@ -55,6 +60,6 @@ const SignUpBox = styled.form`
     font-size: 12px;
     text-shadow: none;
   }
-`
+`;
 
-export { Logo, SignUpBox, }
+export { Logo, SignUpBox };

@@ -1,6 +1,6 @@
 import React from "react";
 import Global from "./styles/common/global";
-import { pink, blue } from "./styles/common/global";
+import { pink, blue, green } from "./styles/common/global";
 
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import useUserStore from "./stores/UserStore";
@@ -30,7 +30,7 @@ function App() {
   return (
     <BrowserRouter>
       <div>
-        <ThemeProvider theme={blue}>
+        <ThemeProvider theme={pink}>
           <Global />
           <Routes>
             <Route

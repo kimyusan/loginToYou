@@ -6,8 +6,8 @@ const DaySelect = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 15%;
-  background-color: #F9F9F9;
-  
+  background-color: #f9f9f9;
+
   & .subBox {
     display: flex;
     flex-direction: row;
@@ -18,8 +18,11 @@ const DaySelect = styled.div`
     font-size: 20px;
     margin: 0 20px;
     font-weight: bold;
-    border-bottom: 5px solid #ffd1da;
+    border-bottom: 5px solid
+      ${(props) => {
+        return props.theme.color.sub4;
+      }};
   }
-`
+`;
 
-export {DaySelect}
+export { DaySelect };

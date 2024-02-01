@@ -34,7 +34,9 @@ const MessageLine = styled.div`
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background-color: #fba1b7;
+    background-color: ${(props) => {
+      return props.theme.color.sub2;
+    }};
     align-self: center;
     margin: 10px;
 
@@ -50,7 +52,10 @@ export const MyMessage = styled(MessageLine)`
   & > div.content {
     background-color: white;
     align-self: flex-end;
-    border: 1px solid #fba1b7;
+    border: 1px solid
+      ${(props) => {
+        return props.theme.color.sub2;
+      }};
     border-bottom-right-radius: 0;
     justify-self: flex-start;
   }
@@ -60,9 +65,14 @@ export const OppMessage = styled(MessageLine)`
   justify-content: start;
 
   & > div.content {
-    background-color: #ffd1da;
+    background-color: ${(props) => {
+      return props.theme.color.sub4;
+    }};
     align-self: flex-start;
-    border: 1px solid #ffd1da;
+    border: 1px solid
+      ${(props) => {
+        return props.theme.color.sub4;
+      }};
     border-bottom-left-radius: 0;
   }
 `;

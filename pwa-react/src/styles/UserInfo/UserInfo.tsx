@@ -13,10 +13,14 @@ const UserInfoField = styled(TextField)`
   padding: 2% 0 !important;
   width: 100%;
   .Mui-focused {
-    color: #ff95aa !important;
+    color: ${(props) => {
+      return props.theme.color.sub1;
+    }} !important;
   }
   .css-1eed5fa-MuiInputBase-root-MuiInput-root::after {
-    border-bottom: #ff95aa !important;
+    border-bottom: ${(props) => {
+      return props.theme.color.sub1;
+    }} !important;
   }
 `;
 
@@ -37,7 +41,9 @@ const FormBox = styled.form`
     }
   }
   .MuiInputLabel-root .Mui-focused {
-    color: #ff95aa !important;
+    color: ${(props) => {
+      return props.theme.color.sub1;
+    }} !important;
   }
 `;
 
@@ -47,8 +53,13 @@ const SaveButton = styled(Button)`
   align-items: center;
   color: white !important;
   font-size: 1rem !important;
-  background-color: #ff95aa !important;
-  border: 1px solid #ff95aa !important;
+  background-color: ${(props) => {
+    return props.theme.color.sub1;
+  }} !important;
+  border: 1px solid
+    ${(props) => {
+      return props.theme.color.sub1;
+    }} !important;
 `;
 
 const GenderRadio = styled(RadioGroup)`

@@ -46,9 +46,14 @@ export const InputForm = styled.form`
     padding: 10px;
     margin-left: 10px;
     box-sizing: border-box;
-    background-color: #fba1b7;
+    background-color: ${(props) => {
+      return props.theme.color.sub2;
+    }};
     border-radius: 25px;
-    border: 1px solid #fba1b7;
+    border: 1px solid
+      ${(props) => {
+        return props.theme.color.sub2;
+      }};
     align-self: flex-end;
   }
 `;
