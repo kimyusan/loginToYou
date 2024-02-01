@@ -79,17 +79,12 @@ public class DiaryServiceImpl implements DiaryService{
             diaryRepository.deleteById(diaryId);
             System.out.println("다이어리 사진 삭제 단계(DB) 성공");
 
-            // 문자열을 LocalDateTime 객체로 파싱
-            LocalDateTime dateTime = LocalDateTime.parse(diary.getRegisterDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            // LocalDateTime 객체를 다시 원하는 형식의 문자열로 포맷팅
-            String formattedDate = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-
             System.out.println("삭제후 해당 날짜의 다이어리 개수 찾기");
-            int count = diaryMemoRepository.countByCoupleIdAndRegisterDate(diary.getCoupleId(), formattedDate);
+            Long count = diaryMemoRepository.countByCoupleIdAndRegisterDate(diary.getCoupleId(), diary.getRegisterDate());
 
             if (count == 0) {
                 System.out.println("사진이 남아있지 않다면");
-                diaryMemoRepository.deleteByCoupleIdAndRegisterDate(diary.getCoupleId(), formattedDate);
+                diaryMemoRepository.deleteByCoupleIdAndRegisterDate(diary.getCoupleId(), diary.getRegisterDate());
             } else {
                 System.out.println("남겨진 다이어리 개수 : " + count);
             }
