@@ -40,11 +40,11 @@ public class ChatController {
         System.out.println(message.toString());
 
         //System.out.println(nicname);
-        if (ChatMessage.MessageType.ENTER.equals(message.getType())){
+        if (ChatMessage.MessageType.ENTER.equals(message.getType())) {
             message.setMessage(nicname + "님이 입장하셨습니다.");
 
                 chatService.readUser(message.getRoomId(), message.getSendUserId());
-        }    
+        }
 
 
         messagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
