@@ -2,9 +2,12 @@ package com.ssafy.spyfamily.handler;
 
 // import ... 생략
 
+import com.ssafy.spyfamily.chat.repo.ChatRoomRepo;
+import com.ssafy.spyfamily.chat.repo.ChatRoomRepository;
 import com.ssafy.spyfamily.event.CustomStompEvent;
 import com.ssafy.spyfamily.event.SubscriptionTrackingService;
 import com.ssafy.spyfamily.util.JWTUtil;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 
@@ -22,20 +25,22 @@ import java.util.Map;
 
 @Slf4j
 @Component
+@Transactional
 public class StompHandler implements ChannelInterceptor {
 
     private final JWTUtil jwtUtil;
     private final ApplicationEventPublisher eventPublisher;
-    private final SubscriptionTrackingService subscriptionTrackingService;
-    public StompHandler(JWTUtil jwtUtil, ApplicationEventPublisher eventPublisher, SubscriptionTrackingService subscriptionTrackingService) {
+
+
+    private final ChatRoomRepo chatRoomRepository;
+    public StompHandler(JWTUtil jwtUtil, ApplicationEventPublisher eventPublisher, SubscriptionTrackingService subscriptionTrackingService, ChatRoomRepo chatRoomRepository) {
         this.jwtUtil = jwtUtil;
         this.eventPublisher = eventPublisher;
-        this.subscriptionTrackingService = subscriptionTrackingService;
+        this.chatRoomRepository = chatRoomRepository;
 
     }
 
     private List<Map<String, String>> sessionInfos = new ArrayList<>();
-
     // websocket을 통해 들어온 요청이 처리 되기전 실행된다.
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
@@ -60,6 +65,15 @@ public class StompHandler implements ChannelInterceptor {
             String destination = accessor.getDestination();
             eventPublisher.publishEvent(new CustomStompEvent(this, destination, CustomStompEvent.EventType.SUBSCRIBE));
             String sessionId = accessor.getSessionId();
+            log.info("subscribe 정보" + accessor.toString());
+
+            try {
+                String roomId = destination.split("/")[4];
+                chatRoomRepository.loginChatRoom(roomId);
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+
 
             Map<String, String> temp = new HashMap<>();
             temp.put("sessionId", sessionId);
@@ -78,22 +92,15 @@ public class StompHandler implements ChannelInterceptor {
            for(int i = 0 ; i < sessionInfos.size() ; i++){
                if(sessionInfos.get(i).get("sessionId").equals(sessionId)){
                    destination = sessionInfos.get(i).get("destination");
+                   String roomId = destination.split("/")[4];
+                   chatRoomRepository.logoutChatRoom(roomId);
                     sessionInfos.remove(i);
+
                     break;
+
                }
            }
-
-//
-
-
             eventPublisher.publishEvent(new CustomStompEvent(this, destination, CustomStompEvent.EventType.DISCONNECT));
-
-
-            //String notification = "상대방이 대화를 종료했습니다 " ;
-
-
-
-
         }
 
             return message;

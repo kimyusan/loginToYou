@@ -3,8 +3,11 @@ package com.ssafy.spyfamily.chat.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.UUID;
 
@@ -24,4 +27,6 @@ public class ChatRoom {
         chatRoom.coupleId = coupleId;
         return chatRoom;
     }
+    @ColumnDefault("0")
+    private Long loginUserCount;
 }
