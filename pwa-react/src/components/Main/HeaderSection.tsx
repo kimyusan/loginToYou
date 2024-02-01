@@ -40,7 +40,7 @@ const HeaderSection = ({ cp1, cp2, cpInfo }: Props) => {
       Number(temp[2])
     ).getTime();
 
-    setDday((Math.round((today - date) / 1000 / 60 / 60 / 24) + 1).toString());
+    setDday(Math.round((today - date) / 1000 / 60 / 60 / 24).toString());
   };
 
   const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
