@@ -417,14 +417,19 @@ const PictureBox = (props: Props) => {
       </DaySelect>
 
       {/* 다이어리 캐러셀 */}
-      {pictures.length > 0 ? null : <GoCreateDiary style={{ marginTop: "50%"}}>
-        { Number(year.toString() + month.toString().padStart(2, "0")) !== Number(today.getFullYear().toString() + (today.getMonth()+1).toString().padStart(2, "0")) ? 
-        <p>일기를 쓸 수 없어요</p>
-        : <p>일기가 없어요</p>
-        }
-      </GoCreateDiary>
-
-      }
+      {pictures.length > 0 ? null : (
+        <GoCreateDiary style={{ marginTop: "50%" }}>
+          {Number(year.toString() + month.toString().padStart(2, "0")) !==
+          Number(
+            today.getFullYear().toString() +
+              (today.getMonth() + 1).toString().padStart(2, "0")
+          ) ? (
+            <p>일기를 쓸 수 없어요</p>
+          ) : (
+            <p>일기가 없어요</p>
+          )}
+        </GoCreateDiary>
+      )}
       <Pictures>
         {pictures.length > 0 ? (
           <SlArrowLeft onClick={goLeft}></SlArrowLeft>
@@ -590,7 +595,10 @@ const PictureBox = (props: Props) => {
           </StyledBox>
           <GalleryBox>
             <div className="item" onClick={() => navigate("/camera")}>
-              <img src="https://cdn-icons-png.flaticon.com/512/6388/6388838.png" alt="사진 추가 버튼" />
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/6388/6388838.png"
+                alt="사진 추가 버튼"
+              />
             </div>
 
             {dayPictures.map((item, idx) => {

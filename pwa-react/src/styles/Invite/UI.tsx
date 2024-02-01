@@ -7,7 +7,10 @@ export const LongButton = styled(Button)`
 
   &.white {
     background-color: white;
-    border: 1px solid #fba1b7;
+    border: 1px solid
+      ${(props) => {
+        return props.theme.color.sub2;
+      }};
 
     &:active {
       background-color: #f9f9f9;

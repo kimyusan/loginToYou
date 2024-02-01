@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 const TimerText = styled.div`
   width: 100%;
@@ -14,15 +14,15 @@ const TimerText = styled.div`
     width: auto;
     height: auto;
     font-size: 100px;
-    color: #ffffff5c
+    color: #ffffff5c;
   }
-`
+`;
 const CameraBox = styled.div`
   width: 100%;
   position: absolute;
   z-index: -1;
   top: 20%;
-`
+`;
 
 const CameraButton = styled.div`
   width: 100%;
@@ -48,7 +48,7 @@ const CameraButton = styled.div`
     cursor: pointer;
     padding: 25px;
   }
-`
+`;
 
 const OptionsContainer = styled.div`
   display: flex;
@@ -58,7 +58,7 @@ const OptionsContainer = styled.div`
   padding: 10px;
   width: 90%;
   margin: 0 auto;
-  
+
   & div {
     font-size: 20px;
     margin: 0 auto;
@@ -68,7 +68,7 @@ const OptionsContainer = styled.div`
       height: 30px;
     }
   }
-`
+`;
 
 const SaveBox = styled.div`
   width: 90%;
@@ -79,7 +79,7 @@ const SaveBox = styled.div`
   justify-content: space-between;
   position: fixed;
   bottom: 1%;
-`
+`;
 
 const SaveBoxItem = styled.div`
   width: 35%;
@@ -87,11 +87,13 @@ const SaveBoxItem = styled.div`
   height: auto;
   padding: 20px;
   border: 0;
-  background-color: #ffd1da;
+  background-color: ${(props) => {
+    return props.theme.color.sub4;
+  }};
   color: white;
   font-size: 1.3rem;
   border-radius: 10px;
-`
+`;
 
 const SubjectBox = styled.input`
   width: 85%;
@@ -100,5 +102,13 @@ const SubjectBox = styled.input`
   padding: 15px;
   position: fixed;
   bottom: 20%;
-`
-export {TimerText, CameraBox, CameraButton, OptionsContainer, SaveBox, SaveBoxItem, SubjectBox}
+`;
+export {
+  TimerText,
+  CameraBox,
+  CameraButton,
+  OptionsContainer,
+  SaveBox,
+  SaveBoxItem,
+  SubjectBox,
+};

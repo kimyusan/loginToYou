@@ -62,7 +62,7 @@ const Calendar = (props: Props) => {
 
   useEffect(() => {
     closeModal();
-  },[]);
+  }, []);
 
   return (
     <>
@@ -89,8 +89,12 @@ const Calendar = (props: Props) => {
               },
             }}
             datesSet={handleDatesSet}
-            eventBackgroundColor="pink"
-            eventBorderColor="pink"
+            eventBackgroundColor="${(props) => {
+      return props.theme.color.sub2;
+    }};"
+            eventBorderColor="${(props) => {
+      return props.theme.color.sub2;
+    }};"
             defaultAllDay={true}
           />
         </MyCalendar>
