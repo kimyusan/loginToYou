@@ -40,18 +40,40 @@ const PictureDetailBox = styled.div`
 const PictureBtnBox = styled.div`
   width: 100%;
   height: auto;
-  margin-top: 30px;
+  margin-top: 7%;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
   border: 0;
 
-  button {
+  .updateBtn {
+    border: 0;
+    border-radius: 5px;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    background-color: pink;
+    font-size: 1.3rem;
+    color: white;
+  }
+
+  .subBtns {
+    width: 100%;
+    height: auto;
+    margin-top: 7%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border: 0;
+  }
+
+  .subBtn {
     border: 0;
     border-radius: 5px;
     width: 45%;
     text-align: center;
     padding: 10px;
+    font-size: 0.9rem;
   }
 `
 export {GalleryBox, PictureDetailBox, PictureBtnBox}

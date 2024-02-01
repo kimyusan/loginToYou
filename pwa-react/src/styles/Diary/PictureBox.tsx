@@ -4,7 +4,7 @@ const Pictures = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 70vh;
+  height: 65vh;
   background-color: #F9F9F9;
 `;
 
@@ -34,6 +34,7 @@ const PicItem = styled.div`
     filter: blur(1px);
     -webkit-filter: blur(1px);
     background-color: white;
+    
   }
 
   & .middle {
@@ -43,6 +44,32 @@ const PicItem = styled.div`
     -webkit-filter: blur(0px);
   }
 `;
+
+const GoCreateDiary = styled.div`
+  width: 100%;
+  background-color: #F9F9F9;
+
+  div {
+    width: 65%;
+    height: auto;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    border: 0;
+    background-color: pink;
+    font-size: 1.3rem;
+    color: white;
+    font-weight: bold;
+    margin: 0 auto;
+  }
+
+  p {
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #777777;
+  }
+`
 
 const PicBox = styled.div`
   width: 90%;
@@ -56,11 +83,6 @@ const PicBox = styled.div`
   img {
     width: 100%;
     height: 100%;
-  }
-
-  span {
-    font-size: 8px;
-
   }
 `
 
@@ -131,11 +153,4 @@ const CreateDiary = styled.form`
     margin-top: 15px;
   }
 `
-
-const YourDiary = styled.div`
-  width: 100%;
-  height: 40vh;
-  overflow-wrap: break-word;
-  word-break: break-all;
-`
-export { Pictures, PicItem,PicBox,PicContent,SelectBox,CreateDiary };
+export { Pictures, PicItem,PicBox,PicContent,SelectBox,CreateDiary,GoCreateDiary };
