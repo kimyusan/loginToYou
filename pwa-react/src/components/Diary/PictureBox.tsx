@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useShallow } from "zustand/react/shallow";
 import axios from "axios";
+import { useTheme } from "styled-components";
 
 import {
   Pictures,
@@ -94,6 +95,7 @@ const PictureBox = (props: Props) => {
   const { window } = props;
   const [x, setX] = useState(100);
   const navigate = useNavigate();
+  const theme = useTheme();
 
   // 날짜 별 사진 저장 변수
   const [pictures, setPictures] = useState<Diary[]>([]);
@@ -482,7 +484,7 @@ const PictureBox = (props: Props) => {
                   미작성
                   <IoCreateOutline
                     style={{
-                      color: "#f68da2",
+                      color: theme.color.sub1,
                       marginLeft: "15px",
                       width: "20px",
                       height: "20px",
