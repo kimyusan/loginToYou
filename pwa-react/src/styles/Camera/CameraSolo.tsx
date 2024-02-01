@@ -75,20 +75,30 @@ const SaveBox = styled.div`
   height: auto;
   padding: 20px;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
+  flex-direction: row;
+  justify-content: space-between;
+  position: fixed;
   bottom: 1%;
 `
 
 const SaveBoxItem = styled.div`
-  width: auto;
+  width: 35%;
+  text-align: center;
   height: auto;
   padding: 20px;
   border: 0;
   background-color: #ffd1da;
-  border-radius: 30px;
-  margin: 10px 0;
+  color: white;
+  font-size: 1.3rem;
+  border-radius: 10px;
 `
-export {TimerText, CameraBox, CameraButton, OptionsContainer, SaveBox, SaveBoxItem}
+
+const SubjectBox = styled.input`
+  width: 85%;
+  border: 3px solid #cecece;
+  border-radius: 10px;
+  padding: 15px;
+  position: fixed;
+  bottom: 20%;
+`
+export {TimerText, CameraBox, CameraButton, OptionsContainer, SaveBox, SaveBoxItem, SubjectBox}

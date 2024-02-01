@@ -159,14 +159,14 @@ export default function App() {
 
   const createSession = async (sessionId) => {
     const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions', { customSessionId: sessionId }, {
-      headers: { 'Content-Type': 'application/json', Authorization: 'Basic ' + btoa('OPENVIDUAPP:MY_SECRET')},
+      headers: { 'Content-Type': 'application/json'},
     });
     return response.data; // The sessionId
   };
 
   const createToken = async (sessionId) => {
     const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions/' + sessionId + '/connections', {}, {
-      headers: { 'Content-Type': 'application/json', Authorization: 'Basic ' + btoa('OPENVIDUAPP:MY_SECRET')},
+      headers: { 'Content-Type': 'application/json'},
     });
     return response.data; // The token
   };
@@ -175,7 +175,6 @@ export default function App() {
   const toggleNavigation = () => {
     setIsNavigationOpen(!isNavigationOpen);
   };
-
 
   return (
     <div>
@@ -227,8 +226,6 @@ export default function App() {
             />
           </div>
 
-
-
           <div>
             {publisher !== undefined ? (
               <div>
@@ -237,14 +234,12 @@ export default function App() {
               </div>
             ) : null}
 
-
-
-            {/* {subscribers.map((sub, i) => (
+            {subscribers.map((sub, i) => (
               <div key={sub.id}>
                 <span>{sub.id}</span>
                 <UserVideoComponent streamManager={sub} zi={1} />
               </div>
-            ))} */}
+            ))}
           </div>
         </div>
       ) : null}
