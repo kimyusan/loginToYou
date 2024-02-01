@@ -8,7 +8,7 @@ import FullCalendar from "@fullcalendar/react";
 import useAuthStore from "./AuthStore";
 
 interface Calendar {
-  PATH: string;
+  PATH: String;
   isOpen: boolean;
   isEdit: boolean;
   isDelete: boolean;
@@ -30,11 +30,10 @@ interface Calendar {
   updateEventToServer: (newEvent: Event, coupleId: number) => void; // update API
   deleteEventFromServer: (calendar_id: number) => void; //delete API
 }
-const { PATH } = useAuthStore();
 export const CalendarStore = create(
   persist<Calendar>(
     (set, get) => ({
-      PATH: PATH,
+      PATH: useAuthStore.getState().PATH,
       isOpen: false,
       isEdit: false,
       isDelete: false,
