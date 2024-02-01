@@ -10,7 +10,7 @@ import { ReadyRoomText, ReadyBtn, JoinForm, GoBack } from "../styles/Camera/Came
 import { BurgerButton } from "../styles/common/hamburger";
 import Navbar from "../components/Navbar";
 
-const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://i10c105.p.ssafy.io/';
+const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://demos.openvidu.io/';
 
 export default function App() {
   const [mySessionId, setMySessionId] = useState('ssafy')
@@ -239,12 +239,12 @@ export default function App() {
 
 
 
-            {subscribers.map((sub, i) => (
+            {/* {subscribers.map((sub, i) => (
               <div key={sub.id}>
                 <span>{sub.id}</span>
                 <UserVideoComponent streamManager={sub} zi={1} />
               </div>
-            ))}
+            ))} */}
           </div>
         </div>
       ) : null}

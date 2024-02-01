@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useShallow } from "zustand/react/shallow";
 import axios from "axios";
 
@@ -9,6 +10,7 @@ import {
   PicContent,
   SelectBox,
   CreateDiary,
+  GoCreateDiary,
 } from "../../styles/Diary/PictureBox";
 import {
   GalleryBox,
@@ -91,8 +93,9 @@ const style = {
 const PictureBox = (props: Props) => {
   const { window } = props;
   const [x, setX] = useState(100);
+  const navigate = useNavigate();
 
-  // 날짜 별 사진 저장 변수
+  // 날짜 별 사진 저장 변수 
   const [pictures, setPictures] = useState<Diary[]>([]);
 
   // 일 별 사진 저장 변수
@@ -205,11 +208,11 @@ const PictureBox = (props: Props) => {
       .then((res) => {
         const data: Diary[] = [];
 
-        for (let i = 1; i < today.getDate() + 1; i++) {
+        for (let i = 1; i < 32; i++) {
           const thumbNail = res.data.filter(
             (item: any) =>
               "20" + item.saveFolder ===
-              `${year}${month.toString().padStart(2, "0")}${i}`
+              `${year}${month.toString().padStart(2, "0")}${i.toString().padStart(2, "0")}`
           );
           if (thumbNail.length > 0) {
             data.push(
@@ -217,13 +220,13 @@ const PictureBox = (props: Props) => {
             );
           }
         }
-
         setPictures(data)
-        setSelectDay(data.length > 0 ? res.data[day]["saveFolder"] : `${year.toString().substr(2,4)}${month.toString().padStart(2, "0")}01`)
-        setDayPictures(res.data.filter((item: any) => item.saveFolder === res.data[day]["saveFolder"]))
+        setSelectDay(data.length > 0 ? `${data[day]["saveFolder"]}` : `${year.toString().substr(2, 4)}${month.toString().padStart(2, "0")}01`)
+        const Dp = data.length > 0 ? res.data.filter((item: any) => item.saveFolder === `${data[day]["saveFolder"]}`) : []
+        setDayPictures(Dp)
         setMyContent("")
         setYourContent("")
-        setOriginalId(data.length > 0 ? `${data[day]["diaryId"]}`:"")
+        setOriginalId(data.length > 0 ? `${data[day]["diaryId"]}` : "")
       })
       .catch((error) => console.log(error));
   }, [day, month, year, commit]);
@@ -244,13 +247,12 @@ const PictureBox = (props: Props) => {
   // 다이어리 모달 오픈 및 개인별 다이어리 조회
   const openDetail = (id: String) => {
     setDiaryId(id);
-
+    console.log(`${year.toString()}-${month.toString().padStart(2, "0")}-${selectDay.toString().substr(4,6)}`)
     axios
       .get(`${PATH}/diary/memo/get`, {
         params: {
-          userIdA: userId,
-          userIdB: yourId,
-          diaryId: id,
+          coupleId,
+          registerDate: `${year.toString()}-${month.toString().padStart(2, "0")}-${selectDay.toString().substr(4,6)}`
         },
         headers: {
           Authorization: token,
@@ -288,8 +290,9 @@ const PictureBox = (props: Props) => {
         `${PATH}/diary/memo/regist`,
         {
           diaryMemoId: null,
-          diaryId,
+          coupleId,
           userId,
+          registerDate: null,
           content: myContent,
         },
         {
@@ -315,8 +318,9 @@ const PictureBox = (props: Props) => {
         `${PATH}/diary/memo/update`,
         {
           diaryMemoId: myMemoId,
-          diaryId,
+          coupleId,
           userId,
+          registerDate: `${year.toString()}-${month.toString().padStart(2, "0")}-${selectDay.toString().substr(4,6)}`,
           content: myContent,
         },
         {
@@ -334,20 +338,39 @@ const PictureBox = (props: Props) => {
 
   // 대표 사진 체인지함수
   const changeThumbNail = () => {
-    axios.put(`${PATH}/diary/thumbnail/update?diaryId=${originalId}&newDiaryId=${thumbNailId}`,{}, {
+    axios.put(`${PATH}/diary/thumbnail/update?diaryId=${originalId}&newDiaryId=${thumbNailId}`, {}, {
+      headers: {
+        Authorization: token,
+      }
+    })
+      .then((res) => {
+        console.log("대표사진 수정 성공", res.data)
+        setCommit(!commit)
+        setOpen4(false)
+        setOpen2(false)
+      })
+      .catch((error) => console.log(error))
+  }
+
+  // 사진 삭제 함수
+  const deletePicture = () => {
+    axios.delete(`${PATH}/diary/delete?diaryId=${thumbNailId}`,{
       headers: {
         Authorization: token,
       }
     })
     .then((res) => {
-      console.log("대표사진 수정 성공",res.data)
+      console.log("사진 삭제 성공",res.data)
       setCommit(!commit)
+      setOpen4(false)
     })
-    .catch((error) => console.log(error))
+    .catch((error) => {
+      console.log(error)
+    })
   }
 
   return (
-    <div>
+    <div style={{ backgroundColor: "#F9F9F9"}}>
       {/* 네비바 */}
       <BurgerButton onClick={toggleNavigation}>
         {isNavigationOpen ? "×" : "☰"}
@@ -367,17 +390,18 @@ const PictureBox = (props: Props) => {
       </DaySelect>
 
       {/* 다이어리 캐러셀 */}
+      {pictures.length > 0 ? null : <div>
+        { Number(year.toString() + month.toString().padStart(2, "0")) !== Number(today.getFullYear().toString() + (today.getMonth()+1).toString().padStart(2, "0")) ? 
+          <GoCreateDiary style={{ marginTop: "50%"}}>
+            <p>일기를 쓸 수 없어요</p>
+          </GoCreateDiary> : <GoCreateDiary onClick={() => navigate("/camera")} style={{ marginTop: "60%"}}><div>일기 쓰러 가기</div></GoCreateDiary>
+        }
+      </div>
+
+      }
       <Pictures>
-        <SlArrowLeft onClick={goLeft}></SlArrowLeft>
+        {pictures.length > 0 ? <SlArrowLeft onClick={goLeft}></SlArrowLeft> : null}
         <PicItem>
-          {pictures.length > 0 ? null: <div
-                className="slide middle"
-                style={{ transform: `translateX(${x}%) scaleX(2.1) scaleY(1.5)` }}
-              >
-                <PicBox>
-                  <span>이번 달 일기가 없어요.</span>
-                </PicBox>
-              </div>}
           {pictures.map((item, idx) => {
             const middleIdx = -(x / 100) + 1;
             const className = idx === middleIdx ? "slide middle" : "slide";
@@ -388,8 +412,6 @@ const PictureBox = (props: Props) => {
               url = `${PATH}/diary/getImg/${item["saveFolder"]}/${item["originalName"]}/${item["saveName"]}`;
               Id = `${item["diaryId"]}`;
               subject = `${item["subject"]}`;
-            } else {
-              url = "https://www.morget.co.kr/shop/img/no_image.gif";
             }
             return (
               <div
@@ -493,7 +515,7 @@ const PictureBox = (props: Props) => {
             ) : null}
           </Box>
         </Modal>
-        <SlArrowRight onClick={goRight}></SlArrowRight>
+        {pictures.length > 0 ? <SlArrowRight onClick={goRight}></SlArrowRight> : null}
       </Pictures>
 
       {/* 해당 날짜별 사진들 */}
@@ -570,13 +592,17 @@ const PictureBox = (props: Props) => {
               </PictureDetailBox>
 
               <PictureBtnBox>
-                <button onClick={changeThumbNail}>대표 사진 등록</button>
-                <button onClick={() => setOpen4(false)}>닫기</button>
+                <button onClick={changeThumbNail} className="updateBtn">대표 사진 등록</button>
+                <div className="subBtns">
+                  <button onClick={deletePicture} className="subBtn">삭제</button>
+                  <button onClick={() => setOpen4(false)} className="subBtn">닫기</button>
+                </div>
               </PictureBtnBox>
             </Box>
           </Modal>
         </SwipeableDrawer>
       </Root>
+      {pictures.length > 0 ? <GoCreateDiary onClick={() => navigate("/camera")}><div>일기 쓰러 가기</div></GoCreateDiary>:null}
     </div>
   );
 };
