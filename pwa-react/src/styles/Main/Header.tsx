@@ -16,29 +16,32 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  &::before {
-    content: "";
-    background-color: white;
-    opacity: 0.6;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
+
+  div.nameSection {
+    padding-left: 10%;
+    width: max-content;
+
+    div.cpName {
+      font-weight: bold;
+      color: ${(props) => {
+        return props.theme.color.main;
+      }};
+    }
   }
 `;
 
 const UserName = styled.div`
-  z-index: 99;
   color: black;
   left: 10%;
   font-size: 1.3rem;
-  padding-left: 10%;
+  width: max-content;
 `;
 
 const Dday = styled.div<CompWithClass>`
   z-index: 99;
-  color: #ff83a8;
+  color: ${(props) => {
+    return props.theme.color.main;
+  }};
   font-size: 2.3rem;
   padding-right: 10%;
 
@@ -57,7 +60,9 @@ const DdayModal = styled(Modal)`
     transition: transform 0.3s ease-in-out;
     transform: translateY(20%);
     border-radius: 10px;
-    background-color: #ffd0d6;
+    color: ${(props) => {
+      return props.theme.color.sub4;
+    }};
     padding: 7%;
     height: 20%;
   }
@@ -68,7 +73,9 @@ const DdayModal = styled(Modal)`
 
 const DdayInput = styled(TextField)`
   width: 100% !important;
-  background-color: #ffe7ea;
+  color: ${(props) => {
+    return props.theme.color.sub4;
+  }};
   border: none !important;
   border-radius: 30%;
   label {
@@ -80,7 +87,9 @@ const DdayInput = styled(TextField)`
     z-index: 1 !important;
   }
   .MuiInputLabel-root .Mui-focused {
-    color: #ff95aa !important;
+    color: ${(props) => {
+      return props.theme.color.main;
+    }};
   }
 `;
 

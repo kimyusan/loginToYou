@@ -22,6 +22,7 @@ type Props = {
 const HeaderSection = ({ cp1, cp2, cpInfo }: Props) => {
   const mName = cp1 ? (cp1.nickname ? cp1.nickname : cp1.name) : null;
   const fName = cp2 ? (cp2.nickname ? cp2.nickname : cp2.name) : null;
+  const cpName = cpInfo?.name ? cpInfo.name : null;
   const [dDay, setDday] = useState<string | null>(null);
   const naivate = useNavigate();
 
@@ -57,9 +58,12 @@ const HeaderSection = ({ cp1, cp2, cpInfo }: Props) => {
         naivate(`/couple_info/${cpInfo?.coupleId}`, { state: cpInfo });
       }}
     >
-      <UserName>
-        {mName} <FavoriteIcon /> {fName}
-      </UserName>
+      <div className="nameSection">
+        {cpName ? <div className="cpName">{cpName}</div> : null}
+        <UserName>
+          {mName} <FavoriteIcon fontSize="small" /> {fName}
+        </UserName>
+      </div>
       <Dday className={!cpInfo?.startDate ? "noDate" : null}>
         {cpInfo?.startDate ? `D+${dDay}` : dDay}
       </Dday>
