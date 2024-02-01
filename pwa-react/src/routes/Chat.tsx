@@ -9,31 +9,20 @@ import useUserStore from "../stores/UserStore";
 import useAuthStore from "../stores/AuthStore";
 import { useShallow } from "zustand/react/shallow";
 
-import { Header, Wrapper, InputForm } from "../styles/Chat/UI";
+import { Header, InputForm } from "../styles/Chat/UI";
 import { GoArrowLeft } from "react-icons/go";
-
-interface MessageInterface {
-  messageId: number | null;
-  type: string | null;
-  roomId: string | null;
-  sendUserId: string | null;
-  message: string | null;
-  contentType: string | null;
-  createdAt: string | null;
-  readCount: boolean | true;
-}
+import MessageBox from "../components/Chat/MessageBox";
+import InputBox from "../components/Chat/InputBox";
+import { MessageInterface } from "../interface/MessageInterface";
 
 function Chat() {
   const [messages, setMessages] = useState<MessageInterface[]>([]);
   const [showMessages, setShowMessages] = useState<MessageInterface[]>([]);
   const [message, setMessage] = useState("");
   const client = useRef<CompatClient>();
-  const { PATH, token } = useAuthStore(
-    useShallow((state) => ({
-      PATH: state.PATH,
-      token: state.token,
-    }))
-  );
+  const PATH = useAuthStore.getState().PATH;
+  const token = useAuthStore.getState().token;
+
   const { coupleId, userId, name } = useUserStore(
     useShallow((state) => ({
       userId: state.userId,
@@ -43,8 +32,6 @@ function Chat() {
   );
   const navigate = useNavigate();
   const { room_id } = useParams();
-  const inputRef = useRef<HTMLTextAreaElement>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
   const [showChatNum, setShowChatNum] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -98,42 +85,10 @@ function Chat() {
     );
   };
 
-  // 채팅방 끝으로 이동
-  useEffect(() => {
-    scrollRef.current?.scrollIntoView({ block: "end" });
-  }, [showMessages]);
-
   // 정보 받아오기
   useEffect(() => {
     connectHandler();
   }, [room_id]);
-
-  // // 채팅 전송
-  const sendChat = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    if (!client.current) return;
-    if (message == "") return;
-
-    let now = new Date();
-
-    client.current.send(
-      `/pub/chat/message`,
-      {
-        Authorization: token,
-      },
-      JSON.stringify({
-        type: "TALK",
-        roomId: room_id,
-        sendUserId: userId,
-        message: message,
-        createdAt: now.toLocaleString(),
-        readCount: true,
-      })
-    );
-    setMessage("");
-    inputRef.current?.style.setProperty("height", "auto");
-  };
 
   // 초기 실행 시 채팅 불러오기(1)
   const loadChat = async () => {
@@ -150,7 +105,7 @@ function Chat() {
 
     // 미로드된 메세지 갯수 지정 (초기 최대 50개까지 보임)
     setShowChatNum((num) =>
-      res.data.length - 50 > 0 ? res.data.length - 50 : 0
+      res.data.length - 50 >= 0 ? res.data.length - 50 : 0
     );
 
     // 보일 메세지 배열 세팅
@@ -172,7 +127,7 @@ function Chat() {
     if (!isLoading) return;
 
     let prevHeight = document.documentElement.scrollHeight;
-    console.log("대화 내용을 불러옵니다:남은 대회 갯수", showChatNum);
+    console.log("대화 내용을 불러옵니다:남은 대화 갯수", showChatNum);
 
     if (showChatNum > 0) {
       setShowMessages((message) => {
@@ -193,8 +148,7 @@ function Chat() {
       }, 1);
 
       setShowChatNum((num) => {
-        if (num - 50 <= 0) window.removeEventListener("scroll", addScroll);
-        return num - 50 > 0 ? num - 50 : 0;
+        return num - 50 >= 0 ? num - 50 : 0;
       });
     }
     setIsLoading(false);
@@ -206,7 +160,7 @@ function Chat() {
     });
   };
 
-  // 초기 실행 시 채팅 불러오기(2)
+  // 초기 실행 시 채팅 불러오기
   useEffect(() => {
     loadChat();
     return () => {
@@ -216,20 +170,13 @@ function Chat() {
 
   // infinite loading을 위한 event 추가
   useEffect(() => {
+    if (showChatNum <= 0) return;
     window.addEventListener("scroll", addScroll);
     return () => window.removeEventListener("scroll", addScroll);
-  }, [messages]);
+  }, [messages, showChatNum]);
 
-  const updateMessage = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setMessage(event.target.value);
-    inputRef.current?.style.setProperty("height", "auto");
-    inputRef.current?.style.setProperty(
-      "height",
-      inputRef.current?.scrollHeight + "px"
-    );
-  };
   return (
-    <Wrapper>
+    <div>
       <Header>
         <GoArrowLeft
           onClick={() => {
@@ -238,64 +185,15 @@ function Chat() {
         />
         <div>채팅</div>
       </Header>
-      <div className="msgBox" ref={scrollRef}>
-        {showMessages?.map((message, index) => {
-          return (
-            <div
-              key={index}
-              className={
-                userId == message.sendUserId ? "myMsg line" : "oppMsg line"
-              }
-              id={`msg${index}`}
-            >
-              <div
-                style={{
-                  display: userId == message.sendUserId ? "block" : "none",
-                }}
-                className={"time"}
-              >
-                {message.createdAt
-                  ?.substring(0, message.createdAt.length - 3)
-                  .split(" ")
-                  .slice(0, 3)}
-                <br />
-                {message.createdAt
-                  ?.substring(0, message.createdAt.length - 3)
-                  .split(" ")
-                  .slice(3)}
-              </div>
-              <div className={"content"}>{message.message}</div>
-              <div>{message.readCount ? "안읽음" : "읽음"}</div>
-              <div
-                style={{
-                  display: userId == message.sendUserId ? "none" : "block",
-                }}
-                className={"time"}
-              >
-                {message.createdAt
-                  ?.substring(0, message.createdAt.length - 3)
-                  .split(" ")
-                  .slice(0, 3)}
-                <br />
-                {message.createdAt
-                  ?.substring(0, message.createdAt.length - 3)
-                  .split(" ")
-                  .slice(3)}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-      <InputForm onSubmit={sendChat}>
-        <textarea
-          rows={1}
-          value={message}
-          onChange={updateMessage}
-          ref={inputRef}
-        ></textarea>
-        <button>전송</button>
-      </InputForm>
-    </Wrapper>
+      <MessageBox messages={showMessages} userId={userId}></MessageBox>
+      <InputBox
+        client={client}
+        message={message}
+        setMessage={setMessage}
+        userId={userId}
+        roomId={room_id}
+      ></InputBox>
+    </div>
   );
 }
 

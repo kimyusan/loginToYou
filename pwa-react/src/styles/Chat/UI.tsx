@@ -17,63 +17,6 @@ export const Header = styled.div`
   backdrop-filter: blur(8px);
 `;
 
-export const Wrapper = styled.div`
-  & *.msgBox {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    padding-top: 60px;
-    padding-bottom: 60px;
-
-    & div.line {
-      display: flex;
-      width: 100%;
-      padding: 10px;
-      box-sizing: border-box;
-
-      &.myMsg {
-        justify-content: end;
-
-        & > div.content {
-          background-color: white;
-          width: fit-content;
-          max-width: 60%;
-          padding: 10px 20px;
-          align-self: flex-end;
-          border: 1px solid #fba1b7;
-          border-radius: 25px;
-          border-bottom-right-radius: 0;
-          justify-self: flex-start;
-        }
-      }
-
-      &.oppMsg {
-        justify-content: start;
-
-        & > div.content {
-          background-color: #ffd1da;
-          width: fit-content;
-          max-width: 60%;
-          padding: 10px 20px;
-          align-self: flex-start;
-          border: 1px solid #ffd1da;
-          border-radius: 25px;
-          border-bottom-left-radius: 0;
-        }
-      }
-
-      *.time {
-        color: #8a8a8a;
-        font-size: 10pt;
-        align-self: flex-end;
-        margin: 0 5px;
-      }
-    }
-  }
-`;
-
 export const InputForm = styled.form`
   position: fixed;
   display: flex;
