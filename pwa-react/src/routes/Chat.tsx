@@ -34,6 +34,13 @@ function Chat() {
   const { room_id } = useParams();
   const [showChatNum, setShowChatNum] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [isOppOn, setIsOppOn] = useState(false);
+
+  const updateReadCount = () => {
+    setShowMessages((messages) => {
+      return messages.map((each) => ({ ...each, readCount: false }));
+    });
+  };
 
   const updateRead = async () => {
     await axiosAuth.post(
@@ -70,12 +77,22 @@ function Chat() {
           (msg) => {
             if (!msg.body) return;
             let newMsg = JSON.parse(msg.body);
+            console.log(newMsg.type);
+            if (newMsg.type == "SUBSCRIBE") {
+              setIsOppOn((prev) => true);
+            } else if (newMsg.type == "TALK") {
+              if (newMsg.sendUserId != userId) {
+                newMsg.readCount = false;
+              }
 
-            setShowMessages((showMessages) => {
-              return showMessages ? [...showMessages, newMsg] : [newMsg];
-            });
+              setShowMessages((showMessages) => {
+                return showMessages ? [...showMessages, newMsg] : [newMsg];
+              });
 
-            updateRead();
+              updateRead();
+            } else if (newMsg.type == "DISCONNECT") {
+              setIsOppOn(false);
+            }
           },
           {
             Authorization: token,
@@ -84,6 +101,14 @@ function Chat() {
       }
     );
   };
+
+  useEffect(() => {
+    if (isOppOn == true) {
+      setShowMessages((prev) => {
+        return showMessages.map((each) => ({ ...each, readCount: false }));
+      });
+    }
+  }, [isOppOn]);
 
   // 정보 받아오기
   useEffect(() => {
@@ -100,7 +125,11 @@ function Chat() {
 
     // 원본 배열 저장
     setMessages((prev) => {
-      return res.data;
+      let messages: MessageInterface[];
+      messages = res.data;
+      return messages.map((each) =>
+        each.sendUserId == userId ? each : { ...each, readCount: false }
+      );
     });
 
     // 미로드된 메세지 갯수 지정 (초기 최대 50개까지 보임)
@@ -110,13 +139,22 @@ function Chat() {
 
     // 보일 메세지 배열 세팅
     setShowMessages((prev) => {
-      return res.data.slice(res.data.length - 50, res.data.length);
+      let messages: MessageInterface[];
+      messages = res.data;
+      return messages
+        .map((each) => {
+          return each.sendUserId == userId
+            ? each
+            : { ...each, readCount: false };
+        })
+        .slice(res.data.length - 50, res.data.length);
     });
   };
 
   // 위로 스크롤 시 추가 로딩 함수
   const addScroll = () => {
     if (document.documentElement.scrollTop < 100) {
+      if (isLoading) return;
       if (!messages || messages.length < 50) return;
       if (!showMessages || showMessages.length < 50) return;
       if (!isLoading) setIsLoading(true);
@@ -154,12 +192,6 @@ function Chat() {
     setIsLoading(false);
   }, [isLoading]);
 
-  const updateReadCount = () => {
-    setShowMessages((messages) => {
-      return messages.map((each) => ({ ...each, readCount: true }));
-    });
-  };
-
   // 초기 실행 시 채팅 불러오기
   useEffect(() => {
     loadChat();
@@ -173,7 +205,7 @@ function Chat() {
     if (showChatNum <= 0) return;
     window.addEventListener("scroll", addScroll);
     return () => window.removeEventListener("scroll", addScroll);
-  }, [messages, showChatNum]);
+  }, [messages, showChatNum, isLoading]);
 
   return (
     <div>
@@ -192,6 +224,7 @@ function Chat() {
         setMessage={setMessage}
         userId={userId}
         roomId={room_id}
+        isOppOn={isOppOn}
       ></InputBox>
     </div>
   );
