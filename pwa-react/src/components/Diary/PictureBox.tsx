@@ -390,13 +390,12 @@ const PictureBox = (props: Props) => {
       </DaySelect>
 
       {/* 다이어리 캐러셀 */}
-      {pictures.length > 0 ? null : <div>
+      {pictures.length > 0 ? null : <GoCreateDiary style={{ marginTop: "50%"}}>
         { Number(year.toString() + month.toString().padStart(2, "0")) !== Number(today.getFullYear().toString() + (today.getMonth()+1).toString().padStart(2, "0")) ? 
-          <GoCreateDiary style={{ marginTop: "50%"}}>
-            <p>일기를 쓸 수 없어요</p>
-          </GoCreateDiary> : <GoCreateDiary onClick={() => navigate("/camera")} style={{ marginTop: "60%"}}><div>일기 쓰러 가기</div></GoCreateDiary>
+        <p>일기를 쓸 수 없어요</p>
+        : <p>일기가 없어요</p>
         }
-      </div>
+      </GoCreateDiary>
 
       }
       <Pictures>
@@ -559,9 +558,10 @@ const PictureBox = (props: Props) => {
             </Typography>
           </StyledBox>
           <GalleryBox>
-            {dayPictures.length === 0 ? (
-              <div className="noPic">사진 없음</div>
-            ) : null}
+            <div className="item" onClick={() => navigate("/camera")}>
+              <img src="https://cdn-icons-png.flaticon.com/512/6388/6388838.png" alt="사진 추가 버튼" />
+            </div>
+
             {dayPictures.map((item, idx) => {
               const url = `${PATH}/diary/getImg/${item["saveFolder"]}/${item["originName"]}/${item["saveName"]}`;
               return (
@@ -602,7 +602,6 @@ const PictureBox = (props: Props) => {
           </Modal>
         </SwipeableDrawer>
       </Root>
-      {pictures.length > 0 ? <GoCreateDiary onClick={() => navigate("/camera")}><div>일기 쓰러 가기</div></GoCreateDiary>:null}
     </div>
   );
 };
