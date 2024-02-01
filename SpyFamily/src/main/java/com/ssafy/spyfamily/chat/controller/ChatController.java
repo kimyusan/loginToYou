@@ -5,12 +5,16 @@ import com.ssafy.spyfamily.chat.model.ChatMessage;
 import com.ssafy.spyfamily.chat.service.ChatServiceImpl;
 import com.ssafy.spyfamily.util.JWTUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
 @Controller
@@ -36,8 +40,11 @@ public class ChatController {
         System.out.println(message.toString());
 
         //System.out.println(nicname);
-//        if (ChatMessage.MessageType.ENTER.equals(message.getType()))
-//            message.setMessage(nicname + "님이 입장하셨습니다.");
+        if (ChatMessage.MessageType.ENTER.equals(message.getType())) {
+            message.setMessage(nicname + "님이 입장하셨습니다.");
+
+                chatService.readUser(message.getRoomId(), message.getSendUserId());
+        }
 
 
         messagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);

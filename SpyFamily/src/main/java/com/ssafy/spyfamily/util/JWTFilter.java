@@ -3,6 +3,9 @@ package com.ssafy.spyfamily.util;
 
 import com.ssafy.spyfamily.user.dto.CustomUserDetails;
 import com.ssafy.spyfamily.user.model.User;
+import com.ssafy.spyfamily.user.repository.UserRepository;
+import com.ssafy.spyfamily.user.service.UserService;
+import com.ssafy.spyfamily.user.service.UserServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +24,7 @@ public class JWTFilter extends OncePerRequestFilter {
     public JWTFilter(JWTUtil jwtUtil) {
 
         this.jwtUtil = jwtUtil;
+
     }
 
 
@@ -64,12 +68,14 @@ public class JWTFilter extends OncePerRequestFilter {
         String username = jwtUtil.getUsername(token);
         //String role = jwtUtil.getRole(token);
 
+        String password = "password";
+
         User user = new User();
+
         user.setEmail(username);
-        user.setPassword("temppassword");
         //userEntity.setCoupleId(coupleId);
         //userEntity.setRole(role);
-        System.out.println(user.toString());
+        System.out.println("jwt 필터" + username);
         CustomUserDetails customUserDetails = new CustomUserDetails(user);
 
         Authentication authToken = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
@@ -79,24 +85,5 @@ public class JWTFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-//    // 토큰에서 userId와 role 획득
-//    String userId = jwtUtil.getUserId(token);
-//    String role = jwtUtil.getRole(token);
-//
-//    // User 엔터티를 생성하여 값 set
-//    User user = new User();
-//        user.setUserId(userId);
-////        user.setPassword("temp password");
-//        user.setRole(role);
-//
-//    // UserDetails에 회원 정보 객체 담기
-//    CustomUserDetails customUserDetails = new CustomUserDetails(user);
-//
-//    // 스프링 시큐리티 인증 토큰 생성
-//    Authentication authToken = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities()); // (principal, credentials, authorities)
-//    // 세션에 사용자 등록 (한번의 요청에 대해 일시적으로 세션 생성)
-//        SecurityContextHolder.getContext().setAuthentication(authToken);
-//
-//        filterChain.doFilter(request, response);
 }
 
