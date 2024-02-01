@@ -14,7 +14,7 @@ public class DiaryMemo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer diaryMemoId;
-    private Integer diaryId;
+    private Integer coupleId;
     private Integer userId;
     private String registerDate;
     private String content;

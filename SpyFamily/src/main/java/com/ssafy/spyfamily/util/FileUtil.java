@@ -106,18 +106,18 @@ public class FileUtil {
     }
 
     // 아이디로 프로필 사진 삭제
-    public void deleteProfileFile(Optional<ProfileImg> profileImg) throws IOException {
+    public void deleteProfileFile(ProfileImg profileImg) throws IOException {
         // 파일의 경로 생성
-        String filePath = uploadImagePath + File.separator + profileImg.get().getSaveFolder() + File.separator + profileImg.get().getSaveName();
+        String filePath = uploadImagePath + File.separator + profileImg.getSaveFolder() + File.separator + profileImg.getSaveName();
         Path path = Paths.get(filePath);
 
         // 파일 삭제
         Files.deleteIfExists(path);
     }
     // 다이어리 삭제
-    public void deleteFile(Optional<Diary> diary) throws IOException {
+    public void deleteFile(Diary diary) throws IOException {
         // 파일의 경로 생성
-        String filePath = uploadImagePath + File.separator + diary.get().getSaveFolder() + File.separator + diary.get().getSaveName();
+        String filePath = uploadImagePath + File.separator + diary.getSaveFolder() + File.separator + diary.getSaveName();
         Path path = Paths.get(filePath);
 
         // 파일 삭제
