@@ -1,7 +1,6 @@
 import React, { LegacyRef, useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import SockJS from "sockjs-client";
+import { useNavigate, useParams } from "react-router-dom";
 import { CompatClient, Stomp } from "@stomp/stompjs";
 import { axiosAuth } from "../util/token";
 
@@ -10,7 +9,9 @@ import useAuthStore from "../stores/AuthStore";
 import { useShallow } from "zustand/react/shallow";
 
 import { Header, InputForm } from "../styles/Chat/UI";
+import { IconContext } from "react-icons";
 import { GoArrowLeft } from "react-icons/go";
+import { FaPhone } from "react-icons/fa";
 import MessageBox from "../components/Chat/MessageBox";
 import InputBox from "../components/Chat/InputBox";
 import { MessageInterface } from "../interface/MessageInterface";
@@ -34,6 +35,13 @@ function Chat() {
   const { room_id } = useParams();
   const [showChatNum, setShowChatNum] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [isOppOn, setIsOppOn] = useState(false);
+
+  const updateReadCount = () => {
+    setShowMessages((messages) => {
+      return messages.map((each) => ({ ...each, readCount: false }));
+    });
+  };
 
   const updateRead = async () => {
     await axiosAuth.post(
@@ -64,18 +72,46 @@ function Chat() {
         if (!token) return;
         updateRead();
 
+        // // 더미데이터 만드는 코드
+        // for (let i = 1; i <= 150; i++) {
+        //   client.current.send(
+        //     `/pub/chat/message`,
+        //     {
+        //       Authorization: token,
+        //     },
+        //     JSON.stringify({
+        //       type: "TALK",
+        //       roomId: room_id,
+        //       sendUserId: i % 2 == 0 ? 16 : 17,
+        //       message: i,
+        //       createdAt: new Date().toLocaleString(),
+        //       readCount: isOppOn ? false : true,
+        //     })
+        //   );
+        // }
+
         // 신규 메세지 체크
         client.current.subscribe(
           `/sub/chat/room/${room_id}`,
           (msg) => {
             if (!msg.body) return;
             let newMsg = JSON.parse(msg.body);
+            console.log(newMsg.type);
+            if (newMsg.type == "SUBSCRIBE") {
+              setIsOppOn((prev) => true);
+            } else if (newMsg.type == "TALK") {
+              if (newMsg.sendUserId != userId) {
+                newMsg.readCount = false;
+              }
 
-            setShowMessages((showMessages) => {
-              return showMessages ? [...showMessages, newMsg] : [newMsg];
-            });
+              setShowMessages((showMessages) => {
+                return showMessages ? [...showMessages, newMsg] : [newMsg];
+              });
 
-            updateRead();
+              updateRead();
+            } else if (newMsg.type == "DISCONNECT") {
+              setIsOppOn(false);
+            }
           },
           {
             Authorization: token,
@@ -84,6 +120,17 @@ function Chat() {
       }
     );
   };
+
+  useEffect(() => {
+    if (isOppOn == true) {
+      setMessages((prev) => {
+        return prev.map((each) => ({ ...each, readCount: false }));
+      });
+      setShowMessages((prev) => {
+        return showMessages.map((each) => ({ ...each, readCount: false }));
+      });
+    }
+  }, [isOppOn]);
 
   // 정보 받아오기
   useEffect(() => {
@@ -100,7 +147,11 @@ function Chat() {
 
     // 원본 배열 저장
     setMessages((prev) => {
-      return res.data;
+      let messages: MessageInterface[];
+      messages = res.data;
+      return messages.map((each) =>
+        each.sendUserId == userId ? each : { ...each, readCount: false }
+      );
     });
 
     // 미로드된 메세지 갯수 지정 (초기 최대 50개까지 보임)
@@ -110,13 +161,22 @@ function Chat() {
 
     // 보일 메세지 배열 세팅
     setShowMessages((prev) => {
-      return res.data.slice(res.data.length - 50, res.data.length);
+      let messages: MessageInterface[];
+      messages = res.data;
+      return messages
+        .map((each) => {
+          return each.sendUserId == userId
+            ? each
+            : { ...each, readCount: false };
+        })
+        .slice(res.data.length - 50, res.data.length);
     });
   };
 
   // 위로 스크롤 시 추가 로딩 함수
   const addScroll = () => {
     if (document.documentElement.scrollTop < 100) {
+      if (isLoading) return;
       if (!messages || messages.length < 50) return;
       if (!showMessages || showMessages.length < 50) return;
       if (!isLoading) setIsLoading(true);
@@ -154,12 +214,6 @@ function Chat() {
     setIsLoading(false);
   }, [isLoading]);
 
-  const updateReadCount = () => {
-    setShowMessages((messages) => {
-      return messages.map((each) => ({ ...each, readCount: true }));
-    });
-  };
-
   // 초기 실행 시 채팅 불러오기
   useEffect(() => {
     loadChat();
@@ -173,17 +227,19 @@ function Chat() {
     if (showChatNum <= 0) return;
     window.addEventListener("scroll", addScroll);
     return () => window.removeEventListener("scroll", addScroll);
-  }, [messages, showChatNum]);
+  }, [messages, showChatNum, isLoading]);
 
   return (
     <div>
       <Header>
-        <GoArrowLeft
-          onClick={() => {
-            navigate("/");
-          }}
-        />
-        <div>채팅</div>
+        <IconContext.Provider value={{ size: "20px" }}>
+          <GoArrowLeft
+            onClick={() => {
+              navigate("/");
+            }}
+          />
+          <FaPhone />
+        </IconContext.Provider>
       </Header>
       <MessageBox messages={showMessages} userId={userId}></MessageBox>
       <InputBox
@@ -192,6 +248,7 @@ function Chat() {
         setMessage={setMessage}
         userId={userId}
         roomId={room_id}
+        isOppOn={isOppOn}
       ></InputBox>
     </div>
   );
