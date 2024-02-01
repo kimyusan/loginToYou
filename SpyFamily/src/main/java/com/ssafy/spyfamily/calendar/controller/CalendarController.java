@@ -3,12 +3,14 @@ package com.ssafy.spyfamily.calendar.controller;
 
 import com.ssafy.spyfamily.calendar.model.Calendar;
 import com.ssafy.spyfamily.calendar.service.CalendarServiceImpl;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Log4j2
 @RestController
 @RequestMapping(value = "/calendar", produces = "application/json")
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE}, maxAge = 6000)
@@ -41,6 +43,7 @@ public class CalendarController {
         try {
             System.out.println("캘린더 불러오기 시도, couple_id: " + coupleId);
             List<Calendar> calendars = calendarService.getCalendarByCoupleId(coupleId);
+            log.info("log 테스트");
 
             if (!calendars.isEmpty()) {
                 for (Calendar calendar : calendars) {

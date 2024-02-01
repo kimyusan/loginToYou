@@ -60,12 +60,11 @@ public class DiaryController {
     }
 
     @GetMapping("/memo/get")
-    public ResponseEntity<?> getDiaryMemo(@RequestParam Integer userIdA,
-                                          @RequestParam Integer userIdB,
-                                          @RequestParam Integer diaryId) {
+    public ResponseEntity<?> getDiaryMemo(@RequestParam Integer coupleId,
+                                          @RequestParam String registerDate) {
         try {
             System.out.println("다이어리 메모 불러오기");
-            ArrayList<DiaryMemo> list = diaryService.getDiaryMemo(userIdA, userIdB, diaryId);
+            ArrayList<DiaryMemo> list = diaryService.getDiaryMemo(coupleId, registerDate);
             System.out.println("다이어리 메모 불러오기 성공");
             return new ResponseEntity<ArrayList<DiaryMemo>>(list, HttpStatus.OK);
         } catch (Exception e) {
@@ -90,10 +89,10 @@ public class DiaryController {
     }
 
     @DeleteMapping("/memo/delete")
-    public ResponseEntity<?> deleteDiaryMemo(@RequestParam Integer diaryId) {
+    public ResponseEntity<?> deleteDiaryMemo(@RequestParam Integer diaryMemoId) {
         try {
             System.out.println("다이어리 메모 삭제");
-            diaryService.deleteDiaryMemo(diaryId);
+            diaryService.deleteDiaryMemo(diaryMemoId);
             System.out.println("다이어리 메모 성공");
             return new ResponseEntity<Void>(HttpStatus.OK);
         } catch (Exception e) {
@@ -201,7 +200,7 @@ public class DiaryController {
             System.out.println("썸네일 수정 : 객체 수정 성공");
             System.out.println("old_diary : " + old_diary.toString());
             System.out.println("new_diary : " + new_diary.toString());
-            
+
 
             return new ResponseEntity<Void>(HttpStatus.OK);
         } catch (Exception e) {

@@ -10,7 +10,7 @@ import java.util.Optional;
 @Service
 public interface DiaryService {
 
-    ArrayList<DiaryMemo> getDiaryMemo(Integer userIdA, Integer userIdB, Integer diaryId);
+    ArrayList<DiaryMemo> getDiaryMemo(Integer coupleId, String registerDate);
 
     void deleteDiaryMemo(Integer diaryId);
 

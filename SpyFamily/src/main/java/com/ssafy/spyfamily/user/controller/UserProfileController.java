@@ -146,7 +146,8 @@ public class UserProfileController {
 
         try {
             System.out.println("기존 프사 삭제 진행 (서버)");
-            fileUtil.deleteProfileFile(userProfileService.getProfileImg(profileImgId));
+            ProfileImg profileImg = userProfileService.getProfileImg(profileImgId).get();
+            fileUtil.deleteProfileFile(profileImg);
             System.out.println("기존 프사 삭제 진행 (DB)");
             userProfileService.deleteUserProfile(profileImgId);
 

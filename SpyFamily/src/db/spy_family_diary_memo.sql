@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `diary_memo`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `diary_memo` (
   `diary_memo_id` int NOT NULL AUTO_INCREMENT,
-  `diary_id` int DEFAULT NULL,
+  `couple_id` int NOT NULL,
   `user_id` int NOT NULL,
   `register_date` timestamp NULL DEFAULT NULL,
   `content` varchar(255) DEFAULT NULL,
