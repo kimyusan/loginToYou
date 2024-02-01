@@ -15,7 +15,7 @@ const useAuthStore = create(
     (set) => ({
       // PATH: "http://192.168.100.82:8080",
       // PATH: "http://i10c105.p.ssafy.io:8080",
-      PATH: "http://localhost:8080",
+      PATH: "https://logintoyou.kro.kr:8080",
       token: null,
       isLogIn: false,
       login: () => {
@@ -25,8 +25,8 @@ const useAuthStore = create(
         set({ isLogIn: false });
       },
       setToken: (token) => {
-        set({token: token})
-      }
+        set({ token: token });
+      },
     }),
     {
       name: "userLoginStatus",
