@@ -15,7 +15,16 @@ const QuestionBox = (props: Props) => {
       token: state.token,
     }))
   );
-  const { isEdit, EditMode, isOpen, handleModal } = useQuestionStore();
+  const {
+    isEdit,
+    EditMode,
+    isOpen,
+    handleModal,
+    setEditAnswer,
+    dateString,
+    setDateString,
+    setModalQuestion,
+  } = useQuestionStore();
 
   const today = new Date();
   const todayYear = today.getFullYear().toString();
@@ -42,6 +51,9 @@ const QuestionBox = (props: Props) => {
   };
 
   const openCreateModal = () => {
+    setEditAnswer(null);
+    setDateString(todayYear + todayMonth + todayDate);
+    setModalQuestion(question);
     if (isEdit) {
       EditMode();
     }
@@ -68,14 +80,14 @@ const QuestionBox = (props: Props) => {
         </div>
       </QBox>
 
-      <QuestionModal
+      {/* <QuestionModal
         question={question}
         todayToString={todayToString}
         isOpen={isOpen}
         handleModal={handleModal}
         todayMonth={todayMonth}
         todayDate={todayDate}
-      />
+      /> */}
     </>
   );
 };

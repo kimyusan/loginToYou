@@ -8,30 +8,19 @@ import useQuestionStore from "../../stores/QuestionStore";
 import { useShallow } from "zustand/react/shallow";
 
 type Props = {
-  question: string;
-  todayToString: () => string;
+  // question: string | null;
+  // todayToString: () => string;
   isOpen: boolean;
-  todayMonth: string;
-  todayDate: string;
+  // todayMonth: string;
+  // todayDate: string;
   handleModal: () => void;
 };
 
-// {
-//    "coupleTodayQuestionId" : null,
-//    "coupleId" : 2,
-//    "userId" : 16,
-//    "todayQuestionId" : 2,
-//    "userAnswer" : "주먹밥",
-//    "registerDate" : 20240130
-//   }
-
 const QuestionModal = ({
-  question,
-  todayToString,
+  // question,
+  // todayToString,
   isOpen,
   handleModal,
-  todayMonth,
-  todayDate,
 }: Props) => {
   const { PATH, token } = useAuthStore(
     useShallow((state) => ({
@@ -40,29 +29,36 @@ const QuestionModal = ({
     }))
   );
   const user = useUserStore();
-  const { isEdit, EditMode } = useQuestionStore();
+  const { isEdit, editAnswer, modalQuestion, dateString } = useQuestionStore();
 
-  const [answer, setAnswer] = useState("");
+  const [answer, setAnswer] = useState<string | null>(null);
 
   const saveAnswer = () => {
-    axios.post(
-      `${PATH}/question/save`,
-      {
-        coupleTodayQuestionId: null,
-        coupleId: user.coupleId,
-        userId: user.userId,
-        todayQuestionId: todayToString(),
-        userAnswer: answer,
-        registerDate: todayToString(),
-      },
-      {
-        headers: {
-          Authorization: token,
+    axios
+      .post(
+        `${PATH}/question/save`,
+        {
+          coupleTodayQuestionId: null,
+          coupleId: user.coupleId,
+          userId: user.userId,
+          todayQuestionId: dateString,
+          userAnswer: answer,
+          registerDate: dateString,
         },
-      }
-    );
-    handleModal();
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      )
+      .then((res) => {
+        handleModal();
+      });
   };
+
+  useEffect(() => {
+    setAnswer(isEdit ? editAnswer : "");
+  }, [isOpen]);
 
   return (
     <>
@@ -72,14 +68,12 @@ const QuestionModal = ({
         ariaHideApp={false}
         shouldCloseOnOverlayClick={true}
       >
-        <p className="today">
-          {todayMonth}/{todayDate}
-        </p>
-        <p className="question">{question}</p>
+        <p className="question">{modalQuestion}</p>
         <AnswerInput
           className="answer"
           multiline
           rows={4}
+          defaultValue={isEdit ? editAnswer : ""}
           value={answer}
           onChange={(event) => setAnswer(event.target.value)}
         />

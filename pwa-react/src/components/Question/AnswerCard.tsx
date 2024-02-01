@@ -1,21 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { AnsCard } from "../../styles/Question/AnswerBox";
-import {
-  Card,
-  CardContent,
-  CardActions,
-  Button,
-  Box,
-  Typography,
-  Tabs,
-  Tab,
-} from "@mui/material";
+import { CardContent, Box, Tabs, Tab } from "@mui/material";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
 
 import useAuthStore from "../../stores/AuthStore";
 import useUserStore from "../../stores/UserStore";
 import useCoupleStore from "../../stores/CoupleStore";
 import useQuestionStore from "../../stores/QuestionStore";
+import QuestionModal from "./QuestionModal";
 import { useShallow } from "zustand/react/shallow";
 
 interface Answer {
@@ -29,6 +22,7 @@ interface Answer {
 type Props = {
   show: boolean;
   item: Answer[];
+  month: number;
 };
 
 interface TabPanelProps {
@@ -50,7 +44,7 @@ function CustomTabPanel(props: TabPanelProps) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          <p>{children}</p>
         </Box>
       )}
     </div>
@@ -64,16 +58,13 @@ function a11yProps(index: number) {
   };
 }
 
-function AnswerCard({ show, item }: Props) {
+function AnswerCard({ show, item, month }: Props) {
   const { PATH, token } = useAuthStore(
     useShallow((state) => ({
       PATH: state.PATH,
       token: state.token,
     }))
   );
-  const today = new Date();
-  const todayMonth = (today.getMonth() + 1).toString().padStart(2, "0");
-  const todayDate = today.getDate().toString().padStart(2, "0");
 
   // Tab 전환
   const [value, setValue] = React.useState(0);
@@ -83,17 +74,31 @@ function AnswerCard({ show, item }: Props) {
 
   const { userId, name, nickname } = useUserStore();
   const { yourName, yourNickName } = useCoupleStore();
-  const { isEdit, EditMode, handleModal } = useQuestionStore();
-
-  const [question, setQuestion] = useState();
+  const {
+    isEdit,
+    EditMode,
+    handleModal,
+    setEditAnswer,
+    isOpen,
+    modalQuestion,
+    setModalQuestion,
+    setDateString
+  } = useQuestionStore();
 
   const openEditModal = () => {
     if (!isEdit) {
       EditMode();
     }
+    setDateString(item[0].todayQuestionId.toString());
+    setEditAnswer(myAnswer);
+    setModalQuestion(question);
     handleModal();
   };
 
+  // 답변에 대한 질문
+  const [question, setQuestion] = useState(null);
+
+  // 답변에 대한 질문 조회 요청
   const getQuestion = () => {
     axios
       .get(`${PATH}/question/get`, {
@@ -108,18 +113,33 @@ function AnswerCard({ show, item }: Props) {
       .catch((err) => console.log(err));
   };
 
+  // 나의 답변
+  const [myAnswer, setMyAnswer] = useState<string | null>(null);
+  // 상대방의 답변
+  const [yourAnswer, setYourAnswer] = useState<string | null>(null);
+  // 나의 답변과 상대방의 답변을 각각 저장함
+  const getAnswerByUser = () => {
+    for (let i = 0; i < item?.length; i++) {
+      if (item[i]?.userId === userId) {
+        setMyAnswer(item[i].userAnswer);
+      } else {
+        setYourAnswer(item[i].userAnswer);
+      }
+    }
+  };
+
   useEffect(() => {
-    console.log(item);
+    setMyAnswer(null);
+    setYourAnswer(null);
     getQuestion();
-  }, []);
+    getAnswerByUser();
+  }, [item, isOpen]);
 
   return (
     <>
       <AnsCard>
         <CardContent>
-          <p>
-            {todayMonth}/{todayDate}
-          </p>
+          <p>{item[0]?.todayQuestionId}</p>
           <p>{question}</p>
           <hr />
           {show ? null : (
@@ -144,15 +164,33 @@ function AnswerCard({ show, item }: Props) {
                 </Tabs>
               </Box>
               <CustomTabPanel value={value} index={0}>
-                나의 답변
-                <button onClick={openEditModal}>수정하기</button>
+                <div className="answer">
+                  {myAnswer ? (
+                    <p>{myAnswer}</p>
+                  ) : (
+                    <p>답변을 작성하지 않았어요</p>
+                  )}
+                  <div className="edit_btn">
+                    <BorderColorIcon onClick={openEditModal}>
+                      수정하기
+                    </BorderColorIcon>
+                  </div>
+                </div>
               </CustomTabPanel>
               <CustomTabPanel value={value} index={1}>
-                상대방의 답변
+                {yourAnswer ? yourAnswer : <p>답변을 작성하지 않았어요</p>}
               </CustomTabPanel>
             </Box>
           )}
         </CardContent>
+        {/* <QuestionModal
+          question={question}
+          todayToString={todayToString}
+          isOpen={isOpen}
+          handleModal={handleModal}
+          todayMonth={answerMonth}
+          todayDate={answerDay}
+        /> */}
       </AnsCard>
     </>
   );

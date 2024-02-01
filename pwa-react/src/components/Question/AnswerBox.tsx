@@ -41,8 +41,6 @@ const QuestionBox = ({ show, year, month }: Props) => {
         headers: { Authorization: token },
       })
       .then((res) => {
-        console.log(res.data);
-        console.log(`${year}${month}`);
         const data: Answer[][] = [];
 
         const a = res.data.filter(
@@ -50,12 +48,13 @@ const QuestionBox = ({ show, year, month }: Props) => {
             item.todayQuestionId.toString().substr(0, 6) ===
             `${year}${month.toString().padStart(2, "0")}`
         );
-
         for (let i = 1; i < idx[month - 1] + 1; i++) {
           const b = a.filter(
             (item: Answer) =>
               item.todayQuestionId.toString() ===
-              `${year}${month.toString().padStart(2, "0")}${i}`
+              `${year}${month.toString().padStart(2, "0")}${i
+                .toString()
+                .padStart(2, "0")}`
           );
           if (b.length > 0) {
             data.push(b);
@@ -66,18 +65,18 @@ const QuestionBox = ({ show, year, month }: Props) => {
       .catch((err) => console.log(err));
   };
 
+
   // year과 month가 변할 때 조회
   useEffect(() => {
     getAnswers();
-    // console.log(typeof filteredAnswer);
-    console.log(filteredAnswer);
+    console.log(filteredAnswer)
   }, [year, month, isOpen]);
 
   return (
     <>
       <AnswerContainer>
         {filteredAnswer?.map((item, idx) => {
-          return <AnswerCard key={idx} show={show} item={item} />;
+          return <AnswerCard key={idx} show={show} item={item} month={month} />;
         })}
       </AnswerContainer>
     </>
