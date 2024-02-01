@@ -1,5 +1,6 @@
 package com.ssafy.spyfamily.diary.repository;
 
+import com.ssafy.spyfamily.diary.model.Diary;
 import com.ssafy.spyfamily.diary.model.DiaryMemo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

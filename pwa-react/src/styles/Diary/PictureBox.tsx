@@ -5,7 +5,7 @@ const Pictures = styled.div`
   justify-content: space-around;
   align-items: center;
   height: 65vh;
-  background-color: #F9F9F9;
+  background-color: #f9f9f9;
 `;
 
 const PicItem = styled.div`
@@ -34,7 +34,6 @@ const PicItem = styled.div`
     filter: blur(1px);
     -webkit-filter: blur(1px);
     background-color: white;
-    
   }
 
   & .middle {
@@ -47,7 +46,7 @@ const PicItem = styled.div`
 
 const GoCreateDiary = styled.div`
   width: 100%;
-  background-color: #F9F9F9;
+  background-color: #f9f9f9;
 
   div {
     width: 65%;
@@ -56,7 +55,9 @@ const GoCreateDiary = styled.div`
     border-radius: 10px;
     text-align: center;
     border: 0;
-    background-color: pink;
+    background-color: ${(props) => {
+      return props.theme.color.sub2;
+    }};
     font-size: 1.3rem;
     color: white;
     font-weight: bold;
@@ -69,7 +70,7 @@ const GoCreateDiary = styled.div`
     font-weight: bold;
     color: #777777;
   }
-`
+`;
 
 const PicBox = styled.div`
   width: 90%;
@@ -79,18 +80,18 @@ const PicBox = styled.div`
   background-color: lightgray;
   background-size: 100% 100%;
   background-repeat: no-repeat;
-  
+
   img {
     width: 100%;
     height: 100%;
   }
-`
+`;
 
 const PicContent = styled.div`
   text-align: center;
   font-size: 10px;
   padding: 10px;
-`
+`;
 
 const SelectBox = styled.div`
   display: flex;
@@ -123,10 +124,12 @@ const SelectBox = styled.div`
     }
 
     .complete {
-      color: #f68da2;
+      color: #${(props) => {
+          return props.theme.color.sub1;
+        }};
     }
   }
-`
+`;
 
 const CreateDiary = styled.form`
   width: 100%;
@@ -152,5 +155,13 @@ const CreateDiary = styled.form`
     font-size: 17px;
     margin-top: 15px;
   }
-`
-export { Pictures, PicItem,PicBox,PicContent,SelectBox,CreateDiary,GoCreateDiary };
+`;
+export {
+  Pictures,
+  PicItem,
+  PicBox,
+  PicContent,
+  SelectBox,
+  CreateDiary,
+  GoCreateDiary,
+};

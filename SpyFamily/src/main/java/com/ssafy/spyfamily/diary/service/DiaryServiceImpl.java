@@ -74,6 +74,28 @@ public class DiaryServiceImpl implements DiaryService{
     public void deleteDiary(Integer diaryId) {
         try {
             Diary diary = getDiary(diaryId).get();
+
+            if(diary.getIsThumbnail() == 1) {
+                try {
+                    ArrayList<Diary> list
+                            = diaryRepository.findByCoupleIdAndRegisterDate(diary.getCoupleId(), diary.getRegisterDate());
+
+                    System.out.println("그날 다이어리 리스트 불러오기 성공");
+                    System.out.println(list);
+
+                    if (list.size() != 0) {
+                        list.get(0).setIsThumbnail(1);
+                        diaryRepository.save(list.get(0));
+                        System.out.println("썸네일 갱신 성공");
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("썸네일 갱신 실패");
+                    return;
+                }
+            }
+
             fileUtil.deleteFile(diary);
             System.out.println("다이어리 사진 삭제(서버) 성공");
             diaryRepository.deleteById(diaryId);

@@ -1,5 +1,6 @@
 import React from "react";
 import Global from "./styles/common/global";
+import { pink, blue, green } from "./styles/common/global";
 
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import useUserStore from "./stores/UserStore";
@@ -20,7 +21,7 @@ import CoupleInfo from "./routes/CoupleInfo";
 import Chat from "./routes/Chat";
 import Diary from "./routes/Diary";
 import Question from "./routes/Question";
-import ChatVideo from "./routes/ChatVideo";
+import { ThemeProvider } from "styled-components";
 
 function App() {
   const { isLogIn } = useAuthStore();
@@ -29,42 +30,43 @@ function App() {
   return (
     <BrowserRouter>
       <div>
-        <Global />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              isLogIn ? (
-                coupleId ? (
-                  <Navigate replace to="/main" />
+        <ThemeProvider theme={green}>
+          <Global />
+          <Routes>
+            <Route
+              path="/"
+              element={
+                isLogIn ? (
+                  coupleId ? (
+                    <Navigate replace to="/main" />
+                  ) : (
+                    <Navigate replace to="/invite" />
+                  )
                 ) : (
-                  <Navigate replace to="/invite" />
+                  <Navigate replace to="/login" />
                 )
-              ) : (
-                <Navigate replace to="/login" />
-              )
-            }
-          />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="/main" element={<Main />} />
-          <Route path="/invite" element={<Invite />}></Route>
-          <Route path="/invited/:user_email" element={<Invited />}></Route>
-          <Route path="/camera" element={<ModeSelect />}></Route>
-          <Route path="/middle/login" element={<MiddleLogin />}></Route>
-          <Route path="/camera/solo" element={<CameraSolo />}></Route>
-          <Route path="/camera/couple" element={<CameraCouple />}></Route>
-          <Route path="/calendar" element={<Calendar />}></Route>
-          <Route path="/user_info/:user_id" element={<UserInfo />}></Route>
-          <Route
-            path="/couple_info/:couple_id"
-            element={<CoupleInfo />}
-          ></Route>
-          <Route path="/chat/:room_id" element={<Chat />}></Route>
-          <Route path="/diary" element={<Diary />}></Route>
-          <Route path="/question" element={<Question />}></Route>
-          <Route path="/chat/video" element={<ChatVideo />}></Route>
-        </Routes>
+              }
+            />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/login" element={<Login />}></Route>
+            <Route path="/main" element={<Main />} />
+            <Route path="/invite" element={<Invite />}></Route>
+            <Route path="/invited/:user_email" element={<Invited />}></Route>
+            <Route path="/camera" element={<ModeSelect />}></Route>
+            <Route path="/middle/login" element={<MiddleLogin />}></Route>
+            <Route path="/camera/solo" element={<CameraSolo />}></Route>
+            <Route path="/camera/couple" element={<CameraCouple />}></Route>
+            <Route path="/calendar" element={<Calendar />}></Route>
+            <Route path="/user_info/:user_id" element={<UserInfo />}></Route>
+            <Route
+              path="/couple_info/:couple_id"
+              element={<CoupleInfo />}
+            ></Route>
+            <Route path="/chat/:room_id" element={<Chat />}></Route>
+            <Route path="/diary" element={<Diary />}></Route>
+            <Route path="/question" element={<Question />}></Route>
+          </Routes>
+        </ThemeProvider>
       </div>
     </BrowserRouter>
   );
