@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { BurgerButton } from "../styles/common/hamburger";
 import Navbar from "../components/Navbar";
@@ -7,10 +7,12 @@ import AnswerBox from "../components/Question/AnswerBox";
 import { MonthHeader, DaySelect } from "../styles/Question/Question";
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 import QuestionBox from "../components/Question/QuestionBox";
+import useQuestionStore from "../stores/QuestionStore";
 
 type Props = {};
 
 const Question = (props: Props) => {
+  const QuestionStore = useQuestionStore();
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const toggleNavigation = () => {
     setIsNavigationOpen(!isNavigationOpen);
@@ -53,9 +55,12 @@ const Question = (props: Props) => {
         <Navbar isOpen={isNavigationOpen} />
         <DaySelect>
           <div className="subBox">
-            <SlArrowLeft onClick={decreaseMonth}></SlArrowLeft>
+            <SlArrowLeft
+              onClick={decreaseMonth}
+            ></SlArrowLeft>
             <div className="dayBox">
-              {year}.{month.toString().padStart(2, "0")}
+              {year} -{" "}
+              {month.toString().padStart(2, "0")}
             </div>
             <SlArrowRight onClick={increaseMonth}></SlArrowRight>
           </div>
@@ -63,7 +68,7 @@ const Question = (props: Props) => {
       </MonthHeader>
 
       <QuestionBox />
-      <AnswerBox show={isNavigationOpen} />
+      <AnswerBox show={isNavigationOpen} year={year} month={month}/>
     </>
   );
 };
