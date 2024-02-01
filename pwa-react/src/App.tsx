@@ -20,6 +20,7 @@ import CoupleInfo from "./routes/CoupleInfo";
 import Chat from "./routes/Chat";
 import Diary from "./routes/Diary";
 import Question from "./routes/Question";
+import ChatVideo from "./routes/ChatVideo";
 
 function App() {
   const { isLogIn } = useAuthStore();
@@ -62,6 +63,7 @@ function App() {
           <Route path="/chat/:room_id" element={<Chat />}></Route>
           <Route path="/diary" element={<Diary />}></Route>
           <Route path="/question" element={<Question />}></Route>
+          <Route path="/chat/video" element={<ChatVideo />}></Route>
         </Routes>
       </div>
     </BrowserRouter>

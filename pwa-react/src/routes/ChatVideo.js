@@ -1,20 +1,25 @@
-import { OpenVidu } from 'openvidu-browser';
-import axios from 'axios';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-import UserVideoComponent from '../components/Camera/UserVideoComponents';
-import WebCam from "react-webcam"
+import { OpenVidu } from "openvidu-browser";
+import axios from "axios";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import UserVideoComponent from "../components/ChatVideo/UserVideoComponent";
+import WebCam from "react-webcam";
 
-import { ReadyRoomText, ReadyBtn, JoinForm, GoBack } from "../styles/Camera/CameraCouple"
+import { ReadyBtn, JoinForm } from "../styles/ChatVideo/Chat";
 
 import { BurgerButton } from "../styles/common/hamburger";
 import Navbar from "../components/Navbar";
 
-const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://demos.openvidu.io/';
+import useUserStore from "../stores/UserStore";
+import OpenViduVideoComponent from "../components/ChatVideo/OvVideo";
+
+const APPLICATION_SERVER_URL =
+  process.env.NODE_ENV === "production" ? "" : "https://demos.openvidu.io/";
 
 export default function App() {
-  const [mySessionId, setMySessionId] = useState('ssafy')
-  const [myUserName, setMyUserName] = useState(`012`)
+  const { coupleId } = useUserStore();
+  const [mySessionId, setMySessionId] = useState(`ssafy${coupleId}`);
+  const [myUserName, setMyUserName] = useState(`채팅하자`);
   const [session, setSession] = useState(undefined);
   const [publisher, setPublisher] = useState(undefined);
   const [subscribers, setSubscribers] = useState([]);
@@ -33,16 +38,16 @@ export default function App() {
   const joinSession = useCallback(() => {
     const mySession = OV.current.initSession();
 
-    mySession.on('streamCreated', (event) => {
+    mySession.on("streamCreated", (event) => {
       const subscriber = mySession.subscribe(event.stream, undefined);
       setSubscribers((subscribers) => [...subscribers, subscriber]);
     });
 
-    mySession.on('streamDestroyed', (event) => {
+    mySession.on("streamDestroyed", (event) => {
       deleteSubscriber(event.stream.streamManager);
     });
 
-    mySession.on('exception', (exception) => {
+    mySession.on("exception", (exception) => {
       console.warn(exception);
     });
 
@@ -61,28 +66,38 @@ export default function App() {
             videoSource: undefined,
             publishAudio: true,
             publishVideo: true,
-            resolution: '640x480',
+            resolution: "640x480",
             frameRate: 30,
-            insertMode: 'APPEND',
+            insertMode: "APPEND",
             mirror: true,
           });
 
           session.publish(publisher);
 
           const devices = await OV.current.getDevices();
-          const videoDevices = devices.filter(device => device.kind === 'videoinput');
-          const currentVideoDeviceId = publisher.stream.getMediaStream().getVideoTracks()[0].getSettings().deviceId;
-          const currentVideoDevice = videoDevices.find(device => device.deviceId === currentVideoDeviceId);
+          const videoDevices = devices.filter(
+            (device) => device.kind === "videoinput"
+          );
+          const currentVideoDeviceId = publisher.stream
+            .getMediaStream()
+            .getVideoTracks()[0]
+            .getSettings().deviceId;
+          const currentVideoDevice = videoDevices.find(
+            (device) => device.deviceId === currentVideoDeviceId
+          );
 
           setPublisher(publisher);
           setCurrentVideoDevice(currentVideoDevice);
         } catch (error) {
-          console.log('There was an error connecting to the session:', error.code, error.message);
+          console.log(
+            "There was an error connecting to the session:",
+            error.code,
+            error.message
+          );
         }
       });
     }
   }, [session, myUserName]);
-
 
   const leaveSession = useCallback(() => {
     // Leave the session
@@ -94,7 +109,7 @@ export default function App() {
     OV.current = new OpenVidu();
     setSession(undefined);
     setSubscribers([]);
-    setMySessionId('ssafy');
+    setMySessionId("ssafy");
     setMyUserName(`012`);
     setPublisher(undefined);
   }, [session]);
@@ -102,10 +117,14 @@ export default function App() {
   const switchCamera = useCallback(async () => {
     try {
       const devices = await OV.current.getDevices();
-      const videoDevices = devices.filter(device => device.kind === 'videoinput');
+      const videoDevices = devices.filter(
+        (device) => device.kind === "videoinput"
+      );
 
       if (videoDevices && videoDevices.length > 1) {
-        const newVideoDevice = videoDevices.filter(device => device.deviceId !== currentVideoDevice.deviceId);
+        const newVideoDevice = videoDevices.filter(
+          (device) => device.deviceId !== currentVideoDevice.deviceId
+        );
 
         if (newVideoDevice.length > 0) {
           const newPublisher = OV.current.initPublisher(undefined, {
@@ -144,30 +163,44 @@ export default function App() {
     const handleBeforeUnload = (event) => {
       leaveSession();
     };
-    window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener("beforeunload", handleBeforeUnload);
 
     return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, [leaveSession]);
 
   const getToken = useCallback(async () => {
-    return createSession(mySessionId).then(sessionId =>
-      createToken(sessionId),
+    return createSession(mySessionId).then((sessionId) =>
+      createToken(sessionId)
     );
   }, [mySessionId]);
 
   const createSession = async (sessionId) => {
-    const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions', { customSessionId: sessionId }, {
-      headers: { 'Content-Type': 'application/json', Authorization: 'Basic ' + btoa('OPENVIDUAPP:MY_SECRET')},
-    });
+    const response = await axios.post(
+      APPLICATION_SERVER_URL + "api/sessions",
+      { customSessionId: sessionId },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + btoa("OPENVIDUAPP:MY_SECRET"),
+        },
+      }
+    );
     return response.data; // The sessionId
   };
 
   const createToken = async (sessionId) => {
-    const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions/' + sessionId + '/connections', {}, {
-      headers: { 'Content-Type': 'application/json', Authorization: 'Basic ' + btoa('OPENVIDUAPP:MY_SECRET')},
-    });
+    const response = await axios.post(
+      APPLICATION_SERVER_URL + "api/sessions/" + sessionId + "/connections",
+      {},
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + btoa("OPENVIDUAPP:MY_SECRET"),
+        },
+      }
+    );
     return response.data; // The token
   };
 
@@ -176,23 +209,25 @@ export default function App() {
     setIsNavigationOpen(!isNavigationOpen);
   };
 
-
   return (
     <div>
       {session === undefined ? (
         <div>
-          <GoBack>
-            <Link to="/camera">←</Link>
-            <BurgerButton onClick={toggleNavigation}>
-              {isNavigationOpen ? "×" : "☰"}
-            </BurgerButton>
-          </GoBack>
+          <BurgerButton onClick={toggleNavigation}>
+            {isNavigationOpen ? "×" : "☰"}
+          </BurgerButton>
 
           <Navbar isOpen={isNavigationOpen} />
-          
-          <ReadyRoomText>대기방</ReadyRoomText>
-          <WebCam style={{ width: "100%", height: "300px", transform: "scaleX(-1)" }} />
-          <JoinForm onSubmit={joinSession} >
+
+          <WebCam
+            style={{
+              width: "100%",
+              height: "300px",
+              transform: "scaleX(-1)",
+              paddingTop: "20svh",
+            }}
+          />
+          <JoinForm onSubmit={joinSession}>
             <input
               type="text"
               value={myUserName}
@@ -207,7 +242,9 @@ export default function App() {
               required
               style={{ display: "none" }}
             />
-            <ReadyBtn name="commit" type="submit" value="Ready" />
+            <ReadyBtn name="commit" type="submit">
+              화상채팅
+            </ReadyBtn>
           </JoinForm>
         </div>
       ) : null}
@@ -215,36 +252,27 @@ export default function App() {
       {session !== undefined ? (
         <div>
           <div>
-            <input
-              type="button"
-              onClick={leaveSession}
-              value="Leave session"
-            />
-            <input
-              type="button"
-              onClick={switchCamera}
-              value="Switch Camera"
-            />
+            <input type="button" onClick={leaveSession} value="Leave session" />
+            <input type="button" onClick={switchCamera} value="Switch Camera" />
           </div>
-
-
 
           <div>
             {publisher !== undefined ? (
               <div>
                 <UserVideoComponent
-                  streamManager={publisher} zi={-1} />
+                  streamManager={publisher}
+                  zi={-1}
+                  type={-1}
+                />
               </div>
             ) : null}
-
-
-
-            {subscribers.map((sub, i) => (
-              <div key={sub.id}>
-                <span>{sub.id}</span>
-                <UserVideoComponent streamManager={sub} zi={1} />
-              </div>
-            ))}
+            <div>
+              <UserVideoComponent
+                streamManager={subscribers[0]}
+                zi={1}
+                type={1}
+              />
+            </div>
           </div>
         </div>
       ) : null}

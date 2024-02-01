@@ -47,6 +47,7 @@ const Main = () => {
     const res = await axiosAuth.get("/chat/enter", {
       params: { coupleId: coupleId },
     });
+    console.log(res);
     navigate(`/chat/${res.data}`);
   };
 
