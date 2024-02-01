@@ -30,7 +30,7 @@ function App() {
   return (
     <BrowserRouter>
       <div>
-        <ThemeProvider theme={green}>
+        <ThemeProvider theme={pink}>
           <Global />
           <Routes>
             <Route
