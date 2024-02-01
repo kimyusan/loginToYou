@@ -76,7 +76,7 @@ public class WebSecurityConfig {
 
                         CorsConfiguration configuration = new CorsConfiguration();
 
-                        configuration.setAllowedOrigins(Collections.singletonList("https://logintoyou.kro.kr"));
+                        configuration.setAllowedOrigins(Collections.singletonList("https://logintoyou.kro.kr:8443"));
                         configuration.setAllowedMethods(Collections.singletonList("*"));
                         configuration.setAllowCredentials(true);
                         configuration.setAllowedHeaders(Collections.singletonList("*"));
