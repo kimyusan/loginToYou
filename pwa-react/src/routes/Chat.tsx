@@ -1,7 +1,6 @@
 import React, { LegacyRef, useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import SockJS from "sockjs-client";
+import { useNavigate, useParams } from "react-router-dom";
 import { CompatClient, Stomp } from "@stomp/stompjs";
 import { axiosAuth } from "../util/token";
 
@@ -10,7 +9,9 @@ import useAuthStore from "../stores/AuthStore";
 import { useShallow } from "zustand/react/shallow";
 
 import { Header, InputForm } from "../styles/Chat/UI";
+import { IconContext } from "react-icons";
 import { GoArrowLeft } from "react-icons/go";
+import { FaPhone } from "react-icons/fa";
 import MessageBox from "../components/Chat/MessageBox";
 import InputBox from "../components/Chat/InputBox";
 import { MessageInterface } from "../interface/MessageInterface";
@@ -71,6 +72,24 @@ function Chat() {
         if (!token) return;
         updateRead();
 
+        // // 더미데이터 만드는 코드
+        // for (let i = 1; i <= 150; i++) {
+        //   client.current.send(
+        //     `/pub/chat/message`,
+        //     {
+        //       Authorization: token,
+        //     },
+        //     JSON.stringify({
+        //       type: "TALK",
+        //       roomId: room_id,
+        //       sendUserId: i % 2 == 0 ? 16 : 17,
+        //       message: i,
+        //       createdAt: new Date().toLocaleString(),
+        //       readCount: isOppOn ? false : true,
+        //     })
+        //   );
+        // }
+
         // 신규 메세지 체크
         client.current.subscribe(
           `/sub/chat/room/${room_id}`,
@@ -104,6 +123,9 @@ function Chat() {
 
   useEffect(() => {
     if (isOppOn == true) {
+      setMessages((prev) => {
+        return prev.map((each) => ({ ...each, readCount: false }));
+      });
       setShowMessages((prev) => {
         return showMessages.map((each) => ({ ...each, readCount: false }));
       });
@@ -210,12 +232,14 @@ function Chat() {
   return (
     <div>
       <Header>
-        <GoArrowLeft
-          onClick={() => {
-            navigate("/");
-          }}
-        />
-        <div>채팅</div>
+        <IconContext.Provider value={{ size: "20px" }}>
+          <GoArrowLeft
+            onClick={() => {
+              navigate("/");
+            }}
+          />
+          <FaPhone />
+        </IconContext.Provider>
       </Header>
       <MessageBox messages={showMessages} userId={userId}></MessageBox>
       <InputBox
