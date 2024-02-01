@@ -20,9 +20,21 @@ const AnsCard = styled(Card)`
   .Mui-selected {
     color: #000000 !important;
   }
-
   .css-1gsv261 {
     position: static !important;
+  }
+  .css-19kzrtu {
+    height: 100% !important;
+  }
+  .answer {
+    min-height: 14svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .edit_btn {
+    display: flex;
+    justify-content: end;
   }
 `;
 
