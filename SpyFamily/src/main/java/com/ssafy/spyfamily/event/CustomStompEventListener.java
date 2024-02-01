@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.web.socket.WebSocketHandler;
+import org.springframework.web.socket.messaging.SubProtocolWebSocketHandler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +23,7 @@ public class CustomStompEventListener implements ApplicationListener<CustomStomp
     public CustomStompEventListener(SimpMessagingTemplate messagingTemplate, ObjectMapper objectMapper) {
         this.messagingTemplate = messagingTemplate;
         this.objectMapper = objectMapper;
+
     }
 
     @Override
@@ -29,6 +32,8 @@ public class CustomStompEventListener implements ApplicationListener<CustomStomp
         notification.put("type", event.getEventType().toString());
 
         String textMessage;
+
+
         switch (event.getEventType()) {
             case SUBSCRIBE:
                 textMessage = "상대방이 대화에 입장하였습니다.";
