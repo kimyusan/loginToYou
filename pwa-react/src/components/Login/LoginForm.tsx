@@ -3,21 +3,32 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { LoginBox } from "../../styles/Login/Login";
 import { parseJwt } from "../../util/token";
+import { setClientHeaders } from "../../util/token";
+import { useShallow } from "zustand/react/shallow";
 
 import useAuthStore from "../../stores/AuthStore";
 import useUserStore from "../../stores/UserStore";
 import { application } from "express";
-import { setClientHeaders } from "../../util/token";
 
 const LoginForm = () => {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
 
-  const { login, PATH, setToken, token } = useAuthStore();
+  const { login, PATH, setToken, token, refToken, setTokenExpireTime } =
+    useAuthStore(
+      useShallow((state) => ({
+        login: state.login,
+        PATH: state.PATH,
+        setToken: state.setToken,
+        token: state.token,
+        refToken: state.refToken,
+        setTokenExpireTime: state.setTokenExpireTime,
+      }))
+    );
   const navigate = useNavigate();
-  const { setUser } = useUserStore();
   const path = useLocation();
   const { state } = useLocation();
+  const setUser = useUserStore.getState().setUser;
 
   const changeId = (event: React.ChangeEvent<HTMLInputElement>) => {
     setId(event.target.value);
@@ -44,8 +55,8 @@ const LoginForm = () => {
       .then((response) => {
         console.log("로그인 성공", response);
         setToken(response.headers.authorization, response.headers.refreshtoken);
+        setTokenExpireTime(new Date().getTime());
         setClientHeaders(response.headers.authorization);
-        console.log(response);
 
         login();
 

@@ -13,6 +13,7 @@ import "../styles/Calendar/Calendar.css";
 import CalendarList from "../components/Calendar/CalendarList";
 import CalendarModalCard from "../components/Calendar/CalendarModalCard";
 import { useTheme } from "styled-components";
+import TokenCheker from "../util/TokenCheker";
 
 type Props = {};
 
@@ -68,6 +69,7 @@ const Calendar = (props: Props) => {
 
   return (
     <>
+      <TokenCheker />
       <BurgerButton onClick={toggleNav}>☰</BurgerButton>
       <Navbar isOpen={isNavigationOpen} />
       <Wrapper>

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 
 import {
   Wrapper,
@@ -21,6 +20,7 @@ import useUserStore from "../stores/UserStore";
 import { useShallow } from "zustand/react/shallow";
 import useCoupleStore from "../stores/CoupleStore";
 import { axiosAuth } from "../util/token";
+import TokenCheker from "../util/TokenCheker";
 
 const Main = () => {
   const { id } = useParams();
@@ -90,6 +90,7 @@ const Main = () => {
 
   return (
     <>
+      <TokenCheker />
       <BurgerButton onClick={toggleNavigation}>
         {isNavigationOpen ? "×" : "☰"}
       </BurgerButton>

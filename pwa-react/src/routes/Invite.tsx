@@ -9,6 +9,7 @@ import { useShallow } from "zustand/react/shallow";
 import InvitePage from "../components/Invite/InvitePage";
 import useUserStore from "../stores/UserStore";
 import ShareButton from "../components/Invite/ShareButton";
+import TokenCheker from "../util/TokenCheker";
 
 const Invite = () => {
   const { name, email, userId, setUser, coupleId } = useUserStore(
@@ -39,6 +40,7 @@ const Invite = () => {
 
   return (
     <Wrapper>
+      <TokenCheker />
       <InvitePage userId={userId} name={name} email={email} />
       <QRCodeCanvas
         onClick={() => {

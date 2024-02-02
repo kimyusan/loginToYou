@@ -15,6 +15,7 @@ import { FaPhone } from "react-icons/fa";
 import MessageBox from "../components/Chat/MessageBox";
 import InputBox from "../components/Chat/InputBox";
 import { MessageInterface } from "../interface/MessageInterface";
+import TokenCheker from "../util/TokenCheker";
 
 function Chat() {
   const [messages, setMessages] = useState<MessageInterface[]>([]);
@@ -231,6 +232,7 @@ function Chat() {
 
   return (
     <div>
+      <TokenCheker />
       <Header>
         <IconContext.Provider value={{ size: "20px" }}>
           <GoArrowLeft

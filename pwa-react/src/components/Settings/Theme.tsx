@@ -7,6 +7,7 @@ import { UserInfoBox, SaveButton } from "../../styles/UserInfo/UserInfo";
 import { pink, green, blue } from "../../styles/common/global";
 import { DefaultTheme } from "styled-components";
 import { useNavigate } from "react-router-dom";
+import TokenCheker from "../../util/TokenCheker";
 
 function Theme() {
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ function Theme() {
 
   return (
     <Wrapper>
+      <TokenCheker />
       <SettingsHeader />
       <UserInfoBox>
         <h3>테마 설정</h3>
