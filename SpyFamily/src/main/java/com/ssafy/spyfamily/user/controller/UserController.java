@@ -4,7 +4,6 @@ import com.ssafy.spyfamily.user.model.User;
 import com.ssafy.spyfamily.user.service.UserServiceImpl;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-import java.util.Map;
 
 @RestController()
 @RequestMapping(value = "/user", produces = "application/json")
