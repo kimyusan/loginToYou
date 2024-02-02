@@ -1,6 +1,4 @@
 import React, { useRef, useEffect } from 'react';
-import { Camera } from '@mediapipe/camera_utils';
-import { SelfieSegmentation } from '@mediapipe/selfie_segmentation'
 
 export default function OpenViduVideoComponent1({ streamManager, zi }) {
   const videoRef = useRef(null);
@@ -12,7 +10,7 @@ export default function OpenViduVideoComponent1({ streamManager, zi }) {
   }, [streamManager]);
 
   return (
-    <div style={{ width: videoRef.current?.videoWidth, height: "292px" }}>
+    <div style={{ width: "360px", height: "292px", position: "fixed", top: "10%", zIndex: "-1" }}>
       <video
         ref={videoRef}
         style={{

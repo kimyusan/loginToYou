@@ -33,7 +33,7 @@ export default function OpenViduVideoComponent({ streamManager, zi }) {
     });
 
     selfieSegmentation.setOptions({
-      modelSelection: 0,
+      modelSelection: 1,
     });
 
     selfieSegmentation.onResults(onResults);
@@ -65,7 +65,7 @@ export default function OpenViduVideoComponent({ streamManager, zi }) {
   }, [streamManager]);
 
   return (
-    <div style={{ width: videoRef.current?.videoWidth, height: "292px" }}>
+    <div style={{ width: "360px", height: "292px", position: "fixed", top: "10%", zIndex: "1" }}>
       <video
         ref={videoRef}
         style={{
@@ -79,7 +79,7 @@ export default function OpenViduVideoComponent({ streamManager, zi }) {
         ref={canvasRef}
         style={{
           width: "100%",
-          height: "100%",
+          height: "282px",
           transform: "scaleX(-1)",
         }}
       ></canvas>
