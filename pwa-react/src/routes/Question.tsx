@@ -9,6 +9,7 @@ import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 import QuestionBox from "../components/Question/QuestionBox";
 import useQuestionStore from "../stores/QuestionStore";
 import QuestionModal from "../components/Question/QuestionModal";
+import TokenCheker from "../util/TokenCheker";
 
 type Props = {};
 
@@ -51,6 +52,7 @@ const Question = (props: Props) => {
 
   return (
     <>
+      <TokenCheker />
       <MonthHeader>
         <BurgerButton onClick={toggleNavigation} style={{ position: "fixed" }}>
           {isNavigationOpen ? "×" : "☰"}

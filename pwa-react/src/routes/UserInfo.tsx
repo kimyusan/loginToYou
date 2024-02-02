@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { BurgerButton } from "../styles/common/hamburger";
 import Navbar from "../components/Navbar";
 import UserInfoForm from "../components/UserInfo/UserInfoForm";
+import TokenCheker from "../util/TokenCheker";
 
 import { UserInfoBox } from "../styles/UserInfo/UserInfo";
 
@@ -15,6 +16,7 @@ const UserInfo = (props: Props) => {
 
   return (
     <>
+      <TokenCheker />
       <BurgerButton onClick={toggleNav}>☰</BurgerButton>
       <Navbar isOpen={isNavigationOpen} />
       <UserInfoBox>

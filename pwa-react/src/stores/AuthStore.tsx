@@ -2,7 +2,6 @@ import { DefaultTheme } from "styled-components";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { pink, green, blue } from "../styles/common/global";
-import axios from "axios";
 
 interface AuthStore {
   PATH: String;
@@ -10,11 +9,12 @@ interface AuthStore {
   token: string | null;
   refToken: string | null;
   colortheme: DefaultTheme;
+  tokenExpireTime: number | null;
   login: () => void;
   logout: () => void;
   setToken: (token: string, refToken: string) => void;
   setColorTheme: (theme: DefaultTheme) => void;
-  refreshToken: (email: string, time: number) => void;
+  setTokenExpireTime: (time: number) => void;
 }
 
 const useAuthStore = create(
@@ -27,6 +27,7 @@ const useAuthStore = create(
       refToken: null,
       isLogIn: false,
       colortheme: pink,
+      tokenExpireTime: null,
 
       login: () => {
         set({ isLogIn: true });
@@ -41,20 +42,8 @@ const useAuthStore = create(
       setColorTheme: (theme) => {
         set({ colortheme: theme });
       },
-      refreshToken: (email, time) => {
-        const refresh = async () => {
-          const res = await axios.get(`${get().PATH}/reissue/token`, {
-            params: {
-              email: email,
-            },
-            headers: {
-              Authorization: get().token,
-              refreshToken: get().refToken,
-            },
-          });
-          console.log(res);
-        };
-        refresh();
+      setTokenExpireTime: (time) => {
+        set({ tokenExpireTime: time + 1000 * 60 * 30 });
       },
     }),
     {
