@@ -121,6 +121,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void withdrawal(Integer userId) {
+        userRepository.deleteByUserId(userId);
+    }
+
+    @Override
+    public User userUpdatePassword(Integer userId, String password) {
+
+        System.out.println("비밀번호 수정");
+        User new_user = userRepository.findByUserId(userId);
+        new_user.setPassword(passwordEncoder.encode(password));
+
+        System.out.println(new_user.toString());
+
+        return userRepository.save(new_user);
+    }
+
+    @Override
     public UserInfo getGoogleUserInfo(String accessToken) {
         // Google API의 유저 정보를 얻기 위한 엔드포인트
         String userInfoEndpoint = "https://www.googleapis.com/oauth2/v3/userinfo";
