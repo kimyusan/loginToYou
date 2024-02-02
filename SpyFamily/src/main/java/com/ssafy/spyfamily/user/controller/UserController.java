@@ -52,4 +52,38 @@ public class UserController {
         return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * 회원 탈퇴
+     */
+    @DeleteMapping("/withdrawal")
+    public ResponseEntity<?> userWithdrawal(@RequestParam Integer userId) {
+        try {
+            System.out.println("유저 삭제 들어옴");
+            userService.withdrawal(userId);
+
+            System.out.println("삭제 성공");
+            return new ResponseEntity<Void>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("삭제 실패");
+            return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/update/password")
+    public ResponseEntity<?> userUpdatePassword(@RequestParam Integer userId,
+                                                @RequestParam String password) {
+        try {
+            System.out.println("비밀번호 수정");
+            User new_user = userService.userUpdatePassword(userId, password);
+
+            System.out.println("비밀번호 수정 성공");
+            return new ResponseEntity<User>(new_user, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("비밀번호 수정 실패");
+            return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

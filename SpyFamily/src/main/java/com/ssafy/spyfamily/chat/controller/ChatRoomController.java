@@ -5,6 +5,9 @@ import com.ssafy.spyfamily.chat.model.ChatMessage;
 import com.ssafy.spyfamily.chat.model.ChatRoom;
 import com.ssafy.spyfamily.chat.repo.ChatRoomRepository;
 import com.ssafy.spyfamily.chat.service.ChatServiceImpl;
+import com.ssafy.spyfamily.couple.service.CoupleService;
+import com.ssafy.spyfamily.user.service.UserService;
+import com.ssafy.spyfamily.user.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,9 +25,11 @@ import java.util.List;
 public class ChatRoomController {
 
     private final ChatServiceImpl chatService;
+    private final CoupleService coupleService;
 
-    public ChatRoomController(ChatServiceImpl chatService){
+    public ChatRoomController(ChatServiceImpl chatService, CoupleService coupleService){
         this.chatService = chatService;
+        this.coupleService = coupleService;
     }
 
     @GetMapping("/enter")
@@ -53,6 +58,11 @@ public class ChatRoomController {
 
 
     }
+
+//    @GetMapping("/unread/message")
+//    public  ResponseEntity<?> unreadMessageCount(@RequestParam String userId){
+//        coupleService.find
+//    }
 
     //상대방이 읽었을때
     @PostMapping("/readUser")

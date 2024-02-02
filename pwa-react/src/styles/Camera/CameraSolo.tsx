@@ -101,7 +101,7 @@ const SubjectBox = styled.input`
   border-radius: 10px;
   padding: 15px;
   position: fixed;
-  bottom: 20%;
+  bottom: 15%;
 `;
 export {
   TimerText,

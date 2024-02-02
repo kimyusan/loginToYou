@@ -9,12 +9,14 @@ import { ReadyRoomText, ReadyBtn, JoinForm, GoBack } from "../styles/Camera/Came
 
 import { BurgerButton } from "../styles/common/hamburger";
 import Navbar from "../components/Navbar";
+import useUserStore from '../stores/UserStore';
 
 const APPLICATION_SERVER_URL = 'https://logintoyou.kro.kr:8080/openvidu/';
 
 export default function App() {
-  const [mySessionId, setMySessionId] = useState('ssafy')
-  const [myUserName, setMyUserName] = useState(`012`)
+  const {coupleId,userId,nickname} = useUserStore();
+  const [mySessionId, setMySessionId] = useState(`logintoyou${coupleId}`)
+  const [myUserName, setMyUserName] = useState(`${nickname}${userId}`)
   const [session, setSession] = useState(undefined);
   const [publisher, setPublisher] = useState(undefined);
   const [subscribers, setSubscribers] = useState([]);
@@ -94,8 +96,8 @@ export default function App() {
     OV.current = new OpenVidu();
     setSession(undefined);
     setSubscribers([]);
-    setMySessionId('ssafy');
-    setMyUserName(`012`);
+    setMySessionId(`logintoyou${coupleId}`);
+    setMyUserName(`${nickname}${userId}`);
     setPublisher(undefined);
   }, [session]);
 
@@ -175,7 +177,7 @@ export default function App() {
   const toggleNavigation = () => {
     setIsNavigationOpen(!isNavigationOpen);
   };
-
+  
   return (
     <div>
       {session === undefined ? (
@@ -234,14 +236,9 @@ export default function App() {
               </div>
             ) : null}
 
-
-
-            {subscribers.map((sub, i) => (
-              <div key={sub.id}>
-                <span>{sub.id}</span>
-                <UserVideoComponent streamManager={sub} zi={1} />
-              </div>
-            ))}
+            {subscribers.length > 0 ? <div>
+              <UserVideoComponent streamManager={subscribers[0]} zi={1} />
+            </div> : null} 
           </div>
         </div>
       ) : null}
