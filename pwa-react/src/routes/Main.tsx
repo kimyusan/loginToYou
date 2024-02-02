@@ -21,6 +21,7 @@ import { useShallow } from "zustand/react/shallow";
 import useCoupleStore from "../stores/CoupleStore";
 import { axiosAuth } from "../util/token";
 import TokenCheker from "../util/TokenCheker";
+import axios from "axios";
 
 const Main = () => {
   const { id } = useParams();
@@ -78,8 +79,18 @@ const Main = () => {
     setCpInfo(res.data[2]);
   };
 
+  const checkChat = async () => {
+    const res = await axiosAuth.get("/unread/message", {
+      params: {
+        userId: userId,
+      },
+    });
+    console.log(res);
+  };
+
   useEffect(() => {
     callData();
+    checkChat();
   }, []);
 
   const navigate = useNavigate();
