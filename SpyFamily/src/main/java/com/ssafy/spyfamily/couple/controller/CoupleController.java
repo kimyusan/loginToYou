@@ -36,7 +36,6 @@ public class CoupleController {
 
         System.out.println(emailA + " " + emailB);
         System.out.println("create 시작");
-        Couple couple = coupleService.coupleCteate(emailA,emailB);
 
         try {
             System.out.println("커플방 생성");
