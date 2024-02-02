@@ -57,6 +57,17 @@ function Chat() {
     );
   };
 
+  const checkRoom = async () => {
+    const res = await axiosAuth.get("/chat/connect/check", {
+      params: {
+        roomId: room_id,
+      },
+    });
+    if (res.data == 1) {
+      setIsOppOn(true);
+    }
+  };
+
   // 소켓 연결 함수
   const connectHandler = () => {
     client.current = Stomp.over(() => {
@@ -218,6 +229,8 @@ function Chat() {
   // 초기 실행 시 채팅 불러오기
   useEffect(() => {
     loadChat();
+    checkRoom();
+
     return () => {
       client.current?.disconnect();
     };
@@ -240,7 +253,11 @@ function Chat() {
               navigate("/");
             }}
           />
-          <FaPhone />
+          <FaPhone
+            onClick={() => {
+              navigate("/chat/video");
+            }}
+          />
         </IconContext.Provider>
       </Header>
       <MessageBox messages={showMessages} userId={userId}></MessageBox>
