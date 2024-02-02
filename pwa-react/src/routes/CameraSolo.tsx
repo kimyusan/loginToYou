@@ -1,18 +1,18 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useShallow } from "zustand/react/shallow";
 
-import useAuthStore from '../stores/AuthStore';
-import useUserStore from '../stores/UserStore';
+import useAuthStore from "../stores/AuthStore";
+import useUserStore from "../stores/UserStore";
 
-import { TimerText, CameraBox, CameraButton, OptionsContainer, SaveBox, SaveBoxItem } from '../styles/Camera/CameraSolo';
+import { TimerText, CameraBox, CameraButton, OptionsContainer, SaveBox, SaveBoxItem,SubjectBox } from '../styles/Camera/CameraSolo';
 import { GoBack } from "../styles/Camera/CameraCouple"
 import { BurgerButton } from "../styles/common/hamburger";
 
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import TimerIcon from '@mui/icons-material/Timer';
-import CollectionsIcon from '@mui/icons-material/Collections';
+import CameraswitchIcon from '@mui/icons-material/Cameraswitch';
 
 import Navbar from "../components/Navbar";
 
@@ -24,15 +24,16 @@ const CameraSolo: React.FC = () => {
   const [photo, setPhoto] = useState(true);
   const [showOptions, setShowOptions] = useState(false);
   const [ImageContent, setImageContent] = useState("");
-
+  const navigate = useNavigate();
+  
   const { PATH, token } = useAuthStore(
     useShallow((state) => ({
       PATH: state.PATH,
       token: state.token,
     }))
   );
-  const {coupleId} = useUserStore();
-  
+  const { coupleId } = useUserStore();
+
   // 카메라 전환 버튼 상태 추가
   const [useFrontCamera, setUseFrontCamera] = useState(true);
 
@@ -43,16 +44,16 @@ const CameraSolo: React.FC = () => {
   };
 
   const changeContent = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setImageContent(event.target.value)
-  }
+    setImageContent(event.target.value);
+  };
 
   // startCamera 함수 수정
   const startCamera = async (isFrontCamera = true) => {
     try {
       const constraints = {
         video: {
-          width: 1920,
-          height: 1080,
+          width: window.innerWidth,
+          height: window.innerHeight,
           facingMode: isFrontCamera ? "user" : "environment",
         },
       };
@@ -61,27 +62,27 @@ const CameraSolo: React.FC = () => {
         videoRef.current.srcObject = stream;
       }
     } catch (error) {
-      console.error('Error opening video camera.', error);
+      console.error("Error opening video camera.", error);
     }
   };
 
   useEffect(() => {
-    startCamera()
-  }, [])
+    startCamera();
+  }, []);
 
   const takePhoto = (timer: number) => {
-    setTime(timer)
+    setTime(timer);
     setTimeout(() => {
       if (videoRef.current && canvasRef.current) {
         const context = canvasRef.current.getContext('2d');
-        canvasRef.current.width = 1920; // 높은 해상도의 너비
-        canvasRef.current.height = 1080; // 높은 해상도의 높이
+        canvasRef.current.width = window.innerWidth; // 높은 해상도의 너비
+        canvasRef.current.height = window.innerHeight; // 높은 해상도의 높이
         if (context) {
-          context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
+          context.drawImage(videoRef.current, 0, 0, window.innerWidth, window.innerHeight);
         }
       }
-      setPhoto(false)
-    }, timer * 1000)
+      setPhoto(false);
+    }, timer * 1000);
   };
 
   const SavePhoto = () => {
@@ -89,28 +90,31 @@ const CameraSolo: React.FC = () => {
       if (blob) {
         const formData = new FormData();
 
-        formData.append('imgInfo', blob);
+        formData.append("imgInfo", blob);
 
         const data = {
           coupleId: coupleId,
           subject: ImageContent,
         }
-    
+
         formData.append("diary", JSON.stringify(data))
-    
-        axios.post(`${PATH}/diary/upload`,formData,{
+
+        axios.post(`${PATH}/diary/upload`, formData, {
           headers: {
             Authorization: token,
           },
         })
-          .then((res) => console.log("사진 저장 성공"))
-          .catch((error) => console.log("사진 저장 실패",error))
+          .then((res) => {
+            console.log("사진 저장 성공")
+            navigate("/diary")
+          })
+          .catch((error) => console.log("사진 저장 실패", error))
       } else {
         console.error('Unable to get the blob from the canvas');
       }
     }, 'image/png');
 
-    
+
   }
 
   useEffect(() => {
@@ -118,18 +122,18 @@ const CameraSolo: React.FC = () => {
   }, [time]);
 
   const TimeChange = (event: string) => {
-    setSelectTime(event)
-    setShowOptions(!showOptions)
-  }
+    setSelectTime(event);
+    setShowOptions(!showOptions);
+  };
 
   const handleTimerClick = () => {
     setShowOptions(!showOptions); // showOptions 상태 토글
-  }
+  };
 
   const PicAgain = () => {
     setPhoto(!photo)
   }
-  
+
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const toggleNavigation = () => {
     setIsNavigationOpen(!isNavigationOpen);
@@ -139,11 +143,6 @@ const CameraSolo: React.FC = () => {
     <div>
       <GoBack>
         <Link to="/camera">←</Link>
-        <div style={{ position: "absolute", top: "5%", right: "5%" }}>
-          <button onClick={switchCamera}>
-            {useFrontCamera ? "후면 카메라" : "전면 카메라"}
-          </button>
-        </div>
         <BurgerButton onClick={toggleNavigation}>
           {isNavigationOpen ? "×" : "☰"}
         </BurgerButton>
@@ -151,19 +150,20 @@ const CameraSolo: React.FC = () => {
 
       <Navbar isOpen={isNavigationOpen} />
 
-      <TimerText>
-        {time > 0 ? <div>{time}</div> : null}
-      </TimerText>
+      <TimerText>{time > 0 ? <div>{time}</div> : null}</TimerText>
 
       <CameraBox>
-        <video ref={videoRef} playsInline autoPlay={true} style={{ display: photo ? "" : "none", width: "100%", height: "300px", transform: useFrontCamera ? "scaleX(-1)" : "scaleX(1)" }} />
-        <canvas ref={canvasRef} style={{ width: "100%", height: "280px", display: photo ? "none" : "", transform: "scaleX(-1)" }} />
-        <div>
-          <input placeholder='한줄평' type='text' value={ImageContent} onChange={changeContent}></input>
-        </div>
+        <video ref={videoRef} playsInline autoPlay={true} style={{ display: photo ? "" : "none", transform: useFrontCamera ? "scaleX(-1)" : "scaleX(1)", position: "fixed", top: "13%"}} />
+        <canvas ref={canvasRef} style={{ display: photo ? "none" : "", width: window.innerWidth, height: "480px", transform: "scaleX(-1)", position: "fixed", top: "13%"}} />
       </CameraBox>
 
-      {photo ? null : <SaveBox><SaveBoxItem onClick={SavePhoto}>저장하기</SaveBoxItem><SaveBoxItem onClick={PicAgain}>다시 찍기</SaveBoxItem></SaveBox>}
+      {photo ? null : <div style={{ display: "flex", justifyContent: "center"}}>
+        <SubjectBox placeholder='사진에 메모를 남겨주세요!' type='text' value={ImageContent} onChange={changeContent} maxLength={20}></SubjectBox>
+        </div>}
+      {photo ? null : <SaveBox>
+        <SaveBoxItem onClick={SavePhoto}>저장하기</SaveBoxItem>
+        <SaveBoxItem onClick={PicAgain}>다시 찍기</SaveBoxItem>
+      </SaveBox>}
 
       <div style={{ position: "fixed", bottom: "5%", width: "100%" }}>
         {showOptions && (
@@ -181,7 +181,7 @@ const CameraSolo: React.FC = () => {
       {photo ? <CameraButton>
         {!showOptions && (<TimerIcon className='timer' onClick={handleTimerClick}></TimerIcon>)}
         {!showOptions && <CameraAltIcon onClick={() => { takePhoto(Number(selectTime)) }} className='camera'></CameraAltIcon>}
-        {!showOptions && <CollectionsIcon className='timer'></CollectionsIcon>}
+        {!showOptions && <CameraswitchIcon className='timer' onClick={switchCamera}></CameraswitchIcon>}
       </CameraButton> : null}
 
     </div>

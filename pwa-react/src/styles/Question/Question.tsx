@@ -8,7 +8,9 @@ const MonthHeader = styled.div`
   padding-top: 7%;
   padding-bottom: 5%;
   top: 0;
-  background-color: #f9f9f9;
+  background-color: ${(props) => {
+    return props.theme.color.bgColor;
+  }};
 `;
 
 const DaySelect = styled.div`
@@ -27,7 +29,10 @@ const DaySelect = styled.div`
     font-size: 20px;
     margin: 0 20px;
     font-weight: bold;
-    border-bottom: 5px solid #ffd1da;
+    border-bottom: 5px solid
+      ${(props) => {
+        return props.theme.color.sub4;
+      }};
   }
 `;
 
@@ -37,7 +42,9 @@ const QBox = styled(Paper)`
   justify-content: space-between;
   min-height: 20svh;
   margin: 5% 3%;
-  background-color: #ffe2e7 !important;
+  background-color: ${(props) => {
+    return props.theme.color.sub4;
+  }} !important;
   padding: 5%;
   .date {
     margin: 0;
@@ -53,7 +60,9 @@ const QBox = styled(Paper)`
 
 const SaveButton = styled(Button)`
   width: 100%;
-  background-color: #ffb6c2 !important;
+  background-color: ${(props) => {
+    return props.theme.color.sub2;
+  }} !important;
   position: static !important;
   font-size: 1rem !important;
   padding: 1% 0 !important;

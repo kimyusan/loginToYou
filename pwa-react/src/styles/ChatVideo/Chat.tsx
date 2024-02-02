@@ -16,26 +16,17 @@ const GoBack = styled.div`
   }
 `;
 
-const ReadyRoomText = styled.div`
-  text-align: center;
-  font-size: 30px;
-  padding: 20px 0;
-  width: 100%;
-`;
-
 const JoinForm = styled.form`
   width: 80%;
   margin: 50px auto;
 `;
-const ReadyBtn = styled.input`
+const ReadyBtn = styled.button`
   border: 0;
   border-radius: 15px;
   padding: 15px;
   width: 100%;
   cursor: pointer;
-  background-color: ${(props) => {
-    return props.theme.color.sub4;
-  }};
+  background-color: #ffd1da;
   font-weight: bold;
 `;
-export { GoBack, ReadyRoomText, ReadyBtn, JoinForm };
+export { GoBack, ReadyBtn, JoinForm };

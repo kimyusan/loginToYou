@@ -7,6 +7,7 @@ import com.ssafy.spyfamily.util.JWTFilter;
 import com.ssafy.spyfamily.util.JWTUtil;
 import com.ssafy.spyfamily.util.LoginFilter;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,7 +23,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-import java.util.ArrayList;
+
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -84,7 +86,7 @@ public class WebSecurityConfig {
                         configuration.setAllowedHeaders(Collections.singletonList("*"));
                         configuration.setMaxAge(3600L);
 
-                        configuration.setExposedHeaders(Collections.singletonList("Authorization"));
+                        configuration.setExposedHeaders(Arrays.asList("Authorization", "refreshToken"));
 
                         return configuration;
                     }
@@ -105,7 +107,7 @@ public class WebSecurityConfig {
 
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/login/**","/user/login/*", "/", "/signup",
+                        .requestMatchers("/login/**","/user/login/*", "/", "/signup", "/reissue/token",
                                 "/login/google/**","/user/update", "/user/info" ,"/ws-stomp/**" ,"/chat/enter","/diary/getImg/**","/profile/getImg/**",
                                 "/openvidu/**").permitAll()
                         .anyRequest().authenticated());

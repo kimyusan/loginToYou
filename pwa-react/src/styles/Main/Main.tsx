@@ -3,7 +3,6 @@ import { Card } from "../common/card";
 
 const Wrapper = styled.div``;
 
-
 const FirstSection = styled.div`
   display: grid;
   grid-template:
@@ -16,7 +15,9 @@ const FirstSection = styled.div`
     grid-area: b;
     aspect-ratio: 0.5;
     position: relative;
-    background-color: #ff9aab;
+    background-color: ${(props) => {
+      return props.theme.color.sub1;
+    }};
     margin: 0;
     div {
       position: absolute;
@@ -34,7 +35,9 @@ const FirstSection = styled.div`
     grid-area: a;
     aspect-ratio: 1;
     position: relative;
-    background-color: pink;
+    background-color: ${(props) => {
+      return props.theme.color.sub2;
+    }};
     margin: 0;
     p {
       z-index: 2;
@@ -50,7 +53,9 @@ const FirstSection = styled.div`
     grid-area: c;
     aspect-ratio: 1;
     position: relative;
-    background-color: #ffcdd9;
+    background-color: ${(props) => {
+      return props.theme.color.sub3;
+    }};
     margin: 0;
     .chat_name {
       z-index: 2;
@@ -69,7 +74,9 @@ const FirstSection = styled.div`
       bottom: 0;
       margin-right: 10%;
       font-size: 7rem;
-      color: hotpink;
+      color: ${(props) => {
+        return props.theme.color.point;
+      }};
     }
   }
 `;
@@ -97,7 +104,9 @@ const CalendarSec = styled(Card)`
       left: 5%;
       top: 5%;
       line-height: 1.5;
-      color: #ff9aab;
+      color: ${(props) => {
+        return props.theme.color.sub1;
+      }};
       font-size: 6rem;
     }
   }
@@ -123,7 +132,10 @@ const SecondSection = styled.div`
     .question {
       display: flex;
       justify-content: space-between;
-      border-bottom: 1px solid #9b9b9b;
+      border-bottom: 1px solid
+        ${(props) => {
+          return props.theme.color.grey;
+        }};
       padding-bottom: 3%;
       :nth-child(1) {
         font-size: 1.2rem;
@@ -143,7 +155,9 @@ const SecondSection = styled.div`
         border-radius: 5%;
         z-index: 3;
         aspect-ratio: 2;
-        background-color: #ececec73;
+        background-color: ${(props) => {
+          return props.theme.color.grey;
+        }}15;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -157,7 +171,9 @@ const SecondSection = styled.div`
       position: absolute;
       font-size: 8rem;
       font-weight: 700;
-      color: #ffdde2;
+      color: ${(props) => {
+        return props.theme.color.sub4;
+      }};
       top: 0;
       line-height: 0.9;
       left: 7%;
@@ -173,7 +189,9 @@ const ThirdSection = styled.div`
     aspect-ratio: 1.5;
   }
   .balance_game {
-    background-color: #ff9aab;
+    background-color: ${(props) => {
+      return props.theme.color.sub2;
+    }};
     position: relative;
     p:nth-child(1) {
       z-index: 2;
@@ -190,7 +208,9 @@ const ThirdSection = styled.div`
       position: absolute;
       font-size: 5rem;
       font-weight: 700;
-      color: #ffc0ce;
+      color: ${(props) => {
+        return props.theme.color.sub4;
+      }};
       right: 0;
       top: 0;
       margin: 0;

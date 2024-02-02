@@ -10,6 +10,7 @@ function CoupleInfoCalendar({ start, setStart }: Props) {
   const changeDate = (event: React.ChangeEvent<HTMLInputElement>) => {
     setStart(event.target.value);
   };
+  const today = new Date().toISOString().split("T")[0];
 
   return (
     <Wrapper>
@@ -18,6 +19,7 @@ function CoupleInfoCalendar({ start, setStart }: Props) {
         type="date"
         value={start ? start : ""}
         onChange={changeDate}
+        InputProps={{ inputProps: { min: "1900-01-01", max: today } }}
       />
     </Wrapper>
   );

@@ -48,28 +48,6 @@ public class WebSockConfig implements WebSocketMessageBrokerConfigurer {
         registration.interceptors(stompHandler);
     }
 
-//    @Override
-//    public void configureWebSocketTransport(WebSocketTransportRegistration registry) {
-//        registry.addDecoratorFactory(webSocketHandlerDecoratorFactory());
-//    }
 
-//    @Bean
-//    public WebSocketHandlerDecoratorFactory webSocketHandlerDecoratorFactory() {
-//        return new WebSocketHandlerDecoratorFactory() {
-//            @Override
-//            public WebSocketHandler decorate(final WebSocketHandler handler) {
-//                return new WebSocketHandlerDecorator(handler) {
-//                    @Override
-//                    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-//                        // Send notification to the client
-//                        session.sendMessage(new TextMessage("스톰프 연결 성공"));
-//
-//                        // Call the original afterConnectionEstablished method
-//                        super.afterConnectionEstablished(session);
-//                    }
-//                };
-//            }
-//        };
-// }
 
 }

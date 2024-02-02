@@ -12,10 +12,12 @@ import FullCalendar from "@fullcalendar/react";
 import "../styles/Calendar/Calendar.css";
 import CalendarList from "../components/Calendar/CalendarList";
 import CalendarModalCard from "../components/Calendar/CalendarModalCard";
+import { useTheme } from "styled-components";
 
 type Props = {};
 
 const Calendar = (props: Props) => {
+  const theme = useTheme();
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const toggleNav = () => {
     setIsNavigationOpen(!isNavigationOpen);
@@ -62,7 +64,7 @@ const Calendar = (props: Props) => {
 
   useEffect(() => {
     closeModal();
-  },[]);
+  }, []);
 
   return (
     <>
@@ -89,8 +91,8 @@ const Calendar = (props: Props) => {
               },
             }}
             datesSet={handleDatesSet}
-            eventBackgroundColor="pink"
-            eventBorderColor="pink"
+            eventBackgroundColor={theme.color.sub2}
+            eventBorderColor={theme.color.sub2}
             defaultAllDay={true}
           />
         </MyCalendar>

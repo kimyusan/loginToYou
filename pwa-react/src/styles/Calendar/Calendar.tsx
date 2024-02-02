@@ -33,7 +33,9 @@ const MyCalendar = styled.div`
   .fc-myCustomButton-button {
     border: 0 !important;
     padding: 0.2rem 0.4rem !important ;
-    background-color: #fba1b7;
+    background-color: ${(props) => {
+      return props.theme.color.sub2;
+    }};
     color: white;
   }
 `;
@@ -66,7 +68,9 @@ const CalendarModal = styled(Modal)`
     border-radius: 7%;
     position: absolute;
     left: 50%;
-    background-color: #ffd1da;
+    background-color: ${(props) => {
+      return props.theme.color.sub4;
+    }};
     bottom: 7%;
     padding: 3% 10%;
     font-size: 1rem;
@@ -113,7 +117,9 @@ const ListWrapper = styled.div`
     padding: 0;
   }
   > .no_event {
-    color: #fba1b7;
+    color: ${(props) => {
+      return props.theme.color.sub2;
+    }};
     padding: 5%;
   }
 `;

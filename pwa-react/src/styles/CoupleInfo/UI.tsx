@@ -21,36 +21,55 @@ export const NameInput = styled.input`
   padding: 10px;
   font-size: 2.5rem;
   font-weight: 700;
-  color: #ff95aa;
+  color: ${(props) => {
+    return props.theme.color.sub1;
+  }};
   border: none;
   outline: none;
   background-color: transparent;
-  border-bottom: 2px solid #ff95aa;
+  border-bottom: 2px solid
+    ${(props) => {
+      return props.theme.color.sub1;
+    }};
 
   &:focus {
-    color: #8a8a8a;
+    color: ${(props) => {
+      return props.theme.color.grey;
+    }};
   }
 `;
 
 export const CalendarInput = styled(TextField)`
   width: 100%;
   border: none;
-  border-bottom: 2px solid #ff95aa;
+  border-bottom: 2px solid
+    ${(props) => {
+      return props.theme.color.sub1;
+    }};
 
   & fieldset {
     border: none;
-    border-bottom: 2px solid #ff95aa;
+    border-bottom: 2px solid
+      ${(props) => {
+        return props.theme.color.sub1;
+      }};
   }
 
   & .MuiOutlinedInput-root {
     & fieldset {
-      border-color: #ff95aa;
+      border-color: ${(props) => {
+        return props.theme.color.sub1;
+      }};
     }
     &:hover fieldset {
-      border-color: #ff95aa;
+      border-color: ${(props) => {
+        return props.theme.color.sub1;
+      }};
     }
     &.Mui-focused fieldset {
-      border-color: #ff95aa;
+      border-color: ${(props) => {
+        return props.theme.color.sub1;
+      }};
     }
   }
 `;

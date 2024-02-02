@@ -8,17 +8,20 @@ import { MonthHeader, DaySelect } from "../styles/Question/Question";
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 import QuestionBox from "../components/Question/QuestionBox";
 import useQuestionStore from "../stores/QuestionStore";
+import QuestionModal from "../components/Question/QuestionModal";
 
 type Props = {};
 
 const Question = (props: Props) => {
-  const QuestionStore = useQuestionStore();
+  const { isOpen, handleModal } = useQuestionStore();
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const toggleNavigation = () => {
     setIsNavigationOpen(!isNavigationOpen);
   };
 
   const today = new Date();
+  const todayYear = today.getFullYear();
+  const todayMonth = today.getMonth() + 1;
   const [year, setYear] = useState(today.getFullYear());
   const [month, setMonth] = useState(today.getMonth() + 1);
 
@@ -55,20 +58,23 @@ const Question = (props: Props) => {
         <Navbar isOpen={isNavigationOpen} />
         <DaySelect>
           <div className="subBox">
-            <SlArrowLeft
-              onClick={decreaseMonth}
-            ></SlArrowLeft>
+            <SlArrowLeft onClick={decreaseMonth}></SlArrowLeft>
             <div className="dayBox">
-              {year} -{" "}
-              {month.toString().padStart(2, "0")}
+              {year} - {month.toString().padStart(2, "0")}
             </div>
             <SlArrowRight onClick={increaseMonth}></SlArrowRight>
           </div>
         </DaySelect>
       </MonthHeader>
 
-      <QuestionBox />
-      <AnswerBox show={isNavigationOpen} year={year} month={month}/>
+      {todayYear === year && todayMonth === month ? <QuestionBox /> : null}
+      <AnswerBox show={isNavigationOpen} year={year} month={month} />
+      <QuestionModal
+        // question={question}
+        // todayToString={todayToString}
+        isOpen={isOpen}
+        handleModal={handleModal}
+      />
     </>
   );
 };

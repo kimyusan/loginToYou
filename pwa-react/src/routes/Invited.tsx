@@ -30,7 +30,7 @@ function Invited() {
         email: user_email,
       },
     });
-    if (res.data.coupleId) navigate("/");
+    if (res.data.coupleId) navigate("/main");
     setUserName((name) => res.data.name);
   };
 

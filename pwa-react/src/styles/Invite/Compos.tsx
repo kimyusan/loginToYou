@@ -25,7 +25,9 @@ export const Wrapper = styled.div`
   }
 
   & *.fc-grey {
-    color: #8a8a8a;
+    color: ${(props) => {
+      return props.theme.color.grey;
+    }};
   }
 
   & *.mb-30 {

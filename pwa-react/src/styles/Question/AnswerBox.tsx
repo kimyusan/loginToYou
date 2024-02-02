@@ -5,7 +5,9 @@ import { Paper, Card } from "@mui/material";
 const AnswerContainer = styled(Paper)`
   min-height: 100vh;
   margin: 5% 3%;
-  background-color: #ffe2e7 !important;
+  background-color: ${(props) => {
+    return props.theme.color.sub4;
+  }} !important;
   padding: 3%;
 `;
 
@@ -20,9 +22,21 @@ const AnsCard = styled(Card)`
   .Mui-selected {
     color: #000000 !important;
   }
-
   .css-1gsv261 {
     position: static !important;
+  }
+  .css-19kzrtu {
+    height: 100% !important;
+  }
+  .answer {
+    min-height: 14svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .edit_btn {
+    display: flex;
+    justify-content: end;
   }
 `;
 

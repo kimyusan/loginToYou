@@ -9,9 +9,17 @@ type Props = {
   client: React.MutableRefObject<CompatClient | undefined>;
   userId: number | null;
   roomId: string | undefined;
+  isOppOn: boolean;
 };
 
-function InputBox({ message, setMessage, client, userId, roomId }: Props) {
+function InputBox({
+  message,
+  setMessage,
+  client,
+  userId,
+  roomId,
+  isOppOn,
+}: Props) {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const token = useAuthStore.getState().token;
 
@@ -44,7 +52,7 @@ function InputBox({ message, setMessage, client, userId, roomId }: Props) {
         sendUserId: userId,
         message: message,
         createdAt: now.toLocaleString(),
-        readCount: true,
+        readCount: isOppOn ? false : true,
       })
     );
     setMessage("");
