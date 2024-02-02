@@ -6,6 +6,7 @@ import com.ssafy.spyfamily.user.model.UserInfo;
 import com.ssafy.spyfamily.user.service.UserServiceImpl;
 import com.ssafy.spyfamily.util.JWTUtil;
 import com.ssafy.spyfamily.util.JsonUtil;
+import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.http.*;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.web.bind.annotation.*;
@@ -46,9 +47,8 @@ public class LoginController {
 
     @GetMapping("/reissue/token")
     public ResponseEntity<?> reissueToken(@RequestHeader Map<String , String> headers,  @RequestBody String email){
-        String accessToken = headers.get("Authrization") ;
+        String accessToken = headers.get("Authorization") ;
         String refreshToken = headers.get("refreshToken") ;
-
         if(email.equals(jwtUtil.getUsername(accessToken)) || jwtUtil.isExpired(accessToken)
                 || !jwtUtil.isExpired(refreshToken)) {
             User user = userService.getUserByEmail(email);

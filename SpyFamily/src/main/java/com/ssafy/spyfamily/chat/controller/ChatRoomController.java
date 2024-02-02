@@ -59,10 +59,10 @@ public class ChatRoomController {
 
     }
 
-    @GetMapping("/unread/message")
-    public  ResponseEntity<?> unreadMessageCount(@RequestParam String userId){
-        coupleService.
-    }
+//    @GetMapping("/unread/message")
+//    public  ResponseEntity<?> unreadMessageCount(@RequestParam String userId){
+//        coupleService.find
+//    }
 
     //상대방이 읽었을때
     @PostMapping("/readUser")
