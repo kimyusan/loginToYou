@@ -13,8 +13,7 @@ import Navbar from "../components/Navbar";
 import useUserStore from "../stores/UserStore";
 import OpenViduVideoComponent from "../components/ChatVideo/OvVideo";
 
-const APPLICATION_SERVER_URL =
-  process.env.NODE_ENV === "production" ? "" : "https://demos.openvidu.io/";
+const APPLICATION_SERVER_URL = 'https://logintoyou.kro.kr:8080/openvidu/';
 
 export default function App() {
   const { coupleId } = useUserStore();
@@ -224,7 +223,7 @@ export default function App() {
               width: "100%",
               height: "300px",
               transform: "scaleX(-1)",
-              paddingTop: "20svh",
+              paddingTop: "20dvh",
             }}
           />
           <JoinForm onSubmit={joinSession}>

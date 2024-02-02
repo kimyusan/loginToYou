@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const Logo = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 100dvh;
   font-size: 40px;
   text-align: center;
   display: flex;

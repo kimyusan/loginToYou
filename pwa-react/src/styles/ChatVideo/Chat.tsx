@@ -26,7 +26,9 @@ const ReadyBtn = styled.button`
   padding: 15px;
   width: 100%;
   cursor: pointer;
-  background-color: #ffd1da;
+  background-color: ${(props) => {
+      return props.theme.color.sub2;
+    }};
   font-weight: bold;
 `;
 export { GoBack, ReadyBtn, JoinForm };

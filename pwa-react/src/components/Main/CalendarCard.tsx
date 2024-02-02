@@ -33,7 +33,7 @@ const CalendarCard = () => {
   };
 
   const filterdEvents = events.filter(
-    (event) => toDate(event.start) <= new Date()
+    (event) => toDate(event.start) >= new Date()
   );
 
   const sortedEvents = filterdEvents.sort(compare);

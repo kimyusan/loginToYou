@@ -4,7 +4,7 @@ const Pictures = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 65vh;
+  height: 65dvh;
   background-color: ${(props) => {
     return props.theme.color.bgColor;
   }};
@@ -106,7 +106,7 @@ const SelectBox = styled.div`
 
   .item {
     width: 100%;
-    height: 10vh;
+    height: 10dvh;
     margin-top: 10px;
     border: 1px solid lightgray;
     display: flex;

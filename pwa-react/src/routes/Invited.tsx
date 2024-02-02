@@ -26,19 +26,25 @@ function Invited() {
   const [userName, setUserName] = useState("");
 
   const getUserInfo = async () => {
-    const res = await axiosAuth.get("user/info", {
-      params: {
-        email: user_email,
-      },
-    });
-    if (res.data.coupleId) navigate("/main");
-    setUserName((name) => res.data.name);
+    try {
+      const res = await axiosAuth.get("user/info", {
+        params: {
+          email: user_email,
+        },
+      });
+
+      if (!res.data) navigate("/");
+      if (res.data.coupleId) navigate("/main");
+      setUserName((name) => res.data.name);
+    } catch (err) {
+      navigate("/");
+    }
   };
 
   useEffect(() => {
     if (!isLogin) navigate("/login", { state: location.pathname });
-    if (coupleId !== 0 && coupleId !== null) navigate("/");
-    if (email == user_email) navigate("/");
+    if (coupleId !== 0 && coupleId !== null) navigate("/main");
+    if (email == user_email) navigate("/main");
     getUserInfo();
   }, []);
 

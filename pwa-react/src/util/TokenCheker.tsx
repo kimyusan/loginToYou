@@ -40,8 +40,7 @@ function TokenCheker() {
         refreshToken: refToken,
       },
     });
-    console.log(token);
-    console.log(res.headers.authorization);
+
     const now = new Date().getTime();
     setToken(res.headers.authorization, res.headers.refreshtoken);
     setTokenExpireTime(now);
@@ -58,7 +57,11 @@ function TokenCheker() {
       return;
     const now = new Date().getTime();
     console.log(tokenExpireTime, now);
-    console.log(`토큰 남은 시간 ${(tokenExpireTime - now) / 1000 / 60}분`);
+    console.log(
+      `토큰 남은 시간 ${
+        Math.round(((tokenExpireTime - now) / 1000 / 60) * 100) / 100
+      }분`
+    );
     console.log(
       tokenExpireTime - now < 1000 * 60 * 5 ? "토큰 재발행 필요" : "토큰 유효"
     );
@@ -69,6 +72,10 @@ function TokenCheker() {
 
   useEffect(() => {
     updateToken();
+    // return () => {
+    //   console.log("나가요~");
+    //   updateToken();
+    // };
   }, []);
 
   return <div></div>;

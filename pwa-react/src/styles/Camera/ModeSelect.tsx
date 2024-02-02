@@ -13,7 +13,7 @@ const SelectBox = styled.div`
     height: auto;
 
     & div {
-      height: 40vh;
+      height: 40dvh;
     }
 
     &:not(:first-child) {
