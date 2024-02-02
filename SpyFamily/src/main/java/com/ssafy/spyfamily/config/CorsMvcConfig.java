@@ -11,6 +11,9 @@ public class CorsMvcConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry corsRegistry) {
 
         corsRegistry.addMapping("/**")
-                .allowedOrigins("*");
+                .allowedOrigins("*")
+                .allowedMethods("*")
+                .allowedHeaders("*")
+                .exposedHeaders("Authorization", "refreshToken"); // 클라이언트에서 볼 수 있도록 노출
     }
 }
