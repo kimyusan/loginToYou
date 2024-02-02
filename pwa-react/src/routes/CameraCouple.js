@@ -10,7 +10,7 @@ import { ReadyRoomText, ReadyBtn, JoinForm, GoBack } from "../styles/Camera/Came
 import { BurgerButton } from "../styles/common/hamburger";
 import Navbar from "../components/Navbar";
 
-const APPLICATION_SERVER_URL = 'https://logintoyou.kro.kr:8080/';
+const APPLICATION_SERVER_URL = 'https://i10c105.p.ssafy.io/';
 
 export default function App() {
   const [mySessionId, setMySessionId] = useState('ssafy')
