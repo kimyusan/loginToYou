@@ -460,7 +460,7 @@ const PictureBox = (props: Props) => {
                 onClick={() => openDetail(Id)}
               >
                 <PicBox>
-                  <img src={url} alt={`${item["saveFolder"]}`} />
+                  <img src={url} alt="zz" />
                 </PicBox>
                 <PicContent>{subject}</PicContent>
               </div>
