@@ -13,7 +13,7 @@ const Login = () => {
   const google_url =
     "https://accounts.google.com/o/oauth2/auth?" +
     "client_id=760132367951-6ffft4jm5bcmocsmpis4p23nbus7vdgk.apps.googleusercontent.com&" +
-    "redirect_uri=https://logintoyou.kro.kr/middle/login&" +
+    "redirect_uri=https://logintoyou.kro.kr:8443/middle/login&" +
     "response_type=token&" +
     "scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile";
 
@@ -21,7 +21,7 @@ const Login = () => {
     "https://nid.naver.com/oauth2.0/authorize?response_type=code&" +
     "client_id=H3hbCg2IUznqo9J6IdEO&" +
     "state=STATE_STRING&" +
-    "redirect_uri=https://logintoyou.kro.kr/middle/login";
+    "redirect_uri=https://logintoyou.kro.kr:8443/middle/login";
 
   const SNS = (url: string) => {
     window.location.href = url;
