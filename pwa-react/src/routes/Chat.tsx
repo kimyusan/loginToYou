@@ -238,7 +238,11 @@ function Chat() {
               navigate("/");
             }}
           />
-          <FaPhone />
+          <FaPhone
+            onClick={() => {
+              navigate("/chat/video");
+            }}
+          />
         </IconContext.Provider>
       </Header>
       <MessageBox messages={showMessages} userId={userId}></MessageBox>
