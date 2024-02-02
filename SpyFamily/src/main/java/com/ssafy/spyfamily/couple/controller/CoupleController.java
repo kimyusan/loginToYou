@@ -31,7 +31,7 @@ public class CoupleController {
 
     @RequestMapping(value = "/create/couple/{emailA}/{emailB}")
     public ResponseEntity<?> createCouple(@RequestParam String emailA, @RequestParam String emailB , @RequestHeader HttpHeaders headers) {
-        System.out.println(headers.get("Authrization"));
+        System.out.println(headers.get("Authorization"));
         System.out.println(headers.toString());
 
         System.out.println(emailA + " " + emailB);

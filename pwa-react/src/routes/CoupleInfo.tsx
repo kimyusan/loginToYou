@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import useCoupleStore from "../stores/CoupleStore";
 import useAuthStore from "../stores/AuthStore";
 import { useShallow } from "zustand/react/shallow";
+import TokenCheker from "../util/TokenCheker";
 
 function CoupleInfo() {
   const navigate = useNavigate();
@@ -54,6 +55,7 @@ function CoupleInfo() {
 
   return (
     <>
+      <TokenCheker />
       <BurgerButton onClick={toggleNav}>☰</BurgerButton>
       <Navbar isOpen={isNavigationOpen} />
       <UserInfoBox>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Global from "./styles/common/global";
 
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
@@ -28,6 +28,7 @@ import Theme from "./components/Settings/Theme";
 function App() {
   const { isLogIn } = useAuthStore();
   const { coupleId } = useUserStore();
+
   const theme = useAuthStore.getState().colortheme;
 
   return (
