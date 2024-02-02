@@ -49,7 +49,7 @@ axiosAuth.interceptors.request.use(
 axiosAuth.interceptors.response.use(
   (response) => {
     let now = new Date().getTime();
-    refreshToken("a@a", now);
+    refreshToken("asdf@asdf", now);
 
     return response;
   },

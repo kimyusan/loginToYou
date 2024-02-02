@@ -6,14 +6,17 @@ import com.ssafy.spyfamily.user.model.UserInfo;
 import com.ssafy.spyfamily.user.service.UserServiceImpl;
 import com.ssafy.spyfamily.util.JWTUtil;
 import com.ssafy.spyfamily.util.JsonUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.http.*;
 import org.springframework.messaging.handler.annotation.Header;
+import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Base64;
 import java.util.Map;
 
+@Slf4j
 @RestController()
 @RequestMapping(produces = "application/json")
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE}, maxAge = 6000)
@@ -46,12 +49,19 @@ public class LoginController {
     }
 
     @GetMapping("/reissue/token")
-    public ResponseEntity<?> reissueToken(@RequestHeader Map<String , String> headers,  @RequestBody String email){
-        String accessToken = headers.get("Authorization") ;
-        String refreshToken = headers.get("refreshToken") ;
+    public ResponseEntity<?> reissueToken(@RequestHeader("Authorization") String authorization, @RequestHeader("refreshToken") String refreshToken,  @RequestParam String email){
+        String accessToken = authorization.substring(7);
+
+        String refToken = refreshToken.substring(7);
+        log.info("auth : " + authorization);
+        log.info("accesstoken : " + accessToken);
+        log.info(" refreshtoken : " + refreshToken) ;
+        log.info("refToken : " + refToken);
+        log.info("email : " + email);
         if(email.equals(jwtUtil.getUsername(accessToken)) || jwtUtil.isExpired(accessToken)
-                || !jwtUtil.isExpired(refreshToken)) {
+                || !jwtUtil.isExpired(refToken)) {
             User user = userService.getUserByEmail(email);
+            log.info(user.toString());
             String newAccessToken = jwtUtil.createJwt(user.getEmail(),user.getRole(),user.getUserId(),user.getCoupleId(),user.getName());
             String newRefreshToken = jwtUtil.createRefreshToken(email);
             user.setRefreshToken(newRefreshToken);
