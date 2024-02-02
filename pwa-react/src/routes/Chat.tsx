@@ -63,6 +63,7 @@ function Chat() {
         roomId: room_id,
       },
     });
+    console.log(res);
     if (res.data == 1) {
       setIsOppOn(true);
     }

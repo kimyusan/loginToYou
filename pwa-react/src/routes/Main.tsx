@@ -38,6 +38,7 @@ const Main = () => {
   const [cp1, setCp1] = useState<UserInterface>();
   const [cp2, setCp2] = useState<UserInterface>();
   const [cpInfo, setCpInfo] = useState<CoupleInterface>();
+  const [unreadMessage, setUnreadMessage] = useState(0);
   const token = useAuthStore.getState().token;
   const toggleNavigation = () => {
     setIsNavigationOpen(!isNavigationOpen);
@@ -80,17 +81,20 @@ const Main = () => {
   };
 
   const checkChat = async () => {
-    const res = await axiosAuth.get("/unread/message", {
+    const res = await axiosAuth.get("/chat/unread/message", {
       params: {
         userId: userId,
       },
     });
     console.log(res);
+    setUnreadMessage(res.data);
   };
 
   useEffect(() => {
     callData();
     checkChat();
+    const check = setInterval(checkChat, 1000 * 60 * 2);
+    return () => clearInterval(check);
   }, []);
 
   const navigate = useNavigate();
@@ -126,7 +130,7 @@ const Main = () => {
           </Card>
           <Card className="chat" onClick={goChat}>
             <p className="chat_name">채팅</p>
-            <p className="chat_num">N</p>
+            <p className="chat_num">{unreadMessage}</p>
           </Card>
         </FirstSection>
 
