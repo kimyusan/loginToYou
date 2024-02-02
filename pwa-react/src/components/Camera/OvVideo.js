@@ -65,13 +65,13 @@ export default function OpenViduVideoComponent({ streamManager, zi }) {
   }, [streamManager]);
 
   return (
-    <div style={{ width: "360px", height: "292px", position: "fixed", top: "10%", zIndex: "1" }}>
+    <div style={{ width: "180px", height: "292px", position: "fixed", top: "10%", zIndex: "1" }}>
       <video
         ref={videoRef}
         playsInline
         style={{
           display: "none",
-          width: "360px",
+          width: "180px",
           height: "100%",
           transform: "scaleX(-1)"
         }}
@@ -79,7 +79,7 @@ export default function OpenViduVideoComponent({ streamManager, zi }) {
       <canvas
         ref={canvasRef}
         style={{
-          width: "360px",
+          width: "180px",
           height: "282px",
           transform: "scaleX(-1)",
         }}
