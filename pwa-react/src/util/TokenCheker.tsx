@@ -3,6 +3,7 @@ import axios from "axios";
 import useAuthStore from "../stores/AuthStore";
 import useUserStore from "../stores/UserStore";
 import { useShallow } from "zustand/react/shallow";
+import { stat } from "fs";
 
 function TokenCheker() {
   const { email } = useUserStore(
@@ -11,12 +12,21 @@ function TokenCheker() {
     }))
   );
 
-  const { PATH, token, refToken, tokenExpireTime } = useAuthStore(
+  const {
+    PATH,
+    token,
+    refToken,
+    tokenExpireTime,
+    setToken,
+    setTokenExpireTime,
+  } = useAuthStore(
     useShallow((state) => ({
       PATH: state.PATH,
       token: state.token,
       refToken: state.refToken,
       tokenExpireTime: state.tokenExpireTime,
+      setToken: state.setToken,
+      setTokenExpireTime: state.setTokenExpireTime,
     }))
   );
 
@@ -30,7 +40,12 @@ function TokenCheker() {
         refreshToken: refToken,
       },
     });
-    console.log(res);
+    console.log(token);
+    console.log(res.headers.authorization);
+    const now = new Date().getTime();
+    setToken(res.headers.authorization, res.headers.refreshtoken);
+    setTokenExpireTime(now);
+    console.log("토큰 변경 완료");
   };
 
   const updateToken = () => {
@@ -41,13 +56,15 @@ function TokenCheker() {
       tokenExpireTime == null
     )
       return;
-
     const now = new Date().getTime();
     console.log(tokenExpireTime, now);
-    console.log(tokenExpireTime - now);
+    console.log(`토큰 남은 시간 ${(tokenExpireTime - now) / 1000 / 60}분`);
     console.log(
-      tokenExpireTime - now < 1000 * 30 ? "토큰 재발행 필요" : "토큰 유효"
+      tokenExpireTime - now < 1000 * 60 * 5 ? "토큰 재발행 필요" : "토큰 유효"
     );
+    if (tokenExpireTime - now < 1000 * 60 * 5) {
+      refresh();
+    }
   };
 
   useEffect(() => {
