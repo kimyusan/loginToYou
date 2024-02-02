@@ -1,7 +1,7 @@
 import styled, { DefaultTheme } from "styled-components";
 
 interface SampleInterface {
-  sampletheme: DefaultTheme;
+  $sampletheme: DefaultTheme;
 }
 
 export const Wrapper = styled.div`
@@ -25,7 +25,7 @@ export const Sample = styled.div<SampleInterface>`
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background-color: ${(props) => props.sampletheme.color.main};
+  background-color: ${(props) => props.$sampletheme.color.main};
 
   &.active:before {
     content: "✓";
