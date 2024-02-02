@@ -6,13 +6,13 @@ interface SampleInterface {
 
 export const Wrapper = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 100dvh;
   box-sizing: border-box;
 `;
 
 export const ColorSelectBox = styled.div`
   width: 100%;
-  height: 20vh;
+  height: 20dvh;
   display: flex;
   box-sizing: border-box;
   padding: 0 20%;

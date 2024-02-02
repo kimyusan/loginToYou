@@ -84,7 +84,7 @@ const FirstSection = styled.div`
 const CalendarSec = styled(Card)`
   padding: 3%;
   margin: 5%;
-  height: 20vh;
+  height: 20dvh;
   display: flex;
   justify-content: space-between;
   position: relative;
@@ -125,7 +125,7 @@ const SecondSection = styled.div`
     padding: 3%;
     margin: 5%;
     margin-bottom: 3%;
-    height: 17vh;
+    height: 17dvh;
   }
   .question_card {
     position: relative;

@@ -40,7 +40,7 @@ const QBox = styled(Paper)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 20svh;
+  min-height: 20dvh;
   margin: 5% 3%;
   background-color: ${(props) => {
     return props.theme.color.sub4;
