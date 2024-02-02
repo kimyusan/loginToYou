@@ -59,6 +59,9 @@ axiosAuth.interceptors.response.use(
 
       // const response = await axiosAuth.request(error.config);
       // return response;
+    } else if (error.response?.status === 401) {
+      console.log("낡은토큰");
+      console.log(error);
     } else {
       return error;
     }

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import SettingsHeader from "../components/Settings/SettingsHeader";
 import { Menu, MenuTitle } from "../styles/Settings/UI";
+import TokenCheker from "../util/TokenCheker";
 
 type Props = {};
 
@@ -10,7 +11,8 @@ function Settings({}: Props) {
   const navigate = useNavigate();
 
   return (
-    <div>
+    <>
+      <TokenCheker />
       <SettingsHeader />
       <MenuTitle>앱 설정</MenuTitle>
       <Menu>알림 설정</Menu>
@@ -24,7 +26,7 @@ function Settings({}: Props) {
       <MenuTitle>개인정보 수정</MenuTitle>
       <Menu>비밀번호 수정</Menu>
       <Menu>회원 탈퇴</Menu>
-    </div>
+    </>
   );
 }
 

@@ -19,7 +19,12 @@ const MiddleLogin = () => {
   );
   const setUser = useUserStore.getState().setUser;
 
-  const idCheck = (email: String, name: String, authtoken: string | null) => {
+  const idCheck = (
+    email: String,
+    name: String,
+    authtoken: string,
+    refToken: string
+  ) => {
     axios
       .get(`${PATH}/user/info?email=${email}`)
       .then((res) => {
@@ -29,7 +34,7 @@ const MiddleLogin = () => {
         const userData = parseJwt(authtoken);
 
         setUser(userData);
-        setToken(authtoken);
+        setToken(authtoken, refToken);
         setClientHeaders(authtoken);
 
         login();
@@ -81,7 +86,8 @@ const MiddleLogin = () => {
             idCheck(
               response.data.email,
               response.data.name,
-              response.headers?.authorization
+              response.headers?.authorization,
+              response.data?.refreshtoken
             );
           })
           .catch((error) => {
@@ -110,7 +116,8 @@ const MiddleLogin = () => {
           idCheck(
             response.data.email,
             response.data.name,
-            response.headers?.authorization
+            response.headers?.authorization,
+            response.data?.refreshtoken
           );
         })
         .catch((error) => {

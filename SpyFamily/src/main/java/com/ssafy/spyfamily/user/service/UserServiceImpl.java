@@ -3,6 +3,7 @@ package com.ssafy.spyfamily.user.service;
 import com.ssafy.spyfamily.user.model.User;
 import com.ssafy.spyfamily.user.model.UserInfo;
 import com.ssafy.spyfamily.user.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Map;
 
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     @Value("${naver.clientId}")
@@ -38,9 +40,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByEmail(String email) {
-
+        log.info(email);
         int count = userRepository.countByEmail(email);
-
+        log.info(count + "조회수 ");
         // 정보를 찾으려는 이메일로 가입된 회원정보가 없는 경우
         if(count != 0) {
             return userRepository.findByEmail(email);

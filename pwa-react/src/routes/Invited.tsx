@@ -9,6 +9,7 @@ import useAuthStore from "../stores/AuthStore";
 import useUserStore from "../stores/UserStore";
 import { useShallow } from "zustand/react/shallow";
 import { axiosAuth } from "../util/token";
+import TokenCheker from "../util/TokenCheker";
 
 function Invited() {
   const navigate = useNavigate();
@@ -71,6 +72,7 @@ function Invited() {
 
   return (
     <Wrapper>
+      <TokenCheker />
       <div>
         <span className="ft-bd">{userName}</span>님께 로그인 하시겠습니까?
       </div>
