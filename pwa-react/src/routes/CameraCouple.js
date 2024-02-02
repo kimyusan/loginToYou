@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import UserVideoComponent from '../components/Camera/UserVideoComponents';
+import UserVideoComponent1 from '../components/Camera/UserVideoComponents1';
 import WebCam from "react-webcam"
 
 import { ReadyRoomText, ReadyBtn, JoinForm, GoBack } from "../styles/Camera/CameraCouple"
@@ -237,7 +238,7 @@ export default function App() {
             ) : null}
 
             {subscribers.length > 0 ? <div>
-              <UserVideoComponent streamManager={subscribers[0]} zi={1} />
+              <UserVideoComponent1 streamManager={subscribers[0]} zi={1} />
             </div> : null} 
           </div>
         </div>

@@ -33,7 +33,7 @@ export default function OpenViduVideoComponent({ streamManager, zi }) {
     });
 
     selfieSegmentation.setOptions({
-      modelSelection: 0,
+      modelSelection: 1,
     });
 
     selfieSegmentation.onResults(onResults);
@@ -53,18 +53,25 @@ export default function OpenViduVideoComponent({ streamManager, zi }) {
       camera.start();
     }
 
-    if (streamManager && videoRef.current) {
-      streamManager.addVideoElement(videoRef.current);
+    if (streamManager && canvasRef.current) {
+      streamManager.addVideoElement(canvasRef.current);
     }
+
+    return () => {
+      if (streamManager && canvasRef.current) {
+        streamManager.removeVideoElement(canvasRef.current);
+      }
+    };
   }, [streamManager]);
 
   return (
-    <div style={{ width: videoRef.current?.videoWidth, height: "292px" }}>
+    <div style={{ width: "180px", height: "292px", position: "fixed", top: "10%", zIndex: "1" }}>
       <video
         ref={videoRef}
+        playsInline
         style={{
           display: "none",
-          width: "100%",
+          width: "180px",
           height: "100%",
           transform: "scaleX(-1)"
         }}
@@ -72,8 +79,8 @@ export default function OpenViduVideoComponent({ streamManager, zi }) {
       <canvas
         ref={canvasRef}
         style={{
-          width: "100%",
-          height: "100%",
+          width: "180px",
+          height: "282px",
           transform: "scaleX(-1)",
         }}
       ></canvas>
