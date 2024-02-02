@@ -83,6 +83,25 @@ public class ChatRoomController {
         }
 
 
+    }
+
+    @GetMapping("/connect/check")
+    public ResponseEntity<?> connectCheck(@RequestParam String roomId){
+
+
+        try {
+            ChatRoom chatRoom= chatService.findByRoomId(roomId);
+            Integer loginUserCount = chatRoom.getLoginUserCount();
+
+            return new ResponseEntity<Integer>(loginUserCount , HttpStatus.OK);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            log.error(e.getMessage());
+
+            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+
+        }
 
     }
 
