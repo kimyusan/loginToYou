@@ -5,7 +5,6 @@ interface SampleInterface {
 }
 
 export const Wrapper = styled.div`
-  background-color: white;
   width: 100%;
   height: 100vh;
   box-sizing: border-box;
@@ -22,8 +21,22 @@ export const ColorSelectBox = styled.div`
 `;
 
 export const Sample = styled.div<SampleInterface>`
+  position: relative;
   width: 30px;
   height: 30px;
   border-radius: 50%;
   background-color: ${(props) => props.sampletheme.color.main};
+
+  &.active:before {
+    content: "✓";
+    position: absolute;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #ffffff75;
+  }
 `;

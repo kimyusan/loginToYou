@@ -45,6 +45,7 @@ const LoginForm = () => {
         console.log("로그인 성공", response);
         setToken(response.headers.authorization);
         setClientHeaders(response.headers.authorization);
+        console.log(response);
 
         login();
 
