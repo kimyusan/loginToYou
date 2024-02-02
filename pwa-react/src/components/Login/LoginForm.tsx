@@ -43,7 +43,7 @@ const LoginForm = () => {
       .post(`${PATH}/login`, data)
       .then((response) => {
         console.log("로그인 성공", response);
-        setToken(response.headers.authorization);
+        setToken(response.headers.authorization, response.headers.refreshtoken);
         setClientHeaders(response.headers.authorization);
         console.log(response);
 

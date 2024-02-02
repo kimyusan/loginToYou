@@ -18,7 +18,9 @@ export const parseJwt = (token: string) => {
 };
 
 const token = useAuthStore.getState().token;
+const refToken = useAuthStore.getState().refToken;
 const PATH = useAuthStore.getState().PATH;
+const refreshToken = useAuthStore.getState().refreshToken;
 
 export const axiosAuth = axios.create({
   baseURL: `${PATH}`,
@@ -46,6 +48,9 @@ axiosAuth.interceptors.request.use(
 
 axiosAuth.interceptors.response.use(
   (response) => {
+    let now = new Date().getTime();
+    refreshToken("a@a", now);
+
     return response;
   },
   async (error) => {
@@ -59,6 +64,9 @@ axiosAuth.interceptors.response.use(
 
       // const response = await axiosAuth.request(error.config);
       // return response;
+    } else if (error.response?.status === 401) {
+      console.log("낡은토큰");
+      console.log(error);
     } else {
       return error;
     }
