@@ -58,7 +58,7 @@ public class LoginController {
             userService.save(user);
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.add("Authorization", "Bearer " + newAccessToken);
-            httpHeaders.add("refreshToken","Bearer" + newRefreshToken);
+            httpHeaders.add("refreshToken","Bearer " + newRefreshToken);
 //            HttpCookie httpCookie = new HttpCookie("refreshToken","Bearer" + newRefreshToken);
 
             return ResponseEntity.ok().headers(httpHeaders).body("재발급성공");
