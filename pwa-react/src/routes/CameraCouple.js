@@ -239,12 +239,12 @@ export default function App() {
 
 
 
-            {/* {subscribers.map((sub, i) => (
+            {subscribers.map((sub, i) => (
               <div key={sub.id}>
                 <span>{sub.id}</span>
                 <UserVideoComponent streamManager={sub} zi={1} />
               </div>
-            ))} */}
+            ))}
           </div>
         </div>
       ) : null}
