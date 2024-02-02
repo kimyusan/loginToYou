@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { Camera } from '@mediapipe/camera_utils';
 import { SelfieSegmentation } from '@mediapipe/selfie_segmentation'
 
-export default function OpenViduVideoComponent({ streamManager, zi }) {
+export default function OpenViduVideoComponent1({ streamManager, zi }) {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
@@ -58,10 +58,10 @@ export default function OpenViduVideoComponent({ streamManager, zi }) {
     }
 
     return () => {
-      if (streamManager && canvasRef.current) {
-        streamManager.removeVideoElement(canvasRef.current);
-      }
-    };
+        if (streamManager && canvasRef.current) {
+          streamManager.removeVideoElement(canvasRef.current);
+        }
+      };
   }, [streamManager]);
 
   return (
