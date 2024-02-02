@@ -153,8 +153,8 @@ const CameraSolo: React.FC = () => {
       <TimerText>{time > 0 ? <div>{time}</div> : null}</TimerText>
 
       <CameraBox>
-        <video ref={videoRef} playsInline autoPlay={true} style={{ display: photo ? "" : "none", transform: useFrontCamera ? "scaleX(-1)" : "scaleX(1)", position: "fixed", top: "13%"}} />
-        <canvas ref={canvasRef} style={{ display: photo ? "none" : "", width: window.innerWidth, height: "480px", transform: "scaleX(-1)", position: "fixed", top: "13%"}} />
+        <video ref={videoRef} playsInline autoPlay={true} style={{ display: photo ? "" : "none", transform: useFrontCamera ? "scaleX(-1)" : "scaleX(1)", position: "fixed", top: "10%"}} />
+        <canvas ref={canvasRef} style={{ display: photo ? "none" : "", width: window.innerWidth, height: "480px", transform: "scaleX(-1)", position: "fixed", top: "10%"}} />
       </CameraBox>
 
       {photo ? null : <div style={{ display: "flex", justifyContent: "center"}}>
