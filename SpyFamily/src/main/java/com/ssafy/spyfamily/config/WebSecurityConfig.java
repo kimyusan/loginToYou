@@ -78,12 +78,7 @@ public class WebSecurityConfig {
 
                         CorsConfiguration configuration = new CorsConfiguration();
 
-                        List<String> allowOrigins = new ArrayList<String>();
-                        allowOrigins.add("http://localhost:3000");              // 테스트용
-                        allowOrigins.add("https://logintoyou.kro.kr:8443");     // 배포 프론트
-                        allowOrigins.add("https://i10c105.p.ssafy.io");         // openvidu
-
-                        configuration.setAllowedOrigins(allowOrigins);
+                        configuration.setAllowedOrigins(List.of("http://localhost:3000", "https://logintoyou.kro.kr:8443", "https://i10c105.p.ssafy.io"));
                         configuration.setAllowedMethods(Collections.singletonList("*"));
                         configuration.setAllowCredentials(true);
                         configuration.setAllowedHeaders(Collections.singletonList("*"));
