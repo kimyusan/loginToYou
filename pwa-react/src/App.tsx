@@ -1,10 +1,10 @@
 import React from "react";
 import Global from "./styles/common/global";
-import { pink, blue, green } from "./styles/common/global";
 
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import useUserStore from "./stores/UserStore";
 import useAuthStore from "./stores/AuthStore";
+import { ThemeProvider } from "styled-components";
 
 import Login from "./routes/Login";
 import Main from "./routes/Main";
@@ -21,17 +21,19 @@ import CoupleInfo from "./routes/CoupleInfo";
 import Chat from "./routes/Chat";
 import Diary from "./routes/Diary";
 import Question from "./routes/Question";
-import ChatVideo from './routes/ChatVideo'
-import { ThemeProvider } from "styled-components";
+import ChatVideo from "./routes/ChatVideo";
+import Settings from "./routes/Settings";
+import Theme from "./components/Settings/Theme";
 
 function App() {
   const { isLogIn } = useAuthStore();
   const { coupleId } = useUserStore();
+  const theme = useAuthStore.getState().colortheme;
 
   return (
     <BrowserRouter>
       <div>
-        <ThemeProvider theme={pink}>
+        <ThemeProvider theme={theme}>
           <Global />
           <Routes>
             <Route
@@ -67,7 +69,8 @@ function App() {
             <Route path="/diary" element={<Diary />}></Route>
             <Route path="/question" element={<Question />}></Route>
             <Route path="/chat/video" element={<ChatVideo />}></Route>
-
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/settings/theme" element={<Theme />} />
           </Routes>
         </ThemeProvider>
       </div>

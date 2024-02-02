@@ -13,7 +13,9 @@ export const LongButton = styled(Button)`
       }};
 
     &:active {
-      background-color: #f9f9f9;
+      background-color: ${(props) => {
+        return props.theme.color.bgColor;
+      }};
     }
   }
 `;

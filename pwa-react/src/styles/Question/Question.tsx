@@ -8,7 +8,9 @@ const MonthHeader = styled.div`
   padding-top: 7%;
   padding-bottom: 5%;
   top: 0;
-  background-color: #f9f9f9;
+  background-color: ${(props) => {
+    return props.theme.color.bgColor;
+  }};
 `;
 
 const DaySelect = styled.div`

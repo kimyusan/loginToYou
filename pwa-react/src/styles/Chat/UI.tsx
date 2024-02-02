@@ -9,7 +9,10 @@ export const Header = styled.div`
   min-height: 60px;
   z-index: 1;
   padding: 0px 25px;
-  border-bottom: 1px solid #8a8a8a;
+  border-bottom: 1px solid
+    ${(props) => {
+      return props.theme.color.grey;
+    }};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -25,7 +28,9 @@ export const InputForm = styled.form`
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: #f9f9f9;
+  background-color: ${(props) => {
+    return props.theme.color.bgColor;
+  }};
 
   & > textarea {
     width: 80%;
@@ -34,7 +39,9 @@ export const InputForm = styled.form`
     box-sizing: border-box;
     background-color: white;
     border-radius: 25px;
-    /* border: 1px solid #8a8a8a; */
+    /* border: 1px solid ${(props) => {
+      return props.theme.color.grey;
+    }}; */
     overflow: hidden;
     outline: none;
     font-size: 1rem;

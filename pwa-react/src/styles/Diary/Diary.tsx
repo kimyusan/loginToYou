@@ -6,7 +6,9 @@ const DaySelect = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 15%;
-  background-color: #f9f9f9;
+  background-color: ${(props) => {
+    return props.theme.color.bgColor;
+  }};
 
   & .subBox {
     display: flex;

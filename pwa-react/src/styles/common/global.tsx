@@ -21,6 +21,9 @@ export const pink: DefaultTheme = {
     sub3: "#ffcdd9",
     sub4: "#ffdde2",
     point: "#ff69b4",
+    grey: "#8a8a8a",
+    lightgrey: "#e2e2e2",
+    bgColor: "#f9f9f9",
   },
 };
 
@@ -32,6 +35,9 @@ export const blue: DefaultTheme = {
     sub3: "#cdd0ff",
     sub4: "#dde2ff",
     point: "#3967da",
+    grey: "#8a8a8a",
+    lightgrey: "#e2e2e2",
+    bgColor: "#f9f9f9",
   },
 };
 
@@ -43,6 +49,9 @@ export const green: DefaultTheme = {
     sub3: "#cbd2a8",
     sub4: "#ddecce",
     point: "#7f9618",
+    grey: "#8a8a8a",
+    lightgrey: "#e2e2e2",
+    bgColor: "#f9f9f9",
   },
 };
 

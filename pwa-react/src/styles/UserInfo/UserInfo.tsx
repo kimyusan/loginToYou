@@ -31,7 +31,9 @@ const FormBox = styled.form`
   align-items: center;
   & .birth_input {
     label {
-      background-color: #f9f9f9;
+      background-color: ${(props) => {
+        return props.theme.color.bgColor;
+      }};
       width: 90%;
       height: 2rem;
       z-index: 3 !important;

@@ -1,13 +1,17 @@
+import { DefaultTheme } from "styled-components";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { pink, green, blue } from "../styles/common/global";
 
 interface AuthStore {
   PATH: String;
   isLogIn: boolean;
   token: string | null;
+  colortheme: DefaultTheme;
   login: () => void;
   logout: () => void;
   setToken: (token: string) => void;
+  setColorTheme: (theme: DefaultTheme) => void;
 }
 
 const useAuthStore = create(
@@ -18,6 +22,8 @@ const useAuthStore = create(
       PATH: "http://localhost:8080",
       token: null,
       isLogIn: false,
+      colortheme: pink,
+
       login: () => {
         set({ isLogIn: true });
       },
@@ -25,8 +31,11 @@ const useAuthStore = create(
         set({ isLogIn: false });
       },
       setToken: (token) => {
-        set({token: token})
-      }
+        set({ token: token });
+      },
+      setColorTheme: (theme) => {
+        set({ colortheme: theme });
+      },
     }),
     {
       name: "userLoginStatus",

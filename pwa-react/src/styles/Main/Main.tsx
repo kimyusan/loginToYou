@@ -132,7 +132,10 @@ const SecondSection = styled.div`
     .question {
       display: flex;
       justify-content: space-between;
-      border-bottom: 1px solid #9b9b9b;
+      border-bottom: 1px solid
+        ${(props) => {
+          return props.theme.color.grey;
+        }};
       padding-bottom: 3%;
       :nth-child(1) {
         font-size: 1.2rem;
@@ -152,7 +155,9 @@ const SecondSection = styled.div`
         border-radius: 5%;
         z-index: 3;
         aspect-ratio: 2;
-        background-color: #ececec73;
+        background-color: ${(props) => {
+          return props.theme.color.grey;
+        }}15;
         display: flex;
         align-items: center;
         justify-content: center;
