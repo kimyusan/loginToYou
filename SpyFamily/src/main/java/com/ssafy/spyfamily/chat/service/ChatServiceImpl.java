@@ -4,7 +4,6 @@ import com.ssafy.spyfamily.chat.model.ChatMessage;
 import com.ssafy.spyfamily.chat.model.ChatRoom;
 import com.ssafy.spyfamily.chat.repo.ChatMessageRepository;
 import com.ssafy.spyfamily.chat.repo.ChatRoomRepo;
-import com.ssafy.spyfamily.chat.repo.ChatRoomRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -54,4 +53,18 @@ public class ChatServiceImpl implements  ChatService{
 
     }
 
+    @Override
+    public ChatRoom findByRoomId(String roomId) {
+        return chatRoomRepository.findByRoomId(roomId);
+    }
+
+    @Override
+    public int unreadMessage(String roomId, String userId) {
+        return chatMessageRepository.countByRoomIdAndSendUserIdNotAndReadCount(roomId , userId,true);
+    }
+
+    public ChatRoom findByCoupleId(int coupleId) {
+        return  chatRoomRepository.findByCoupleId(coupleId);
+
+    }
 }

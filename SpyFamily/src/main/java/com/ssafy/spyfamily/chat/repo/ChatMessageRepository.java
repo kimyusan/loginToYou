@@ -15,4 +15,7 @@ public interface ChatMessageRepository extends JpaRepository<ChatMessage , Long>
 
 
     List<ChatMessage> findByRoomIdAndSendUserIdNot(String roomId , String readUser);
+
+    //string int 로 바꿔줘야함
+    int countByRoomIdAndSendUserIdNotAndReadCount(String roomId , String userId, boolean isUnRead);
 }
