@@ -33,7 +33,9 @@ export const NameInput = styled.input`
     }};
 
   &:focus {
-    color: #8a8a8a;
+    color: ${(props) => {
+      return props.theme.color.grey;
+    }};
   }
 `;
 

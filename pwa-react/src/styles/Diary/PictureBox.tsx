@@ -5,7 +5,9 @@ const Pictures = styled.div`
   justify-content: space-around;
   align-items: center;
   height: 65vh;
-  background-color: #f9f9f9;
+  background-color: ${(props) => {
+    return props.theme.color.bgColor;
+  }};
 `;
 
 const PicItem = styled.div`
@@ -46,7 +48,9 @@ const PicItem = styled.div`
 
 const GoCreateDiary = styled.div`
   width: 100%;
-  background-color: #f9f9f9;
+  background-color: ${(props) => {
+    return props.theme.color.bgColor;
+  }};
 
   div {
     width: 65%;

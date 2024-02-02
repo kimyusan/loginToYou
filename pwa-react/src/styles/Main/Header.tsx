@@ -46,7 +46,9 @@ const Dday = styled.div<CompWithClass>`
   padding-right: 10%;
 
   &.noDate {
-    color: #8a8a8a;
+    color: ${(props) => {
+      return props.theme.color.grey;
+    }};
     font-size: 1rem;
   }
 `;
@@ -109,7 +111,7 @@ const SaveDday = styled(Button)`
   bottom: 7%;
   background-color: white !important;
   font-size: 1rem !important;
-  color: grey !important;
+  color: ${(props) => props.theme.color.grey} !important;
   margin-top: 10% !important;
 `;
 

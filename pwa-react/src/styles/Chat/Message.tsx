@@ -24,7 +24,9 @@ const MessageLine = styled.div`
   }
 
   & > div.time {
-    color: #8a8a8a;
+    color: ${(props) => {
+      return props.theme.color.grey;
+    }};
     font-size: 10pt;
     align-self: flex-end;
     margin: 0 5px;

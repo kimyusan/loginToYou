@@ -82,7 +82,7 @@ function Chat() {
         //     JSON.stringify({
         //       type: "TALK",
         //       roomId: room_id,
-        //       sendUserId: i % 2 == 0 ? 16 : 17,
+        //       sendUserId: i % 2 == 0 ? 1 : 2,
         //       message: i,
         //       createdAt: new Date().toLocaleString(),
         //       readCount: isOppOn ? false : true,

@@ -61,7 +61,9 @@ const MiddleMsg = styled.div`
   margin: 0 auto;
   margin-bottom: 30px;
   text-align: center;
-  color: #8a8a8a;
+  color: ${(props) => {
+    return props.theme.color.grey;
+  }};
   font-size: 17px;
   position: relative;
   display: flex;

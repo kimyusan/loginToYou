@@ -9,9 +9,11 @@ const NavigationContainer = styled.div<{ $isOpen: boolean }>`
   padding-top: 20%;
   right: ${({ $isOpen }) => ($isOpen ? "0" : "-80%")};
   background-color: #ffffff;
-  border-left: 1px solid #8a8a8a;
+  border-left: 1px solid
+    ${(props) => {
+      return props.theme.color.grey;
+    }};
   transition: right 0.3s ease-in-out;
-
 `;
 
 const NavigationList = styled.ul`
