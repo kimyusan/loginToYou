@@ -31,6 +31,10 @@ public interface UserService {
      */
     User login(Map<String, String> loginData);
 
+    void withdrawal(Integer userId);
+
+    User userUpdatePassword(Integer userId, String password);
+
     /**
      * 구글 로그인 
      */
