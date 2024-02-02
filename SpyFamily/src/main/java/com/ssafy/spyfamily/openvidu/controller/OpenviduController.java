@@ -11,6 +11,7 @@ import java.util.Map;
 
 @CrossOrigin(origins = "*")
 @RestController
+@RequestMapping(value = "/openvidu")
 public class OpenviduController {
 
     @Value("${OPENVIDU_URL}")
