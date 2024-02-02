@@ -83,7 +83,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         log.info("accesstoken: " + accessToken + "refreshtoken : " + refreshToken);
         user.setRefreshToken(refreshToken);
         response.addHeader("Authorization", "Bearer " + accessToken);
-        response.addHeader("refreshToken","Bearer"+refreshToken);
+        response.addHeader("refreshToken","Bearer "+refreshToken);
 //        Cookie cookie = new Cookie("refreshToken", "Bearer"+refreshToken);
 //        response.addCookie(cookie);
         userRepository.save(user);
