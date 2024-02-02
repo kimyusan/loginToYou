@@ -11,7 +11,8 @@ import java.util.ArrayList;
 public interface DiaryRepository extends JpaRepository<Diary, Integer> {
     ArrayList<Diary> findByCoupleId(Integer coupleId);
 
-    Integer countByRegisterDate(String registerDate);
+    @Query("SELECT COUNT(*) FROM Diary d WHERE d.coupleId = :coupleId AND d.registerDate = :registerDate")
+    Integer countByCoupleIdAndRegisterDate(Integer coupleId, String registerDate);
 
     @Query("SELECT d FROM Diary  d WHERE d.coupleId = :coupleId AND d.registerDate = :registerDate")
     ArrayList<Diary> findByCoupleIdAndRegisterDate(Integer coupleId, String registerDate);

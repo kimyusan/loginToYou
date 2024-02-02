@@ -114,7 +114,7 @@ public class DiaryController {
             System.out.println("regist multipartFile : " + multipartFiles);
 
             String diary_date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-            Integer count = diaryService.countDiary(diary_date);
+            Integer count = diaryService.countDiary(diary.getCoupleId(), diary_date);
             if (count != 0) {
                 diary.setIsThumbnail(0);
             } else {

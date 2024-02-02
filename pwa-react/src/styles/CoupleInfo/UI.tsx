@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { TextField } from "@mui/material";
 
 export const Wrapper = styled.div`
-  height: 30vh;
+  height: 30dvh;
   width: 100%;
   box-sizing: border-box;
   display: flex;

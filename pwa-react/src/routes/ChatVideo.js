@@ -224,7 +224,7 @@ export default function App() {
               width: "100%",
               height: "300px",
               transform: "scaleX(-1)",
-              paddingTop: "20svh",
+              paddingTop: "20dvh",
             }}
           />
           <JoinForm onSubmit={joinSession}>

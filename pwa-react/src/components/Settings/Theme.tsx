@@ -11,6 +11,7 @@ import TokenCheker from "../../util/TokenCheker";
 
 function Theme() {
   const navigate = useNavigate();
+  const themes = [pink, green, blue];
 
   const colortheme = useAuthStore.getState().colortheme;
   const setColorTheme = useAuthStore.getState().setColorTheme;
@@ -43,39 +44,22 @@ function Theme() {
       <UserInfoBox>
         <h3>테마 설정</h3>
         <ColorSelectBox>
-          <Sample
-            $sampletheme={pink}
-            onClick={() => {
-              ChangeColor(pink);
-            }}
-            className={
-              selected.current.color.main == pink.color.main
-                ? "active"
-                : undefined
-            }
-          ></Sample>
-          <Sample
-            $sampletheme={green}
-            onClick={() => {
-              ChangeColor(green);
-            }}
-            className={
-              selected.current.color.main == green.color.main
-                ? "active"
-                : undefined
-            }
-          ></Sample>
-          <Sample
-            $sampletheme={blue}
-            onClick={() => {
-              ChangeColor(blue);
-            }}
-            className={
-              selected.current.color.main == blue.color.main
-                ? "active"
-                : undefined
-            }
-          ></Sample>
+          {themes.map((theme, index) => {
+            return (
+              <Sample
+                key={index}
+                $sampletheme={theme}
+                onClick={() => {
+                  ChangeColor(theme);
+                }}
+                className={
+                  selected.current.color.main == theme.color.main
+                    ? "active"
+                    : undefined
+                }
+              ></Sample>
+            );
+          })}
         </ColorSelectBox>
         <SaveButton
           onClick={() => {

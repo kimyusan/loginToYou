@@ -125,8 +125,8 @@ public class DiaryServiceImpl implements DiaryService{
     }
 
     @Override
-    public Integer countDiary(String registDate) {
-        return diaryRepository.countByRegisterDate(registDate);
+    public Integer countDiary(Integer userId,String registDate) {
+        return diaryRepository.countByCoupleIdAndRegisterDate(userId, registDate);
     }
 
 

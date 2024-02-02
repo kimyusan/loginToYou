@@ -81,7 +81,7 @@ const Calendar = (props: Props) => {
               center: "",
               end: "myCustomButton today prev,next",
             }}
-            height={"50vh"}
+            height={"50dvh"}
             events={events}
             editable={true}
             droppable={true}

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Paper, Card } from "@mui/material";
 
 const AnswerContainer = styled(Paper)`
-  min-height: 100vh;
+  min-height: 100dvh;
   margin: 5% 3%;
   background-color: ${(props) => {
     return props.theme.color.sub4;
@@ -29,7 +29,7 @@ const AnsCard = styled(Card)`
     height: 100% !important;
   }
   .answer {
-    min-height: 14svh;
+    min-height: 14dvh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
