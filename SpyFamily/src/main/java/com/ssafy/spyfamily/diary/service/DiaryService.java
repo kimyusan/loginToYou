@@ -26,5 +26,5 @@ public interface DiaryService {
 
     Optional<Diary> getDiary(Integer diaryId);
 
-    Integer countDiary(String registDate);
+    Integer countDiary(Integer coupleId,String registDate);
 }
