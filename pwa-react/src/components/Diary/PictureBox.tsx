@@ -399,7 +399,7 @@ const PictureBox = (props: Props) => {
   };
 
   return (
-    <div style={{ backgroundColor: theme.color.grey }}>
+    <div style={{ backgroundColor: theme.color.bgColor }}>
       {/* 네비바 */}
       <BurgerButton onClick={toggleNavigation}>
         {isNavigationOpen ? "×" : "☰"}
