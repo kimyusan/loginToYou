@@ -157,16 +157,17 @@ export default function App() {
     );
   }, [mySessionId]);
 
+  // Authorization: 'Basic ' + btoa('OPENVIDUAPP:LOGIN_TO_YOU')
   const createSession = async (sessionId) => {
     const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions', { customSessionId: sessionId }, {
-      headers: { 'Content-Type': 'application/json', Authorization: 'Basic ' + btoa('OPENVIDUAPP:LOGIN_TO_YOU')},
+      headers: { 'Content-Type': 'application/json'},
     });
     return response.data; // The sessionId
   };
 
   const createToken = async (sessionId) => {
     const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions/' + sessionId + '/connections', {}, {
-      headers: { 'Content-Type': 'application/json', Authorization: 'Basic ' + btoa('OPENVIDUAPP:LOGIN_TO_YOU')},
+      headers: { 'Content-Type': 'application/json'},
     });
     return response.data; // The token
   };
