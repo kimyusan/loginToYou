@@ -10,4 +10,6 @@ import java.util.Optional;
 @Repository
 public interface CoupleRepository extends JpaRepository<Couple, Integer> {
 
+//    Couple findByFUserIdOrSUserId()
+
 }
