@@ -22,7 +22,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -76,7 +78,12 @@ public class WebSecurityConfig {
 
                         CorsConfiguration configuration = new CorsConfiguration();
 
-                        configuration.setAllowedOrigins(Collections.singletonList("https://logintoyou.kro.kr:8443"));
+                        List<String> allowOrigins = new ArrayList<String>();
+                        allowOrigins.add("http://localhost:3000");              // 테스트용
+                        allowOrigins.add("https://logintoyou.kro.kr:8443");     // 배포 프론트
+                        allowOrigins.add("https://i10c105.p.ssafy.io");         // openvidu
+
+                        configuration.setAllowedOrigins(allowOrigins);
                         configuration.setAllowedMethods(Collections.singletonList("*"));
                         configuration.setAllowCredentials(true);
                         configuration.setAllowedHeaders(Collections.singletonList("*"));
