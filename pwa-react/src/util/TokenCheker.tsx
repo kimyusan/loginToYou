@@ -31,6 +31,7 @@ function TokenCheker() {
   );
 
   const refresh = async () => {
+    console.log("토큰을 재발행합니다.");
     const res = await axios.get(`${PATH}/reissue/token`, {
       params: {
         email: email,

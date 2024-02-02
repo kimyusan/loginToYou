@@ -15,4 +15,10 @@ public interface ChatService {
     List<ChatMessage> loadMessage(String roomId);
 
     void readUser(String roomId, String userId);
+
+    ChatRoom findByRoomId(String roomId);
+
+
+
+    int unreadMessage(String roomId, String userId);
 }
