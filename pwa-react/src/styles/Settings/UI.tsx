@@ -9,7 +9,7 @@ export const Header = styled.div`
   align-items: center;
   width: 100%;
   padding-left: 15px;
-  height: 8vh;
+  height: 8dvh;
   border-bottom: 1px solid ${(props) => props.theme.color.lightgrey};
 `;
 
@@ -25,7 +25,7 @@ export const MenuTitle = styled.div`
 export const Menu = styled.div`
   background-color: white;
   width: 100%;
-  height: 8vh;
+  height: 8dvh;
   box-sizing: border-box;
   border-bottom: 1px solid ${(props) => props.theme.color.lightgrey};
   display: flex;

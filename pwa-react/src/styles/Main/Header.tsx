@@ -10,7 +10,7 @@ const Cover = styled.div``;
 
 const Header = styled.div`
   width: 100%;
-  height: 11vh;
+  height: 11dvh;
   padding-top: 6%;
   position: relative;
   display: flex;

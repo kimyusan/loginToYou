@@ -12,7 +12,7 @@ export default function OpenViduVideoComponent({ streamManager, zi, type }) {
   return (
     <>
       {type === -1 ? (
-        <div style={{ height: "20svh" }}>
+        <div style={{ height: "20dvh" }}>
           <video
             ref={videoRef}
             style={{
@@ -23,7 +23,7 @@ export default function OpenViduVideoComponent({ streamManager, zi, type }) {
           />
         </div>
       ) : (
-        <div style={{ height: "60svh" }}>
+        <div style={{ height: "60dvh" }}>
           <video
             ref={videoRef}
             style={{
@@ -34,7 +34,7 @@ export default function OpenViduVideoComponent({ streamManager, zi, type }) {
           />
         </div>
       )}
-      {/* <div style={{height: "50svh" }}>
+      {/* <div style={{height: "50dvh" }}>
         <video
           ref={videoRef}
           style={{
