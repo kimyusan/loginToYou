@@ -14,8 +14,13 @@ function Theme({}: Props) {
   const [currentTheme, setCurrentTheme] = useState(
     useAuthStore.getState().colortheme
   );
+  const [selected, setSelected] = useState(
+    useAuthStore.getState().colortheme.color.main
+  );
+
   const ChangeColor = (theme: DefaultTheme) => {
     useAuthStore.getState().setColorTheme(theme);
+    setSelected(theme.color.main);
   };
   const navigate = useNavigate();
 
@@ -35,18 +40,21 @@ function Theme({}: Props) {
             onClick={() => {
               ChangeColor(pink);
             }}
+            className={selected == pink.color.main ? "active" : undefined}
           ></Sample>
           <Sample
             sampletheme={green}
             onClick={() => {
               ChangeColor(green);
             }}
+            className={selected == green.color.main ? "active" : undefined}
           ></Sample>
           <Sample
             sampletheme={blue}
             onClick={() => {
               ChangeColor(blue);
             }}
+            className={selected == blue.color.main ? "active" : undefined}
           ></Sample>
         </ColorSelectBox>
         <SaveButton
