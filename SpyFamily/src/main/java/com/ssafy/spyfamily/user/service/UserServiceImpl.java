@@ -77,6 +77,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(new_user);
     }
 
+    @Override
+    public void save(User user) {
+         userRepository.save(user);
+    }
+
 
     @Override
     public User signup(Map<String, String> userData) {

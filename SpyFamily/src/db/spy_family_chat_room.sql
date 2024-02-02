@@ -25,6 +25,7 @@ DROP TABLE IF EXISTS `chat_room`;
 CREATE TABLE `chat_room` (
   `room_id` varchar(255) NOT NULL,
   `couple_id` bigint DEFAULT NULL,
+  `login_user_count` bigint DEFAULT '0',
   PRIMARY KEY (`room_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -35,7 +36,7 @@ CREATE TABLE `chat_room` (
 
 LOCK TABLES `chat_room` WRITE;
 /*!40000 ALTER TABLE `chat_room` DISABLE KEYS */;
-INSERT INTO `chat_room` VALUES ('2222',33),('3333',6);
+INSERT INTO `chat_room` VALUES ('2222',33,0),('3333',6,0),('4220ca80-d957-460f-b732-c23fbc3fdf40',4,0),('fe143afc-482b-4591-99fb-b856b5acb38f',2,0);
 /*!40000 ALTER TABLE `chat_room` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -48,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-01-30 22:04:24
+-- Dump completed on 2024-02-01 17:23:19

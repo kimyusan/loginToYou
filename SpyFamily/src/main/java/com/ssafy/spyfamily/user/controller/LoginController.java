@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Base64;
@@ -46,6 +47,26 @@ public class LoginController {
         return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
     }
 
+    @GetMapping("/reissue/token")
+    public ResponseEntity<?> reissueToken(@RequestHeader Map<String , String> headers, @RequestBody String email){
+        String accessToken = headers.get("Authrization") ;
+        String refreshToken = headers.get("refreshToken") ;
+
+        if(email.equals(jwtUtil.getUsername(accessToken)) || jwtUtil.isExpired(accessToken)
+                || !jwtUtil.isExpired(refreshToken)) {
+            User user = userService.getUserByEmail(email);
+            String newAccessToken = jwtUtil.createJwt(user.getEmail(),user.getRole(),user.getUserId(),user.getCoupleId(),user.getName());
+            String newRefreshToken = jwtUtil.createRefreshToken(email);
+            user.setRefreshToken(newRefreshToken);
+            userService.save(user);
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.add("Authorization", "Bearer " + newAccessToken);
+            httpHeaders.add("refreshToken","Bearer" + newRefreshToken);
+            return ResponseEntity.ok().headers(httpHeaders).body("재발급성공");
+        }
+
+        return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+    }
 
     /**
      * 구글 로그인
