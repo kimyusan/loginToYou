@@ -10,6 +10,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,6 +22,7 @@ import org.springframework.security.web.authentication.rememberme.CookieTheftExc
 import java.util.Collection;
 import java.util.Iterator;
 
+@Slf4j
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
@@ -78,11 +80,12 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         String accessToken = jwtUtil.createJwt(username, role, user.getUserId() , user.getCoupleId() , user.getName() );
         String refreshToken = jwtUtil.createRefreshToken(username);
+        log.info("accesstoken: " + accessToken + "refreshtoken : " + refreshToken);
         user.setRefreshToken(refreshToken);
         response.addHeader("Authorization", "Bearer " + accessToken);
-        //response.addHeader("refreshToken","Bearer"+refreshToken);
-        Cookie cookie = new Cookie("refreshToken", "Bearer"+refreshToken);
-        response.addCookie(cookie);
+        response.addHeader("refreshToken","Bearer"+refreshToken);
+//        Cookie cookie = new Cookie("refreshToken", "Bearer"+refreshToken);
+//        response.addCookie(cookie);
         userRepository.save(user);
     }
 
