@@ -6,8 +6,10 @@ import com.ssafy.spyfamily.chat.model.ChatRoom;
 import com.ssafy.spyfamily.chat.repo.ChatRoomRepository;
 import com.ssafy.spyfamily.chat.service.ChatServiceImpl;
 import com.ssafy.spyfamily.couple.service.CoupleService;
+import com.ssafy.spyfamily.user.model.User;
 import com.ssafy.spyfamily.user.service.UserService;
 import com.ssafy.spyfamily.user.service.UserServiceImpl;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -26,10 +28,12 @@ public class ChatRoomController {
 
     private final ChatServiceImpl chatService;
     private final CoupleService coupleService;
+    private final UserService userService;
 
-    public ChatRoomController(ChatServiceImpl chatService, CoupleService coupleService){
+    public ChatRoomController(ChatServiceImpl chatService, CoupleService coupleService, UserService userService){
         this.chatService = chatService;
         this.coupleService = coupleService;
+        this.userService = userService;
     }
 
     @GetMapping("/enter")
@@ -58,11 +62,29 @@ public class ChatRoomController {
 
 
     }
+    @Transactional
+    @GetMapping("/unread/message")
+    public  ResponseEntity<?> unreadMessageCount(@RequestParam int userId){
+        try {
+            User user = userService.findByUserId(userId);
+            int coupleId = user.getCoupleId();
 
-//    @GetMapping("/unread/message")
-//    public  ResponseEntity<?> unreadMessageCount(@RequestParam String userId){
-//        coupleService.find
-//    }
+            ChatRoom chatRoom = chatService.findByCoupleId(coupleId);
+            String roomId = chatRoom.getRoomId() ;
+
+            int unreadMessage  = chatService.unreadMessage(roomId , Integer.toString(userId));
+
+            return  new ResponseEntity<Integer>(unreadMessage, HttpStatus.OK);
+        } catch ( Exception e){
+            e.printStackTrace();
+            log.error(e.getMessage());
+
+            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+        }
+
+
+
+    }
 
     //상대방이 읽었을때
     @PostMapping("/readUser")

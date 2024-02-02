@@ -34,7 +34,7 @@ public interface UserService {
     void withdrawal(Integer userId);
 
     User userUpdatePassword(Integer userId, String password);
-
+    User findByUserId(int userId);
     /**
      * 구글 로그인 
      */
