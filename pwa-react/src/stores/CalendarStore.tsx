@@ -86,25 +86,6 @@ export const CalendarStore = create(
       }, // get API
 
       postEventToServer: (newEvent, coupleId) => {
-<<<<<<< HEAD
-        axios
-          .post(
-            `${get().PATH}/calendar/create`,
-            {
-              coupleId: coupleId,
-              userId: 1,
-              startDate: newEvent.start,
-              endDate: newEvent.end,
-              eventType: null,
-              contents: newEvent.title,
-            },
-            {
-              headers: {
-                Authorization: useAuthStore.getState().token,
-              },
-            }
-          )
-=======
         axiosAuth
           .post("/calendar/create", {
             coupleId: coupleId,
@@ -114,7 +95,6 @@ export const CalendarStore = create(
             eventType: null,
             contents: newEvent.title,
           })
->>>>>>> 1e58f10b88b8ab0437689fc5789df7f041daec63
           .then((response) => {
             console.log(response.data);
             get().getEventsFromServer(coupleId);
@@ -125,26 +105,6 @@ export const CalendarStore = create(
       }, // post API
 
       updateEventToServer: (editEvent, coupleId) => {
-<<<<<<< HEAD
-        axios
-          .put(
-            `${get().PATH}/calendar/update`,
-            {
-              calendarId: editEvent.id,
-              coupleId: coupleId,
-              userId: 1,
-              startDate: editEvent.start,
-              endDate: editEvent.end,
-              eventType: null,
-              contents: editEvent.title,
-            },
-            {
-              headers: {
-                Authorization: useAuthStore.getState().token,
-              },
-            }
-          )
-=======
         axiosAuth
           .put("/calendar/update", {
             calendarId: editEvent.id,
@@ -155,7 +115,6 @@ export const CalendarStore = create(
             eventType: null,
             contents: editEvent.title,
           })
->>>>>>> 1e58f10b88b8ab0437689fc5789df7f041daec63
           .then((response) => {
             console.log(response);
             set({ isEdit: false });
@@ -169,12 +128,6 @@ export const CalendarStore = create(
         axiosAuth
           .delete("/calendar/delete", {
             params: { calenderId: calendar_id },
-<<<<<<< HEAD
-            headers: {
-              Authorization: useAuthStore.getState().token,
-            },
-=======
->>>>>>> 1e58f10b88b8ab0437689fc5789df7f041daec63
           })
           .then((response) => {
             console.log(response);
