@@ -1,7 +1,7 @@
 import { DefaultTheme } from "styled-components";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { pink, green, blue } from "../styles/common/global";
+import { pink, green, blue, beige } from "../styles/common/global";
 
 interface AuthStore {
   PATH: String;

@@ -44,13 +44,14 @@ const CalendarCard = () => {
   return (
     <CalendarSec onClick={() => navigate("/calendar")}>
       <div className="left_side">
-        <p className="year_month">
+        <div className="year_month">
           {todayYear}/{todayMonth}
-        </p>
-        <p className="date">{todayDate}</p>
+        </div>
+        <div className="date">{todayDate}</div>
       </div>
       <div className="right_side">
         <ul className="next_schedule">
+          <li>점심먹기</li>
           {sortedEvents.length >= 2 ? (
             sortedEvents
               .splice(0, 2)

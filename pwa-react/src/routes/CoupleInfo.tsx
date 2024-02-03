@@ -13,6 +13,7 @@ import useCoupleStore from "../stores/CoupleStore";
 import useAuthStore from "../stores/AuthStore";
 import { useShallow } from "zustand/react/shallow";
 import TokenCheker from "../util/TokenCheker";
+import MenuSection from "../components/MenuSection";
 
 function CoupleInfo() {
   const navigate = useNavigate();
@@ -26,10 +27,6 @@ function CoupleInfo() {
 
   const [cpName, setCpName] = useState<string | null>(couple.name);
   const [start, setStart] = useState<string | null>(couple.startDate);
-  const [isNavigationOpen, setIsNavigationOpen] = useState(false);
-  const toggleNav = () => {
-    setIsNavigationOpen(!isNavigationOpen);
-  };
 
   const changeCouple = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -56,8 +53,7 @@ function CoupleInfo() {
   return (
     <>
       <TokenCheker />
-      <BurgerButton onClick={toggleNav}>☰</BurgerButton>
-      <Navbar isOpen={isNavigationOpen} />
+      <MenuSection />
       <UserInfoBox>
         <h3>커플 정보 수정</h3>
         <form onSubmit={changeCouple}>

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useShallow } from "zustand/react/shallow";
 import axios from "axios";
+import { IoAdd } from "react-icons/io5";
+import { IconContext } from "react-icons";
 import { useTheme } from "styled-components";
 
 import {
@@ -150,13 +152,6 @@ const PictureBox = (props: Props) => {
   const [month, setMonth] = useState(today.getMonth() + 1);
   const [day, setDay] = useState(0);
   const [selectDay, setSelectDay] = useState("");
-
-  // 햄버거 네비게이션
-  const [isNavigationOpen, setIsNavigationOpen] = useState(false);
-
-  const toggleNavigation = () => {
-    setIsNavigationOpen(!isNavigationOpen);
-  };
 
   const decreaseMonth = () => {
     setMonth((prevMonth) => {
@@ -399,14 +394,7 @@ const PictureBox = (props: Props) => {
   };
 
   return (
-    <div style={{ backgroundColor: theme.color.bgColor }}>
-      {/* 네비바 */}
-      <BurgerButton onClick={toggleNavigation}>
-        {isNavigationOpen ? "×" : "☰"}
-      </BurgerButton>
-
-      <Navbar isOpen={isNavigationOpen} />
-
+    <div>
       {/* 날짜 선택 */}
       <DaySelect>
         <div className="subBox">
@@ -596,11 +584,10 @@ const PictureBox = (props: Props) => {
             </Typography>
           </StyledBox>
           <GalleryBox>
-            <div className="item" onClick={() => navigate("/camera")}>
-              <img
-                src="https://cdn-icons-png.flaticon.com/512/6388/6388838.png"
-                alt="사진 추가 버튼"
-              />
+            <div className="item add" onClick={() => navigate("/camera")}>
+              <IconContext.Provider value={{ size: "3rem" }}>
+                <IoAdd />
+              </IconContext.Provider>
             </div>
 
             {dayPictures.map((item, idx) => {

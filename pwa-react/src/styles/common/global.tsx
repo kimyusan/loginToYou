@@ -4,7 +4,7 @@ const Global = createGlobalStyle`
     body, html {
         margin: 0;
         border: 0;
-        background-color: #F9F9F9;
+        background-color: ${(props) => props.theme.color.bgColor};
         font-family: 'Noto Sans KR';
     }
 
@@ -49,6 +49,20 @@ export const green: DefaultTheme = {
     sub3: "#cbd2a8",
     sub4: "#ddecce",
     point: "#7f9618",
+    grey: "#8a8a8a",
+    lightgrey: "#e2e2e2",
+    bgColor: "#f9f9f9",
+  },
+};
+
+export const beige: DefaultTheme = {
+  color: {
+    main: "#767569",
+    sub1: "#929388",
+    sub2: "#b3b0a6",
+    sub3: "#d4cdc3",
+    sub4: "#f8f4e3",
+    point: "#7b7369",
     grey: "#8a8a8a",
     lightgrey: "#e2e2e2",
     bgColor: "#f9f9f9",
