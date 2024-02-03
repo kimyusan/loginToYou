@@ -15,6 +15,8 @@ public interface ChatRoomRepo extends JpaRepository<ChatRoom, String> {
 
 
 
+    ChatRoom findByRoomId(String roomId);
+
     @Modifying
     @Query("update ChatRoom c set c.loginUserCount = c.loginUserCount +1  where c.roomId = :roomId")
     void loginChatRoom(String roomId);

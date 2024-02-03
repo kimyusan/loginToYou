@@ -28,5 +28,5 @@ public class ChatRoom {
         return chatRoom;
     }
     @ColumnDefault("0")
-    private Long loginUserCount;
+    private Integer loginUserCount;
 }

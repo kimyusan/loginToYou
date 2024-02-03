@@ -35,6 +35,7 @@ function InputBox({
   // // 채팅 전송
   const sendChat = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    console.log(isOppOn);
 
     if (!client.current) return;
     if (message == "") return;

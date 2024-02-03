@@ -38,6 +38,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
+
     @Override
     public User getUserByEmail(String email) {
         log.info(email);
@@ -137,6 +138,11 @@ public class UserServiceImpl implements UserService {
         System.out.println(new_user.toString());
 
         return userRepository.save(new_user);
+    }
+
+    @Override
+    public User findByUserId(int userId) {
+        return userRepository.findByUserId(userId);
     }
 
     @Override
