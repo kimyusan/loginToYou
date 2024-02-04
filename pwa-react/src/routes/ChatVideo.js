@@ -11,9 +11,12 @@ import { BurgerButton } from "../styles/common/hamburger";
 import Navbar from "../components/Navbar";
 
 import useUserStore from "../stores/UserStore";
-import OpenViduVideoComponent from "../components/ChatVideo/OvVideo";
 
-const APPLICATION_SERVER_URL = 'https://logintoyou.kro.kr:8080/openvidu/';
+import { BtnBox } from "../styles/ChatVideo/Chat";
+import PhoneDisabledIcon from "@mui/icons-material/PhoneDisabled";
+import CameraswitchIcon from "@mui/icons-material/Cameraswitch";
+
+const APPLICATION_SERVER_URL = "https://logintoyou.kro.kr:8080/openvidu/";
 
 export default function App() {
   const { coupleId } = useUserStore();
@@ -108,8 +111,8 @@ export default function App() {
     OV.current = new OpenVidu();
     setSession(undefined);
     setSubscribers([]);
-    setMySessionId("ssafy");
-    setMyUserName(`012`);
+    setMySessionId(`ssafy${coupleId}`);
+    setMyUserName("채팅하자");
     setPublisher(undefined);
   }, [session]);
 
@@ -242,7 +245,7 @@ export default function App() {
               style={{ display: "none" }}
             />
             <ReadyBtn name="commit" type="submit">
-              화상채팅
+              화상채팅 연결하기
             </ReadyBtn>
           </JoinForm>
         </div>
@@ -250,29 +253,44 @@ export default function App() {
 
       {session !== undefined ? (
         <div>
-          <div>
-            <input type="button" onClick={leaveSession} value="Leave session" />
-            <input type="button" onClick={switchCamera} value="Switch Camera" />
-          </div>
-
-          <div>
+          <div
+            style={{
+              position: "relative",
+              marginTop: "10dvh",
+              // paddingTop: "20dvh",
+              // height: "60dvh",
+            }}
+          >
             {publisher !== undefined ? (
               <div>
-                <UserVideoComponent
-                  streamManager={publisher}
-                  zi={-1}
-                  type={-1}
-                />
+                <UserVideoComponent streamManager={publisher} type={1} />
               </div>
             ) : null}
-            <div>
-              <UserVideoComponent
-                streamManager={subscribers[0]}
-                zi={1}
-                type={1}
-              />
-            </div>
+            {subscribers.length > 0 ? (
+              <div>
+                <UserVideoComponent streamManager={subscribers[0]} type={0} />
+              </div>
+            ) : null}
           </div>
+          <BtnBox>
+            <span
+              className="stopBtn"
+              type="button"
+              onClick={leaveSession}
+              value="Leave session"
+            >
+              <PhoneDisabledIcon className="disabledBtn" />
+            </span>
+            <span className="blink">연결중</span>
+            <span
+              className="switchBtn"
+              type="button"
+              onClick={switchCamera}
+              value="Switch Camera"
+            >
+              <CameraswitchIcon />
+            </span>
+          </BtnBox>
         </div>
       ) : null}
     </div>
