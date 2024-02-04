@@ -7,8 +7,8 @@ export default function OpenViduVideoComponent({ streamManager, zi }) {
   const canvasRef = useRef(null);
 
   const onResults = async (results) => {
-    const videoWidth = videoRef.current.videoWidth;
-    const videoHeight = videoRef.current.videoHeight;
+    const videoWidth = window.innerWidth;
+    const videoHeight = 480;
 
     canvasRef.current.width = videoWidth;
     canvasRef.current.height = videoHeight;
@@ -33,7 +33,7 @@ export default function OpenViduVideoComponent({ streamManager, zi }) {
     });
 
     selfieSegmentation.setOptions({
-      modelSelection: 1,
+      modelSelection: 0,
     });
 
     selfieSegmentation.onResults(onResults);
@@ -46,42 +46,36 @@ export default function OpenViduVideoComponent({ streamManager, zi }) {
         onFrame: async () => {
           await selfieSegmentation.send({ image: videoRef.current});
         },
-        width: 1920,
-        height: 1080
+        width: window.innerWidth,
+        height: 480
       });
 
       camera.start();
     }
 
-    if (streamManager && canvasRef.current) {
-      streamManager.addVideoElement(canvasRef.current);
+    if (streamManager && videoRef.current) {
+      streamManager.addVideoElement(videoRef.current);
     }
-
-    return () => {
-      if (streamManager && canvasRef.current) {
-        streamManager.removeVideoElement(canvasRef.current);
-      }
-    };
   }, [streamManager]);
 
   return (
-    <div style={{ width: "360px", height: "292px", position: "fixed", top: "10%", zIndex: "1" }}>
+    <div style={{ width: window.innerWidth, height: "480px", position: "fixed", top: "10%", zIndex: "2" }}>
       <video
         ref={videoRef}
         playsInline
         style={{
           display: "none",
-          width: "360px",
-          height: "100%",
+          width: window.innerWidth,
+          height: "480px",
           transform: "scaleX(-1)"
         }}
       />
       <canvas
         ref={canvasRef}
         style={{
-          width: "360px",
-          height: "282px",
-          transform: "scaleX(-1)",
+          width: window.innerWidth,
+          height: "480px",
+          transform: "scaleX(-1)", 
         }}
       ></canvas>
     </div>
