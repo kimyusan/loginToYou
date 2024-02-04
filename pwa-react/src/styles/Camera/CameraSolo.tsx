@@ -6,9 +6,9 @@ const TimerText = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  z-index: 1;
-  top: 30%;
+  position: fixed;
+  top: "15%";
+  z-index: 2;
 
   & div {
     width: auto;
@@ -17,18 +17,15 @@ const TimerText = styled.div`
     color: #ffffff5c;
   }
 `;
+
 const CameraBox = styled.div`
   width: 100%;
-  position: absolute;
-  z-index: -1;
-  top: 20%;
+  margin: 50px 0;
 `;
 
 const CameraButton = styled.div`
   width: 100%;
   text-align: center;
-  position: fixed;
-  bottom: 3%;
   display: flex;
   justify-content: space-around;
 
@@ -77,8 +74,6 @@ const SaveBox = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  position: fixed;
-  bottom: 1%;
 `;
 
 const SaveBoxItem = styled.div`
@@ -100,9 +95,8 @@ const SubjectBox = styled.input`
   border: 3px solid #cecece;
   border-radius: 10px;
   padding: 15px;
-  position: fixed;
-  bottom: 15%;
 `;
+
 export {
   TimerText,
   CameraBox,
