@@ -80,7 +80,7 @@ public class WebSecurityConfig {
 
                         CorsConfiguration configuration = new CorsConfiguration();
 
-                        configuration.setAllowedOrigins(List.of("http://localhost:3000", "https://logintoyou.kro.kr:8443", "https://i10c105.p.ssafy.io"));
+                        configuration.setAllowedOrigins(List.of("http://localhost:3000", "https://logintoyou.kro.kr", "https://i10c105.p.ssafy.io:8443"));
                         configuration.setAllowedMethods(Collections.singletonList("*"));
                         configuration.setAllowCredentials(true);
                         configuration.setAllowedHeaders(Collections.singletonList("*"));
