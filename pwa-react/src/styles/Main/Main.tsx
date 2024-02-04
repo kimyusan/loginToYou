@@ -85,25 +85,28 @@ const CalendarSec = styled(Card)`
   padding: 3%;
   margin: 5%;
   height: 20dvh;
-  display: flex;
-  justify-content: space-between;
-  position: relative;
+  .year_month {
+    width: 100%;
+    /* position: absolute; */
+    display: flex;
+    justify-content: space-between;
+    left: 5%;
+    /* top: 0; */
+    font-size: 1.4rem;
+    margin: 0;
+  }
+  .bottom {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    height: 50%;
+  }
   .left_side {
     position: relative;
     width: 50%;
-    .year_month {
-      position: absolute;
-      left: 5%;
-      top: 0;
-      font-size: 1.4rem;
-      margin: 0;
-    }
     .date {
-      position: absolute;
       margin: 0;
-      left: 5%;
-      top: 5%;
-      line-height: 1.5;
+      line-height: 1;
       color: ${(props) => {
         return props.theme.color.sub1;
       }};
@@ -114,8 +117,7 @@ const CalendarSec = styled(Card)`
     position: relative;
     width: 50%;
     .next_schedule {
-      position: absolute;
-      bottom: 5%;
+      padding: 0;
     }
   }
 `;
@@ -129,7 +131,11 @@ const SecondSection = styled.div`
   }
   .question_card {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    height: auto;
     .question {
+      z-index: 2;
       display: flex;
       justify-content: space-between;
       border-bottom: 1px solid
@@ -139,35 +145,51 @@ const SecondSection = styled.div`
       padding-bottom: 3%;
       :nth-child(1) {
         font-size: 1.2rem;
+        width: 35%;
       }
       p {
         margin: 0;
         z-index: 5;
+        display: flex;
+        /* align-items: center; */
+      }
+      svg {
+        width: auto !important;
+        margin-left: 5% !important;
       }
     }
     .answer {
-      z-index: 3;
+      z-index: 2;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 5%;
       margin-top: 5%;
-      div {
+      .my_answer,
+      .your_answer {
         border-radius: 5%;
         z-index: 3;
-        aspect-ratio: 2;
         background-color: ${(props) => {
           return props.theme.color.grey;
         }}15;
         display: flex;
-        align-items: center;
-        justify-content: center;
+        flex-direction: column;
+        position: relative;
         p {
-          font-size: 1rem;
+          margin: 0;
+        }
+        :nth-child(2) {
+          padding: 6%;
+        }
+        .css-1j047yb-MuiChip-root {
+          max-width: auto !important;
+          min-width: 100%;
+          display: flex;
+          justify-content: start;
         }
       }
     }
     .q {
-      z-index: 1;
+      z-index: 0;
       position: absolute;
       font-size: 8rem;
       font-weight: 700;
