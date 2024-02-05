@@ -1,9 +1,7 @@
 package com.ssafy.spyfamily.challenge.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.ssafy.spyfamily.user.model.User;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,4 +16,12 @@ public class Challenge {
     private int userId;
     private int progress;
     private boolean isDone;
+
+    @ManyToOne
+    @JoinColumn(name="challenge_list_id")
+    private ChallengeList challengeList;
+
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
 }

@@ -39,4 +39,12 @@ public class ChallengeController {
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
+    @GetMapping("/get/challenges")
+    public ResponseEntity<?> getUserChallenges(@RequestParam(name="userId") int userId) {
+
+        challengeService.getUserChallenges(userId);
+
+        return null;
+    }
+
 }

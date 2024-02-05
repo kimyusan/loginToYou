@@ -2,6 +2,7 @@ package com.ssafy.spyfamily.challenge.service;
 
 import com.ssafy.spyfamily.challenge.model.Challenge;
 import com.ssafy.spyfamily.challenge.model.ChallengeList;
+import com.ssafy.spyfamily.challenge.model.UserChallengeDto;
 import com.ssafy.spyfamily.challenge.repository.ChallengeListRepository;
 import com.ssafy.spyfamily.challenge.repository.ChallengeRepository;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,16 @@ public class ChallengeServiceImpl implements ChallengeService {
         }
 
         challengeRepository.saveAll(list);
+    }
+
+    @Override
+    public List<UserChallengeDto> getUserChallenges(int userId) {
+
+        List<UserChallengeDto> list = challengeRepository.findUserChallenges(userId);
+
+        System.out.println(list.toString());
+
+        return null;
     }
 
 }
