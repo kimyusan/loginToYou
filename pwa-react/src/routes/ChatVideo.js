@@ -9,9 +9,15 @@ import { ReadyBtn, JoinForm } from "../styles/ChatVideo/Chat";
 
 import { BurgerButton } from "../styles/common/hamburger";
 import Navbar from "../components/Navbar";
-
 import useUserStore from "../stores/UserStore";
 
+// 연결 신청 버튼(+연결할 상대방 프로필이미지)
+import { Avatar } from "@mui/material";
+import PhoneEnabledIcon from "@mui/icons-material/PhoneEnabled";
+import useCoupleStore from "../stores/CoupleStore";
+import { CallBtn } from "../styles/ChatVideo/Chat";
+
+// 연결 중 띄워지는 버튼(연결종료, 카메라전환)
 import { BtnBox } from "../styles/ChatVideo/Chat";
 import PhoneDisabledIcon from "@mui/icons-material/PhoneDisabled";
 import CameraswitchIcon from "@mui/icons-material/Cameraswitch";
@@ -211,6 +217,40 @@ export default function App() {
     setIsNavigationOpen(!isNavigationOpen);
   };
 
+  // 상대방 프로필 이미지 가져옴 -> 연결신청 버튼에 넣을 것
+  const { yourProfileImage } = useCoupleStore();
+
+  const [isDragging, setIsDragging] = useState(false);
+  const [offsetX, setOffsetX] = useState(0);
+  const [offsetY, setOffsetY] = useState(0);
+  const avatarRef = useRef(null);
+
+  const handleMouseDown = (e) => {
+    const avatar = avatarRef.current;
+
+    if (avatar) {
+      setIsDragging(true);
+      setOffsetX(e.clientX - avatar.getBoundingClientRect().left);
+      setOffsetY(e.clientY - avatar.getBoundingClientRect().top);
+    }
+  };
+
+  const handleMouseMove = (e) => {
+    const avatar = avatarRef.current;
+
+    if (isDragging && avatar) {
+      const newLeft = e.clientX - offsetX;
+      const newTop = e.clientY - offsetY;
+
+      avatar.style.left = `${newLeft}px`;
+      avatar.style.top = `${newTop}px`;
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
   return (
     <div>
       {session === undefined ? (
@@ -244,9 +284,23 @@ export default function App() {
               required
               style={{ display: "none" }}
             />
-            <ReadyBtn name="commit" type="submit">
-              화상채팅 연결하기
-            </ReadyBtn>
+            <CallBtn>
+              <span
+                className="avatar"
+                ref={avatarRef}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+              >
+                <Avatar alt="your_profile_image" src={yourProfileImage} />
+              </span>
+              <ReadyBtn className="ready_btn blink" name="commit" type="submit">
+                화상채팅 연결하기
+              </ReadyBtn>
+              <span className="call_btn">
+                <PhoneEnabledIcon />
+              </span>
+            </CallBtn>
           </JoinForm>
         </div>
       ) : null}
@@ -257,8 +311,6 @@ export default function App() {
             style={{
               position: "relative",
               marginTop: "10dvh",
-              // paddingTop: "20dvh",
-              // height: "60dvh",
             }}
           >
             {publisher !== undefined ? (

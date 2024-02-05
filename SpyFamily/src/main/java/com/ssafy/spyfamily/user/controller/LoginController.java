@@ -48,7 +48,7 @@ public class LoginController {
         return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping("/reissue/token")
+    @PostMapping("/reissue/token")
     public ResponseEntity<?> reissueToken( @RequestHeader("refreshToken") String refreshToken,  @RequestParam String email){
 //        String accessToken = authorization.substring(7);
 
