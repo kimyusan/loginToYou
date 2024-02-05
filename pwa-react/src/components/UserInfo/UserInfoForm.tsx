@@ -40,6 +40,7 @@ const UserInfoForm = (props: Props) => {
 
   const [errorAlert, setErrorAlert] = useState(false);
   const [successAlert, setSuccessAlert] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const { PATH, token } = useAuthStore(
     useShallow((state) => ({
@@ -74,6 +75,9 @@ const UserInfoForm = (props: Props) => {
     event.preventDefault();
     // 전화번호 길이가 13자리('-'포함)가 아닐 경우 return
     if (phoneNumber !== "" && phoneNumber?.length !== 13) {
+      return;
+    }
+    if (nickname !== "" && nickname?.length > 4) {
       return;
     }
     // user정보 업데이트 요청 // mobile, birthday, gender, nickname만 수정
@@ -181,11 +185,21 @@ const UserInfoForm = (props: Props) => {
       setErrorAlert(false);
     } else if (phoneNumber?.length > 13) {
       setErrorAlert(true);
+      setErrorMsg("전화번호를 확인하세요!");
     }
-    setSuccessAlert(false);
-    console.log(profileFile);
-  }, [phoneNumber, nickname, birth]);
+    // setSuccessAlert(false);
+  }, [phoneNumber]);
 
+  useEffect(() => {
+    if (nickname?.length > 4) {
+      setErrorAlert(true);
+      setErrorMsg("닉네임은 4글자 이내로!");
+    } else {
+      setErrorAlert(false);
+    }
+  }, [nickname]);
+
+  // 랜더링될 때 설정된 프로필이미지 띄우기
   useEffect(() => {
     axios
       .get(`${PATH}/profile/read`, {
@@ -226,7 +240,7 @@ const UserInfoForm = (props: Props) => {
           width: "70%",
         }}
       >
-        전화번호를 확인하세요 !
+        {errorMsg}
       </Alert>
       <Alert
         severity="success"

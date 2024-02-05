@@ -15,7 +15,7 @@ interface CoupleStoreInterface extends CoupleInterface {
     name: string | null,
     nickName: string | null
   ) => void;
-  setYourProfileImage: () => void;
+  setYourProfileImage: (img: string) => void;
 }
 
 const useCoupleStore = create(
@@ -51,12 +51,8 @@ const useCoupleStore = create(
         });
       },
 
-      setYourProfileImage: () => {
-        axiosAuth
-          .get(`/profile/getImg`, {
-            params: { userId: get().yourId as number },
-          })
-          .then((res) => console.log(res.data));
+      setYourProfileImage: (img) => {
+        set({ yourProfileImage: img });
       },
     }),
     {

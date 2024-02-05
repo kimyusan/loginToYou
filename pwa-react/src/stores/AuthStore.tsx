@@ -43,7 +43,7 @@ const useAuthStore = create(
         set({ colortheme: theme });
       },
       setTokenExpireTime: (time) => {
-        set({ tokenExpireTime: time + 1000 * 60 * 30 });
+        set({ tokenExpireTime: time + 1000 * 60 * 60 });
       },
     }),
     {

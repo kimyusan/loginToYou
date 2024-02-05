@@ -147,26 +147,19 @@ const SecondSection = styled.div`
       display: flex;
       align-items: center;
       justify-content: space-between;
-      /* border-bottom: 1px solid
-        ${(props) => {
-        return props.theme.color.grey;
-      }}; */
-      /* padding-bottom: 1dvh; */
       z-index: 1;
       p {
         font-size: 1.2rem;
-        /* align-self: flex-start; */
         margin: 0;
         z-index: 5;
         display: flex;
-        /* align-items: center; */
       }
       svg {
-        width: auto !important;
-        margin-left: 5% !important;
+        margin: 0 !important;
       }
       .todays {
         align-self: flex-start;
+        width: 50%;
       }
       .questionDetail {
         font-size: 1.1rem;
@@ -175,8 +168,14 @@ const SecondSection = styled.div`
         flex-direction: column;
         justify-content: flex-end;
         align-items: flex-end;
+        :nth-child(1) {
+          font-size: 0.9rem;
+        }
       }
       .goToAns {
+        width: 100%;
+        display: flex;
+        justify-content: end;
         font-size: 1rem;
         margin-top: 5px;
         color: ${(props) => props.theme.color.grey};
