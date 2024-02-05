@@ -6,9 +6,11 @@ import { GoArrowLeft } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 import { IconContext } from "react-icons";
 
-type Props = {};
+type Props = {
+  name?: string;
+};
 
-function SettingsHeader({}: Props) {
+function SettingsHeader({ name }: Props) {
   const navigate = useNavigate();
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
 
@@ -22,6 +24,7 @@ function SettingsHeader({}: Props) {
             }}
           />
         </IconContext.Provider>
+        {name ? <div>{name}</div> : null}
       </Header>
       <Navbar isOpen={isNavigationOpen} />
     </>

@@ -11,7 +11,6 @@ import Main from "./routes/Main";
 import SignUp from "./routes/SignUp";
 import Invite from "./routes/Invite";
 import Invited from "./routes/Invited";
-import ModeSelect from "./routes/ModeSelect";
 import CameraCouple from "./routes/CameraCouple";
 import CameraSolo from "./routes/CameraSolo";
 import MiddleLogin from "./routes/MiddleLogin";
@@ -25,6 +24,7 @@ import ChatVideo from "./routes/ChatVideo";
 import Settings from "./routes/Settings";
 import Theme from "./components/Settings/Theme";
 import ChangePw from "./components/Settings/ChangePw";
+import DeleteAccount from "./components/Settings/DeleteAccount";
 
 function App() {
   const { isLogIn } = useAuthStore();
@@ -57,7 +57,6 @@ function App() {
             <Route path="/main" element={<Main />} />
             <Route path="/invite" element={<Invite />}></Route>
             <Route path="/invited/:user_email" element={<Invited />}></Route>
-            <Route path="/camera" element={<ModeSelect />}></Route>
             <Route path="/middle/login" element={<MiddleLogin />}></Route>
             <Route path="/camera/solo" element={<CameraSolo />}></Route>
             <Route path="/camera/couple" element={<CameraCouple />}></Route>
@@ -74,6 +73,7 @@ function App() {
             <Route path="/settings" element={<Settings />} />
             <Route path="/settings/theme" element={<Theme />} />
             <Route path="/settings/password" element={<ChangePw />} />
+            <Route path="/settings/quit" element={<DeleteAccount />} />
           </Routes>
         </ThemeProvider>
       </div>

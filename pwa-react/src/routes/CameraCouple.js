@@ -1,39 +1,53 @@
-import { OpenVidu } from 'openvidu-browser';
-import axios from 'axios';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import UserVideoComponent from '../components/Camera/UserVideoComponents';
-import UserVideoComponent1 from '../components/Camera/UserVideoComponents1';
-import WebCam from "react-webcam"
+import { OpenVidu } from "openvidu-browser";
+import axios from "axios";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import UserVideoComponent from "../components/Camera/UserVideoComponents";
+import UserVideoComponent1 from "../components/Camera/UserVideoComponents1";
+import WebCam from "react-webcam";
 import html2canvas from "html2canvas";
 import { useShallow } from "zustand/react/shallow";
+import { Header } from "../styles/Settings/UI";
+import { IconContext } from "react-icons";
+import { GoArrowLeft } from "react-icons/go";
+import { PiFinnTheHumanFill } from "react-icons/pi";
 
-import { ReadyRoomText, ReadyBtn, JoinForm, PoseBox } from "../styles/Camera/CameraCouple"
-import { CameraButton } from '../styles/Camera/CameraSolo';
+import {
+  ReadyRoomText,
+  ReadyBtn,
+  JoinForm,
+  PoseBox,
+  BottomBox,
+} from "../styles/Camera/CameraCouple";
+import { CameraButton } from "../styles/Camera/CameraSolo";
 
-import clip from "../styles/common/clip.png"
-import handHeart from "../styles/common/handheart.png"
-import oneGood from "../styles/common/onegood.png"
-import twoGood from "../styles/common/twogood.png"
-import V from "../styles/common/v.png"
+import clip from "../styles/common/clip.png";
+import handHeart from "../styles/common/handheart.png";
+import oneGood from "../styles/common/onegood.png";
+import twoGood from "../styles/common/twogood.png";
+import V from "../styles/common/v.png";
 
-import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
 
-import useUserStore from '../stores/UserStore';
+import useUserStore from "../stores/UserStore";
 import useAuthStore from "../stores/AuthStore";
+import SettingsHeader from "../components/Settings/SettingsHeader";
+import { useTheme } from "styled-components";
 
-const APPLICATION_SERVER_URL = 'https://logintoyou.kro.kr:8080/openvidu/';
+const APPLICATION_SERVER_URL = "https://logintoyou.kro.kr:8080/openvidu/";
 
 export default function App() {
   const divRef = useRef(null);
   const navigate = useNavigate();
   const { coupleId, userId, nickname } = useUserStore();
-  const [mySessionId, setMySessionId] = useState(`logintoyou${coupleId}`)
-  const [myUserName, setMyUserName] = useState(`${nickname}${userId}`)
+  const [mySessionId, setMySessionId] = useState(`logintoyou${coupleId}`);
+  const [myUserName, setMyUserName] = useState(`${nickname}${userId}`);
   const [session, setSession] = useState(undefined);
   const [publisher, setPublisher] = useState(undefined);
   const [subscribers, setSubscribers] = useState([]);
   const [currentVideoDevice, setCurrentVideoDevice] = useState(null);
+  const [isPoseOpen, setIsPoseOpen] = useState(false);
+  const theme = useTheme();
 
   const OV = useRef(new OpenVidu());
 
@@ -48,16 +62,16 @@ export default function App() {
   const joinSession = useCallback(() => {
     const mySession = OV.current.initSession();
 
-    mySession.on('streamCreated', (event) => {
+    mySession.on("streamCreated", (event) => {
       const subscriber = mySession.subscribe(event.stream, undefined);
       setSubscribers((subscribers) => [...subscribers, subscriber]);
     });
 
-    mySession.on('streamDestroyed', (event) => {
+    mySession.on("streamDestroyed", (event) => {
       deleteSubscriber(event.stream.streamManager);
     });
 
-    mySession.on('exception', (exception) => {
+    mySession.on("exception", (exception) => {
       console.warn(exception);
     });
 
@@ -76,28 +90,38 @@ export default function App() {
             videoSource: undefined,
             publishAudio: true,
             publishVideo: true,
-            resolution: `${window.innerWidth}x480`,
+            resolution: `${window.innerWidth}x${window.innerWidth * 1.5}`,
             frameRate: 30,
-            insertMode: 'APPEND',
+            insertMode: "APPEND",
             mirror: true,
           });
 
           session.publish(publisher);
 
           const devices = await OV.current.getDevices();
-          const videoDevices = devices.filter(device => device.kind === 'videoinput');
-          const currentVideoDeviceId = publisher.stream.getMediaStream().getVideoTracks()[0].getSettings().deviceId;
-          const currentVideoDevice = videoDevices.find(device => device.deviceId === currentVideoDeviceId);
+          const videoDevices = devices.filter(
+            (device) => device.kind === "videoinput"
+          );
+          const currentVideoDeviceId = publisher.stream
+            .getMediaStream()
+            .getVideoTracks()[0]
+            .getSettings().deviceId;
+          const currentVideoDevice = videoDevices.find(
+            (device) => device.deviceId === currentVideoDeviceId
+          );
 
           setPublisher(publisher);
           setCurrentVideoDevice(currentVideoDevice);
         } catch (error) {
-          console.log('There was an error connecting to the session:', error.code, error.message);
+          console.log(
+            "There was an error connecting to the session:",
+            error.code,
+            error.message
+          );
         }
       });
     }
   }, [session, myUserName]);
-
 
   const leaveSession = useCallback(() => {
     // Leave the session
@@ -131,30 +155,38 @@ export default function App() {
     const handleBeforeUnload = (event) => {
       leaveSession();
     };
-    window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener("beforeunload", handleBeforeUnload);
 
     return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, [leaveSession]);
 
   const getToken = useCallback(async () => {
-    return createSession(mySessionId).then(sessionId =>
-      createToken(sessionId),
+    return createSession(mySessionId).then((sessionId) =>
+      createToken(sessionId)
     );
   }, [mySessionId]);
 
   const createSession = async (sessionId) => {
-    const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions', { customSessionId: sessionId }, {
-      headers: { 'Content-Type': 'application/json' },
-    });
+    const response = await axios.post(
+      APPLICATION_SERVER_URL + "api/sessions",
+      { customSessionId: sessionId },
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
     return response.data; // The sessionId
   };
 
   const createToken = async (sessionId) => {
-    const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions/' + sessionId + '/connections', {}, {
-      headers: { 'Content-Type': 'application/json' },
-    });
+    const response = await axios.post(
+      APPLICATION_SERVER_URL + "api/sessions/" + sessionId + "/connections",
+      {},
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
     return response.data; // The token
   };
 
@@ -165,7 +197,7 @@ export default function App() {
     }))
   );
 
-  const [imageContent, setImageContent] = useState("")
+  const [imageContent, setImageContent] = useState("");
   const [webCamVisible, setWebCamVisible] = useState(true);
 
   const changeContent = (event) => {
@@ -186,38 +218,47 @@ export default function App() {
         const data = {
           coupleId: coupleId,
           subject: imageContent,
-        }
+        };
 
-        formData.append("diary", JSON.stringify(data))
+        formData.append("diary", JSON.stringify(data));
 
-        axios.post(`${PATH}/diary/upload`, formData, {
-          headers: {
-            Authorization: token,
-          },
-        })
-          .then((res) => {
-            console.log("사진 저장 성공")
-            leaveSession()
-            setWebCamVisible(false);
-            navigate("/diary")
+        axios
+          .post(`${PATH}/diary/upload`, formData, {
+            headers: {
+              Authorization: token,
+            },
           })
-          .catch((error) => console.log("사진 저장 실패", error))
+          .then((res) => {
+            console.log("사진 저장 성공");
+            leaveSession();
+            setWebCamVisible(false);
+            navigate("/diary");
+          })
+          .catch((error) => console.log("사진 저장 실패", error));
+      } else {
+        console.error("Unable to get the blob from the canvas");
       }
-      else {
-        console.error('Unable to get the blob from the canvas');
-      }
-    }, 'image/png')
+    }, "image/png");
   };
 
   return (
     <div>
       {session === undefined ? (
         <div>
-          <ReadyRoomText>대기방</ReadyRoomText>
-          {webCamVisible && <WebCam
-            style={{ width: window.innerWidth, height: "480px", transform: "scaleX(-1)" }}
-          />}
-          <JoinForm onSubmit={joinSession} >
+          <SettingsHeader name={"같이찍기 대기실"} />
+          {webCamVisible && (
+            <WebCam
+              style={{
+                width: window.innerWidth,
+                height: window.innerWidth * 1.5,
+                transform: "scaleX(-1)",
+                position: "fixed",
+                top: "8dvh",
+                objectFit: "cover",
+              }}
+            />
+          )}
+          <JoinForm onSubmit={joinSession} $height={window.innerWidth * 1.5}>
             <input
               type="text"
               value={myUserName}
@@ -239,43 +280,65 @@ export default function App() {
 
       {session !== undefined ? (
         <div>
-          <div>
-            <input
-              type="button"
-              onClick={leaveSession}
-              value="방 나가기"
-            />
-          </div>
+          <Header>
+            <IconContext.Provider value={{ size: "20px" }}>
+              <GoArrowLeft
+                onClick={() => {
+                  leaveSession();
+                }}
+              />
+            </IconContext.Provider>
+          </Header>
 
           <div ref={divRef}>
             <div>
               {publisher !== undefined ? (
                 <div>
-                  <UserVideoComponent
-                    streamManager={publisher} />
+                  <UserVideoComponent streamManager={publisher} />
                 </div>
               ) : null}
 
-              {subscribers.length > 0 ? <div>
-                <UserVideoComponent1 streamManager={subscribers[0]} />
-              </div> : null}
+              {subscribers.length > 0 ? (
+                <div>
+                  <UserVideoComponent1 streamManager={subscribers[0]} />
+                </div>
+              ) : null}
             </div>
           </div>
 
-          <PoseBox>
-            <div className='text'>포즈 추천</div>
-            <div className='pose'>
-              <img src={oneGood} alt="따봉 한개" className='item'/>
-              <img src={twoGood} alt="따봉 두개" className='item'/>
-              <img src={clip} alt="박수" className='item'/>
-              <img src={handHeart} alt="손하트" className='item' />
-              <img src={V} alt="브이" className='item'/>
-            </div>
-
+          <BottomBox $height={window.innerWidth * 1.5}>
+            <PoseBox>
+              <IconContext.Provider
+                value={{
+                  size: "3rem",
+                  color: isPoseOpen ? theme.color.grey : "black",
+                }}
+              >
+                <PiFinnTheHumanFill
+                  className="poseIcon"
+                  onClick={() => setIsPoseOpen((prev) => !prev)}
+                />
+              </IconContext.Provider>
+              {isPoseOpen ? (
+                <div className="recPose">
+                  <div className="text">포즈 추천</div>
+                  <div className="pose">
+                    <img src={oneGood} alt="따봉 한개" className="item" />
+                    <img src={twoGood} alt="따봉 두개" className="item" />
+                    <img src={clip} alt="박수" className="item" />
+                    <img src={handHeart} alt="손하트" className="item" />
+                    <img src={V} alt="브이" className="item" />
+                  </div>
+                </div>
+              ) : null}
+            </PoseBox>
             <CameraButton>
-              <CameraAltIcon onClick={takePhoto} className='camera'></CameraAltIcon>
+              <CameraAltIcon
+                onClick={takePhoto}
+                className="camera"
+              ></CameraAltIcon>
             </CameraButton>
-          </PoseBox>
+          </BottomBox>
         </div>
       ) : null}
     </div>

@@ -24,6 +24,7 @@ const FirstSection = styled.div`
       position: absolute;
       bottom: 0;
       left: -3rem;
+      transition: 0.2s all ease;
     }
 
     div {
@@ -46,6 +47,8 @@ const FirstSection = styled.div`
       return props.theme.color.sub2;
     }};
     margin: 0;
+    overflow: hidden;
+
     p {
       z-index: 2;
       position: absolute;
@@ -54,6 +57,20 @@ const FirstSection = styled.div`
       margin: 5dvw;
       font-size: 1.5rem;
       color: white;
+    }
+
+    .iconLabel {
+      position: absolute;
+      font-size: 1.5rem;
+      left: 10px;
+      top: 10px;
+      color: white;
+    }
+
+    .icon {
+      position: absolute;
+      right: -15px;
+      bottom: -15px;
     }
   }
   .chat {
@@ -64,6 +81,22 @@ const FirstSection = styled.div`
       return props.theme.color.sub3;
     }};
     margin: 0;
+    overflow: hidden;
+
+    .iconLabel {
+      position: absolute;
+      font-size: 1.5rem;
+      left: 10px;
+      top: 10px;
+      color: white;
+    }
+
+    .icon {
+      position: absolute;
+      right: 0;
+      bottom: -20px;
+    }
+
     .chat_name {
       z-index: 2;
       position: absolute;
