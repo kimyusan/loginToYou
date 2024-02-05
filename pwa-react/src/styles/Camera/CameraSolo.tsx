@@ -1,32 +1,37 @@
 import styled from "styled-components";
 
-const TimerText = styled.div`
+interface height {
+  $height: number;
+}
+
+const TimerText = styled.div<height>`
   width: 100%;
-  text-align: center;
+  height: ${(props) => props.$height}px;
+  top: 8dvh;
   display: flex;
   justify-content: center;
   align-items: center;
   position: fixed;
-  top: "15%";
   z-index: 2;
 
   & div {
     width: auto;
     height: auto;
-    font-size: 100px;
-    color: #ffffff5c;
+    font-size: 8rem;
+    color: white;
   }
 `;
 
-const CameraBox = styled.div`
-  width: 100%;
-  margin: 50px 0;
-`;
+const CameraBox = styled.div``;
 
-const CameraButton = styled.div`
+const CameraButton = styled.div<height>`
   width: 100%;
+  position: fixed;
+  top: ${(props) => `calc(8dvh + ${props.$height}px)`};
+  height: ${(props) => `calc(92dvh - ${props.$height}px)`};
   text-align: center;
   display: flex;
+  align-items: center;
   justify-content: space-around;
 
   & .camera {
@@ -47,14 +52,19 @@ const CameraButton = styled.div`
   }
 `;
 
-const OptionsContainer = styled.div`
+const OptionsContainer = styled.div<height>`
+  position: fixed;
+  top: ${(props) => `calc(13dvh + ${props.$height}px)`};
+  left: 5dvw;
   display: flex;
   flex-direction: row;
   border: 1px solid #cecece;
   border-radius: 50px;
+  box-sizing: border-box;
   padding: 10px;
-  width: 90%;
+  width: 90dvw;
   margin: 0 auto;
+  z-index: 1;
 
   & div {
     font-size: 20px;

@@ -1,6 +1,6 @@
-import React, { useRef, useEffect } from 'react';
-import { Camera } from '@mediapipe/camera_utils';
-import { SelfieSegmentation } from '@mediapipe/selfie_segmentation'
+import React, { useRef, useEffect } from "react";
+import { Camera } from "@mediapipe/camera_utils";
+import { SelfieSegmentation } from "@mediapipe/selfie_segmentation";
 
 export default function OpenViduVideoComponent({ streamManager, zi }) {
   const videoRef = useRef(null);
@@ -18,12 +18,24 @@ export default function OpenViduVideoComponent({ streamManager, zi }) {
 
     canvasCtx.save();
     canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
-    canvasCtx.drawImage(results.segmentationMask, 0, 0, canvasElement.width, canvasElement.height);
+    canvasCtx.drawImage(
+      results.segmentationMask,
+      0,
+      0,
+      canvasElement.width,
+      canvasElement.height
+    );
 
-    canvasCtx.globalCompositeOperation = 'source-in';
-    canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
+    canvasCtx.globalCompositeOperation = "source-in";
+    canvasCtx.drawImage(
+      results.image,
+      0,
+      0,
+      canvasElement.width,
+      canvasElement.height
+    );
     canvasCtx.restore();
-  }
+  };
 
   useEffect(() => {
     const selfieSegmentation = new SelfieSegmentation({
@@ -38,16 +50,13 @@ export default function OpenViduVideoComponent({ streamManager, zi }) {
 
     selfieSegmentation.onResults(onResults);
 
-    if (
-      typeof videoRef.current !== "undefined" &&
-      videoRef.current !== null
-    ) {
+    if (typeof videoRef.current !== "undefined" && videoRef.current !== null) {
       const camera = new Camera(videoRef.current, {
         onFrame: async () => {
-          await selfieSegmentation.send({ image: videoRef.current});
+          await selfieSegmentation.send({ image: videoRef.current });
         },
         width: window.innerWidth,
-        height: 480
+        height: 480,
       });
 
       camera.start();
@@ -59,25 +68,32 @@ export default function OpenViduVideoComponent({ streamManager, zi }) {
   }, [streamManager]);
 
   return (
-    <div style={{ width: window.innerWidth, height: "480px", position: "fixed", top: "10%", zIndex: "2" }}>
+    <div
+      style={{
+        width: window.innerWidth,
+        height: window.innerWidth * 1.5,
+        position: "fixed",
+        zIndex: "0",
+      }}
+    >
       <video
         ref={videoRef}
         playsInline
         style={{
           display: "none",
           width: window.innerWidth,
-          height: "480px",
-          transform: "scaleX(-1)"
+          height: window.innerWidth * 1.5,
+          transform: "scaleX(-1)",
         }}
       />
       <canvas
         ref={canvasRef}
         style={{
           width: window.innerWidth,
-          height: "480px",
-          transform: "scaleX(-1)", 
+          height: window.innerWidth * 1.5,
+          transform: "scaleX(-1)",
         }}
       ></canvas>
     </div>
-  )
+  );
 }

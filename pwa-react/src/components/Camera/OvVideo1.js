@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from "react";
 
 export default function OpenViduVideoComponent1({ streamManager, zi }) {
   const videoRef = useRef(null);
@@ -17,10 +17,12 @@ export default function OpenViduVideoComponent1({ streamManager, zi }) {
       playsInline
       style={{
         width: window.innerWidth,
-        height: "480px",
+        height: window.innerWidth * 1.5,
         transform: "scaleX(1)",
-        position: "fixed", top: "10%", zIndex: "-1", objectFit:"cover"
+        position: "fixed",
+        zIndex: "-1",
+        objectFit: "cover",
       }}
     />
-  )
+  );
 }
