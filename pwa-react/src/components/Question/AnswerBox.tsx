@@ -65,19 +65,25 @@ const QuestionBox = ({ show, year, month }: Props) => {
       .catch((err) => console.log(err));
   };
 
-
   // year과 month가 변할 때 조회
   useEffect(() => {
     getAnswers();
-    console.log(filteredAnswer)
   }, [year, month, isOpen]);
 
   return (
     <>
       <AnswerContainer>
-        {filteredAnswer?.map((item, idx) => {
-          return <AnswerCard key={idx} show={show} item={item} month={month} />;
-        })}
+        {filteredAnswer?.length >= 1 ? (
+          filteredAnswer.map((item, idx) => {
+            return (
+              <AnswerCard key={idx} show={show} item={item} month={month} />
+            );
+          })
+        ) : (
+          <p style={{ textAlign: "center" }}>
+            {month}월에는 작성한 답변이 없어요
+          </p>
+        )}
       </AnswerContainer>
     </>
   );
