@@ -36,6 +36,14 @@ public class DiaryServiceImpl implements DiaryService{
         System.out.println("registerDate  : " + registerDate);
 
         ArrayList<DiaryMemo> list = diaryMemoRepository.findByCoupleIdAndRegisterDate(coupleId, registerDate);
+
+        if (list.size() == 0) {
+            list.add(new DiaryMemo());
+            list.add(new DiaryMemo());
+        } else if (list.size() == 1) {
+            list.add(new DiaryMemo());
+        }
+
         System.out.println("getDiaryMemo");
         System.out.println(list);
 
