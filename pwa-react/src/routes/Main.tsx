@@ -80,7 +80,7 @@ const Main = () => {
   };
 
   const checkChat = async () => {
-    const res = await axiosAuth.get("/unread/message", {
+    const res = await axiosAuth.get("/chat/unread/message", {
       params: {
         userId: userId,
       },
