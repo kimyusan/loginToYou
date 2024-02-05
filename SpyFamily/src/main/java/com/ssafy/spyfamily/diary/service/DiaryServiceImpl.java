@@ -84,8 +84,13 @@ public class DiaryServiceImpl implements DiaryService{
                     System.out.println(list);
 
                     if (list.size() != 0) {
-                        list.get(0).setIsThumbnail(1);
-                        diaryRepository.save(list.get(0));
+                        for(int i = 0; i < list.size(); i++) {
+                            if (list.get(i).getIsThumbnail() == 0) {
+                                list.get(i).setIsThumbnail(1);
+                                diaryRepository.save(list.get(i));
+                                break;
+                            }
+                        }
                         System.out.println("썸네일 갱신 성공");
                     }
 
