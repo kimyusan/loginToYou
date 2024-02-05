@@ -267,7 +267,6 @@ export default function App() {
 
     // 드래그가 끝나면 실행되는 함수
     const handleDragEnd = () => {
-      
       // Check if the avatar is over the call_btn
       const callBtn = document.querySelector(".call_btn");
       const avatarBounds = avatar.getBoundingClientRect();
@@ -280,8 +279,8 @@ export default function App() {
         avatarBounds.bottom > callBtnBounds.top
       ) {
         // Trigger the form submission
-        console.log('qwerqwer')
-        joinSession()
+        console.log("qwerqwer");
+        joinSession();
       }
 
       // 이벤트 리스너를 제거합니다.
@@ -310,10 +309,10 @@ export default function App() {
 
             <WebCam
               style={{
-                width: "100%",
-                height: "300px",
+                width: window.innerWidth,
+                height: "70dvh",
                 transform: "scaleX(-1)",
-                paddingTop: "20dvh",
+                paddingTop: "10dvh",
               }}
             />
             <JoinForm onSubmit={joinSession} className="joinform">
