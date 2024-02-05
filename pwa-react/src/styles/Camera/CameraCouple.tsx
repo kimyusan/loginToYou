@@ -38,4 +38,45 @@ const ReadyBtn = styled.input`
   }};
   font-weight: bold;
 `;
-export { GoBack, ReadyRoomText, ReadyBtn, JoinForm };
+
+const PoseBox = styled.div`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  position: fixed;
+  bottom: 5%;
+
+  .pose {
+    width: 100%;
+    height: auto;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    overflow: auto;
+    white-space: nowrap;
+    margin-bottom: 20px;
+
+    ::-webkit-scrollbar{
+      display: none; 
+    }
+
+    .item {
+      width: 80px;
+      height: 80px;
+      border: 1px solid #cecece;
+      border-radius: 5px;
+      padding: 5px;
+      margin-right: 5px;
+      text-align: center;
+    }
+  }
+
+  .text {
+    font-size: 17px;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+`
+export { GoBack, ReadyRoomText, ReadyBtn, JoinForm, PoseBox };
