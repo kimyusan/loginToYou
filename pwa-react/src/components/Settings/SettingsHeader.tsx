@@ -22,13 +22,6 @@ function SettingsHeader({}: Props) {
             }}
           />
         </IconContext.Provider>
-        <BurgerButton
-          onClick={() => {
-            setIsNavigationOpen((prev) => !prev);
-          }}
-        >
-          {isNavigationOpen ? "×" : "☰"}
-        </BurgerButton>
       </Header>
       <Navbar isOpen={isNavigationOpen} />
     </>

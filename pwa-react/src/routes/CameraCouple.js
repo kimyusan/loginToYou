@@ -1,21 +1,24 @@
 import { OpenVidu } from 'openvidu-browser';
 import axios from 'axios';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import UserVideoComponent from '../components/Camera/UserVideoComponents';
 import UserVideoComponent1 from '../components/Camera/UserVideoComponents1';
 import WebCam from "react-webcam"
+import html2canvas from "html2canvas";
+import { useShallow } from "zustand/react/shallow";
 
-import { ReadyRoomText, ReadyBtn, JoinForm, GoBack } from "../styles/Camera/CameraCouple"
+import { ReadyRoomText, ReadyBtn, JoinForm } from "../styles/Camera/CameraCouple"
 
-import { BurgerButton } from "../styles/common/hamburger";
-import Navbar from "../components/Navbar";
 import useUserStore from '../stores/UserStore';
+import useAuthStore from "../stores/AuthStore";
 
 const APPLICATION_SERVER_URL = 'https://logintoyou.kro.kr:8080/openvidu/';
 
 export default function App() {
-  const {coupleId,userId,nickname} = useUserStore();
+  const divRef = useRef(null);
+  const navigate = useNavigate();
+  const { coupleId, userId, nickname } = useUserStore();
   const [mySessionId, setMySessionId] = useState(`logintoyou${coupleId}`)
   const [myUserName, setMyUserName] = useState(`${nickname}${userId}`)
   const [session, setSession] = useState(undefined);
@@ -64,7 +67,7 @@ export default function App() {
             videoSource: undefined,
             publishAudio: true,
             publishVideo: true,
-            resolution: '640x480',
+            resolution: `${window.innerWidth}x480`,
             frameRate: 30,
             insertMode: 'APPEND',
             mirror: true,
@@ -102,34 +105,6 @@ export default function App() {
     setPublisher(undefined);
   }, [session]);
 
-  const switchCamera = useCallback(async () => {
-    try {
-      const devices = await OV.current.getDevices();
-      const videoDevices = devices.filter(device => device.kind === 'videoinput');
-
-      if (videoDevices && videoDevices.length > 1) {
-        const newVideoDevice = videoDevices.filter(device => device.deviceId !== currentVideoDevice.deviceId);
-
-        if (newVideoDevice.length > 0) {
-          const newPublisher = OV.current.initPublisher(undefined, {
-            videoSource: newVideoDevice[0].deviceId,
-            publishAudio: true,
-            publishVideo: true,
-            mirror: true,
-          });
-
-          if (session) {
-            await session.publish(newPublisher);
-            setCurrentVideoDevice(newVideoDevice[0]);
-            setPublisher(newPublisher);
-          }
-        }
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  }, [currentVideoDevice, session]);
-
   const deleteSubscriber = useCallback((streamManager) => {
     setSubscribers((prevSubscribers) => {
       const index = prevSubscribers.indexOf(streamManager);
@@ -162,38 +137,77 @@ export default function App() {
 
   const createSession = async (sessionId) => {
     const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions', { customSessionId: sessionId }, {
-      headers: { 'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
     });
     return response.data; // The sessionId
   };
 
   const createToken = async (sessionId) => {
     const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions/' + sessionId + '/connections', {}, {
-      headers: { 'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
     });
     return response.data; // The token
   };
 
-  const [isNavigationOpen, setIsNavigationOpen] = useState(false);
-  const toggleNavigation = () => {
-    setIsNavigationOpen(!isNavigationOpen);
+  const { PATH, token } = useAuthStore(
+    useShallow((state) => ({
+      PATH: state.PATH,
+      token: state.token,
+    }))
+  );
+
+  const [imageContent, setImageContent] = useState("")
+  const [webCamVisible, setWebCamVisible] = useState(true);
+
+  const changeContent = (event) => {
+    setImageContent(event.target.value);
   };
-  
+
+  const takePhoto = async () => {
+    if (!divRef.current) return;
+
+    const div = divRef.current;
+    const canvas = await html2canvas(div, { scale: 2 });
+    canvas.toBlob((blob) => {
+      if (blob !== null) {
+        const formData = new FormData();
+
+        formData.append("imgInfo", blob);
+
+        const data = {
+          coupleId: coupleId,
+          subject: imageContent,
+        }
+
+        formData.append("diary", JSON.stringify(data))
+
+        axios.post(`${PATH}/diary/upload`, formData, {
+          headers: {
+            Authorization: token,
+          },
+        })
+          .then((res) => {
+            console.log("사진 저장 성공")
+            leaveSession()
+            setWebCamVisible(false);
+            navigate("/diary")
+          })
+          .catch((error) => console.log("사진 저장 실패", error))
+      }
+      else {
+        console.error('Unable to get the blob from the canvas');
+      }
+    }, 'image/png')
+  };
+  console.log(subscribers,"ZZZZ")
   return (
     <div>
       {session === undefined ? (
         <div>
-          <GoBack>
-            <Link to="/camera">←</Link>
-            <BurgerButton onClick={toggleNavigation}>
-              {isNavigationOpen ? "×" : "☰"}
-            </BurgerButton>
-          </GoBack>
-
-          <Navbar isOpen={isNavigationOpen} />
-          
           <ReadyRoomText>대기방</ReadyRoomText>
-          <WebCam style={{ width: "100%", height: "300px", transform: "scaleX(-1)" }} />
+          {webCamVisible && <WebCam
+            style={{ width: window.innerWidth, height: "480px", transform: "scaleX(-1)" }} 
+          />}
           <JoinForm onSubmit={joinSession} >
             <input
               type="text"
@@ -220,27 +234,25 @@ export default function App() {
             <input
               type="button"
               onClick={leaveSession}
-              value="Leave session"
-            />
-            <input
-              type="button"
-              onClick={switchCamera}
-              value="Switch Camera"
+              value="방 나가기"
             />
           </div>
 
-          <div>
-            {publisher !== undefined ? (
-              <div>
-                <UserVideoComponent
-                  streamManager={publisher} zi={-1} />
-              </div>
-            ) : null}
+          <div ref={divRef}>
+            <div>
+              {publisher !== undefined ? (
+                <div>
+                  <UserVideoComponent
+                    streamManager={publisher} />
+                </div>
+              ) : null}
 
-            {subscribers.length > 0 ? <div>
-              <UserVideoComponent1 streamManager={subscribers[0]} zi={1} />
-            </div> : null} 
+              {subscribers.length > 0 ? <div>
+                <UserVideoComponent1 streamManager={subscribers[0]} />
+              </div> : null}
+            </div>
           </div>
+          <button onClick={takePhoto}>사진찍기</button>
         </div>
       ) : null}
     </div>

@@ -11,14 +11,14 @@ const Cover = styled.div``;
 const Header = styled.div`
   width: 100%;
   height: 11dvh;
-  padding-top: 6%;
+  padding-top: 3dvh;
   position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
 
   div.nameSection {
-    padding-left: 10%;
+    padding-left: 6dvw;
     width: max-content;
 
     div.cpName {
@@ -32,7 +32,7 @@ const Header = styled.div`
 
 const UserName = styled.div`
   color: black;
-  left: 10%;
+  left: 5dvw;
   font-size: 1.3rem;
   width: max-content;
 `;
@@ -43,7 +43,8 @@ const Dday = styled.div<CompWithClass>`
     return props.theme.color.main;
   }};
   font-size: 2.3rem;
-  padding-right: 10%;
+  padding-right: 6dvw;
+  font-weight: 600;
 
   &.noDate {
     color: ${(props) => {

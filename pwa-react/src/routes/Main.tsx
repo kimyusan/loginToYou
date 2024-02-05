@@ -8,6 +8,9 @@ import {
   ThirdSection,
 } from "../styles/Main/Main";
 import { UserInterface, CoupleInterface } from "../interface/UserInterface";
+import { FaCamera } from "react-icons/fa";
+import { IconContext } from "react-icons";
+import { useTheme } from "styled-components";
 
 import { BurgerButton } from "../styles/common/hamburger";
 import Navbar from "../components/Navbar";
@@ -21,9 +24,11 @@ import { useShallow } from "zustand/react/shallow";
 import useCoupleStore from "../stores/CoupleStore";
 import { axiosAuth } from "../util/token";
 import TokenCheker from "../util/TokenCheker";
+import MenuSection from "../components/MenuSection";
 import axios from "axios";
 
 const Main = () => {
+  const theme = useTheme();
   const { id } = useParams();
   const { setCouple, setYourName } = useCoupleStore(
     useShallow((state) => ({
@@ -34,14 +39,10 @@ const Main = () => {
   const { setUser } = useUserStore();
   const userId = useUserStore.getState().userId;
   const coupleId = useUserStore.getState().coupleId;
-  const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const [cp1, setCp1] = useState<UserInterface>();
   const [cp2, setCp2] = useState<UserInterface>();
   const [cpInfo, setCpInfo] = useState<CoupleInterface>();
-  const token = useAuthStore.getState().token;
-  const toggleNavigation = () => {
-    setIsNavigationOpen(!isNavigationOpen);
-  };
+  const [unreadMessage, setUnreadMessage] = useState(0);
 
   // 채팅방 이동 시 roomId 조회
   const goChat = async () => {
@@ -86,11 +87,14 @@ const Main = () => {
       },
     });
     console.log(res);
+    setUnreadMessage((prev) => (res.data > 99 ? 99 : res.data));
   };
 
   useEffect(() => {
     callData();
     checkChat();
+    const check = setInterval(checkChat, 1000 * 60 * 2);
+    return () => clearInterval(check);
   }, []);
 
   const navigate = useNavigate();
@@ -102,11 +106,7 @@ const Main = () => {
   return (
     <>
       <TokenCheker />
-      <BurgerButton onClick={toggleNavigation}>
-        {isNavigationOpen ? "×" : "☰"}
-      </BurgerButton>
-
-      <Navbar isOpen={isNavigationOpen} />
+      <MenuSection />
       <HeaderSection cp1={cp1} cp2={cp2} cpInfo={cpInfo} />
       <Wrapper>
         <FirstSection>
@@ -120,13 +120,19 @@ const Main = () => {
               <p>사진</p>
               <p>찍으러 가기</p>
             </div>
+            <IconContext.Provider
+              value={{ size: "12rem", color: theme.color.sub2 }}
+            >
+              <FaCamera className="cameraIcon" />
+            </IconContext.Provider>
           </Card>
           <Card className="diary" onClick={goDiary}>
             <p>다이어리</p>
           </Card>
           <Card className="chat" onClick={goChat}>
             <p className="chat_name">채팅</p>
-            <p className="chat_num">N</p>
+            {/* <p className="chat_num">{unreadMessage}</p> */}
+            <p className="chat_num">1</p>
           </Card>
         </FirstSection>
 
@@ -137,13 +143,13 @@ const Main = () => {
 
         <ThirdSection>
           <Card className="balance_game">
-            <p>밸런스게임</p>
-            <p>VS</p>
+            <div>밸런스게임</div>
+            <div>VS</div>
           </Card>
           <Card className="challenge">
             <div>
-              <p>매일</p>
-              <p>챌린지</p>
+              <div>매일</div>
+              <div>챌린지</div>
             </div>
           </Card>
         </ThirdSection>
