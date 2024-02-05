@@ -31,7 +31,13 @@ function Settings({}: Props) {
       >
         비밀번호 수정
       </Menu>
-      <Menu>회원 탈퇴</Menu>
+      <Menu
+        onClick={() => {
+          navigate("quit");
+        }}
+      >
+        회원 탈퇴
+      </Menu>
     </>
   );
 }

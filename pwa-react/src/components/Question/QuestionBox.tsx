@@ -65,7 +65,7 @@ const QuestionBox = (props: Props) => {
   }, []);
 
   return (
-    <>
+    <div>
       <QBox>
         <div>
           <p className="date">
@@ -79,16 +79,7 @@ const QuestionBox = (props: Props) => {
           </SaveButton>
         </div>
       </QBox>
-
-      {/* <QuestionModal
-        question={question}
-        todayToString={todayToString}
-        isOpen={isOpen}
-        handleModal={handleModal}
-        todayMonth={todayMonth}
-        todayDate={todayDate}
-      /> */}
-    </>
+    </div>
   );
 };
 

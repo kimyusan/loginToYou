@@ -128,6 +128,10 @@ function AnswerCard({ show, item, month }: Props) {
     }
   };
 
+  // 답변한 날짜 형식
+  const ansdate = item[0]?.todayQuestionId.toString()
+  const fulldate = ansdate.substring(0,4)+'년 '+ansdate.substring(4,6) +'월 '+ansdate.substring(6,8)+'일'
+
   useEffect(() => {
     setMyAnswer(null);
     setYourAnswer(null);
@@ -139,9 +143,9 @@ function AnswerCard({ show, item, month }: Props) {
     <>
       <AnsCard>
         <CardContent>
-          <p>{item[0]?.todayQuestionId}</p>
+          <p className="card_date">{fulldate}</p>
           <p>{question}</p>
-          <hr />
+          {/* <hr /> */}
           {show ? null : (
             <Box sx={{ width: "100%" }}>
               <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -183,14 +187,6 @@ function AnswerCard({ show, item, month }: Props) {
             </Box>
           )}
         </CardContent>
-        {/* <QuestionModal
-          question={question}
-          todayToString={todayToString}
-          isOpen={isOpen}
-          handleModal={handleModal}
-          todayMonth={answerMonth}
-          todayDate={answerDay}
-        /> */}
       </AnsCard>
     </>
   );

@@ -28,22 +28,24 @@ const CallBtn = styled.div`
   align-items: center;
   background-color: ${(props) => props.theme.color.sub2};
   border-radius: 30px;
-  height: 7dvh;
   overflow: hidden;
-
+  z-index: 0;
   .avatar {
     position: absolute;
-    left: 0;
-    top: 0;
     padding: 3%;
     border-radius: 50%;
     cursor: grab;
-    z-index: 1;
+    z-index: 5;
+    :active {
+      cursor: grabbing;
+    }
   }
-
   .call_btn {
     padding: 3%;
     border-radius: 50%;
+  }
+  .invisible_btn {
+    visibility: hidden;
   }
   @keyframes blink-effect {
     50% {
@@ -57,7 +59,6 @@ const CallBtn = styled.div`
 
 const ReadyBtn = styled.button`
   z-index: -1;
-  left: 50%;
   border: 0;
   border-radius: 15px;
   margin: 15px;

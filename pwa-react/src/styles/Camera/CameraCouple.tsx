@@ -23,9 +23,15 @@ const ReadyRoomText = styled.div`
   width: 100%;
 `;
 
-const JoinForm = styled.form`
-  width: 80%;
-  margin: 50px auto;
+interface height {
+  $height: number;
+}
+
+const JoinForm = styled.form<height>`
+  position: fixed;
+  top: ${(props) => `calc(${props.$height}px + 14dvh)`};
+  left: 10dvw;
+  width: 80dvw;
 `;
 const ReadyBtn = styled.input`
   border: 0;
@@ -39,31 +45,67 @@ const ReadyBtn = styled.input`
   font-weight: bold;
 `;
 
-const PoseBox = styled.div`
-  display: flex;
+const BottomBox = styled.div<height>`
   width: 100%;
-  flex-direction: column;
+  top: ${(props) => `calc(8dvh + ${props.$height}px)`};
+  height: ${(props) => `calc(92dvh - ${props.$height}px)`};
+  display: flex;
   justify-content: center;
+  align-items: center;
   position: fixed;
-  bottom: 5%;
+`;
+
+const PoseBox = styled.div`
+  .recPose {
+    background-color: white;
+    position: absolute;
+    top: -15dvh;
+    width: calc(100% - 10px);
+    padding: 5px 10px;
+    box-sizing: border-box;
+    border: 1px solid ${(props) => props.theme.color.grey};
+    margin: 5px;
+    border-radius: 25px;
+
+    &:before {
+      content: "";
+      position: absolute;
+      background-color: white;
+      border: 1px solid ${(props) => props.theme.color.grey};
+      border-top: none;
+      border-right: none;
+      width: 30px;
+      height: 30px;
+      bottom: -16px;
+      left: 40px;
+      transform: rotate(-45deg);
+    }
+  }
+
+  .poseIcon {
+    position: absolute;
+    left: 11vw;
+    top: calc(50% - 1.5rem);
+  }
 
   .pose {
     width: 100%;
     height: auto;
     padding: 5px;
+    box-sizing: border-box;
     display: flex;
     flex-direction: row;
-    overflow: auto;
+    overflow-x: auto;
     white-space: nowrap;
     margin-bottom: 20px;
 
-    ::-webkit-scrollbar{
-      display: none; 
+    &::-webkit-scrollbar {
+      display: none;
     }
 
     .item {
-      width: 80px;
-      height: 80px;
+      width: 55px;
+      aspect-ratio: 1;
       border: 1px solid #cecece;
       border-radius: 5px;
       padding: 5px;
@@ -78,5 +120,5 @@ const PoseBox = styled.div`
     text-align: center;
     margin-bottom: 10px;
   }
-`
-export { GoBack, ReadyRoomText, ReadyBtn, JoinForm, PoseBox };
+`;
+export { GoBack, ReadyRoomText, ReadyBtn, JoinForm, PoseBox, BottomBox };

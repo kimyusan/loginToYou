@@ -9,9 +9,12 @@ export const Header = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding-left: 15px;
+  padding: 0 15px;
   height: 8dvh;
   border-bottom: 1px solid ${(props) => props.theme.color.lightgrey};
+  div {
+    color: ${(props) => props.theme.color.grey};
+  }
 `;
 
 export const MenuTitle = styled.div`
