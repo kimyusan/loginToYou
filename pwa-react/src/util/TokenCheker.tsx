@@ -37,7 +37,6 @@ function TokenCheker() {
         email: email,
       },
       headers: {
-        Authorization: token,
         refreshToken: refToken,
       },
     });
