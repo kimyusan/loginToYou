@@ -11,20 +11,18 @@ import { UserInterface, CoupleInterface } from "../interface/UserInterface";
 import { FaCamera } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import { useTheme } from "styled-components";
-
-import { BurgerButton } from "../styles/common/hamburger";
-import Navbar from "../components/Navbar";
-import HeaderSection from "../components/Main/HeaderSection";
 import { Card } from "../styles/common/card";
+
+import HeaderSection from "../components/Main/HeaderSection";
 import CalendarCard from "../components/Main/CalendarCard";
 import QuestionCard from "../components/Main/QuestionCard";
-import useAuthStore from "../stores/AuthStore";
 import useUserStore from "../stores/UserStore";
-import { useShallow } from "zustand/react/shallow";
+import useAuthStore from "../stores/AuthStore";
 import useCoupleStore from "../stores/CoupleStore";
-import { axiosAuth } from "../util/token";
 import TokenCheker from "../util/TokenCheker";
 import MenuSection from "../components/MenuSection";
+import { useShallow } from "zustand/react/shallow";
+import { axiosAuth } from "../util/token";
 import axios from "axios";
 
 const Main = () => {
@@ -43,6 +41,8 @@ const Main = () => {
   const [cp2, setCp2] = useState<UserInterface>();
   const [cpInfo, setCpInfo] = useState<CoupleInterface>();
   const [unreadMessage, setUnreadMessage] = useState(0);
+  const { yourId, setYourProfileImage, yourProfileImage } = useCoupleStore();
+  const { PATH } = useAuthStore();
 
   // 채팅방 이동 시 roomId 조회
   const goChat = async () => {
@@ -80,13 +80,31 @@ const Main = () => {
     setCpInfo(res.data[2]);
   };
 
+  // 상대방 프로필 이미지 조회
+  useEffect(() => {
+    axios
+      .get(`${PATH}/profile/read`, {
+        params: { userId: yourId },
+      })
+      .then((response) => {
+        if (!response) return;
+        const image = response.data;
+        console.log(image);
+        if (image) {
+          setYourProfileImage(
+            `${PATH}/profile/getImg/${image.saveFolder}/${image.originalName}/${image.saveName}`
+          );
+        }
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
   const checkChat = async () => {
     const res = await axiosAuth.get("/chat/unread/message", {
       params: {
         userId: userId,
       },
     });
-    console.log(res);
     setUnreadMessage((prev) => (res.data > 99 ? 99 : res.data));
   };
 
@@ -131,8 +149,9 @@ const Main = () => {
           </Card>
           <Card className="chat" onClick={goChat}>
             <p className="chat_name">채팅</p>
-            {/* <p className="chat_num">{unreadMessage}</p> */}
-            <p className="chat_num">1</p>
+            <p className="chat_num">
+              {unreadMessage > 99 ? 99 : unreadMessage}
+            </p>
           </Card>
         </FirstSection>
 

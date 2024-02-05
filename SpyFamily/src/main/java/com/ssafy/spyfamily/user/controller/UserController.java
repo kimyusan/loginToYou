@@ -5,6 +5,9 @@ import com.ssafy.spyfamily.user.service.UserServiceImpl;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController()
 @RequestMapping(value = "/user", produces = "application/json")
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE}, maxAge = 6000)
@@ -85,4 +88,25 @@ public class UserController {
         }
     }
 
+    /**
+     * 이메일의 회원이 입력한 비밀번호가 일치하는지 여부
+     */
+    @GetMapping("/verify/password")
+    public ResponseEntity<?> verifyPassword(@RequestParam(name="email") String email,
+                                            @RequestParam(name="password") String password) {
+
+        // 파라미터 만들기
+        Map<String, String> param = new HashMap<String, String>();
+        param.put("email", email);
+        param.put("password", password);
+        
+        // 로그인 로직 호출해서 유저 체크
+        User user = userService.login(param);
+
+        if(user != null) {
+            return new ResponseEntity<Void>(HttpStatus.OK);
+        }
+
+        return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

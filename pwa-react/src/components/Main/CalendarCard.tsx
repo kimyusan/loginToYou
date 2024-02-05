@@ -52,7 +52,6 @@ const CalendarCard = () => {
       </div>
       <div className="right_side">
         <ul className="next_schedule">
-          <li>점심먹기</li>
           {sortedEvents.length >= 2 ? (
             sortedEvents
               .splice(0, 2)
