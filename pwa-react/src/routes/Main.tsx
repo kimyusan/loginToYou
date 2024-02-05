@@ -34,7 +34,7 @@ const Main = () => {
       setYourName: state.setYourName,
     }))
   );
-  const { setUser } = useUserStore();
+  const { setUser, setProfileImage } = useUserStore();
   const userId = useUserStore.getState().userId;
   const coupleId = useUserStore.getState().coupleId;
   const [cp1, setCp1] = useState<UserInterface>();
@@ -79,6 +79,23 @@ const Main = () => {
     setCp2(res.data[1]);
     setCpInfo(res.data[2]);
   };
+
+  // 내 프로필 이미지 조회
+  useEffect(() => {
+    axios
+      .get(`${PATH}/profile/read`, {
+        params: { userId: userId },
+      })
+      .then((response) => {
+        if (!response) return;
+        const image = response.data;
+        if (image) {
+          setProfileImage(
+            `${PATH}/profile/getImg/${image.saveFolder}/${image.originalName}/${image.saveName}`
+          );
+        }
+      });
+  }, []);
 
   // 상대방 프로필 이미지 조회
   useEffect(() => {
