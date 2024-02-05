@@ -32,14 +32,18 @@ function TokenCheker() {
 
   const refresh = async () => {
     console.log("토큰을 재발행합니다.");
-    const res = await axios.post(`${PATH}/reissue/token`, {}, {
-      params: {
-        email: email,
-      },
-      headers: {
-        refreshToken: refToken,
-      },
-    });
+    const res = await axios.post(
+      `${PATH}/reissue/token`,
+      {},
+      {
+        params: {
+          email: email,
+        },
+        headers: {
+          refreshToken: refToken,
+        },
+      }
+    );
 
     const now = new Date().getTime();
     setToken(res.headers.authorization, res.headers.refreshtoken);
@@ -57,12 +61,16 @@ function TokenCheker() {
       return;
     const now = new Date().getTime();
     console.log(tokenExpireTime, now);
-    
-    
     console.log(
-      tokenExpireTime - now < 1000 * 60 ? "토큰 재발행 필요" : "토큰 유효"
+      "남은 시간: ",
+      Math.round((tokenExpireTime - now) / 1000 / 60),
+      "분"
     );
-    if (tokenExpireTime - now < 1000 * 60) {
+
+    console.log(
+      tokenExpireTime - now < 1000 * 60 * 5 ? "토큰 재발행 필요" : "토큰 유효"
+    );
+    if (tokenExpireTime - now < 1000 * 60 * 5) {
       refresh();
     }
   };
@@ -79,7 +87,6 @@ function TokenCheker() {
 }
 
 export default TokenCheker;
-
 
 // import React, { useEffect } from 'react';
 // import axios from 'axios';
@@ -137,11 +144,11 @@ export default TokenCheker;
 //   useEffect(() => {
 //     if (!email || !refToken) {
 //       // If we don't have email or refreshToken, we cannot refresh the token
-//       return; 
+//       return;
 //     }
 //     const checkTokenValidity = () => {
 //       const now = new Date().getTime();
-//       // Check if the token is about to expire (or already expired)  
+//       // Check if the token is about to expire (or already expired)
 //       if (!tokenExpireTime) return
 //       if (tokenExpireTime <= now) {
 //         refresh();
