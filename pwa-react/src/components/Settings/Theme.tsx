@@ -4,14 +4,14 @@ import useAuthStore from "../../stores/AuthStore";
 import { CancelButton } from "../../styles/Settings/UI";
 import { Wrapper, ColorSelectBox, Sample } from "../../styles/Settings/Page";
 import { UserInfoBox, SaveButton } from "../../styles/UserInfo/UserInfo";
-import { pink, green, blue } from "../../styles/common/global";
+import { pink, green, blue, beige } from "../../styles/common/global";
 import { DefaultTheme } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import TokenCheker from "../../util/TokenCheker";
 
 function Theme() {
   const navigate = useNavigate();
-  const themes = [pink, green, blue];
+  const themes = [pink, green, blue, beige];
 
   const colortheme = useAuthStore.getState().colortheme;
   const setColorTheme = useAuthStore.getState().setColorTheme;

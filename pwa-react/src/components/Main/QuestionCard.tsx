@@ -75,19 +75,15 @@ const QuestionCard = (props: Props) => {
     <>
       <Card className="question_card" onClick={() => navigate("/question")}>
         <div className="question">
-          <p>오늘의</p>
-          <p>{question}<KeyboardArrowRightIcon/></p>
+          <p className="todays">오늘의</p>
+          <div className="questionDetail">
+            <p>A에 대해서 어떻게 생각해?</p>
+            <p className="goToAns">답변하러 가기＞ </p>
+          </div>
         </div>
-        <div className="answer">
-          <div className="my_answer">
-            <p style={{ width: "100%"}}>
-              <Chip
-                avatar={<Avatar alt="my_avatar" src={profileImage} />}
-                label={nickname ? nickname : name}
-                variant="outlined"
-              />
-            </p>
-            <p>{myAns}</p>
+        {/* <div className="answer">
+          <div>
+            <p>나의 답변</p>
           </div>
           <div className="your_answer">
             <p style={{ width: "100%" }}>
@@ -99,7 +95,7 @@ const QuestionCard = (props: Props) => {
             </p>
             <p>{yourAns}</p>
           </div>
-        </div>
+        </div> */}
         <div className="q">Q</div>
       </Card>
     </>

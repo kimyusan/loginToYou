@@ -6,9 +6,8 @@ import { axiosAuth } from "../util/token";
 
 import useUserStore from "../stores/UserStore";
 import useAuthStore from "../stores/AuthStore";
-import { useShallow } from "zustand/react/shallow";
 
-import { Header, InputForm } from "../styles/Chat/UI";
+import { Header } from "../styles/Chat/UI";
 import { IconContext } from "react-icons";
 import { GoArrowLeft } from "react-icons/go";
 import { FaPhone } from "react-icons/fa";
@@ -20,30 +19,19 @@ import TokenCheker from "../util/TokenCheker";
 function Chat() {
   const [messages, setMessages] = useState<MessageInterface[]>([]);
   const [showMessages, setShowMessages] = useState<MessageInterface[]>([]);
+  const [showChatNum, setShowChatNum] = useState(0);
   const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isOppOn, setIsOppOn] = useState(false);
   const client = useRef<CompatClient>();
   const PATH = useAuthStore.getState().PATH;
   const token = useAuthStore.getState().token;
-
-  const { coupleId, userId, name } = useUserStore(
-    useShallow((state) => ({
-      userId: state.userId,
-      coupleId: state.coupleId,
-      name: state.name,
-    }))
-  );
   const navigate = useNavigate();
   const { room_id } = useParams();
-  const [showChatNum, setShowChatNum] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isOppOn, setIsOppOn] = useState(false);
 
-  const updateReadCount = () => {
-    setShowMessages((messages) => {
-      return messages.map((each) => ({ ...each, readCount: false }));
-    });
-  };
+  const userId = useUserStore.getState().userId;
 
+  // 읽음여부 갱신
   const updateRead = async () => {
     await axiosAuth.post(
       "/chat/readUser",
@@ -57,6 +45,7 @@ function Chat() {
     );
   };
 
+  // 방 접속 인원 수 체크
   const checkRoom = async () => {
     const res = await axiosAuth.get("/chat/connect/check", {
       params: {
@@ -85,31 +74,13 @@ function Chat() {
         if (!token) return;
         updateRead();
 
-        // // 더미데이터 만드는 코드
-        // for (let i = 1; i <= 150; i++) {
-        //   client.current.send(
-        //     `/pub/chat/message`,
-        //     {
-        //       Authorization: token,
-        //     },
-        //     JSON.stringify({
-        //       type: "TALK",
-        //       roomId: room_id,
-        //       sendUserId: i % 2 == 0 ? 1 : 2,
-        //       message: i,
-        //       createdAt: new Date().toLocaleString(),
-        //       readCount: isOppOn ? false : true,
-        //     })
-        //   );
-        // }
-
         // 신규 메세지 체크
         client.current.subscribe(
           `/sub/chat/room/${room_id}`,
           (msg) => {
             if (!msg.body) return;
             let newMsg = JSON.parse(msg.body);
-            console.log(newMsg.type);
+
             if (newMsg.type == "SUBSCRIBE") {
               setIsOppOn((prev) => true);
             } else if (newMsg.type == "TALK") {
@@ -134,6 +105,7 @@ function Chat() {
     );
   };
 
+  // 상대방 접속 시 읽음표시처리
   useEffect(() => {
     if (isOppOn == true) {
       setMessages((prev) => {

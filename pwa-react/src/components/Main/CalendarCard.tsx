@@ -44,29 +44,23 @@ const CalendarCard = () => {
 
   return (
     <CalendarSec onClick={() => navigate("/calendar")}>
-      <p className="year_month">
-        <span>
+      <div className="left_side">
+        <div className="year_month">
           {todayYear}/{todayMonth}
-        </span>
-        <KeyboardArrowRightIcon />
-      </p>
-      <div className="bottom">
-        <div className="left_side">
-          <p className="date">{todayDate}</p>
         </div>
-        <div className="right_side">
-          <ul className="next_schedule">
-            {sortedEvents.length >= 2 ? (
-              sortedEvents
-                .splice(0, 2)
-                .map((it, idx) => <li key={idx}>{it.title}</li>)
-            ) : sortedEvents.length >= 1 ? (
-              <li>{sortedEvents[0].title}</li>
-            ) : (
-              "예정된 일정이 없어요"
-            )}
-          </ul>
-        </div>
+        <div className="date">{todayDate}</div>
+      </div>
+      <div className="right_side">
+        <ul className="next_schedule">
+          <li>점심먹기</li>
+          {sortedEvents.length >= 2 ? (
+            sortedEvents
+              .splice(0, 2)
+              .map((it, idx) => <li key={idx}>{it.title}</li>)
+          ) : sortedEvents.length >= 1 ? (
+            <li>{sortedEvents[0].title}</li>
+          ) : null}
+        </ul>
       </div>
     </CalendarSec>
   );
