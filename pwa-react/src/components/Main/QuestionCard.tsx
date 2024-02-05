@@ -42,7 +42,7 @@ const QuestionCard = (props: Props) => {
       .get(`/question/get/answer`, {
         params: { todayQuestionId: todayToString(), userId: userId },
       })
-      .then((res) => setMyAns(res.data.userAnswer))
+      .then((res) => setMyAns(res.data?.userAnswer))
   };
 
 

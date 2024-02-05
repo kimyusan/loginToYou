@@ -16,6 +16,9 @@ import { BtnBox } from "../styles/ChatVideo/Chat";
 import PhoneDisabledIcon from "@mui/icons-material/PhoneDisabled";
 import CameraswitchIcon from "@mui/icons-material/Cameraswitch";
 
+import { Avatar } from "@mui/material";
+import PhoneEnabledIcon from "@mui/icons-material/PhoneEnabled";
+
 const APPLICATION_SERVER_URL = "https://logintoyou.kro.kr:8080/openvidu/";
 
 export default function App() {
@@ -244,6 +247,13 @@ export default function App() {
               required
               style={{ display: "none" }}
             />
+            <div>
+              <Avatar
+                alt="your_profile_image"
+                src="/static/images/avatar/1.jpg"
+              />
+              <PhoneEnabledIcon/>
+            </div>
             <ReadyBtn name="commit" type="submit">
               화상채팅 연결하기
             </ReadyBtn>
