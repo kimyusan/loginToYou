@@ -24,7 +24,13 @@ function Settings({}: Props) {
         테마 설정
       </Menu>
       <MenuTitle>개인정보 수정</MenuTitle>
-      <Menu>비밀번호 수정</Menu>
+      <Menu
+        onClick={() => {
+          navigate("password");
+        }}
+      >
+        비밀번호 수정
+      </Menu>
       <Menu>회원 탈퇴</Menu>
     </>
   );
