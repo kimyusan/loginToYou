@@ -28,7 +28,7 @@ export default function App() {
   const divRef = useRef(null);
   const navigate = useNavigate();
   const { coupleId, userId, nickname } = useUserStore();
-  const [mySessionId, setMySessionId] = useState(`logintoyou${coupleId}`)
+  const [mySessionId, setMySessionId] = useState(`logintoyou15`)
   const [myUserName, setMyUserName] = useState(`${nickname}${userId}`)
   const [session, setSession] = useState(undefined);
   const [publisher, setPublisher] = useState(undefined);
@@ -109,7 +109,7 @@ export default function App() {
     OV.current = new OpenVidu();
     setSession(undefined);
     setSubscribers([]);
-    setMySessionId(`logintoyou${coupleId}`);
+    setMySessionId(`logintoyou15`);
     setMyUserName(`${nickname}${userId}`);
     setPublisher(undefined);
   }, [session]);

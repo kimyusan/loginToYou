@@ -1,4 +1,4 @@
-package com.ssafy.spyfamily.calendar.repositroy;
+package com.ssafy.spyfamily.calendar.repository;
 
 import com.ssafy.spyfamily.calendar.model.Calendar;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,7 +1,7 @@
 package com.ssafy.spyfamily.calendar.service;
 
 import com.ssafy.spyfamily.calendar.model.Calendar;
-import com.ssafy.spyfamily.calendar.repositroy.CalendarRepository;
+import com.ssafy.spyfamily.calendar.repository.CalendarRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
