@@ -24,6 +24,7 @@ import Question from "./routes/Question";
 import ChatVideo from "./routes/ChatVideo";
 import Settings from "./routes/Settings";
 import Theme from "./components/Settings/Theme";
+import ChangePw from "./components/Settings/ChangePw";
 
 function App() {
   const { isLogIn } = useAuthStore();
@@ -72,6 +73,7 @@ function App() {
             <Route path="/chat/video" element={<ChatVideo />}></Route>
             <Route path="/settings" element={<Settings />} />
             <Route path="/settings/theme" element={<Theme />} />
+            <Route path="/settings/password" element={<ChangePw />} />
           </Routes>
         </ThemeProvider>
       </div>
