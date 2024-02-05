@@ -15,8 +15,9 @@ public class ChallengeList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int challengeListId;
     private String subject;
-    private String contenct;
+    private String content;
     private int goal;
+    private String type;
 
 
 }
