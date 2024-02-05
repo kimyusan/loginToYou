@@ -9,17 +9,50 @@ import { ReadyBtn, JoinForm } from "../styles/ChatVideo/Chat";
 
 import { BurgerButton } from "../styles/common/hamburger";
 import Navbar from "../components/Navbar";
-
 import useUserStore from "../stores/UserStore";
 
+// 연결 신청 버튼(+연결할 상대방 프로필이미지)
+import { Avatar } from "@mui/material";
+import PhoneEnabledIcon from "@mui/icons-material/PhoneEnabled";
+import useCoupleStore from "../stores/CoupleStore";
+import { CallBtn } from "../styles/ChatVideo/Chat";
+
+import { useDrag } from "react-dnd";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+
+// 연결 중 띄워지는 버튼(연결종료, 카메라전환)
 import { BtnBox } from "../styles/ChatVideo/Chat";
 import PhoneDisabledIcon from "@mui/icons-material/PhoneDisabled";
 import CameraswitchIcon from "@mui/icons-material/Cameraswitch";
 
-import { Avatar } from "@mui/material";
-import PhoneEnabledIcon from "@mui/icons-material/PhoneEnabled";
-
 const APPLICATION_SERVER_URL = "https://logintoyou.kro.kr:8080/openvidu/";
+
+const AvatarComponent = ({ yourProfileImage, onDrag }) => {
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: "avatar",
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  }));
+
+  return (
+    <span
+      className="avatar"
+      ref={(node) => drag(node)}
+      style={{
+        opacity: isDragging ? 0.5 : 1,
+        cursor: "grab",
+        position: "absolute",
+        left: 0,
+        top: 0,
+      }}
+      onTouchStart={onDrag}
+    >
+      <Avatar alt="your_profile_image" src={yourProfileImage} />
+    </span>
+  );
+};
 
 export default function App() {
   const { coupleId } = useUserStore();
@@ -214,95 +247,154 @@ export default function App() {
     setIsNavigationOpen(!isNavigationOpen);
   };
 
+  // 상대방 프로필 이미지 가져옴 -> 연결신청 버튼에 넣을 것
+  const { yourProfileImage } = useCoupleStore();
+
+  const handleDragStart = (e) => {
+    // 터치 이벤트의 초기 위치
+    const initialTouchX = e.touches[0].clientX;
+    const avatar = e.currentTarget;
+    if (!avatar) {
+      return;
+    }
+    // 드래그 중에 실행되는 함수
+    const handleDragging = (moveEvent) => {
+      // 현재 터치 위치와 초기 위치의 차이를 계산한 이동 거리
+      const moveX = moveEvent.touches[0].clientX - initialTouchX;
+
+      avatar.style.transform = `translateX(${moveX}px)`;
+    };
+
+    // 드래그가 끝나면 실행되는 함수
+    const handleDragEnd = () => {
+      
+      // Check if the avatar is over the call_btn
+      const callBtn = document.querySelector(".call_btn");
+      const avatarBounds = avatar.getBoundingClientRect();
+      const callBtnBounds = callBtn.getBoundingClientRect();
+
+      if (
+        avatarBounds.left < callBtnBounds.right &&
+        avatarBounds.right > callBtnBounds.left &&
+        avatarBounds.top < callBtnBounds.bottom &&
+        avatarBounds.bottom > callBtnBounds.top
+      ) {
+        // Trigger the form submission
+        console.log('qwerqwer')
+        joinSession()
+      }
+
+      // 이벤트 리스너를 제거합니다.
+      window.removeEventListener("touchmove", handleDragging);
+      window.removeEventListener("touchend", handleDragEnd);
+
+      // Avatar의 이동을 초기화
+      avatar.style.transform = "translateX(0)";
+    };
+
+    // 터치 이벤트에 이벤트 리스너를 추가
+    window.addEventListener("touchmove", handleDragging);
+    window.addEventListener("touchend", handleDragEnd);
+  };
+
   return (
-    <div>
-      {session === undefined ? (
-        <div>
-          <BurgerButton onClick={toggleNavigation}>
-            {isNavigationOpen ? "×" : "☰"}
-          </BurgerButton>
+    <DndProvider backend={HTML5Backend}>
+      <div>
+        {session === undefined ? (
+          <div>
+            <BurgerButton onClick={toggleNavigation}>
+              {isNavigationOpen ? "×" : "☰"}
+            </BurgerButton>
 
-          <Navbar isOpen={isNavigationOpen} />
+            <Navbar isOpen={isNavigationOpen} />
 
-          <WebCam
-            style={{
-              width: "100%",
-              height: "300px",
-              transform: "scaleX(-1)",
-              paddingTop: "20dvh",
-            }}
-          />
-          <JoinForm onSubmit={joinSession}>
-            <input
-              type="text"
-              value={myUserName}
-              onChange={handleChangeUserName}
-              required
-              style={{ display: "none" }}
+            <WebCam
+              style={{
+                width: "100%",
+                height: "300px",
+                transform: "scaleX(-1)",
+                paddingTop: "20dvh",
+              }}
             />
-            <input
-              type="text"
-              value={mySessionId}
-              onChange={handleChangeSessionId}
-              required
-              style={{ display: "none" }}
-            />
-            <div>
-              <Avatar
-                alt="your_profile_image"
-                src="/static/images/avatar/1.jpg"
+            <JoinForm onSubmit={joinSession} className="joinform">
+              <input
+                type="text"
+                value={myUserName}
+                onChange={handleChangeUserName}
+                required
+                style={{ display: "none" }}
               />
-              <PhoneEnabledIcon/>
-            </div>
-            <ReadyBtn name="commit" type="submit">
-              화상채팅 연결하기
-            </ReadyBtn>
-          </JoinForm>
-        </div>
-      ) : null}
-
-      {session !== undefined ? (
-        <div>
-          <div
-            style={{
-              position: "relative",
-              marginTop: "10dvh",
-              // paddingTop: "20dvh",
-              // height: "60dvh",
-            }}
-          >
-            {publisher !== undefined ? (
-              <div>
-                <UserVideoComponent streamManager={publisher} type={1} />
-              </div>
-            ) : null}
-            {subscribers.length > 0 ? (
-              <div>
-                <UserVideoComponent streamManager={subscribers[0]} type={0} />
-              </div>
-            ) : null}
+              <input
+                type="text"
+                value={mySessionId}
+                onChange={handleChangeSessionId}
+                required
+                style={{ display: "none" }}
+              />
+              <CallBtn>
+                <AvatarComponent
+                  yourProfileImage={yourProfileImage}
+                  onDrag={handleDragStart}
+                />
+                <span className="invisible_btn">
+                  <PhoneEnabledIcon />
+                </span>
+                <ReadyBtn
+                  className="ready_btn blink"
+                  name="commit"
+                  type="submit"
+                >
+                  밀어서 연결하기
+                </ReadyBtn>
+                <span className="call_btn">
+                  <PhoneEnabledIcon />
+                </span>
+              </CallBtn>
+            </JoinForm>
           </div>
-          <BtnBox>
-            <span
-              className="stopBtn"
-              type="button"
-              onClick={leaveSession}
-              value="Leave session"
+        ) : null}
+
+        {session !== undefined ? (
+          <div>
+            <div
+              style={{
+                position: "relative",
+                marginTop: "10dvh",
+              }}
             >
-              <PhoneDisabledIcon className="disabledBtn" />
-            </span>
-            <span className="blink">연결중</span>
-            <span
-              className="switchBtn"
-              type="button"
-              onClick={switchCamera}
-              value="Switch Camera"
-            >
-              <CameraswitchIcon />
-            </span>
-          </BtnBox>
-        </div>
-      ) : null}
-    </div>
+              {publisher !== undefined ? (
+                <div>
+                  <UserVideoComponent streamManager={publisher} type={1} />
+                </div>
+              ) : null}
+              {subscribers.length > 0 ? (
+                <div>
+                  <UserVideoComponent streamManager={subscribers[0]} type={0} />
+                </div>
+              ) : null}
+            </div>
+            <BtnBox>
+              <span
+                className="stopBtn"
+                type="button"
+                onClick={leaveSession}
+                value="Leave session"
+              >
+                <PhoneDisabledIcon className="disabledBtn" />
+              </span>
+              <span className="blink">연결중</span>
+              <span
+                className="switchBtn"
+                type="button"
+                onClick={switchCamera}
+                value="Switch Camera"
+              >
+                <CameraswitchIcon />
+              </span>
+            </BtnBox>
+          </div>
+        ) : null}
+      </div>
+    </DndProvider>
   );
 }

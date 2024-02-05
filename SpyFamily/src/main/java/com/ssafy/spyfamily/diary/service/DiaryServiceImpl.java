@@ -36,6 +36,14 @@ public class DiaryServiceImpl implements DiaryService{
         System.out.println("registerDate  : " + registerDate);
 
         ArrayList<DiaryMemo> list = diaryMemoRepository.findByCoupleIdAndRegisterDate(coupleId, registerDate);
+
+        if (list.size() == 0) {
+            list.add(new DiaryMemo());
+            list.add(new DiaryMemo());
+        } else if (list.size() == 1) {
+            list.add(new DiaryMemo());
+        }
+
         System.out.println("getDiaryMemo");
         System.out.println(list);
 
@@ -111,6 +119,7 @@ public class DiaryServiceImpl implements DiaryService{
 
             if (count == 0) {
                 System.out.println("사진이 남아있지 않다면");
+                // 메모 삭제
                 diaryMemoRepository.deleteByCoupleIdAndRegisterDate(diary.getCoupleId(), diary.getRegisterDate());
             } else {
                 System.out.println("남겨진 다이어리 개수 : " + count);

@@ -27,4 +27,9 @@ public interface DiaryMemoRepository extends JpaRepository<DiaryMemo, Integer> {
     @Query("DELETE FROM DiaryMemo d WHERE d.coupleId = :coupleId AND d.registerDate = :registerDate")
     void deleteByCoupleIdAndRegisterDate(@Param("coupleId") Integer coupleId, @Param("registerDate") String registerDate);
 
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM DiaryMemo d WHERE d.coupleId = :coupleId")
+    void deleteByCoupleId(Integer coupleId);
+
 }
