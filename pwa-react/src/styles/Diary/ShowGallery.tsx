@@ -9,12 +9,20 @@ const GalleryBox = styled.div`
   overflow: scroll;
 
   & .item {
-    width: 33.3333%;
-    height: auto;
+    width: 25dvw;
+    height: 25dvw;
+
+    &.add {
+      background-color: ${(props) => props.theme.color.lightgrey};
+      color: ${(props) => props.theme.color.grey};
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
     & img {
       width: 100%;
-      height: 110px;
+      height: 100%;
     }
   }
 

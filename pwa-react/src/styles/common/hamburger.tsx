@@ -1,13 +1,14 @@
 import styled from "styled-components";
 
-const BurgerButton = styled.button`
+const BurgerButton = styled.div`
   z-index: 90000;
   position: absolute;
-  top: 1%;
-  right: 2%;
   background-color: transparent;
-  border: none;
-  font-size: 1.7rem;
+  top: 1dvh;
+  right: 1dvw;
+  margin-right: 10px;
+  padding: 0;
+  font-size: 2rem;
 `;
 
 export { BurgerButton };

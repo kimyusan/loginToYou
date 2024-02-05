@@ -8,24 +8,31 @@ const FirstSection = styled.div`
   grid-template:
     "b a" 1fr
     "b c" 1fr / 1fr 1fr;
-  gap: 1em;
-  padding-left: 5%;
-  padding-right: 10%;
+  gap: 2dvw;
+  padding-left: 5dvw;
+  padding-right: 5dvw;
   .camera {
     grid-area: b;
-    aspect-ratio: 0.5;
     position: relative;
     background-color: ${(props) => {
       return props.theme.color.sub1;
     }};
     margin: 0;
+    overflow: hidden;
+
+    .cameraIcon {
+      position: absolute;
+      bottom: 0;
+      left: -3rem;
+    }
+
     div {
       position: absolute;
       right: 0;
       text-align: end;
-      font-size: 1.4rem;
-      padding-top: 13%;
-      padding-right: 10%;
+      font-size: 1.5rem;
+      padding-top: 5dvh;
+      padding-right: 5dvw;
       p {
         margin: 0;
       }
@@ -44,8 +51,8 @@ const FirstSection = styled.div`
       position: absolute;
       left: 0;
       bottom: 0;
-      margin: 10%;
-      font-size: 1.3rem;
+      margin: 5dvw;
+      font-size: 1.5rem;
       color: white;
     }
   }
@@ -62,92 +69,93 @@ const FirstSection = styled.div`
       position: absolute;
       left: 0;
       bottom: 0;
-      margin: 10%;
-      font-size: 1.3rem;
+      margin: 5dvw;
+      font-size: 1.5rem;
       color: white;
     }
     .chat_num {
       z-index: 1;
       margin: 0;
       position: absolute;
-      right: 0;
-      bottom: 0;
-      margin-right: 10%;
-      font-size: 7rem;
+      right: 5dvw;
+      bottom: 1dvh;
+      font-family: "Phudu", sans-serif;
+      font-weight: 600;
+      font-size: 8rem;
       color: ${(props) => {
-        return props.theme.color.point;
+        return props.theme.color.sub1;
       }};
     }
   }
 `;
 
 const CalendarSec = styled(Card)`
-  padding: 3%;
-  margin: 5%;
-  height: 20dvh;
-  .year_month {
-    width: 100%;
-    /* position: absolute; */
-    display: flex;
-    justify-content: space-between;
-    left: 5%;
-    /* top: 0; */
-    font-size: 1.4rem;
-    margin: 0;
-  }
-  .bottom {
-    display: flex;
-    justify-content: space-between;
-    position: relative;
-    height: 50%;
-  }
+  /* padding: 3dvw; */
+  /* margin: 5%; */
+  /* height: max-content; */
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  font-family: "Phudu", sans-serif;
   .left_side {
     position: relative;
-    width: 50%;
+    width: 50dvw;
+    padding: 1dvw;
+    height: auto;
+    .year_month {
+      position: absolute;
+      margin: 1dvw;
+      font-size: 1.3rem;
+    }
     .date {
-      margin: 0;
+      position: absolute;
+      left: 2dvw;
+      bottom: 0;
+      font-weight: 600;
       line-height: 1;
       color: ${(props) => {
         return props.theme.color.sub1;
       }};
-      font-size: 6rem;
+      font-size: 7rem;
     }
   }
   .right_side {
     position: relative;
-    width: 50%;
+    width: 50dvw;
     .next_schedule {
-      padding: 0;
+      position: absolute;
+      bottom: 0;
+
+      li::marker {
+        color: ${(props) => props.theme.color.main};
+      }
     }
   }
 `;
 
 const SecondSection = styled.div`
   ${Card} {
-    padding: 3%;
-    margin: 5%;
-    margin-bottom: 3%;
-    height: 17dvh;
+    height: 20dvh;
   }
   .question_card {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    height: auto;
+    height: 13dvh;
+    overflow: hidden;
     .question {
-      z-index: 2;
+      height: 100%;
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid
+      /* border-bottom: 1px solid
         ${(props) => {
-          return props.theme.color.grey;
-        }};
-      padding-bottom: 3%;
-      :nth-child(1) {
-        font-size: 1.2rem;
-        width: 35%;
-      }
+        return props.theme.color.grey;
+      }}; */
+      /* padding-bottom: 1dvh; */
+      z-index: 1;
       p {
+        font-size: 1.2rem;
+        /* align-self: flex-start; */
         margin: 0;
         z-index: 5;
         display: flex;
@@ -156,6 +164,22 @@ const SecondSection = styled.div`
       svg {
         width: auto !important;
         margin-left: 5% !important;
+      }
+      .todays {
+        align-self: flex-start;
+      }
+      .questionDetail {
+        font-size: 1.1rem;
+        align-self: flex-end;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-end;
+      }
+      .goToAns {
+        font-size: 1rem;
+        margin-top: 5px;
+        color: ${(props) => props.theme.color.grey};
       }
     }
     .answer {
@@ -191,52 +215,54 @@ const SecondSection = styled.div`
     .q {
       z-index: 0;
       position: absolute;
-      font-size: 8rem;
+      font-size: 9rem;
       font-weight: 700;
       color: ${(props) => {
         return props.theme.color.sub4;
       }};
-      top: 0;
-      line-height: 0.9;
-      left: 7%;
+      top: 5dvh;
+      line-height: 0;
+      left: 2dvw;
+      z-index: 0;
     }
   }
 `;
 
 const ThirdSection = styled.div`
-  margin-bottom: 10%;
+  margin-bottom: 3dvh;
   display: flex;
   ${Card} {
-    width: 50%;
+    margin-top: 0;
+    width: 50dvw;
     aspect-ratio: 1.5;
   }
   .balance_game {
     background-color: ${(props) => {
       return props.theme.color.sub2;
     }};
+    margin-right: 2dvw;
     position: relative;
-    p:nth-child(1) {
+    div:nth-child(1) {
       z-index: 2;
       position: absolute;
-      margin: 0;
-      bottom: 0;
+      left: 10px;
+      bottom: 10px;
       font-size: 1.3rem;
       color: white;
-      padding: 7% 3%;
     }
-    p:nth-child(2) {
+    div:nth-child(2) {
       z-index: 1;
       line-height: 1;
       position: absolute;
-      font-size: 5rem;
+      font-size: 6rem;
       font-weight: 700;
       color: ${(props) => {
         return props.theme.color.sub4;
       }};
-      right: 0;
-      top: 0;
+      font-family: "Phudu", sans-serif;
+      right: 2dvw;
+      top: 1dvh;
       margin: 0;
-      padding: 0 5%;
     }
   }
   .challenge {
@@ -246,10 +272,9 @@ const ThirdSection = styled.div`
       display: flex;
       flex-direction: column;
       align-items: end;
-      position: absolute;
-      bottom: 5%;
-      right: 5%;
-      p {
+      bottom: 1dvw;
+      right: 2dvw;
+      div {
         margin: 0;
         font-size: 1.3rem;
       }

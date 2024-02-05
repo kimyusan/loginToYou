@@ -31,7 +31,7 @@ const Invite = () => {
       },
     });
     setUser(res.data);
-    if (coupleId != null) navigate("/");
+    if (coupleId != null) navigate("/main");
   };
 
   useEffect(() => {
