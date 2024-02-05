@@ -12,6 +12,7 @@ import { FaCamera } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import { useTheme } from "styled-components";
 import { Card } from "../styles/common/card";
+import axios from "axios";
 
 import HeaderSection from "../components/Main/HeaderSection";
 import CalendarCard from "../components/Main/CalendarCard";
@@ -43,6 +44,13 @@ const Main = () => {
   const [cpInfo, setCpInfo] = useState<CoupleInterface>();
   const [unreadMessage, setUnreadMessage] = useState(0);
   const [isCameraMode, setIsCameraMode] = useState(false);
+  const PATH = useAuthStore.getState().PATH;
+  const { yourId, setYourProfileImage } = useCoupleStore(
+    useShallow((state) => ({
+      yourId: state.yourId,
+      setYourProfileImage: state.setYourProfileImage,
+    }))
+  );
 
   // 채팅방 이동 시 roomId 조회
   const goChat = async () => {

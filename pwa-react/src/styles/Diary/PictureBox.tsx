@@ -78,7 +78,7 @@ const GoCreateDiary = styled.div`
 
 const PicBox = styled.div`
   width: 90%;
-  height: 85%;
+  height: 80%;
   border: 1px solid #cecece;
   margin-top: 8%;
   background-color: lightgray;
@@ -88,6 +88,7 @@ const PicBox = styled.div`
   img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
   }
 `;
 
