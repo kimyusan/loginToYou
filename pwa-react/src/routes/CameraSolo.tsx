@@ -1,31 +1,52 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useShallow } from "zustand/react/shallow";
 
 import useAuthStore from "../stores/AuthStore";
 import useUserStore from "../stores/UserStore";
 
-import { TimerText, CameraBox, CameraButton, OptionsContainer, SaveBox, SaveBoxItem,SubjectBox } from '../styles/Camera/CameraSolo';
-import { GoBack } from "../styles/Camera/CameraCouple"
-import { BurgerButton } from "../styles/common/hamburger";
+import { TimerText, CameraBox, CameraButton, OptionsContainer, SaveBox, SaveBoxItem, SubjectBox } from '../styles/Camera/CameraSolo';
 
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import TimerIcon from '@mui/icons-material/Timer';
 import CameraswitchIcon from '@mui/icons-material/Cameraswitch';
 
-import Navbar from "../components/Navbar";
+import Webcam from 'react-webcam';
+import html2canvas from "html2canvas";
+
+type WebcamRefType = React.MutableRefObject<Webcam | null>;
+
+let webcamRef: WebcamRefType = { current: null };
+
+export const setWebcamRef = (ref: WebcamRefType) => {
+  webcamRef = ref;
+};
+
+export const stopWebCam = () => {
+  if (webcamRef?.current?.video) {
+    const stream = webcamRef.current.video.srcObject as MediaStream;
+    const tracks = stream.getTracks();
+    tracks.forEach((track) => track.stop());
+
+    webcamRef.current.video.srcObject = null;
+  }
+};
 
 const CameraSolo: React.FC = () => {
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const webcamRef = useRef<Webcam>(null);
+  const divRef = useRef(null);
+  const canvasRef = useRef(null);
+  
   const [time, setTime] = useState(0);
   const [selectTime, setSelectTime] = useState("");
   const [photo, setPhoto] = useState(true);
   const [showOptions, setShowOptions] = useState(false);
   const [ImageContent, setImageContent] = useState("");
+  const [imgSrc, setImgSrc] = useState("")
+
   const navigate = useNavigate();
-  
+
   const { PATH, token } = useAuthStore(
     useShallow((state) => ({
       PATH: state.PATH,
@@ -40,54 +61,33 @@ const CameraSolo: React.FC = () => {
   // 카메라 전환 함수 추가
   const switchCamera = () => {
     setUseFrontCamera(!useFrontCamera);
-    startCamera(!useFrontCamera);
   };
 
   const changeContent = (event: React.ChangeEvent<HTMLInputElement>) => {
     setImageContent(event.target.value);
   };
 
-  // startCamera 함수 수정
-  const startCamera = async (isFrontCamera = true) => {
-    try {
-      const constraints = {
-        video: {
-          width: window.innerWidth,
-          height: window.innerHeight,
-          facingMode: isFrontCamera ? "user" : "environment",
-        },
-      };
-      const stream = await navigator.mediaDevices.getUserMedia(constraints);
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-      }
-    } catch (error) {
-      console.error("Error opening video camera.", error);
-    }
-  };
-
   useEffect(() => {
-    startCamera();
+    setWebcamRef(webcamRef);
   }, []);
 
   const takePhoto = (timer: number) => {
     setTime(timer);
     setTimeout(() => {
-      if (videoRef.current && canvasRef.current) {
-        const context = canvasRef.current.getContext('2d');
-        canvasRef.current.width = window.innerWidth; // 높은 해상도의 너비
-        canvasRef.current.height = window.innerHeight; // 높은 해상도의 높이
-        if (context) {
-          context.drawImage(videoRef.current, 0, 0, window.innerWidth, window.innerHeight);
-        }
-      }
+      const imageSrc = webcamRef.current?.getScreenshot({width: window.innerWidth, height:480});
+      setImgSrc(imageSrc ? imageSrc : "")
       setPhoto(false);
+      stopWebCam();
     }, timer * 1000);
   };
 
-  const SavePhoto = () => {
-    canvasRef.current?.toBlob((blob: Blob | null) => {
-      if (blob) {
+  const SavePhoto = async () => {
+    if (!divRef.current) return;
+
+    const div = divRef.current;
+    const canvas = await html2canvas(div, { scale: 2 });
+    canvas.toBlob((blob) => {
+      if (blob !== null) {
         const formData = new FormData();
 
         formData.append("imgInfo", blob);
@@ -109,13 +109,12 @@ const CameraSolo: React.FC = () => {
             navigate("/diary")
           })
           .catch((error) => console.log("사진 저장 실패", error))
-      } else {
+      }
+      else {
         console.error('Unable to get the blob from the canvas');
       }
-    }, 'image/png');
-
-
-  }
+    }, 'image/png')
+  };
 
   useEffect(() => {
     time > 0 && setTimeout(() => setTime(time - 1), 1000);
@@ -132,40 +131,36 @@ const CameraSolo: React.FC = () => {
 
   const PicAgain = () => {
     setPhoto(!photo)
+    setImgSrc("")
+    setImageContent("")
+    setWebcamRef(webcamRef)
+    setTime(0);
   }
-
-  const [isNavigationOpen, setIsNavigationOpen] = useState(false);
-  const toggleNavigation = () => {
-    setIsNavigationOpen(!isNavigationOpen);
-  };
 
   return (
     <div>
-      <GoBack>
-        <Link to="/camera">←</Link>
-        <BurgerButton onClick={toggleNavigation}>
-          {isNavigationOpen ? "×" : "☰"}
-        </BurgerButton>
-      </GoBack>
-
-      <Navbar isOpen={isNavigationOpen} />
-
       <TimerText>{time > 0 ? <div>{time}</div> : null}</TimerText>
 
-      <CameraBox>
-        <video ref={videoRef} playsInline autoPlay={true} style={{ display: photo ? "" : "none", transform: useFrontCamera ? "scaleX(-1)" : "scaleX(1)", position: "fixed", top: "10%"}} />
-        <canvas ref={canvasRef} style={{ display: photo ? "none" : "", width: window.innerWidth, height: "480px", transform: "scaleX(-1)", position: "fixed", top: "10%"}} />
+      <CameraBox ref={divRef}>
+        {imgSrc === "" ? <Webcam
+          audio={false}
+          ref={webcamRef}
+          screenshotQuality={1}
+          screenshotFormat="image/png"
+          videoConstraints={{ facingMode : useFrontCamera ? "user" : "enviroment" }}
+          style={{ width: window.innerWidth, height: "480px", transform: useFrontCamera ? "scaleX(-1)": "scaleX(1)"}}
+        /> : <img src={imgSrc} alt="사진입니다" style={{ transform: useFrontCamera ? "scaleX(-1)": "scaleX(1)"}}></img>}
       </CameraBox>
 
-      {photo ? null : <div style={{ display: "flex", justifyContent: "center"}}>
+      {photo ? null : <div style={{ display: "flex", justifyContent: "center" }}>
         <SubjectBox placeholder='사진에 메모를 남겨주세요!' type='text' value={ImageContent} onChange={changeContent} maxLength={20}></SubjectBox>
-        </div>}
+      </div>}
       {photo ? null : <SaveBox>
         <SaveBoxItem onClick={SavePhoto}>저장하기</SaveBoxItem>
         <SaveBoxItem onClick={PicAgain}>다시 찍기</SaveBoxItem>
       </SaveBox>}
 
-      <div style={{ position: "fixed", bottom: "5%", width: "100%" }}>
+      <div>
         {showOptions && (
           <OptionsContainer>
             <div onClick={() => TimeChange("0")}>

@@ -10,16 +10,17 @@ export default function OpenViduVideoComponent1({ streamManager, zi }) {
   }, [streamManager]);
 
   return (
-    <div style={{ width: "360px", height: "292px", position: "fixed", top: "10%", zIndex: "-1" }}>
-      <video
-        ref={videoRef}
-        playsInline
-        style={{
-          width: "360px",
-          height: "100%",
-          transform: "scaleX(-1)"
-        }}
-      />
-    </div>
+    <video
+      ref={videoRef}
+      autoPlay
+      muted
+      playsInline
+      style={{
+        width: window.innerWidth,
+        height: "480px",
+        transform: "scaleX(1)",
+        position: "fixed", top: "10%", zIndex: "-1", objectFit:"cover"
+      }}
+    />
   )
 }

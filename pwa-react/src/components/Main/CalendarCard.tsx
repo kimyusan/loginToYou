@@ -4,6 +4,7 @@ import { CalendarSec } from "../../styles/Main/Main";
 import { useNavigate } from "react-router-dom";
 import { CalendarStore } from "../../stores/CalendarStore";
 import { Event } from "../../interface/CalendarInterface";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const CalendarCard = () => {
   const navigate = useNavigate();

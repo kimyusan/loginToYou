@@ -158,6 +158,12 @@ const SecondSection = styled.div`
         /* align-self: flex-start; */
         margin: 0;
         z-index: 5;
+        display: flex;
+        /* align-items: center; */
+      }
+      svg {
+        width: auto !important;
+        margin-left: 5% !important;
       }
       .todays {
         align-self: flex-start;
@@ -177,28 +183,37 @@ const SecondSection = styled.div`
       }
     }
     .answer {
-      z-index: 3;
+      z-index: 2;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 5%;
       margin-top: 5%;
-      div {
+      .my_answer,
+      .your_answer {
         border-radius: 5%;
         z-index: 3;
-        aspect-ratio: 2;
         background-color: ${(props) => {
           return props.theme.color.grey;
         }}15;
         display: flex;
-        align-items: center;
-        justify-content: center;
+        flex-direction: column;
+        position: relative;
         p {
-          font-size: 1rem;
+          margin: 0;
+        }
+        :nth-child(2) {
+          padding: 6%;
+        }
+        .css-1j047yb-MuiChip-root {
+          max-width: auto !important;
+          min-width: 100%;
+          display: flex;
+          justify-content: start;
         }
       }
     }
     .q {
-      z-index: 1;
+      z-index: 0;
       position: absolute;
       font-size: 9rem;
       font-weight: 700;
