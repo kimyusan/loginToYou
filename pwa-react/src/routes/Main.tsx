@@ -11,21 +11,17 @@ import { UserInterface, CoupleInterface } from "../interface/UserInterface";
 import { FaCamera } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import { useTheme } from "styled-components";
-
-import { BurgerButton } from "../styles/common/hamburger";
-import Navbar from "../components/Navbar";
-import HeaderSection from "../components/Main/HeaderSection";
 import { Card } from "../styles/common/card";
+
+import HeaderSection from "../components/Main/HeaderSection";
 import CalendarCard from "../components/Main/CalendarCard";
 import QuestionCard from "../components/Main/QuestionCard";
-import useAuthStore from "../stores/AuthStore";
 import useUserStore from "../stores/UserStore";
-import { useShallow } from "zustand/react/shallow";
 import useCoupleStore from "../stores/CoupleStore";
-import { axiosAuth } from "../util/token";
 import TokenCheker from "../util/TokenCheker";
 import MenuSection from "../components/MenuSection";
-import axios from "axios";
+import { useShallow } from "zustand/react/shallow";
+import { axiosAuth } from "../util/token";
 
 const Main = () => {
   const theme = useTheme();
@@ -86,7 +82,6 @@ const Main = () => {
         userId: userId,
       },
     });
-    console.log(res);
     setUnreadMessage((prev) => (res.data > 99 ? 99 : res.data));
   };
 
@@ -131,8 +126,9 @@ const Main = () => {
           </Card>
           <Card className="chat" onClick={goChat}>
             <p className="chat_name">채팅</p>
-            {/* <p className="chat_num">{unreadMessage}</p> */}
-            <p className="chat_num">1</p>
+            <p className="chat_num">
+              {unreadMessage > 99 ? 99 : unreadMessage}
+            </p>
           </Card>
         </FirstSection>
 
