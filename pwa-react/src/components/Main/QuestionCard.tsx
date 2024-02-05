@@ -2,14 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Card } from "../../styles/common/card";
 import { useNavigate } from "react-router-dom";
 import { axiosAuth } from "../../util/token";
-import useAuthStore from "../../stores/AuthStore";
 import useUserStore from "../../stores/UserStore";
-import useCoupleStore from "../../stores/CoupleStore";
-import { useShallow } from "zustand/react/shallow";
-import { Chip, Avatar } from "@mui/material";
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-
-
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 type Props = {};
 
@@ -42,33 +36,19 @@ const QuestionCard = (props: Props) => {
   // localhost:8080/question/get/answer?todayQuestionId=2&userId=16
   // 나
   const { userId, name, nickname, profileImage } = useUserStore();
-  const [myAns, setMyAns] = useState("답변이 등록되지 않았어요!");
+  const [myAns, setMyAns] = useState<null | string>(null);
   const getMyAns = () => {
     axiosAuth
       .get(`/question/get/answer`, {
         params: { todayQuestionId: todayToString(), userId: userId },
       })
       .then((res) => setMyAns(res.data.userAnswer))
-      .catch((err) => console.log(err));
   };
-  // 상대방
-  const { yourId, yourName, yourNickName, setYourProfileImage } =
-    useCoupleStore();
-  const [yourAns, setYourAns] = useState("답변이 등록되지 않았어요!");
-  const getYourAns = () => {
-    axiosAuth
-      .get(`/question/get/answer`, {
-        params: { todayQuestionId: todayToString(), userId: yourId },
-      })
-      .then((res) => setYourAns(res.data.userAnswer))
-      .catch((err) => console.log(err));
-  };
+
 
   useEffect(() => {
     getQuestion();
     getMyAns();
-    getYourAns();
-    // setYourProfileImage()
   }, []);
 
   return (
@@ -77,25 +57,11 @@ const QuestionCard = (props: Props) => {
         <div className="question">
           <p className="todays">오늘의</p>
           <div className="questionDetail">
-            <p>A에 대해서 어떻게 생각해?</p>
-            <p className="goToAns">답변하러 가기＞ </p>
+            <p>{question}</p>
+            <p className="goToAns">{myAns? <span></span> : <span>답변하기</span> }
+            <KeyboardArrowRightIcon/></p>
           </div>
         </div>
-        {/* <div className="answer">
-          <div>
-            <p>나의 답변</p>
-          </div>
-          <div className="your_answer">
-            <p style={{ width: "100%" }}>
-              <Chip
-                avatar={<Avatar alt="my_avatar" src={profileImage} />}
-                label={yourNickName ? yourNickName : yourName}
-                variant="outlined"
-              />
-            </p>
-            <p>{yourAns}</p>
-          </div>
-        </div> */}
         <div className="q">Q</div>
       </Card>
     </>

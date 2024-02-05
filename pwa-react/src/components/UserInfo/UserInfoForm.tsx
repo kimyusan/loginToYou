@@ -76,6 +76,7 @@ const UserInfoForm = (props: Props) => {
     if (phoneNumber !== "" && phoneNumber?.length !== 13) {
       return;
     }
+    
     // user정보 업데이트 요청 // mobile, birthday, gender, nickname만 수정
     axios
       .put(
@@ -186,6 +187,7 @@ const UserInfoForm = (props: Props) => {
     console.log(profileFile);
   }, [phoneNumber, nickname, birth]);
 
+  // 랜더링될 때 설정된 프로필이미지 띄우기
   useEffect(() => {
     axios
       .get(`${PATH}/profile/read`, {
