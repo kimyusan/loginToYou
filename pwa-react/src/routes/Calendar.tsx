@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BurgerButton } from "../styles/common/hamburger";
-import Navbar from "../components/Navbar";
 
 import { Wrapper, MyCalendar } from "../styles/Calendar/Calendar";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -14,15 +12,12 @@ import CalendarList from "../components/Calendar/CalendarList";
 import CalendarModalCard from "../components/Calendar/CalendarModalCard";
 import { useTheme } from "styled-components";
 import TokenCheker from "../util/TokenCheker";
+import MenuSection from "../components/MenuSection";
 
 type Props = {};
 
 const Calendar = (props: Props) => {
   const theme = useTheme();
-  const [isNavigationOpen, setIsNavigationOpen] = useState(false);
-  const toggleNav = () => {
-    setIsNavigationOpen(!isNavigationOpen);
-  };
 
   const {
     openModal,
@@ -70,8 +65,7 @@ const Calendar = (props: Props) => {
   return (
     <>
       <TokenCheker />
-      <BurgerButton onClick={toggleNav}>☰</BurgerButton>
-      <Navbar isOpen={isNavigationOpen} />
+      <MenuSection />
       <Wrapper>
         <MyCalendar>
           <FullCalendar
