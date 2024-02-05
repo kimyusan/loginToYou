@@ -17,11 +17,13 @@ import HeaderSection from "../components/Main/HeaderSection";
 import CalendarCard from "../components/Main/CalendarCard";
 import QuestionCard from "../components/Main/QuestionCard";
 import useUserStore from "../stores/UserStore";
+import useAuthStore from "../stores/AuthStore";
 import useCoupleStore from "../stores/CoupleStore";
 import TokenCheker from "../util/TokenCheker";
 import MenuSection from "../components/MenuSection";
 import { useShallow } from "zustand/react/shallow";
 import { axiosAuth } from "../util/token";
+import axios from "axios";
 
 const Main = () => {
   const theme = useTheme();
@@ -39,6 +41,8 @@ const Main = () => {
   const [cp2, setCp2] = useState<UserInterface>();
   const [cpInfo, setCpInfo] = useState<CoupleInterface>();
   const [unreadMessage, setUnreadMessage] = useState(0);
+  const { yourId, setYourProfileImage, yourProfileImage } = useCoupleStore();
+  const { PATH } = useAuthStore();
 
   // 채팅방 이동 시 roomId 조회
   const goChat = async () => {
@@ -75,6 +79,25 @@ const Main = () => {
     setCp2(res.data[1]);
     setCpInfo(res.data[2]);
   };
+
+  // 상대방 프로필 이미지 조회
+  useEffect(() => {
+    axios
+      .get(`${PATH}/profile/read`, {
+        params: { userId: yourId },
+      })
+      .then((response) => {
+        if (!response) return;
+        const image = response.data;
+        console.log(image);
+        if (image) {
+          setYourProfileImage(
+            `${PATH}/profile/getImg/${image.saveFolder}/${image.originalName}/${image.saveName}`
+          );
+        }
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   const checkChat = async () => {
     const res = await axiosAuth.get("/chat/unread/message", {

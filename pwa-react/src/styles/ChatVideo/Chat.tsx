@@ -20,16 +20,51 @@ const JoinForm = styled.form`
   width: 80%;
   margin: 50px auto;
 `;
+
+const CallBtn = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: ${(props) => props.theme.color.sub2};
+  border-radius: 30px;
+  height: 7dvh;
+  overflow: hidden;
+
+  .avatar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 3%;
+    border-radius: 50%;
+    cursor: grab;
+    z-index: 1;
+  }
+
+  .call_btn {
+    padding: 3%;
+    border-radius: 50%;
+  }
+  @keyframes blink-effect {
+    50% {
+      opacity: 30%;
+    }
+  }
+  .blink {
+    animation: blink-effect 1.5s step-end infinite;
+  }
+`;
+
 const ReadyBtn = styled.button`
+  z-index: -1;
+  left: 50%;
   border: 0;
   border-radius: 15px;
-  padding: 15px;
-  width: 100%;
+  margin: 15px;
+  background-color: transparent;
+  color: white;
   cursor: pointer;
-  background-color: ${(props) => {
-    return props.theme.color.sub2;
-  }};
-  font-weight: bold;
+  font-size: 1rem;
 `;
 
 const BtnBox = styled.div`
@@ -60,4 +95,4 @@ const BtnBox = styled.div`
     display: flex;
   }
 `;
-export { GoBack, ReadyBtn, JoinForm, BtnBox };
+export { GoBack, CallBtn, ReadyBtn, JoinForm, BtnBox };
