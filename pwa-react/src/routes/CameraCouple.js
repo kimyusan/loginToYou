@@ -8,7 +8,16 @@ import WebCam from "react-webcam"
 import html2canvas from "html2canvas";
 import { useShallow } from "zustand/react/shallow";
 
-import { ReadyRoomText, ReadyBtn, JoinForm } from "../styles/Camera/CameraCouple"
+import { ReadyRoomText, ReadyBtn, JoinForm, PoseBox } from "../styles/Camera/CameraCouple"
+import { CameraButton } from '../styles/Camera/CameraSolo';
+
+import clip from "../styles/common/clip.png"
+import handHeart from "../styles/common/handheart.png"
+import oneGood from "../styles/common/onegood.png"
+import twoGood from "../styles/common/twogood.png"
+import V from "../styles/common/v.png"
+
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
 
 import useUserStore from '../stores/UserStore';
 import useAuthStore from "../stores/AuthStore";
@@ -199,14 +208,14 @@ export default function App() {
       }
     }, 'image/png')
   };
-  console.log(subscribers,"ZZZZ")
+
   return (
     <div>
       {session === undefined ? (
         <div>
           <ReadyRoomText>대기방</ReadyRoomText>
           {webCamVisible && <WebCam
-            style={{ width: window.innerWidth, height: "480px", transform: "scaleX(-1)" }} 
+            style={{ width: window.innerWidth, height: "480px", transform: "scaleX(-1)" }}
           />}
           <JoinForm onSubmit={joinSession} >
             <input
@@ -252,7 +261,21 @@ export default function App() {
               </div> : null}
             </div>
           </div>
-          <button onClick={takePhoto}>사진찍기</button>
+
+          <PoseBox>
+            <div className='text'>포즈 추천</div>
+            <div className='pose'>
+              <img src={oneGood} alt="따봉 한개" className='item'/>
+              <img src={twoGood} alt="따봉 두개" className='item'/>
+              <img src={clip} alt="박수" className='item'/>
+              <img src={handHeart} alt="손하트" className='item' />
+              <img src={V} alt="브이" className='item'/>
+            </div>
+
+            <CameraButton>
+              <CameraAltIcon onClick={takePhoto} className='camera'></CameraAltIcon>
+            </CameraButton>
+          </PoseBox>
         </div>
       ) : null}
     </div>
