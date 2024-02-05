@@ -49,22 +49,28 @@ public class LoginController {
     }
 
     @GetMapping("/reissue/token")
-    public ResponseEntity<?> reissueToken(@RequestHeader("Authorization") String authorization, @RequestHeader("refreshToken") String refreshToken,  @RequestParam String email){
-        String accessToken = authorization.substring(7);
+    public ResponseEntity<?> reissueToken( @RequestHeader("refreshToken") String refreshToken,  @RequestParam String email){
+//        String accessToken = authorization.substring(7);
 
         String refToken = refreshToken.substring(7);
-        log.info("auth : " + authorization);
-        log.info("accesstoken : " + accessToken);
+//        log.info("auth : " + authorization);
+//        log.info("accesstoken : " + accessToken);
         log.info(" refreshtoken : " + refreshToken) ;
         log.info("refToken : " + refToken);
         log.info("email : " + email);
-        if(email.equals(jwtUtil.getUsername(accessToken)) || jwtUtil.isExpired(accessToken)
-                || !jwtUtil.isExpired(refToken)) {
+
+        //ref토큰 기간만료 X  토큰 유저네임이 email 과 같다면
+        if( !jwtUtil.isExpired(refToken) ||   email.equals(jwtUtil.getUsername(refToken))) {
+//                email.equals(jwtUtil.getUsername(accessToken)) || jwtUtil.isExpired(accessToken)
+
             User user = userService.getUserByEmail(email);
             log.info(user.toString());
+            //토큰 재발급
             String newAccessToken = jwtUtil.createJwt(user.getEmail(),user.getRole(),user.getUserId(),user.getCoupleId(),user.getName());
             String newRefreshToken = jwtUtil.createRefreshToken(email);
             user.setRefreshToken(newRefreshToken);
+
+            //ref토큰
             userService.save(user);
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.add("Authorization", "Bearer " + newAccessToken);
