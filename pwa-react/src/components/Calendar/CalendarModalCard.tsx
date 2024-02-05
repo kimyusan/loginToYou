@@ -7,6 +7,7 @@ import {
 } from "../../styles/Calendar/Calendar";
 import useUserStore from "../../stores/UserStore";
 import { Alert } from "@mui/material";
+import { SaveButton } from "../../styles/UserInfo/UserInfo";
 
 type Props = {};
 
@@ -178,7 +179,7 @@ const CalendarModalCard = () => {
               value={content}
             />
           </div>
-          <button type="submit">저장하기</button>
+          <SaveButton type="submit">저장하기</SaveButton>
         </form>
       </CalendarModal>
     </>
