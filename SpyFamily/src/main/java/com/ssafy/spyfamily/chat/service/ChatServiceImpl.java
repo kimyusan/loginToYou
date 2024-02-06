@@ -1,0 +1,70 @@
+package com.ssafy.spyfamily.chat.service;
+
+import com.ssafy.spyfamily.chat.model.ChatMessage;
+import com.ssafy.spyfamily.chat.model.ChatRoom;
+import com.ssafy.spyfamily.chat.repo.ChatMessageRepository;
+import com.ssafy.spyfamily.chat.repo.ChatRoomRepo;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class ChatServiceImpl implements  ChatService{
+    private final ChatMessageRepository chatMessageRepository;
+    private final ChatRoomRepo chatRoomRepository;
+
+    public ChatServiceImpl (ChatMessageRepository chatMessageRepository, ChatRoomRepo ChatRoomRepository){
+        this.chatMessageRepository = chatMessageRepository;
+        this.chatRoomRepository = ChatRoomRepository;
+    }
+
+    @Override
+    public void save(ChatMessage message) {
+        chatMessageRepository.save(message);
+    }
+
+    @Override
+    public ChatRoom enterRoom(int coupleId) {
+
+        return chatRoomRepository.findByCoupleId(coupleId);
+    }
+
+    @Override
+    public void createRoom(Long coupleId) {
+        ChatRoom chatRoom = ChatRoom.create(coupleId);
+        chatRoomRepository.save(chatRoom);
+    }
+
+    @Override
+    public List<ChatMessage> loadMessage(String roomId) {
+        return chatMessageRepository.findByRoomId(roomId);
+    }
+
+    @Transactional
+    @Override
+    public void readUser(String roomId, String userId) {
+        List<ChatMessage> chatMessages = chatMessageRepository.findByRoomIdAndSendUserIdNot(roomId,userId);
+
+        for(ChatMessage chatMessage:chatMessages){
+            chatMessage.setReadCount(false);
+            chatMessageRepository.save(chatMessage);
+        }
+
+    }
+
+    @Override
+    public ChatRoom findByRoomId(String roomId) {
+        return chatRoomRepository.findByRoomId(roomId);
+    }
+
+    @Override
+    public int unreadMessage(String roomId, String userId) {
+        return chatMessageRepository.countByRoomIdAndSendUserIdNotAndReadCount(roomId , userId,true);
+    }
+
+    public ChatRoom findByCoupleId(int coupleId) {
+        return  chatRoomRepository.findByCoupleId(coupleId);
+
+    }
+}
