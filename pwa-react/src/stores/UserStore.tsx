@@ -4,7 +4,7 @@ import { UserInterface } from "../interface/UserInterface";
 
 interface UserStore extends UserInterface {
   setUser: (userInfo: UserInterface) => void;
-  setCoupleId: (newId: number) => void;
+  setCoupleId: (newId: number | null) => void;
 
   startDate: string | null;
   setStartDate: (date: string | null) => void;

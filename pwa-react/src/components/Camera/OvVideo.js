@@ -8,7 +8,7 @@ export default function OpenViduVideoComponent({ streamManager, zi }) {
 
   const onResults = async (results) => {
     const videoWidth = window.innerWidth;
-    const videoHeight = 480;
+    const videoHeight = window.innerWidth * 1.5;
 
     canvasRef.current.width = videoWidth;
     canvasRef.current.height = videoHeight;
@@ -55,8 +55,8 @@ export default function OpenViduVideoComponent({ streamManager, zi }) {
         onFrame: async () => {
           await selfieSegmentation.send({ image: videoRef.current });
         },
-        width: window.innerWidth,
-        height: 480,
+        width: window.innerWidth * 0.666666667,
+        height: window.innerWidth,
       });
 
       camera.start();
@@ -81,17 +81,20 @@ export default function OpenViduVideoComponent({ streamManager, zi }) {
         playsInline
         style={{
           display: "none",
-          width: window.innerWidth,
-          height: window.innerWidth * 1.5,
+          // width: window.innerWidth,
+          // height: window.innerWidth * 1.5,
           transform: "scaleX(-1)",
         }}
+        width={window.innerWidth}
+        height={window.innerWidth * 1.5}
       />
       <canvas
         ref={canvasRef}
         style={{
-          width: window.innerWidth,
-          height: window.innerWidth * 1.5,
+          // width: window.innerWidth,
+          // height: window.innerWidth * 1.5,
           transform: "scaleX(-1)",
+          aspectRatio: 1.5,
         }}
       ></canvas>
     </div>

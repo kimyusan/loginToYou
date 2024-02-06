@@ -12,9 +12,9 @@ interface AuthStore {
   tokenExpireTime: number | null;
   login: () => void;
   logout: () => void;
-  setToken: (token: string, refToken: string) => void;
+  setToken: (token: string | null, refToken: string | null) => void;
   setColorTheme: (theme: DefaultTheme) => void;
-  setTokenExpireTime: (time: number) => void;
+  setTokenExpireTime: (time: number | null) => void;
 }
 
 const useAuthStore = create(
@@ -43,7 +43,7 @@ const useAuthStore = create(
         set({ colortheme: theme });
       },
       setTokenExpireTime: (time) => {
-        set({ tokenExpireTime: time + 1000 * 60 * 60 });
+        set({ tokenExpireTime: time == null ? null : time + 1000 * 60 * 60 });
       },
     }),
     {
