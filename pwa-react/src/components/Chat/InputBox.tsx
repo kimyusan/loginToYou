@@ -58,6 +58,7 @@ function InputBox({
     );
     setMessage("");
     inputRef.current?.style.setProperty("height", "auto");
+    inputRef.current?.focus();
   };
 
   return (
