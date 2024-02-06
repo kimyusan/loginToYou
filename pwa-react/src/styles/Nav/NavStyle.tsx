@@ -21,6 +21,7 @@ const NavigationList = styled.ul`
   padding: 10%;
   margin: 0;
   color: black;
+  position: fixed;
   z-index: 9900;
   li {
     font-size: 1.2rem;
