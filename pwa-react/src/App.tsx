@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import Global from "./styles/common/global";
+// import '../public/firebase-messaging-sw.ts'
 
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import useUserStore from "./stores/UserStore";
@@ -26,6 +27,8 @@ import Theme from "./components/Settings/Theme";
 import ChangePw from "./components/Settings/ChangePw";
 import DeleteAccount from "./components/Settings/DeleteAccount";
 
+// import Notification from "./components/Notification";
+
 function App() {
   const { isLogIn } = useAuthStore();
   const { coupleId } = useUserStore();
@@ -36,6 +39,7 @@ function App() {
     <BrowserRouter>
       <div>
         <ThemeProvider theme={theme}>
+          {/* <Notification /> */}
           <Global />
           <Routes>
             <Route
