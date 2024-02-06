@@ -13,6 +13,7 @@ import ImageDrawer from "./ImageDrawer";
 import Carousel from "./Carousel";
 import { axiosAuth } from "../../util/token";
 import NoDiary from "./NoDiary";
+import useCoupleStore from "../../stores/CoupleStore";
 
 export interface Diary {
   diaryId: number | null;
@@ -29,7 +30,8 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "80%",
+  width: "90%",
+  height: "auto",
   bgcolor: "background.paper",
   border: 0,
   boxShadow: 24,
@@ -85,6 +87,12 @@ const PictureBox = () => {
     }))
   );
 
+  const { yourId } = useCoupleStore(
+    useShallow((state) => ({
+      yourId: state.yourId,
+    }))
+  );
+
   // 오늘 날짜 자동 계산
   const today = new Date();
   const [year, setYear] = useState(today.getFullYear());
@@ -134,6 +142,8 @@ const PictureBox = () => {
               )
             : [];
         setDayPictures(Dp);
+        setMyCom(false)
+        setYourCom(false)
         setMyContent("");
         setYourContent("");
         setOriginalId(data.length > 0 ? `${data[day]["diaryId"]}` : "");
@@ -160,11 +170,6 @@ const PictureBox = () => {
   // 다이어리 모달 오픈 및 개인별 다이어리 조회
   const openDetail = async (id: string) => {
     setDiaryId(id);
-    console.log(
-      `${year.toString()}-${month.toString().padStart(2, "0")}-${selectDay
-        .toString()
-        .substr(4, 6)}`
-    );
 
     try {
       const res = await axiosAuth.get(`/diary/memo/get`, {
@@ -179,19 +184,27 @@ const PictureBox = () => {
 
       setOpen(true);
       setMyMemoId(res.data[0].diaryMemoId);
-      if (res.data[0].content) {
-        setMyContent(res.data[0].content);
-        setMyCom(true);
-      } else {
-        setMyCom(false);
+
+      if (res.data[0].userId) {
+        if (res.data[0].userId === userId) {
+          setMyContent(res.data[0].content);
+          setMyCom(true);
+        } else {
+          setYourContent(res.data[0].content);
+          setYourCom(true);
+        }
       }
 
-      if (res.data[1].content) {
-        setYourContent(res.data[1].content);
-        setYourCom(true);
-      } else {
-        setYourCom(false);
+      if (res.data[1].userId) {
+        if (res.data[1].userId === yourId) {
+          setYourContent(res.data[1].content);
+          setYourCom(true);
+        } else {
+          setMyContent(res.data[1].content);
+          setMyCom(true);
+        }
       }
+
     } catch (err) {
       console.log("작성된 다이어리 없음", err);
     }

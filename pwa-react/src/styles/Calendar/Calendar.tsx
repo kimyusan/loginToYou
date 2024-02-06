@@ -10,41 +10,58 @@ const Wrapper = styled.div`
 
 const MyCalendar = styled.div`
   z-index: 1 !important;
-  padding: 20% 5%;
+  padding: 5dvh 2dvh;
+  * {
+    border-color: transparent !important;
+  }
+
+  .fc-day-today {
+    background-color: ${(props) => props.theme.color.sub4} !important;
+  }
+
   .fc-toolbar-title {
     font-size: 1.3rem !important;
   }
   .fc-today-button {
-    background-color: #b7b7b7 !important;
-    color: white !important;
-    border: 0 !important;
-    padding: 0.2rem 0.4rem !important ;
+    background-color: white !important;
+    color: black !important;
+    border: 1px solid
+      ${(props) => {
+        return props.theme.color.sub2;
+      }} !important;
+    padding: 3px 5px !important ;
   }
   .fc-prev-button,
   .fc-next-button {
     border: none !important;
-    padding: 0.4rem !important;
-    background: #bfbfbf !important;
+    padding: 5px 3px !important;
+    margin: 1px !important;
+    background: ${(props) => props.theme.color.sub2} !important;
     display: flex !important;
+
     span {
       font-size: 1.2rem !important;
     }
   }
   .fc-myCustomButton-button {
     border: 0 !important;
-    padding: 0.2rem 0.4rem !important ;
+    padding: 3px 5px !important ;
     background-color: ${(props) => {
       return props.theme.color.sub2;
     }};
     color: white;
   }
+  .fc-daygrid-day-number {
+    font-size: 0.9em;
+  }
 `;
 
 const CalendarModal = styled(Modal)`
   z-index: 1;
-  background: #ececec;
-  border-radius: 7%;
-  padding: 7%;
+  background: ${(props) => props.theme.color.bgColor};
+  border: 1px solid ${(props) => props.theme.color.grey};
+  border-radius: 25px;
+  padding: 6dvh 5dvw;
   position: fixed;
   width: 65%;
   height: 45%;
@@ -52,8 +69,9 @@ const CalendarModal = styled(Modal)`
   left: 50%;
   transform: translate(-50%, -110%);
   transition: transform 0.3s ease-in-out;
+
   &.ReactModal__Content--after-open {
-    transform: translate(-50%, -100%);
+    transform: translate(-50%, -90%);
   }
   h4 {
     font-size: 1.2rem;
@@ -64,7 +82,7 @@ const CalendarModal = styled(Modal)`
     height: 1.7rem;
   }
   button {
-    border: 0;
+    /* border: 0;
     border-radius: 7%;
     position: absolute;
     left: 50%;
@@ -73,7 +91,7 @@ const CalendarModal = styled(Modal)`
     }};
     bottom: 7%;
     padding: 3% 10%;
-    font-size: 1rem;
+    font-size: 1rem; */
   }
   p {
     margin: 0;

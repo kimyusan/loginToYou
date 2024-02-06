@@ -12,6 +12,7 @@ import { FaCamera } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import { useTheme } from "styled-components";
 import { Card } from "../styles/common/card";
+import axios from "axios";
 
 import HeaderSection from "../components/Main/HeaderSection";
 import CalendarCard from "../components/Main/CalendarCard";
@@ -23,7 +24,8 @@ import TokenCheker from "../util/TokenCheker";
 import MenuSection from "../components/MenuSection";
 import { useShallow } from "zustand/react/shallow";
 import { axiosAuth } from "../util/token";
-import axios from "axios";
+import { GoPersonFill } from "react-icons/go";
+import { BsPeopleFill } from "react-icons/bs";
 
 const Main = () => {
   const theme = useTheme();
@@ -34,15 +36,21 @@ const Main = () => {
       setYourName: state.setYourName,
     }))
   );
-  const { setUser } = useUserStore();
+  const { setUser, setProfileImage } = useUserStore();
   const userId = useUserStore.getState().userId;
   const coupleId = useUserStore.getState().coupleId;
   const [cp1, setCp1] = useState<UserInterface>();
   const [cp2, setCp2] = useState<UserInterface>();
   const [cpInfo, setCpInfo] = useState<CoupleInterface>();
   const [unreadMessage, setUnreadMessage] = useState(0);
-  const { yourId, setYourProfileImage, yourProfileImage } = useCoupleStore();
-  const { PATH } = useAuthStore();
+  const [isCameraMode, setIsCameraMode] = useState(false);
+  const PATH = useAuthStore.getState().PATH;
+  const { yourId, setYourProfileImage } = useCoupleStore(
+    useShallow((state) => ({
+      yourId: state.yourId,
+      setYourProfileImage: state.setYourProfileImage,
+    }))
+  );
 
   // 채팅방 이동 시 roomId 조회
   const goChat = async () => {
@@ -79,6 +87,23 @@ const Main = () => {
     setCp2(res.data[1]);
     setCpInfo(res.data[2]);
   };
+
+  // 내 프로필 이미지 조회
+  useEffect(() => {
+    axios
+      .get(`${PATH}/profile/read`, {
+        params: { userId: userId },
+      })
+      .then((response) => {
+        if (!response) return;
+        const image = response.data;
+        if (image) {
+          setProfileImage(
+            `${PATH}/profile/getImg/${image.saveFolder}/${image.originalName}/${image.saveName}`
+          );
+        }
+      });
+  }, []);
 
   // 상대방 프로필 이미지 조회
   useEffect(() => {
@@ -131,28 +156,69 @@ const Main = () => {
           <Card
             className="camera"
             onClick={() => {
-              navigate("/camera");
+              // navigate("/camera");
+              setIsCameraMode((prev) => !prev);
             }}
           >
-            <div>
+            <div style={isCameraMode ? { color: "white" } : undefined}>
               <p>사진</p>
               <p>찍으러 가기</p>
             </div>
             <IconContext.Provider
               value={{ size: "12rem", color: theme.color.sub2 }}
             >
-              <FaCamera className="cameraIcon" />
+              <FaCamera
+                className="cameraIcon"
+                style={
+                  isCameraMode
+                    ? { transform: "rotate(15deg)", color: theme.color.sub3 }
+                    : undefined
+                }
+              />
             </IconContext.Provider>
           </Card>
-          <Card className="diary" onClick={goDiary}>
-            <p>다이어리</p>
-          </Card>
-          <Card className="chat" onClick={goChat}>
-            <p className="chat_name">채팅</p>
-            <p className="chat_num">
-              {unreadMessage > 99 ? 99 : unreadMessage}
-            </p>
-          </Card>
+          {isCameraMode ? (
+            <>
+              <Card
+                className="diary"
+                onClick={() => {
+                  navigate("/camera/solo");
+                }}
+              >
+                <div className="iconLabel">혼자찍기</div>
+                <IconContext.Provider
+                  value={{ size: "8rem", color: theme.color.sub3 }}
+                >
+                  <GoPersonFill className="icon" />
+                </IconContext.Provider>
+              </Card>
+              <Card
+                className="chat"
+                onClick={() => {
+                  navigate("/camera/couple");
+                }}
+              >
+                <div className="iconLabel">같이찍기</div>
+                <IconContext.Provider
+                  value={{ size: "8rem", color: theme.color.sub1 }}
+                >
+                  <BsPeopleFill className="icon" />
+                </IconContext.Provider>
+              </Card>
+            </>
+          ) : (
+            <>
+              <Card className="diary" onClick={goDiary}>
+                <p>다이어리</p>
+              </Card>
+              <Card className="chat" onClick={goChat}>
+                <p className="chat_name">채팅</p>
+                <p className="chat_num">
+                  {unreadMessage > 99 ? 99 : unreadMessage}
+                </p>
+              </Card>
+            </>
+          )}
         </FirstSection>
 
         <SecondSection>

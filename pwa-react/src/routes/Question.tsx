@@ -37,6 +37,10 @@ const Question = (props: Props) => {
       }
     });
   };
+  
+  useEffect(()=>{
+    window.scrollTo(0,0)
+  }, [month])
 
   // 다음 달로 가기
   const increaseMonth = () => {
@@ -64,7 +68,12 @@ const Question = (props: Props) => {
             <div className="dayBox">
               {year} - {month.toString().padStart(2, "0")}
             </div>
+            {todayYear > year || todayMonth > month
+            ?
             <SlArrowRight onClick={increaseMonth}></SlArrowRight>
+            :
+            null
+            }
           </div>
         </DaySelect>
       </MonthHeader>

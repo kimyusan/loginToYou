@@ -1,9 +1,5 @@
 import React, { useState } from "react";
-import {
-  SaveButton,
-  UserInfoBox,
-  UserInfoField,
-} from "../../styles/UserInfo/UserInfo";
+import { SaveButton, UserInfoBox } from "../../styles/UserInfo/UserInfo";
 
 import { SignUpBox } from "../../styles/SignUp/SignUp";
 import IconButton from "@mui/material/IconButton";
@@ -13,13 +9,15 @@ import FormControl from "@mui/material/FormControl";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import TextField from "@mui/material/TextField";
+import { FormBox } from "../../styles/UserInfo/UserInfo";
 
 import { CancelButton } from "../../styles/Settings/UI";
 import SettingsHeader from "./SettingsHeader";
 import useUserStore from "../../stores/UserStore";
 import { useShallow } from "zustand/react/shallow";
 import { axiosAuth } from "../../util/token";
+import { useNavigate } from "react-router-dom";
+import TokenCheker from "../../util/TokenCheker";
 
 function ChangePw() {
   const [origPw, setOrigPw] = useState("");
@@ -28,7 +26,7 @@ function ChangePw() {
   const [showOrigPassword, setShowOrigPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
-
+  const navigate = useNavigate();
   const { userId, email } = useUserStore(
     useShallow((state) => ({
       userId: state.userId,
@@ -38,7 +36,25 @@ function ChangePw() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(123);
+
+    if (newPw !== newPwConfirm) {
+      alert("비밀번호가 같지 않습니다!");
+      return;
+    }
+
+    if (
+      /[a-zA-Z]/.test(newPw) &&
+      /[0-9]/.test(newPw) &&
+      /[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/.test(newPw) &&
+      7 < newPw.length &&
+      newPw.length < 16
+    ) {
+      console.log("비밀번호 확인");
+    } else {
+      alert("비밀번호 형식이 올바르지 않습니다!");
+      return;
+    }
+
     try {
       const res = await axiosAuth.get("/user/verify/password", {
         params: {
@@ -46,27 +62,40 @@ function ChangePw() {
           password: origPw,
         },
       });
-      console.log(res);
+
+      if (res.status === 200) {
+        const res2 = await axiosAuth.put(
+          "/user/update/password",
+          {},
+          {
+            params: {
+              userId: userId,
+              password: newPw,
+            },
+          }
+        );
+        navigate(-1);
+      } else {
+        alert("기존 비밀번호를 확인해주세요!");
+      }
     } catch (err) {
-      console.error(err);
+      alert("기존 비밀번호를 확인해주세요!");
     }
   };
 
   return (
     <>
+      <TokenCheker />
       <SettingsHeader />
       <UserInfoBox>
         <h3 style={{ marginBottom: "5dvh" }}>비밀번호 변경</h3>
-        <SignUpBox onSubmit={handleSubmit}>
-          <FormControl
-            sx={{ m: 1, width: "100%", margin: "0" }}
-            variant="standard"
-          >
+        <FormBox onSubmit={handleSubmit}>
+          <FormControl sx={{ m: 1, width: "100%" }} variant="standard">
             <InputLabel htmlFor="standard-adornment-password">
               기존 비밀번호
             </InputLabel>
             <Input
-              type={showPassword ? "text" : "password"}
+              type={showOrigPassword ? "text" : "password"}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -76,7 +105,7 @@ function ChangePw() {
                       e.preventDefault();
                     }}
                   >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                    {showOrigPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
                 </InputAdornment>
               }
@@ -86,10 +115,7 @@ function ChangePw() {
               value={origPw}
             />
           </FormControl>
-          <FormControl
-            sx={{ m: 1, width: "100%", margin: "0" }}
-            variant="standard"
-          >
+          <FormControl sx={{ m: 1, width: "100%" }} variant="standard">
             <InputLabel htmlFor="standard-adornment-password">
               신규 비밀번호
             </InputLabel>
@@ -114,10 +140,7 @@ function ChangePw() {
               value={newPw}
             />
           </FormControl>
-          <FormControl
-            sx={{ m: 1, width: "100%", margin: "0" }}
-            variant="standard"
-          >
+          <FormControl sx={{ m: 1, width: "100%" }} variant="standard">
             <InputLabel htmlFor="standard-adornment-password">
               신규 비밀번호 확인
             </InputLabel>
@@ -145,8 +168,14 @@ function ChangePw() {
             />
           </FormControl>
           <SaveButton type="submit">저장</SaveButton>
-          <CancelButton>취소</CancelButton>
-        </SignUpBox>
+          <CancelButton
+            onClick={() => {
+              navigate(-1);
+            }}
+          >
+            취소
+          </CancelButton>
+        </FormBox>
       </UserInfoBox>
     </>
   );

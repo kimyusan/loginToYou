@@ -5,6 +5,7 @@ import com.ssafy.spyfamily.diary.model.DiaryMemo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,10 @@ public interface ChatRoomRepo extends JpaRepository<ChatRoom, String> {
     ChatRoom findByCoupleId(Integer coupleId);
 
 
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM ChatRoom c WHERE c.coupleId = :coupleId")
+    void deleteByCoupleId(Integer coupleId);
 
     ChatRoom findByRoomId(String roomId);
 
