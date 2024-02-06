@@ -65,6 +65,8 @@ function DiaryModal({
     setMyContent(event.target.value);
   };
 
+  
+
   return (
     <Modal
       open={open}
@@ -89,7 +91,7 @@ function DiaryModal({
               </div>
             </div>
             <div className="item">
-              <div className="name"><img src={yourProfileImage} alt="나의 프로필 이미지"/>{yourNickName ? yourNickName : yourName} 님의 일기 <span>diary</span></div>
+              <div className="name"><img src={yourProfileImage} alt="상대의 프로필 이미지"/>{yourNickName ? yourNickName : yourName} 님의 일기 <span>diary</span></div>
               <div className="content">
                 {yourCom && yourContent !== "" ? <div className="yes">{yourContent}</div> : <div className="no">아직 일기를 작성하지 않았어요</div>}
               </div>
