@@ -23,7 +23,7 @@ const FirstSection = styled.div`
     .cameraIcon {
       position: absolute;
       bottom: 0;
-      left: -3rem;
+      left: -2rem;
       transition: 0.2s all ease;
     }
 

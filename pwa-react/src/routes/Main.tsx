@@ -170,7 +170,7 @@ const Main = () => {
               <p>찍으러 가기</p>
             </div>
             <IconContext.Provider
-              value={{ size: "12rem", color: theme.color.sub2 }}
+              value={{ size: "10rem", color: theme.color.sub2 }}
             >
               <FaCamera
                 className="cameraIcon"
