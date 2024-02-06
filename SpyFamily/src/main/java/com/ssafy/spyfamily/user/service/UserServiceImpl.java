@@ -343,7 +343,7 @@ public class UserServiceImpl implements UserService {
         String kakaoTokenUrl = "https://kauth.kakao.com/oauth/token";
         String grantType = "authorization_code";
         String clientId = kakaoClientId;
-        String redirectUri = "http://localhost:3000/middle/login";
+        String redirectUri = "https://logintoyou.kro.kr:8443/middle/login";
 
         // 헤더 설정
         HttpHeaders headers = new HttpHeaders();

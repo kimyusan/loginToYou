@@ -3,8 +3,10 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { Event } from "../interface/CalendarInterface";
 import { axiosAuth } from "../util/token";
+import useAuthStore from "./AuthStore";
 
 interface Calendar {
+  PATH: String;
   isOpen: boolean;
   isEdit: boolean;
   isDelete: boolean;
@@ -26,10 +28,10 @@ interface Calendar {
   updateEventToServer: (newEvent: Event, coupleId: number) => void; // update API
   deleteEventFromServer: (calendar_id: number) => void; //delete API
 }
-
 export const CalendarStore = create(
   persist<Calendar>(
     (set, get) => ({
+      PATH: useAuthStore.getState().PATH,
       isOpen: false,
       isEdit: false,
       isDelete: false,
