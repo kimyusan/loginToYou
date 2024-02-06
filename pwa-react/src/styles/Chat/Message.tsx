@@ -21,6 +21,7 @@ const MessageLine = styled.div`
     max-width: 60%;
     padding: 10px 20px;
     border-radius: 25px;
+    word-wrap: break-word;
   }
 
   & > div.time {
@@ -39,7 +40,7 @@ const MessageLine = styled.div`
     background-color: ${(props) => {
       return props.theme.color.sub2;
     }};
-    align-self: center;
+    align-self: flex-end;
     margin: 10px;
 
     &.false {
