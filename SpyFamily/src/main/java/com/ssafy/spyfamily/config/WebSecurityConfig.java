@@ -106,7 +106,7 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/profile/getImg/**","/login/**","/user/login/*", "/", "/signup","/reissue/token/**",
-                                "/login/google/**","/user/update", "/user/info" ,"/ws-stomp/**" ,"/chat/enter","/diary/getImg/**", "/profile/read/**").permitAll()
+                                "/login/google/**","/user/update", "/user/info" ,"/ws-stomp/**" ,"/chat/enter","/diary/getImg/**", "/profile/read/**", "/fcm/**").permitAll()
                         .anyRequest().authenticated());
 
 

@@ -10,7 +10,6 @@ import useAuthStore from "../../stores/AuthStore";
 import useUserStore from "../../stores/UserStore";
 import { application } from "express";
 
-import '../../notification/settingFCM'
 
 const LoginForm = () => {
   const [id, setId] = useState("");
