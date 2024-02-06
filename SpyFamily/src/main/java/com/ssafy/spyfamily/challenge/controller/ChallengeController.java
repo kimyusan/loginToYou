@@ -1,15 +1,13 @@
 package com.ssafy.spyfamily.challenge.controller;
 
-import com.ssafy.spyfamily.challenge.model.Challenge;
 import com.ssafy.spyfamily.challenge.model.ChallengeList;
+import com.ssafy.spyfamily.challenge.model.UserChallengeDto;
 import com.ssafy.spyfamily.challenge.service.ChallengeService;
-import com.ssafy.spyfamily.challenge.service.ChallengeServiceImpl;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Log4j2
@@ -42,9 +40,9 @@ public class ChallengeController {
     @GetMapping("/get/challenges")
     public ResponseEntity<?> getUserChallenges(@RequestParam(name="userId") int userId) {
 
-        challengeService.getUserChallenges(userId);
+        List<UserChallengeDto> list = challengeService.getUserChallenges(userId);
 
-        return null;
+        return new ResponseEntity<List<UserChallengeDto>>(list, HttpStatus.OK);
     }
 
 }

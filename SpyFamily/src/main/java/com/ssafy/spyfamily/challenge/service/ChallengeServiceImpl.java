@@ -5,6 +5,8 @@ import com.ssafy.spyfamily.challenge.model.ChallengeList;
 import com.ssafy.spyfamily.challenge.model.UserChallengeDto;
 import com.ssafy.spyfamily.challenge.repository.ChallengeListRepository;
 import com.ssafy.spyfamily.challenge.repository.ChallengeRepository;
+import com.ssafy.spyfamily.user.model.User;
+import com.ssafy.spyfamily.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,11 +17,14 @@ public class ChallengeServiceImpl implements ChallengeService {
 
     private final ChallengeListRepository challengeListRepository;
     private final ChallengeRepository challengeRepository;
+    private final UserRepository userRepository;
 
     public ChallengeServiceImpl(ChallengeListRepository challengeListRepository,
-                                ChallengeRepository challengeRepository) {
+                                ChallengeRepository challengeRepository,
+                                UserRepository userRepository) {
         this.challengeListRepository = challengeListRepository;
         this.challengeRepository = challengeRepository;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -37,11 +42,12 @@ public class ChallengeServiceImpl implements ChallengeService {
     public void saveChallenges(int userId, List<ChallengeList> challengeList) {
 
         List<Challenge> list = new ArrayList<Challenge>();
+        User user = userRepository.findByUserId(userId);
         Challenge challenge;
         for(ChallengeList chList : challengeList) {
             challenge = new Challenge();
             challenge.setChallengeList(chList);
-//            challenge.setUser(userId);
+            challenge.setUser(user);
             challenge.setProgress(0);
             challenge.setDone(false);
             list.add(challenge);
@@ -58,9 +64,7 @@ public class ChallengeServiceImpl implements ChallengeService {
 
         List<UserChallengeDto> list = challengeRepository.findUserChallenges(userId);
 
-        System.out.println(list.toString());
-
-        return null;
+        return list;
     }
 
 }
