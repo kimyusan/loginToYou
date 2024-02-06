@@ -24,10 +24,9 @@ DROP TABLE IF EXISTS `couple_balance_game`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `couple_balance_game` (
   `couple_balance_game_id` int NOT NULL AUTO_INCREMENT,
-  `couple_id` int DEFAULT NULL,
+  `user_id` int DEFAULT NULL,
   `balance_game_id` int DEFAULT NULL,
-  `f_user_vote` int DEFAULT NULL,
-  `s_user_vote` int DEFAULT NULL,
+  `user_vote` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`couple_balance_game_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;

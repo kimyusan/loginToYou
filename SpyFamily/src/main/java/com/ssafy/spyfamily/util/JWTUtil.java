@@ -18,7 +18,7 @@ public class JWTUtil {
 
     private Key key;
 
-    private long accessTokenValidTime = Duration.ofMinutes(60).toMillis(); // 만료시간 30분
+    private long accessTokenValidTime = Duration.ofMinutes(600).toMillis(); // 만료시간 30분
 
     private long refreshTokenValidTime = Duration.ofDays(7).toMillis(); // 만료시간 일주일
     public JWTUtil(@Value("${jwt.secret}")String secret) {
