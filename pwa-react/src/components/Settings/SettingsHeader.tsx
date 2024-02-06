@@ -8,9 +8,10 @@ import { IconContext } from "react-icons";
 
 type Props = {
   name?: string;
+  main?: boolean;
 };
 
-function SettingsHeader({ name }: Props) {
+function SettingsHeader({ name, main }: Props) {
   const navigate = useNavigate();
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
 
@@ -20,7 +21,7 @@ function SettingsHeader({ name }: Props) {
         <IconContext.Provider value={{ size: "20px" }}>
           <GoArrowLeft
             onClick={() => {
-              navigate(-1);
+              main ? navigate("/") : navigate(-1);
             }}
           />
         </IconContext.Provider>

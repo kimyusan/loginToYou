@@ -38,7 +38,7 @@ const HeaderSection = ({ cp1, cp2, cpInfo }: Props) => {
     let date = new Date(
       Number(temp[0]),
       Number(temp[1]) - 1,
-      Number(temp[2])
+      Number(temp[2].substring(0, 2))
     ).getTime();
 
     setDday(Math.round((today - date) / 1000 / 60 / 60 / 24).toString());
