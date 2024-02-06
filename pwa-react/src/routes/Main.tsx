@@ -45,6 +45,8 @@ const Main = () => {
   const [unreadMessage, setUnreadMessage] = useState(0);
   const [isCameraMode, setIsCameraMode] = useState(false);
   const PATH = useAuthStore.getState().PATH;
+  const navigate = useNavigate();
+  const setCoupleID = useUserStore.getState().setCoupleId;
   const { yourId, setYourProfileImage } = useCoupleStore(
     useShallow((state) => ({
       yourId: state.yourId,
@@ -66,6 +68,11 @@ const Main = () => {
     const res = await axiosAuth.get("/couple/main", {
       params: { coupleId: coupleId },
     });
+
+    if (res.data == "") {
+      setCoupleID(null);
+      navigate("/");
+    }
 
     setCouple({
       coupleId: res.data[2].coupleId,
@@ -144,8 +151,6 @@ const Main = () => {
     const check = setInterval(checkChat, 1000 * 60 * 2);
     return () => clearInterval(check);
   }, []);
-
-  const navigate = useNavigate();
 
   const goDiary = () => {
     navigate("/diary");
