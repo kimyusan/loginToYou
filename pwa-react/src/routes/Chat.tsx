@@ -28,6 +28,7 @@ function Chat() {
   const token = useAuthStore.getState().token;
   const navigate = useNavigate();
   const { room_id } = useParams();
+  const { body } = document;
 
   const userId = useUserStore.getState().userId;
 
@@ -206,6 +207,7 @@ function Chat() {
 
     return () => {
       client.current?.disconnect();
+      body.style.removeProperty("position");
     };
   }, []);
 

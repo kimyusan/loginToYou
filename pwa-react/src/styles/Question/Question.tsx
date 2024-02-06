@@ -48,6 +48,7 @@ const QBox = styled(Paper)`
   padding: 5%;
   padding-bottom: 10%;
   box-shadow: 0px 0px 0px 0px !important;
+
   .date {
     margin: 0;
     font-weight: 600;
@@ -58,8 +59,7 @@ const QBox = styled(Paper)`
     display: flex;
     justify-content: center;
   }
-  /* position: relative;
-  z-index: 5 !important;
+  position: relative;
   overflow: hidden;
   &:after {
     content: "";
@@ -73,7 +73,7 @@ const QBox = styled(Paper)`
     background-position: left-bottom;
     background-repeat: repeat-x;
     background-size: 20px 20px;
-  } */
+  }
 `;
 
 const SaveButton = styled(Button)`

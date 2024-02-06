@@ -27,6 +27,7 @@ const CameraBox = styled.div``;
 const CameraButton = styled.div<height>`
   width: 100%;
   position: fixed;
+  background-color: white;
   top: ${(props) => `calc(8dvh + ${props.$height}px)`};
   height: ${(props) => `calc(92dvh - ${props.$height}px)`};
   text-align: center;

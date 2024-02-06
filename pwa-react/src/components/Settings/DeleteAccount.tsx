@@ -15,29 +15,61 @@ import { axiosAuth } from "../../util/token";
 import useUserStore from "../../stores/UserStore";
 import TokenCheker from "../../util/TokenCheker";
 import { useNavigate } from "react-router-dom";
+import useAuthStore from "../../stores/AuthStore";
+import { useShallow } from "zustand/react/shallow";
+import { UserInterface } from "../../interface/UserInterface";
 
-type Props = {};
+function DeleteAccount() {
+  const noUser: UserInterface = {
+    userId: null,
+    email: null,
+    name: null,
+    mobile: null,
+    birthday: null,
+    gender: null,
+    coupleId: null,
+    nickname: null,
+    password: null,
+    role: null,
+  };
 
-function DeleteAccount({}: Props) {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const theme = useTheme();
-  const email = useUserStore.getState().email;
-  const userId = useUserStore.getState().userId;
+  const { email, userId, setUser } = useUserStore(
+    useShallow((state) => ({
+      email: state.email,
+      userId: state.userId,
+      setUser: state.setUser,
+    }))
+  );
+
+  const logout = useAuthStore.getState().logout;
   const navigate = useNavigate();
 
   const handleSumbmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    // 비밀번호 확인
     const res = await axiosAuth.get("/user/verify/password", {
       params: { email: email, password: password },
     });
     if (res.status === 200) {
-      await axiosAuth.delete("/user/withdrawal", {
+      // 성공 시 탈퇴
+      const resp = await axiosAuth.delete("/user/withdrawal", {
         params: {
           userId: userId,
         },
       });
+      console.log(resp);
+      // 로컬 초기화
+      localStorage.removeItem("userLoginStatus");
+      localStorage.removeItem("QuestionStatus");
+      localStorage.removeItem("coupleStatus");
+      localStorage.removeItem("calendarStatus");
+      localStorage.removeItem("userStatus");
+      logout();
+      // navigate("/login");
     } else {
       alert("비밀번호를 확인해주세요.");
     }

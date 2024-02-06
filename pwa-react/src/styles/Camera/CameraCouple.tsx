@@ -47,6 +47,7 @@ const ReadyBtn = styled.input`
 
 const BottomBox = styled.div<height>`
   width: 100%;
+  background-color: white;
   top: ${(props) => `calc(8dvh + ${props.$height}px)`};
   height: ${(props) => `calc(92dvh - ${props.$height}px)`};
   display: flex;
@@ -59,7 +60,8 @@ const PoseBox = styled.div`
   .recPose {
     background-color: white;
     position: absolute;
-    top: -15dvh;
+    top: -20dvh;
+    left: 0;
     width: calc(100% - 10px);
     padding: 5px 10px;
     box-sizing: border-box;
@@ -86,6 +88,7 @@ const PoseBox = styled.div`
     position: absolute;
     left: 11vw;
     top: calc(50% - 1.5rem);
+    z-index: 2;
   }
 
   .pose {
