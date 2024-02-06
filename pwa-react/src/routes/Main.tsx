@@ -95,9 +95,12 @@ const Main = () => {
         params: { userId: userId },
       })
       .then((response) => {
-        if (!response) return;
-        const image = response.data;
-        if (image) {
+        if (!response.data) {
+          setProfileImage(
+            "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+          );
+        } else {
+          const image = response.data;
           setProfileImage(
             `${PATH}/profile/getImg/${image.saveFolder}/${image.originalName}/${image.saveName}`
           );
@@ -112,10 +115,12 @@ const Main = () => {
         params: { userId: yourId },
       })
       .then((response) => {
-        if (!response) return;
-        const image = response.data;
-        console.log(image);
-        if (image) {
+        if (!response.data) {
+          setYourProfileImage(
+            "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+          );
+        } else {
+          const image = response.data;
           setYourProfileImage(
             `${PATH}/profile/getImg/${image.saveFolder}/${image.originalName}/${image.saveName}`
           );
