@@ -1,7 +1,7 @@
 package com.ssafy.spyfamily.balance.controller;
 
-import com.ssafy.spyfamily.balance.model.Balance;
-import com.ssafy.spyfamily.balance.model.CoupleBalance;
+import com.ssafy.spyfamily.balance.model.BalanceGame;
+import com.ssafy.spyfamily.balance.model.CoupleBalanceGame;
 import com.ssafy.spyfamily.balance.service.BalanceServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -31,12 +31,13 @@ public class BalanceController {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
             LocalDate date = LocalDate.parse(dateString, formatter);
 
-            Integer dayOfMonth = date.getDayOfMonth();
+            // 지정된 날짜의 월의 첫 번째 날로부터의 일 수 계산
+            Integer dayOfMonth = date.getDayOfMonth() + 1;
             System.out.println("오늘 날짜를 일수로 변환하면 : " + dayOfMonth);
 
-            Balance balance = balanceService.getBalance(dayOfMonth);
+            BalanceGame balanceGame = balanceService.getBalance(dayOfMonth);
 
-            return new ResponseEntity<Balance>(balance,HttpStatus.OK);
+            return new ResponseEntity<BalanceGame>(balanceGame,HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("밸런스 게임 질문 받기 실패");
@@ -48,11 +49,11 @@ public class BalanceController {
     public ResponseEntity<?> getBalanceAnswer(@RequestParam Integer userId,
                                               @RequestParam Integer BalanceGameId) {
         try {
-            CoupleBalance coupleBalance = balanceService.getBalanceAnswer(userId, BalanceGameId);
+            CoupleBalanceGame coupleBalanceGame = balanceService.getBalanceAnswer(userId, BalanceGameId);
             System.out.println("커플 대답 불러오기");
-            System.out.println(coupleBalance.toString());
+            System.out.println(coupleBalanceGame.toString());
 
-            return new ResponseEntity<CoupleBalance>(coupleBalance, HttpStatus.OK);
+            return new ResponseEntity<CoupleBalanceGame>(coupleBalanceGame, HttpStatus.OK);
         } catch (Exception e) {
             System.out.println("밸런스 게임 대답 불러오기 실패");
             e.printStackTrace();
@@ -61,9 +62,9 @@ public class BalanceController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> saveBalanceAnswer(@RequestBody CoupleBalance coupleBalance) {
+    public ResponseEntity<?> saveBalanceAnswer(@RequestBody CoupleBalanceGame coupleBalanceGame) {
         try {
-            balanceService.saveBalance(coupleBalance);
+            balanceService.saveBalance(coupleBalanceGame);
 
             System.out.println("저장 성공");
             return new ResponseEntity<Void>(HttpStatus.OK);
@@ -74,9 +75,9 @@ public class BalanceController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> updateBalanceAnswer(@RequestBody CoupleBalance coupleBalance) {
+    public ResponseEntity<?> updateBalanceAnswer(@RequestBody CoupleBalanceGame coupleBalanceGame) {
         try {
-            balanceService.updateBalance(coupleBalance);
+            balanceService.updateBalance(coupleBalanceGame);
 
             System.out.println("수정 성공");
             return new ResponseEntity<Void>(HttpStatus.OK);

@@ -1,7 +1,7 @@
 package com.ssafy.spyfamily.balance.service;
 
-import com.ssafy.spyfamily.balance.model.Balance;
-import com.ssafy.spyfamily.balance.model.CoupleBalance;
+import com.ssafy.spyfamily.balance.model.BalanceGame;
+import com.ssafy.spyfamily.balance.model.CoupleBalanceGame;
 import com.ssafy.spyfamily.balance.repository.BalanceRepository;
 import com.ssafy.spyfamily.balance.repository.CoupleBalanceRepository;
 import org.springframework.stereotype.Service;
@@ -19,28 +19,28 @@ public class BalanceServiceImpl implements BalanceService{
     }
 
     @Override
-    public Balance getBalance(Integer balanceGameId) {
+    public BalanceGame getBalance(Integer balanceGameId) {
         return balanceRepository.findByBalanceGameId(balanceGameId);
     }
 
     @Override
-    public CoupleBalance getBalanceAnswer(Integer userId, Integer balanceGameId) {
+    public CoupleBalanceGame getBalanceAnswer(Integer userId, Integer balanceGameId) {
         return coupleBalanceRepository.findByBalanceGameIdAndUserId(userId, balanceGameId);
     }
 
     @Override
-    public void saveBalance(CoupleBalance coupleBalance) {
-        Balance balance = balanceRepository.findByBalanceGameId(coupleBalance.getBalanceGameId());
-        balance.setFVote(balance.getFVote() + 1);
-        balance.setSVote(balance.getSVote() + 1);
-        balanceRepository.save(balance);
+    public void saveBalance(CoupleBalanceGame coupleBalanceGame) {
+        BalanceGame balanceGame = balanceRepository.findByBalanceGameId(coupleBalanceGame.getBalanceGameId());
+        balanceGame.setFVote(balanceGame.getFVote() + 1);
+        balanceGame.setSVote(balanceGame.getSVote() + 1);
+        balanceRepository.save(balanceGame);
 
-        coupleBalanceRepository.save(coupleBalance);
+        coupleBalanceRepository.save(coupleBalanceGame);
     }
 
     @Override
-    public void updateBalance(CoupleBalance coupleBalance) {
-        coupleBalanceRepository.save(coupleBalance);
+    public void updateBalance(CoupleBalanceGame coupleBalanceGame) {
+        coupleBalanceRepository.save(coupleBalanceGame);
     }
 
 }

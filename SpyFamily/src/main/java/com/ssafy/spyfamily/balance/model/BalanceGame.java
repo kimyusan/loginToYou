@@ -10,12 +10,14 @@ import lombok.ToString;
 @Getter
 @Setter
 @Entity
-public class CoupleBalance {
+public class BalanceGame {
 
     @Id
-    private Integer coupleBalanceGameId;
-    private Integer userId;
     private Integer balanceGameId;
-    private Integer userVote;
+    private String subject;
+    private Integer fItem;
+    private Integer sItem;
+    private Integer fVote;
+    private Integer sVote;
 
 }

@@ -1,14 +1,14 @@
 package com.ssafy.spyfamily.balance.service;
 
-import com.ssafy.spyfamily.balance.model.Balance;
-import com.ssafy.spyfamily.balance.model.CoupleBalance;
+import com.ssafy.spyfamily.balance.model.BalanceGame;
+import com.ssafy.spyfamily.balance.model.CoupleBalanceGame;
 
 public interface BalanceService {
-    Balance getBalance(Integer balanceGameId);
+    BalanceGame getBalance(Integer balanceGameId);
 
-    CoupleBalance getBalanceAnswer(Integer userId, Integer balanceGameId);
+    CoupleBalanceGame getBalanceAnswer(Integer userId, Integer balanceGameId);
 
-    void saveBalance(CoupleBalance coupleBalance);
+    void saveBalance(CoupleBalanceGame coupleBalanceGame);
 
-    void updateBalance(CoupleBalance coupleBalance);
+    void updateBalance(CoupleBalanceGame coupleBalanceGame);
 }
