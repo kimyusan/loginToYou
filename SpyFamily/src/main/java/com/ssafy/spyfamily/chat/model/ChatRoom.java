@@ -25,6 +25,7 @@ public class ChatRoom {
         ChatRoom chatRoom = new ChatRoom();
         chatRoom.roomId = UUID.randomUUID().toString();
         chatRoom.coupleId = coupleId;
+        chatRoom.loginUserCount = 0 ;
         return chatRoom;
     }
     @ColumnDefault("0")

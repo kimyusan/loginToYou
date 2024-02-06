@@ -13,7 +13,7 @@ import lombok.ToString;
 @Entity
 public class User {
     @Id
-    private Integer userId;
+    private int userId;
     private String email; // login id
     private String name;
     private String mobile;

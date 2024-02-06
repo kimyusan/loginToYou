@@ -23,7 +23,7 @@ public class FCMNotificationApiController {
     public ResponseEntity<?> sendNotificationByToken(@RequestBody FCMNotificationRequestDto requestDto) {
         // 상대방 유저 아이디 가져오기  로직
         log.info(" /fcm/notification 시작 requestDTo : " + requestDto);
-        
+
         try {
             Integer otherUserId = fcmNotificationService.selectOtherUserId(requestDto.getUserId());
 
