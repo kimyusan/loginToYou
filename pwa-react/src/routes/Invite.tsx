@@ -22,7 +22,7 @@ const Invite = () => {
     }))
   );
   const navigate = useNavigate();
-  const inviteUrl = `https://logintoyou.kro.kr/invited/${email}/`;
+  const inviteUrl = `http://localhost:3000/invited/${email}/`;
 
   const getUserInfo = async () => {
     const res = await axiosAuth.get("user/info", {

@@ -5,7 +5,7 @@ const DaySelect = styled.div`
   height: auto;
   display: flex;
   justify-content: center;
-  margin: 4% 0;
+  margin-top: 15%;
   background-color: ${(props) => {
     return props.theme.color.bgColor;
   }};

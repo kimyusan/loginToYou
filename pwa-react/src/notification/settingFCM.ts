@@ -1,55 +1,23 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import {
-  getMessaging,
-  getToken,
-  onMessage,
-  deleteToken,
-} from "firebase/messaging";
-import { firebaseConfig } from "./config";
+import { getAnalytics } from "firebase/analytics";
+import { getMessaging } from "firebase/messaging";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-import { validKey } from "./config";
-// import { goDeviceToken } from "../api/FCMTokenApi";
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+export const firebaseConfig = {
+  apiKey: "AIzaSyASnqhxhmSZi4ACMj915u6vSO9Le_CMtjI",
+  authDomain: "logintoyou-1d592.firebaseapp.com",
+  projectId: "logintoyou-1d592",
+  storageBucket: "logintoyou-1d592.appspot.com",
+  messagingSenderId: "428194205009",
+  appId: "1:428194205009:web:be192b9921f6f82b3f9770",
+  measurementId: "G-EJWF5DTCMW",
+};
 
-const app = initializeApp(firebaseConfig);
-const messaging = getMessaging(app);
-
-export async function requestPermission() {
-  console.log("권한 요청 중...");
-
-  const permission = await Notification.requestPermission();
-  if (permission === "denied") {
-    console.log("알림 권한 허용 안됨");
-    return;
-  }
-
-  console.log("알림 권한이 허용됨");
-
-  const token = await getToken(messaging, {
-    vapidKey: validKey,
-  });
-
-  if (token) {
-    console.log("token: ", token);
-    // 서버로 토큰 보내주는 코드
-    // 서버 키
-    // AAAAY7JdDVE:APA91bHykGL1DwaYmitHIGYeQL7fXih8EZ_211ISQALWQpnPPqBfP4nFX389-zhiZTsD96dtxLsSccSFarc3hifMkujFa210jRwnZoRDzoqqSm9c2z-zbtF3gW3HZ4RL2EZkZ3JUssdZ
-  } else console.log("Can not get Token");
-
-  onMessage(messaging, (payload) => {
-    console.log("메시지가 도착했습니다.", payload);
-    // ...
-  });
-  // 사용자가 구독을 취소할 때마다 토큰 삭제
-  // window.addEventListener('beforeunload', async () => {
-  //   console.log("페이지를 떠날 때 토큰을 삭제합니다.");
-  //   try {
-  //     await deleteToken(messaging, token);
-  //     console.log("토큰 삭제 완료");
-  //   } catch (error) {
-  //     console.error("토큰 삭제 중 오류 발생:", error);
-  //   }
-  // });
-}
-
-requestPermission();
+// Initialize Firebase
+export const app = initializeApp(firebaseConfig);
+export const messaging = getMessaging(app);
+const analytics = getAnalytics(app);

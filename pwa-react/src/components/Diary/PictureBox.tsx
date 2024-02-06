@@ -300,7 +300,7 @@ const PictureBox = () => {
       )}
       <Pictures>
         {pictures.length > 0 ? <SlArrowLeft onClick={goLeft} /> : null}
-        <Carousel openDetail={openDetail} pictures={pictures} x={x} goLeft={goLeft} goRight={goRight}/>
+        <Carousel openDetail={openDetail} pictures={pictures} x={x} />
 
         {/* 다이어리 작성시 모달 */}
         <DiaryModal

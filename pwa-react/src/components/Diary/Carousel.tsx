@@ -7,11 +7,9 @@ type Props = {
   pictures: Diary[];
   x: number;
   openDetail: (id: string) => void;
-  goRight: () => void;
-  goLeft: () => void;
 };
 
-function Carousel({ pictures, x, openDetail, goRight, goLeft }: Props) {
+function Carousel({ pictures, x, openDetail }: Props) {
   const PATH = useAuthStore.getState().PATH;
 
   return (
@@ -33,10 +31,10 @@ function Carousel({ pictures, x, openDetail, goRight, goLeft }: Props) {
             className={className}
             style={
               className === "slide middle"
-                ? { transform: `translateX(${x}%) scaleX(2.5) scaleY(1.7)` }
+                ? { transform: `translateX(${x}%) scaleX(2.1) scaleY(1.5)` }
                 : { transform: `translateX(${x}%)` }
             }
-            onClick={() => className === "slide middle" ? openDetail(Id) : idx === middleIdx + 1 ? goRight() : goLeft()}
+            onClick={() => openDetail(Id)}
           >
             <PicBox>
               <img src={url} alt="zz" />

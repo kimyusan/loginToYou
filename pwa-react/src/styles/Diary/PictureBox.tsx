@@ -4,7 +4,7 @@ const Pictures = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 75dvh;
+  height: 65dvh;
   background-color: ${(props) => {
     return props.theme.color.bgColor;
   }};
@@ -16,7 +16,7 @@ const PicItem = styled.div`
   flex-direction: row;
   justify-content: start;
   align-items: center;
-  overflow-x: hidden;
+  overflow: hidden;
   height: 100%;
 
   & .slide {
@@ -29,6 +29,7 @@ const PicItem = styled.div`
     justify-content: center;
     align-items: center;
     opacity: 1;
+    margin-top: 10%;
     border: 1px solid #cecece;
 
     transition: opacity 0.5s ease-out, transform 0.5s ease-out;
@@ -39,7 +40,7 @@ const PicItem = styled.div`
 
   & .middle {
     z-index: 1;
-    height: 70dvw;
+    height: 250px;
     filter: blur(0px);
     -webkit-filter: blur(0px);
   }

@@ -23,10 +23,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -80,7 +78,7 @@ public class WebSecurityConfig {
 
                         CorsConfiguration configuration = new CorsConfiguration();
 
-                        configuration.setAllowedOrigins(List.of("http://localhost:3000", "https://logintoyou.kro.kr", "https://i10c105.p.ssafy.io:8443"));
+                        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
                         configuration.setAllowedMethods(Collections.singletonList("*"));
                         configuration.setAllowCredentials(true);
                         configuration.setAllowedHeaders(Collections.singletonList("*"));
@@ -107,9 +105,8 @@ public class WebSecurityConfig {
 
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/profile/getImg/**","/login/**","/user/login/*", "/", "/signup", "/reissue/token",
-                                "/login/google/**","/user/update", "/user/info" ,"/ws-stomp/**" ,"/chat/enter","/diary/getImg/**","/profile/getImg/**",
-                                "/openvidu/**").permitAll()
+                        .requestMatchers("/profile/getImg/**","/login/**","/user/login/*", "/", "/signup","/reissue/token/**",
+                                "/login/google/**","/user/update", "/user/info" ,"/ws-stomp/**" ,"/chat/enter","/diary/getImg/**", "/profile/read/**").permitAll()
                         .anyRequest().authenticated());
 
 

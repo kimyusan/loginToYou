@@ -101,7 +101,7 @@ function ImageDrawer({
           </Typography>
         </StyledBox>
         <GalleryBox>
-          <div className="item add" onClick={() => navigate("/main")}>
+          <div className="item add" onClick={() => navigate("/camera")}>
             <IconContext.Provider value={{ size: "3rem" }}>
               <IoAdd />
             </IconContext.Provider>
