@@ -4,7 +4,6 @@ import SettingsHeader from "./SettingsHeader";
 import { CancelButton } from "../../styles/Settings/UI";
 import IconButton from "@mui/material/IconButton";
 import Input from "@mui/material/Input";
-import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
@@ -43,6 +42,8 @@ function DeleteAccount() {
       setUser: state.setUser,
     }))
   );
+  const setToken = useAuthStore.getState().setToken;
+  const setTokenExpireTime = useAuthStore.getState().setTokenExpireTime;
 
   const logout = useAuthStore.getState().logout;
   const navigate = useNavigate();
@@ -63,13 +64,15 @@ function DeleteAccount() {
       });
       console.log(resp);
       // 로컬 초기화
-      localStorage.removeItem("userLoginStatus");
       localStorage.removeItem("QuestionStatus");
       localStorage.removeItem("coupleStatus");
       localStorage.removeItem("calendarStatus");
       localStorage.removeItem("userStatus");
+      localStorage.removeItem("userLoginStatus");
+      setToken(null, null);
+      setTokenExpireTime(null);
       logout();
-      // navigate("/login");
+      navigate("/");
     } else {
       alert("비밀번호를 확인해주세요.");
     }

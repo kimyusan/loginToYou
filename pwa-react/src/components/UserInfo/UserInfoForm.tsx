@@ -13,6 +13,7 @@ import useUserStore from "../../stores/UserStore";
 import { height } from "@mui/system";
 import { SlEarphones } from "react-icons/sl";
 import { useShallow } from "zustand/react/shallow";
+import { useNavigate } from "react-router-dom";
 
 type Props = {};
 
@@ -41,6 +42,7 @@ const UserInfoForm = (props: Props) => {
   const [errorAlert, setErrorAlert] = useState(false);
   const [successAlert, setSuccessAlert] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const navigate = useNavigate();
 
   const { PATH, token } = useAuthStore(
     useShallow((state) => ({
@@ -100,6 +102,7 @@ const UserInfoForm = (props: Props) => {
       .then((response) => {
         setSuccessAlert(true);
         user.setUser(response.data);
+        navigate(-1);
       })
       .catch((response) => {
         console.log(response.data);
