@@ -10,15 +10,12 @@ import QuestionBox from "../components/Question/QuestionBox";
 import useQuestionStore from "../stores/QuestionStore";
 import QuestionModal from "../components/Question/QuestionModal";
 import TokenCheker from "../util/TokenCheker";
+import MenuSection from "../components/MenuSection";
 
 type Props = {};
 
 const Question = (props: Props) => {
   const { isOpen, handleModal } = useQuestionStore();
-  const [isNavigationOpen, setIsNavigationOpen] = useState(false);
-  const toggleNavigation = () => {
-    setIsNavigationOpen(!isNavigationOpen);
-  };
 
   const today = new Date();
   const todayYear = today.getFullYear();
@@ -37,10 +34,10 @@ const Question = (props: Props) => {
       }
     });
   };
-  
-  useEffect(()=>{
-    window.scrollTo(0,0)
-  }, [month])
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [month]);
 
   // 다음 달로 가기
   const increaseMonth = () => {
@@ -57,29 +54,23 @@ const Question = (props: Props) => {
   return (
     <>
       <TokenCheker />
+      <MenuSection />
       <MonthHeader>
-        <BurgerButton onClick={toggleNavigation} style={{ position: "fixed" }}>
-          {isNavigationOpen ? "×" : "☰"}
-        </BurgerButton>
-        <Navbar isOpen={isNavigationOpen} />
         <DaySelect>
           <div className="subBox">
             <SlArrowLeft onClick={decreaseMonth}></SlArrowLeft>
             <div className="dayBox">
               {year} - {month.toString().padStart(2, "0")}
             </div>
-            {todayYear > year || todayMonth > month
-            ?
-            <SlArrowRight onClick={increaseMonth}></SlArrowRight>
-            :
-            null
-            }
+            {todayYear > year || todayMonth > month ? (
+              <SlArrowRight onClick={increaseMonth}></SlArrowRight>
+            ) : null}
           </div>
         </DaySelect>
       </MonthHeader>
 
       {todayYear === year && todayMonth === month ? <QuestionBox /> : null}
-      <AnswerBox show={isNavigationOpen} year={year} month={month} />
+      <AnswerBox year={year} month={month} />
       <QuestionModal
         // question={question}
         // todayToString={todayToString}
