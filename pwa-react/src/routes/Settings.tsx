@@ -13,7 +13,7 @@ function Settings({}: Props) {
   return (
     <>
       <TokenCheker />
-      <SettingsHeader />
+      <SettingsHeader main={true} />
       <MenuTitle>앱 설정</MenuTitle>
       <Menu>알림 설정</Menu>
       <Menu
