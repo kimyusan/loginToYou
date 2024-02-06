@@ -146,9 +146,11 @@ public class UserServiceImpl implements UserService {
         coupleTodayQuestionRepository.deleteByCoupleId(coupleId);
         System.out.println("커플 질문 삭제");
 
-        // 프로필 사진 삭제
-        ProfileImg profileImg = userProfileService.getUserProfile(userId);
-        if(profileImg.getProfileImgId() != null) {
+        // 프로필 사진 삭제a
+        Long count = userProfileService.existImgCount(userId);
+
+        if(count != 0) {
+            ProfileImg profileImg = userProfileService.getUserProfile(userId);
             System.out.println("프로필 사진이 있는경우입니다.");
             userProfileService.deleteUserProfile(profileImg.getProfileImgId());
             try {

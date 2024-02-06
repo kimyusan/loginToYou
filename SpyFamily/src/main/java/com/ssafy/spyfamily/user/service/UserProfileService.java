@@ -15,4 +15,6 @@ public interface UserProfileService {
     void deleteUserProfile(Integer profileImgId);
 
     Optional<ProfileImg> getProfileImg(Integer profileImgId);
+
+    Long existImgCount(Integer userId);
 }

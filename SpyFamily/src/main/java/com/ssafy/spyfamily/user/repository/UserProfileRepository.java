@@ -15,4 +15,6 @@ public interface UserProfileRepository extends JpaRepository<ProfileImg, Integer
 
     Optional<ProfileImg> findByProfileImgId(Integer profileImgId);
 
+    Long countByUserId(Integer userId);
+
 }
