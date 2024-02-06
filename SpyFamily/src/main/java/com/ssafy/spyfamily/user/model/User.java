@@ -2,6 +2,7 @@ package com.ssafy.spyfamily.user.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,8 +13,10 @@ import lombok.ToString;
 @ToString
 @Entity
 public class User {
+
     @Id
-    private int userId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer userId;
     private String email; // login id
     private String name;
     private String mobile;
