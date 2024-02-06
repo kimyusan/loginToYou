@@ -24,7 +24,7 @@ export const InputForm = styled.form`
   position: fixed;
   display: flex;
   /* height: max-content; */
-  padding: 5px 0px;
+  padding: 2dvh 3dvw 4dvh;
   bottom: 0;
   left: 0;
   right: 0;
@@ -35,13 +35,14 @@ export const InputForm = styled.form`
   & > textarea {
     width: 80%;
     padding: 10px 20px;
-    margin: 0 3px;
+    margin: 0 1dvw;
     box-sizing: border-box;
     background-color: white;
     border-radius: 25px;
-    /* border: 1px solid ${(props) => {
-      return props.theme.color.grey;
-    }}; */
+    border: 1px solid
+      ${(props) => {
+        return props.theme.color.grey;
+      }};
     overflow: hidden;
     outline: none;
     font-size: 1rem;
@@ -52,6 +53,7 @@ export const InputForm = styled.form`
     height: 100%;
     padding: 10px;
     margin-left: 10px;
+    color: black;
     box-sizing: border-box;
     background-color: ${(props) => {
       return props.theme.color.sub2;
