@@ -13,7 +13,7 @@ import lombok.ToString;
 @Entity
 public class User {
     @Id
-    private int userId;
+    private Integer userId;
     private String email; // login id
     private String name;
     private String mobile;
@@ -26,5 +26,6 @@ public class User {
     private String role;
 
     private String refreshToken;
-
+    private Boolean isPushOk ;
+    private String fcmToken;
 }
