@@ -142,20 +142,24 @@ public class UserServiceImpl implements UserService {
 
         System.out.println("다이어리 전부 삭제됨");
 
-        // 달력 삭제
+        // 커플질문 삭제
         coupleTodayQuestionRepository.deleteByCoupleId(coupleId);
-        System.out.println("달력 삭제");
+        System.out.println("커플 질문 삭제");
 
         // 프로필 사진 삭제
         ProfileImg profileImg = userProfileService.getUserProfile(userId);
-
-        userProfileService.deleteUserProfile(profileImg.getProfileImgId());
-        try {
-            fileUtil.deleteProfileFile(profileImg);
-            System.out.println("프로필 삭제 성공");
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("프로필 삭제 실패 ㅠㅠ");
+        if(profileImg.getProfileImgId() != null) {
+            System.out.println("프로필 사진이 있는경우입니다.");
+            userProfileService.deleteUserProfile(profileImg.getProfileImgId());
+            try {
+                fileUtil.deleteProfileFile(profileImg);
+                System.out.println("프로필 삭제 성공");
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("프로필 삭제 실패 ㅠㅠ");
+            }
+        } else {
+            System.out.println("프로필 사진이 없음");
         }
 
         // TODO: 밸런스 게임 삭제
