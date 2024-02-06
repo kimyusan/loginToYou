@@ -146,7 +146,7 @@ public class UserServiceImpl implements UserService {
         coupleTodayQuestionRepository.deleteByCoupleId(coupleId);
         System.out.println("커플 질문 삭제");
 
-        // 프로필 사진 삭제a
+        // 프로필 사진 삭제
         Long count = userProfileService.existImgCount(userId);
 
         if(count != 0) {
