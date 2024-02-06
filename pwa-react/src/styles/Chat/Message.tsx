@@ -7,7 +7,7 @@ export const MessageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding-top: 60px;
-  padding-bottom: 60px;
+  padding-bottom: 10dvh;
 `;
 
 const MessageLine = styled.div`
