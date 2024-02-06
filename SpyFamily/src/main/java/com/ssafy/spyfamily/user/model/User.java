@@ -29,5 +29,6 @@ public class User {
     private String role;
 
     private String refreshToken;
-
+    private Boolean isPushOk ;
+    private String fcmToken;
 }
