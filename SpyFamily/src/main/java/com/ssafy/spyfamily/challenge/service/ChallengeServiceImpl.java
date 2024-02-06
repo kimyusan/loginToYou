@@ -40,8 +40,8 @@ public class ChallengeServiceImpl implements ChallengeService {
         Challenge challenge;
         for(ChallengeList chList : challengeList) {
             challenge = new Challenge();
-            challenge.setChallengeListId(chList.getChallengeListId());
-            challenge.setUserId(userId);
+            challenge.setChallengeList(chList);
+//            challenge.setUser(userId);
             challenge.setProgress(0);
             challenge.setDone(false);
             list.add(challenge);
@@ -50,6 +50,9 @@ public class ChallengeServiceImpl implements ChallengeService {
         challengeRepository.saveAll(list);
     }
 
+    /**
+     * 파라미터로 받은 유저의 챌린지 진행사항 불러오기
+     */
     @Override
     public List<UserChallengeDto> getUserChallenges(int userId) {
 

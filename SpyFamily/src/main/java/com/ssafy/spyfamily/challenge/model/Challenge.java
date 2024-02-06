@@ -12,8 +12,8 @@ public class Challenge {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int challengeId;
-    private int challengeListId;
-    private int userId;
+//    private int challengeListId;
+//    private int userId;
     private int progress;
     private boolean isDone;
 
