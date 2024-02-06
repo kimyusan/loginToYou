@@ -16,12 +16,6 @@ export const goDeviceToken = (token: any) => {
           fcmToken: token,
         },
       }
-      // {
-      //   headers: {
-      //     Authorization:
-      //       "AAAAY7JdDVE:APA91bHykGL1DwaYmitHIGYeQL7fXih8EZ_211ISQALWQpnPPqBfP4nFX389-zhiZTsD96dtxLsSccSFarc3hifMkujFa210jRwnZoRDzoqqSm9c2z-zbtF3gW3HZ4RL2EZkZ3JUssdZ",
-      //   },
-      // }
     )
     .then((res) => console.log(res.data))
     .catch((err) => console.log("토큰보내기 실패!!!!"));

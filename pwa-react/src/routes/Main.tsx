@@ -28,6 +28,8 @@ import { axiosAuth } from "../util/token";
 import { GoPersonFill } from "react-icons/go";
 import { BsPeopleFill } from "react-icons/bs";
 
+import useFCMStore from "../stores/FCMStore";
+
 const Main = () => {
   const theme = useTheme();
   const { id } = useParams();
@@ -38,6 +40,7 @@ const Main = () => {
     }))
   );
   const { setUser, setProfileImage } = useUserStore();
+  const {FCMtoken} = useFCMStore()
   const userId = useUserStore.getState().userId;
   const coupleId = useUserStore.getState().coupleId;
   const [cp1, setCp1] = useState<UserInterface>();
@@ -146,6 +149,28 @@ const Main = () => {
     setUnreadMessage((prev) => (res.data > 99 ? 99 : res.data));
   };
 
+  const letsPush = () =>{
+    axios({
+      url: "https://fcm.googleapis.com/fcm/send",
+      method: "POST",
+      data: {
+        to : FCMtoken,
+        notification : {
+            title : "갈까?",
+            body : "과연?"
+            }
+    },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer AAAAY7JdDVE:APA91bHykGL1DwaYmitHIGYeQL7fXih8EZ_211ISQALWQpnPPqBfP4nFX389-zhiZTsD96dtxLsSccSFarc3hifMkujFa210jRwnZoRDzoqqSm9c2z-zbtF3gW3HZ4RL2EZkZ3JUssdZ",
+      },
+    }).then((res) => {
+      console.log(res.data)
+    }).catch((err)=>{
+      console.log(err)
+    })
+  }
+
   useEffect(() => {
     callData();
     checkChat();
@@ -238,7 +263,7 @@ const Main = () => {
         </SecondSection>
 
         <ThirdSection>
-          <Card className="balance_game">
+          <Card className="balance_game" onClick={letsPush}>
             <div>밸런스게임</div>
             <div>VS</div>
           </Card>
