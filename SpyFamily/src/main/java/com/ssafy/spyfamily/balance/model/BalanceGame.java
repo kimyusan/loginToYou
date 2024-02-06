@@ -10,7 +10,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @Entity
-public class Balance {
+public class BalanceGame {
 
     @Id
     private Integer balanceGameId;
