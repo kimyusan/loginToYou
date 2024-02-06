@@ -9,10 +9,13 @@ export const goDeviceToken = (token: any) => {
   axios
     .post(
       `${PATH}/fcm/issue/fcmtoken`,
+      {},
       {
-        userId: userId,
-        fcmToken: token,
-      },
+        params: {
+          userId: userId,
+          fcmToken: token,
+        },
+      }
       // {
       //   headers: {
       //     Authorization:
