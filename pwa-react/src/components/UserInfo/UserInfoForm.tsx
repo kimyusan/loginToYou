@@ -125,6 +125,8 @@ const UserInfoForm = (props: Props) => {
           "Content-Type": "multipart/form-data",
           Authorization: token,
         },
+      }).then(() => {
+        user.setProfileImage(avatar);
       });
     }
     // 프로필사진 수정
@@ -150,27 +152,10 @@ const UserInfoForm = (props: Props) => {
           "Content-Type": "multipart/form-data",
           Authorization: token,
         },
+      }).then(() => {
+        user.setProfileImage(avatar);
       });
     }
-
-    axios
-      .get(`${PATH}/profile/read`, {
-        params: { userId: user.userId },
-        headers: {
-          Authorization: token,
-        },
-      })
-      .then((response) => {
-        if (!response) return;
-        const image = response.data;
-        if (image) {
-          user.setProfileImage(
-            `${PATH}/profile/getImg/${image.saveFolder}/${image.originalName}/${image.saveName}`
-          );
-        }
-      })
-      .catch((error) => console.log(error));
-    user.setProfileImage(avatar);
     setProfileFile(null);
   };
 
@@ -209,10 +194,13 @@ const UserInfoForm = (props: Props) => {
         },
       })
       .then((response) => {
-        if (!response) return;
+        if (!response.data) return;
         const image = response.data;
         if (image) {
           setAvatar(
+            `${PATH}/profile/getImg/${image.saveFolder}/${image.originalName}/${image.saveName}`
+          );
+          user.setProfileImage(
             `${PATH}/profile/getImg/${image.saveFolder}/${image.originalName}/${image.saveName}`
           );
           setOldProfile({

@@ -37,4 +37,9 @@ public class UserProfileServiceImpl implements UserProfileService{
        return userProfileRepository.findByProfileImgId(profileImgId);
     }
 
+    @Override
+    public Long existImgCount(Integer userId) {
+        return userProfileRepository.countByUserId(userId);
+    }
+
 }

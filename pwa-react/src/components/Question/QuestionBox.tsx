@@ -65,7 +65,6 @@ const QuestionBox = (props: Props) => {
   }, []);
 
   return (
-    <div>
       <QBox>
         <div>
           <p className="date">
@@ -79,7 +78,6 @@ const QuestionBox = (props: Props) => {
           </SaveButton>
         </div>
       </QBox>
-    </div>
   );
 };
 
