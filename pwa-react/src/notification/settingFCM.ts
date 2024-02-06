@@ -10,10 +10,9 @@ import {
 import { firebaseConfig } from "./config";
 
 import { validKey } from "./config";
-// import { goDeviceToken } from "../api/FCMTokenApi";
-import axios from 'axios'
+import { goDeviceToken } from "../util/notification";
+import axios from "axios";
 import useAuthStore from "../stores/AuthStore";
-
 
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
@@ -37,6 +36,7 @@ export async function requestPermission() {
     // 서버로 토큰 보내주는 코드
     // 서버 키
     // AAAAY7JdDVE:APA91bHykGL1DwaYmitHIGYeQL7fXih8EZ_211ISQALWQpnPPqBfP4nFX389-zhiZTsD96dtxLsSccSFarc3hifMkujFa210jRwnZoRDzoqqSm9c2z-zbtF3gW3HZ4RL2EZkZ3JUssdZ
+    goDeviceToken(token);
   } else console.log("Can not get Token");
 
   onMessage(messaging, (payload) => {
