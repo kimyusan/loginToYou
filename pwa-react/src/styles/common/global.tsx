@@ -6,11 +6,13 @@ const Global = createGlobalStyle`
         border: 0;
         background-color: ${(props) => props.theme.color.bgColor};
         font-family: 'Noto Sans KR';
+        overscroll-behavior: none;
     }
 
     button {
         font-family: 'Noto Sans KR';
     }
+
 `;
 
 export const pink: DefaultTheme = {

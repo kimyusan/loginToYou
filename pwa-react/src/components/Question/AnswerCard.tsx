@@ -20,7 +20,6 @@ interface Answer {
   userId: number;
 }
 type Props = {
-  show: boolean;
   item: Answer[];
   month: number;
 };
@@ -58,7 +57,7 @@ function a11yProps(index: number) {
   };
 }
 
-function AnswerCard({ show, item, month }: Props) {
+function AnswerCard({ item, month }: Props) {
   const { PATH, token } = useAuthStore(
     useShallow((state) => ({
       PATH: state.PATH,
@@ -82,7 +81,7 @@ function AnswerCard({ show, item, month }: Props) {
     isOpen,
     modalQuestion,
     setModalQuestion,
-    setDateString
+    setDateString,
   } = useQuestionStore();
 
   const openEditModal = () => {
@@ -129,8 +128,14 @@ function AnswerCard({ show, item, month }: Props) {
   };
 
   // 답변한 날짜 형식
-  const ansdate = item[0]?.todayQuestionId.toString()
-  const fulldate = ansdate.substring(0,4)+'년 '+ansdate.substring(4,6) +'월 '+ansdate.substring(6,8)+'일'
+  const ansdate = item[0]?.todayQuestionId.toString();
+  const fulldate =
+    ansdate.substring(0, 4) +
+    "년 " +
+    ansdate.substring(4, 6) +
+    "월 " +
+    ansdate.substring(6, 8) +
+    "일";
 
   useEffect(() => {
     setMyAnswer(null);
@@ -146,46 +151,41 @@ function AnswerCard({ show, item, month }: Props) {
           <p className="card_date">{fulldate}</p>
           <p>{question}</p>
           {/* <hr /> */}
-          {show ? null : (
-            <Box sx={{ width: "100%" }}>
-              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                <Tabs
-                  value={value}
-                  onChange={handleChange}
-                  aria-label="basic tabs example"
-                  sx={{ position: "static" }}
-                >
-                  <Tab
-                    label={nickname ? nickname : name}
-                    {...a11yProps(0)}
-                    sx={{ width: "50%", padding: 0 }}
-                  />
-                  <Tab
-                    label={yourNickName ? yourNickName : yourName}
-                    {...a11yProps(1)}
-                    sx={{ width: "50%", padding: 0 }}
-                  />
-                </Tabs>
-              </Box>
-              <CustomTabPanel value={value} index={0}>
-                <div className="answer">
-                  {myAnswer ? (
-                    <p>{myAnswer}</p>
-                  ) : (
-                    <p>답변을 작성하지 않았어요</p>
-                  )}
-                  <div className="edit_btn">
-                    <BorderColorIcon onClick={openEditModal}>
-                      수정하기
-                    </BorderColorIcon>
-                  </div>
-                </div>
-              </CustomTabPanel>
-              <CustomTabPanel value={value} index={1}>
-                {yourAnswer ? yourAnswer : <p>답변을 작성하지 않았어요</p>}
-              </CustomTabPanel>
+
+          <Box sx={{ width: "100%" }}>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                aria-label="basic tabs example"
+                sx={{ position: "static" }}
+              >
+                <Tab
+                  label={nickname ? nickname : name}
+                  {...a11yProps(0)}
+                  sx={{ width: "50%", padding: 0 }}
+                />
+                <Tab
+                  label={yourNickName ? yourNickName : yourName}
+                  {...a11yProps(1)}
+                  sx={{ width: "50%", padding: 0 }}
+                />
+              </Tabs>
             </Box>
-          )}
+            <CustomTabPanel value={value} index={0}>
+              <div className="answer">
+                {myAnswer ? <p>{myAnswer}</p> : <p>답변을 작성하지 않았어요</p>}
+                <div className="edit_btn">
+                  <BorderColorIcon onClick={openEditModal}>
+                    수정하기
+                  </BorderColorIcon>
+                </div>
+              </div>
+            </CustomTabPanel>
+            <CustomTabPanel value={value} index={1}>
+              {yourAnswer ? yourAnswer : <p>답변을 작성하지 않았어요</p>}
+            </CustomTabPanel>
+          </Box>
         </CardContent>
       </AnsCard>
     </>

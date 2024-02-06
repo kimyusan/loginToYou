@@ -48,6 +48,7 @@ const QBox = styled(Paper)`
   padding: 5%;
   padding-bottom: 10%;
   box-shadow: 0px 0px 0px 0px !important;
+
   .date {
     margin: 0;
     font-weight: 600;
@@ -58,21 +59,20 @@ const QBox = styled(Paper)`
     display: flex;
     justify-content: center;
   }
-    position: relative;
-    overflow: hidden;
-    &:after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 20px;
-      background: linear-gradient(-45deg, #f9f9f9 10px, transparent 0),
-        linear-gradient(45deg, #f9f9f9 10px, transparent 0);
-      background-position: left-bottom;
-      background-repeat: repeat-x;
-      background-size: 20px 20px;
-
+  position: relative;
+  overflow: hidden;
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background: linear-gradient(-45deg, #f9f9f9 10px, transparent 0),
+      linear-gradient(45deg, #f9f9f9 10px, transparent 0);
+    background-position: left-bottom;
+    background-repeat: repeat-x;
+    background-size: 20px 20px;
   }
 `;
 

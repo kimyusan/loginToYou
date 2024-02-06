@@ -17,12 +17,11 @@ interface Answer {
 }
 
 type Props = {
-  show: boolean;
   year: number;
   month: number;
 };
 
-const QuestionBox = ({ show, year, month }: Props) => {
+const QuestionBox = ({ year, month }: Props) => {
   const { PATH, token } = useAuthStore(
     useShallow((state) => ({
       PATH: state.PATH,
@@ -75,9 +74,7 @@ const QuestionBox = ({ show, year, month }: Props) => {
       <AnswerContainer>
         {filteredAnswer?.length >= 1 ? (
           filteredAnswer.map((item, idx) => {
-            return (
-              <AnswerCard key={idx} show={show} item={item} month={month} />
-            );
+            return <AnswerCard key={idx} item={item} month={month} />;
           })
         ) : (
           <p style={{ textAlign: "center" }}>

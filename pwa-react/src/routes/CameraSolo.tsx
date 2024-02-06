@@ -164,8 +164,9 @@ const CameraSolo: React.FC = () => {
               ref={webcamRef}
               screenshotQuality={1}
               screenshotFormat="image/png"
+              forceScreenshotSourceSize={true}
               videoConstraints={{
-                aspectRatio: 0.6666666667,
+                aspectRatio: 1.5,
                 facingMode: useFrontCamera ? "user" : "enviroment",
               }}
               style={{
