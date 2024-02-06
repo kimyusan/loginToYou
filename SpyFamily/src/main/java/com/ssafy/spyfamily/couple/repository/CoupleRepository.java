@@ -19,4 +19,6 @@ public interface CoupleRepository extends JpaRepository<Couple, Integer> {
     @Query("DELETE FROM Couple c WHERE c.coupleId = :coupleId")
     void deleteByCoupleId(Integer coupleId);
 
+
+
 }
