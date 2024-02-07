@@ -11,4 +11,6 @@ public interface CoupleBalanceRepository extends JpaRepository<CoupleBalanceGame
     @Query("SELECT c FROM CoupleBalanceGame c WHERE c.userId = :userId AND c.balanceGameId = :balanceGameId")
     CoupleBalanceGame findByBalanceGameIdAndUserId(Integer userId, Integer balanceGameId);
 
+    CoupleBalanceGame findByCoupleBalanceGameId(Integer coupleBalanceGameId);
+
 }

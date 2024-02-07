@@ -72,6 +72,7 @@ public class BalanceController {
     @PostMapping("/save")
     public ResponseEntity<?> saveBalanceAnswer(@RequestBody CoupleBalanceGame coupleBalanceGame) {
         try {
+            System.out.println("저장 들어옴");
             balanceService.saveBalance(coupleBalanceGame);
 
             System.out.println("저장 성공");

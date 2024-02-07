@@ -19,6 +19,6 @@ public class CoupleBalanceGame {
     private Integer coupleBalanceGameId;
     private Integer userId;
     private Integer balanceGameId;
-    private Integer userVote;
+    private String userVote;
 
 }
