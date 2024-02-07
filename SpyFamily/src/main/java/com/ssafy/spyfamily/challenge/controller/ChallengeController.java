@@ -37,10 +37,29 @@ public class ChallengeController {
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
+    /**
+     * userId에 해당하는 챌린지 목록 및 각각의 진행사항을 리턴
+     * @param userId 챌린지 목록 가져올 유저의 id
+     */
     @GetMapping("/get/challenges")
     public ResponseEntity<?> getUserChallenges(@RequestParam(name="userId") int userId) {
 
-        List<UserChallengeDto> list = challengeService.getUserChallenges(userId);
+        List<UserChallengeDto> list = challengeService.getUserChallenges(userId, null);
+
+        return new ResponseEntity<List<UserChallengeDto>>(list, HttpStatus.OK);
+    }
+
+    /**
+     * 유저의 챌린지 진행사항 증가시키기
+     */
+    @PostMapping("/add/progress")
+    public ResponseEntity<?> updateProgress(int userId, String type) {
+
+        // 해당 유저가 한 행동에 해당하는 챌린지 목록 가져오기
+        List<UserChallengeDto> list = challengeService.getUserChallenges(userId, type);
+
+        // 해당 챌린지의 진행도 증가(progress)
+        challengeService.updateProgress(list);
 
         return new ResponseEntity<List<UserChallengeDto>>(list, HttpStatus.OK);
     }

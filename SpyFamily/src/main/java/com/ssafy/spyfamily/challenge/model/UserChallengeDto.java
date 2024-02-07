@@ -11,6 +11,10 @@ import lombok.ToString;
 @AllArgsConstructor
 public class UserChallengeDto {
 
+    private int challengeTypeId;
+    private int challengeListId;
+    private int challengeProgressId;
+
     private String type;
     private String subject;
     private String content;

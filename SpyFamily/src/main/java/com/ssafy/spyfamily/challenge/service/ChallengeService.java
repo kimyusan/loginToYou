@@ -21,6 +21,10 @@ public interface ChallengeService {
     /**
      * 파라미터로 받은 유저의 챌린지 진행사항 불러오기
      */
-    List<UserChallengeDto> getUserChallenges(int userId);
+    List<UserChallengeDto> getUserChallenges(int userId, String type);
 
+    /**
+     * 파라미터에 해당하는 챌린지의 진행도를 증가시킴
+     */
+    void updateProgress(List<UserChallengeDto> list);
 }

@@ -11,7 +11,7 @@ import lombok.Setter;
 public class ChallengeProgress {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer challengeId;
+    private Integer challengeProgressId;
     private Integer progress;
     private String prevDate;
     private boolean isDone;

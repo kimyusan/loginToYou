@@ -16,14 +16,14 @@ import java.util.List;
 public class ChallengeServiceImpl implements ChallengeService {
 
     private final ChallengeListRepository challengeListRepository;
-    private final ChallengeProgressRepository challengeRepository;
+    private final ChallengeProgressRepository challengeProgressRepository;
     private final UserRepository userRepository;
 
     public ChallengeServiceImpl(ChallengeListRepository challengeListRepository,
                                 ChallengeProgressRepository challengeRepository,
                                 UserRepository userRepository) {
         this.challengeListRepository = challengeListRepository;
-        this.challengeRepository = challengeRepository;
+        this.challengeProgressRepository = challengeRepository;
         this.userRepository = userRepository;
     }
 
@@ -54,18 +54,40 @@ public class ChallengeServiceImpl implements ChallengeService {
             list.add(challengeProgress);
         }
 
-        challengeRepository.saveAll(list);
+        challengeProgressRepository.saveAll(list);
     }
 
     /**
      * 파라미터로 받은 유저의 챌린지 진행사항 불러오기
      */
     @Override
-    public List<UserChallengeDto> getUserChallenges(int userId) {
+    public List<UserChallengeDto> getUserChallenges(int userId, String type) {
 
-        List<UserChallengeDto> list = challengeRepository.findUserChallenges(userId);
+        List<UserChallengeDto> list = challengeProgressRepository.findUserChallenges(userId, type);
 
         return list;
+    }
+
+    /**
+     * 파라미터에 해당하는 챌린지의 진행도를 증가시킴
+     */
+    @Override
+    public void updateProgress(List<UserChallengeDto> list) {
+
+        // 누적 챌린지만 증가 위해 리스트에서 연속인것 제거
+        for(int i = list.size()-1; i >= 0; i--) {
+            if(list.get(i).isContinuous()) {
+                list.remove(i);
+            }
+        }
+        
+        // 파라미터로 받은 UserChallengeDto 리스트에서 challengeProgressId만 추출해 Integer List 만들기
+        List<Integer> challengeProgressIds = list.stream()
+                        .map(UserChallengeDto::getChallengeProgressId)
+                        .toList();
+        
+        // challengeProgressId 리스트를 파라미터로 넘겨 진행도 증가시키기
+        challengeProgressRepository.incrementProgressByChallengeProgressIds(challengeProgressIds);
     }
 
 }
