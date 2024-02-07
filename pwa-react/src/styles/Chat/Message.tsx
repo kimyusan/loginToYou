@@ -21,6 +21,7 @@ const MessageLine = styled.div`
     max-width: 60%;
     padding: 10px 20px;
     border-radius: 25px;
+    white-space: pre;
     word-wrap: break-word;
   }
 
