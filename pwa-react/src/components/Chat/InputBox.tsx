@@ -10,7 +10,6 @@ type Props = {
   userId: number | null;
   roomId: string | undefined;
   isOppOn: boolean;
-  bottomHeight: number;
 };
 
 function InputBox({
@@ -20,7 +19,6 @@ function InputBox({
   userId,
   roomId,
   isOppOn,
-  bottomHeight,
 }: Props) {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const token = useAuthStore.getState().token;
@@ -64,7 +62,7 @@ function InputBox({
   };
 
   return (
-    <InputForm onSubmit={sendChat} $bottom={bottomHeight}>
+    <InputForm onSubmit={sendChat}>
       <textarea
         rows={1}
         value={message}

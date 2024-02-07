@@ -29,7 +29,6 @@ function Chat() {
   const navigate = useNavigate();
   const { room_id } = useParams();
   const { body } = document;
-  const [windowHeight, setWindowHeight] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const userId = useUserStore.getState().userId;
@@ -206,7 +205,6 @@ function Chat() {
   useEffect(() => {
     loadChat();
     checkRoom();
-    setWindowHeight(window.innerHeight);
     if (scrollRef.current) {
       if (!visualViewport) return;
       scrollRef.current.style.height = `${visualViewport.height.toString()}px`;
@@ -214,8 +212,10 @@ function Chat() {
       visualViewport.onresize = () => {
         if (!scrollRef.current) return;
         if (!visualViewport) return;
-
-        scrollRef.current.style.height = `${visualViewport.height.toString()}px`;
+        const html = document.querySelector("html");
+        if (!html) return;
+        html.style.height = `${visualViewport.height.toString()}px`;
+        // scrollRef.current.style.height = `${visualViewport.height.toString()}px`;
       };
       console.log(visualViewport);
     }
@@ -258,7 +258,6 @@ function Chat() {
         userId={userId}
         roomId={room_id}
         isOppOn={isOppOn}
-        bottomHeight={visualViewport ? windowHeight - visualViewport.height : 0}
       ></InputBox>
     </div>
   );
