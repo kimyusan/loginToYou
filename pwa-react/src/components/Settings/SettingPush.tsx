@@ -23,6 +23,18 @@ const SettingPush = (props: Props) => {
 
   const handlePush = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPush(event.target.checked);
+    setVideoChatPush(event.target.checked);
+    setCoupleCamPush(event.target.checked);
+    setDiaryPush(event.target.checked);
+  };
+  const handleVideoPush = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setVideoChatPush(event.target.checked);
+  };
+  const handleCamPush = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCoupleCamPush(event.target.checked);
+  };
+  const handleDiaryPush = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDiaryPush(event.target.checked);
   };
   return (
     <>
@@ -51,11 +63,15 @@ const SettingPush = (props: Props) => {
             />
             화상채팅
           </p>
-          <Switch
-            // checked={checked}
-            // onChange={}
-            inputProps={{ "aria-label": "controlled" }}
-          />
+          {isPush ? (
+            <Switch
+              checked={videoChatPush}
+              onChange={handleVideoPush}
+              inputProps={{ "aria-label": "controlled" }}
+            />
+          ) : (
+            <Switch disabled />
+          )}
         </p>
         <p className="settingOption">
           <p className="settingTitle">
@@ -64,11 +80,15 @@ const SettingPush = (props: Props) => {
             />
             같이찍기
           </p>
-          <Switch
-            // checked={checked}
-            // onChange={}
-            inputProps={{ "aria-label": "controlled" }}
-          />
+          {isPush ? (
+            <Switch
+              checked={coupleCamPush}
+              onChange={handleCamPush}
+              inputProps={{ "aria-label": "controlled" }}
+            />
+          ) : (
+            <Switch disabled />
+          )}
         </p>
         <p className="settingOption">
           <p className="settingTitle">
@@ -77,13 +97,16 @@ const SettingPush = (props: Props) => {
             />
             다이어리
           </p>
-          <Switch
-            // checked={checked}
-            // onChange={}
-            inputProps={{ "aria-label": "controlled" }}
-          />
+          {isPush ? (
+            <Switch
+              checked={diaryPush}
+              onChange={handleDiaryPush}
+              inputProps={{ "aria-label": "controlled" }}
+            />
+          ) : (
+            <Switch disabled />
+          )}
         </p>
-
       </UserInfoBox>
     </>
   );
