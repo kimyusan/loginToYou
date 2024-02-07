@@ -80,6 +80,22 @@ public class FCMNotificationApiController {
 
     }
 
+    @GetMapping("/ispush")
+    public ResponseEntity<?> fcmIspushOk(@RequestParam Integer userId){
+        try {
+            User user = userService.findByUserId(userId);
+
+            Boolean isPush = user.getIsPushOk();
+
+            return new ResponseEntity<Boolean>(isPush, HttpStatus.OK);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
     @PostMapping("/issue/fcmtoken")
     public ResponseEntity<?> issueFcmtoken(@RequestParam Integer userId, @RequestParam String fcmToken ){
 
