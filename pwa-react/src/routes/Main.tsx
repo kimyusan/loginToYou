@@ -238,7 +238,7 @@ const Main = () => {
         </SecondSection>
 
         <ThirdSection>
-          <Card className="balance_game">
+          <Card className="balance_game" onClick={() => navigate("/balancegame")}>
             <div>밸런스게임</div>
             <div>VS</div>
           </Card>
