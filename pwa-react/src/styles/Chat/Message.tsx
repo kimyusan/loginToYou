@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const MessageWrapper = styled.div`
   position: relative;
+  background-color: ${(props) => props.theme.color.bgColor};
   width: 100%;
   height: 100%;
   display: flex;
