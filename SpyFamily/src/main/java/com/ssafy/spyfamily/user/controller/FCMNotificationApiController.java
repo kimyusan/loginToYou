@@ -43,21 +43,22 @@ public class FCMNotificationApiController {
 
     //상대방 유저 아이디 조회후 상대방 fcm 토큰 가져오기
     @GetMapping("/search/other")
-    public ResponseEntity<?>  searchOtherUserFcmToken(@RequestParam Integer UserId){
+    @Transactional
+    public ResponseEntity<?>  searchOtherUserFcmToken(@RequestParam Integer otherUserId){
 
         try {
             log.info("/search/fcm 시작");
-            Integer otherUserId = fcmNotificationService.selectOtherUserId(UserId);
 
             User user =userService.findByUserId(otherUserId);
 
-            if (user.getIsPushOk()){
-                String fcmToken = user.getFcmToken();
-                return new ResponseEntity<String>(fcmToken, HttpStatus.OK);
-            } else {
+            log.info("상대방 유저 정보" + user.toString());
 
-                return new ResponseEntity<>("상대방 수신알림 거부", HttpStatus.OK);
-            }
+            String fcmToken = user.getFcmToken();
+            return new ResponseEntity<String>(fcmToken, HttpStatus.OK);
+
+
+//                return new ResponseEntity<>("상대방 수신알림 거부", HttpStatus.OK);
+//            }
         } catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
