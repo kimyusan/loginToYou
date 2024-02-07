@@ -5,9 +5,13 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import ImageIcon from "@mui/icons-material/Image";
+import { FaPen } from "react-icons/fa";
+import { FaTrashCan } from "react-icons/fa6";
 
 import { Event } from "../../interface/CalendarInterface";
 import { CalendarStore } from "../../stores/CalendarStore";
+import { IconContext } from "react-icons";
+import { useTheme } from "styled-components";
 
 type Props = {
   event: Event;
@@ -25,6 +29,7 @@ const dateInfo = (event: Event) => {
 };
 
 const CalendarItem = ({ event }: Props) => {
+  const theme = useTheme();
   const {
     isOpen,
     editMode,
@@ -57,8 +62,10 @@ const CalendarItem = ({ event }: Props) => {
             </Avatar>
           </ListItemAvatar>
           <ListItemText primary={event.title} secondary={dateInfo(event)} />
-          <button onClick={goEdit}>수정</button>
-          <button onClick={goDelete}>삭제</button>
+          <IconContext.Provider value={{ color: theme.color.grey }}>
+            <FaPen onClick={goEdit} style={{ margin: "0 5px" }} />
+            <FaTrashCan onClick={goDelete} style={{ margin: "0 5px" }} />
+          </IconContext.Provider>
         </ListItem>
       </List>
     </>
