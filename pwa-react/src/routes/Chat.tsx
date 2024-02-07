@@ -30,6 +30,8 @@ function Chat() {
   const { room_id } = useParams();
   const { body } = document;
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [winHeight, setWinHeight] = useState(0);
+  const [keyHeight, setKeyHeight] = useState(0);
 
   const userId = useUserStore.getState().userId;
 
@@ -201,22 +203,19 @@ function Chat() {
     setIsLoading(false);
   }, [isLoading]);
 
-  const [vv, setVV] = useState(0);
-
   // 초기 실행 시 채팅 불러오기
   useEffect(() => {
     loadChat();
     checkRoom();
+    if (visualViewport) setWinHeight(visualViewport.height);
 
     if (scrollRef.current) {
       if (!visualViewport) return;
       scrollRef.current.style.height = `${visualViewport.height.toString()}px`;
-      setVV(visualViewport.height);
 
       visualViewport.onresize = () => {
         if (!scrollRef.current) return;
         if (!visualViewport) return;
-        setVV(visualViewport.height);
         scrollRef.current.style.height = `${visualViewport.height.toString()}px`;
       };
       console.log(visualViewport);
@@ -236,7 +235,7 @@ function Chat() {
   }, [messages, showChatNum, isLoading]);
 
   return (
-    <div ref={scrollRef}>
+    <div ref={scrollRef} style={{ position: "relative", height: "auto" }}>
       <TokenCheker />
       <Header>
         <IconContext.Provider value={{ size: "20px" }}>
@@ -252,7 +251,6 @@ function Chat() {
           />
         </IconContext.Provider>
       </Header>
-      <div style={{ fontSize: "100px" }}>{vv}</div>
       <MessageBox messages={showMessages} userId={userId}></MessageBox>
 
       <InputBox
@@ -262,6 +260,9 @@ function Chat() {
         userId={userId}
         roomId={room_id}
         isOppOn={isOppOn}
+        winHeight={winHeight}
+        keyHeight={keyHeight}
+        setKeyHeight={setKeyHeight}
       ></InputBox>
     </div>
   );
