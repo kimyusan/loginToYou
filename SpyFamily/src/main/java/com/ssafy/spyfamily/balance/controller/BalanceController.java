@@ -31,11 +31,19 @@ public class BalanceController {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
             LocalDate date = LocalDate.parse(dateString, formatter);
 
-            // 지정된 날짜의 월의 첫 번째 날로부터의 일 수 계산
-            Integer dayOfMonth = date.getDayOfMonth() + 1;
-            System.out.println("오늘 날짜를 일수로 변환하면 : " + dayOfMonth);
+            int dayOfMonth = date.getDayOfMonth();
+            int monthValue = date.getMonthValue();
 
-            BalanceGame balanceGame = balanceService.getBalance(dayOfMonth);
+            // 월의 첫 번째 날로부터의 일 수 계산
+            int totalDays = dayOfMonth;
+            for (int i = 1; i < monthValue; i++) {
+                LocalDate firstDayOfMonth = LocalDate.of(date.getYear(), i, 1);
+                totalDays += firstDayOfMonth.lengthOfMonth();
+            }
+
+            System.out.println("오늘 날짜를 일수로 변환하면 : " + totalDays);
+
+            BalanceGame balanceGame = balanceService.getBalance(totalDays);
 
             return new ResponseEntity<BalanceGame>(balanceGame,HttpStatus.OK);
         } catch (Exception e) {
