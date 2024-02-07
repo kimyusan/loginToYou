@@ -29,13 +29,23 @@ public class QuestionController {
     public ResponseEntity<?> getQuestion (@RequestParam String dateString) {
         try {
             // 날짜 변환
+            // 날짜 변환
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
             LocalDate date = LocalDate.parse(dateString, formatter);
 
-            Integer dayOfMonth = date.getDayOfMonth();
-            System.out.println("오늘 날짜를 일수로 변환하면 : " + dayOfMonth);
+            int dayOfMonth = date.getDayOfMonth();
+            int monthValue = date.getMonthValue();
 
-            String answer = questionService.getQuestion(dayOfMonth).getQuestion();
+            // 월의 첫 번째 날로부터의 일 수 계산
+            int totalDays = dayOfMonth;
+            for (int i = 1; i < monthValue; i++) {
+                LocalDate firstDayOfMonth = LocalDate.of(date.getYear(), i, 1);
+                totalDays += firstDayOfMonth.lengthOfMonth();
+            }
+
+            System.out.println("오늘 날짜를 일수로 변환하면 : " + totalDays);
+
+            String answer = questionService.getQuestion(totalDays).getQuestion();
 
             System.out.println("질문 받기");
             System.out.println(answer);
