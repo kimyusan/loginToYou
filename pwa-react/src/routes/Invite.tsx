@@ -42,13 +42,7 @@ const Invite = () => {
     <Wrapper>
       <TokenCheker />
       <InvitePage userId={userId} name={name} email={email} />
-      <QRCodeCanvas
-        onClick={() => {
-          window.open(inviteUrl);
-        }}
-        value={inviteUrl}
-        className="mb-30"
-      />
+      <QRCodeCanvas value={inviteUrl} className="mb-30" />
       <ShareButton inviteUrl={inviteUrl} />
     </Wrapper>
   );

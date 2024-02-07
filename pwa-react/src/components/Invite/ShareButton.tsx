@@ -28,8 +28,7 @@ function ShareButton({ inviteUrl }: Props) {
       content: {
         title: "너에게 로그인🔒💕",
         description: "너의 마음에 로그인하게 해줄래?",
-        imageUrl:
-          "https://www.fitpetmall.com/wp-content/uploads/2023/10/230420-0668-1.png",
+        imageUrl: "",
         link: {
           mobileWebUrl: inviteUrl,
           webUrl: inviteUrl,
