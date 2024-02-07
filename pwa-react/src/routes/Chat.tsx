@@ -30,8 +30,6 @@ function Chat() {
   const { room_id } = useParams();
   const { body } = document;
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [winHeight, setWinHeight] = useState(0);
-  const [keyHeight, setKeyHeight] = useState(0);
 
   const userId = useUserStore.getState().userId;
 
@@ -207,7 +205,6 @@ function Chat() {
   useEffect(() => {
     loadChat();
     checkRoom();
-    if (visualViewport) setWinHeight(visualViewport.height);
 
     if (scrollRef.current) {
       if (!visualViewport) return;
@@ -260,9 +257,6 @@ function Chat() {
         userId={userId}
         roomId={room_id}
         isOppOn={isOppOn}
-        winHeight={winHeight}
-        keyHeight={keyHeight}
-        setKeyHeight={setKeyHeight}
       ></InputBox>
     </div>
   );
