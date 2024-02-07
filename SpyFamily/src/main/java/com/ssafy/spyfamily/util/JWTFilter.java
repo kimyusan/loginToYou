@@ -10,6 +10,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +18,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+@Slf4j
 public class JWTFilter extends OncePerRequestFilter {
 
     private final JWTUtil jwtUtil;
@@ -34,13 +36,13 @@ public class JWTFilter extends OncePerRequestFilter {
         //request에서 Authorization 헤더를 찾음
         String authorization= request.getHeader("Authorization");
 
-        System.out.println( "JWT필터인증" + authorization);
+        log.info( "JWT필터 doFilterInternal" + authorization);
 
 
         //Authorization 헤더 검증
         if (authorization == null || !authorization.startsWith("Bearer ")) {
 
-            System.out.println("헤더가 있는데 token " + authorization);
+            log.info("auth 가 null 혹은 bearer 로 시작하지 않음 " + authorization);
             filterChain.doFilter(request, response);
 
             //조건이 해당되면 메소드 종료 (필수)
@@ -49,10 +51,11 @@ public class JWTFilter extends OncePerRequestFilter {
 
         String token = authorization.split(" ")[1];
 
+        log.info("token " + token);
         //토큰 소멸 시간 검증
         if (jwtUtil.isExpired(token)) {
 
-            System.out.println("token expired");
+            log.info("token expired");
             response.setStatus(401);
             filterChain.doFilter(request, response);
 
@@ -69,8 +72,7 @@ public class JWTFilter extends OncePerRequestFilter {
         User user = new User();
 
         user.setEmail(username);
-        //userEntity.setCoupleId(coupleId);
-        //userEntity.setRole(role);
+
         System.out.println("jwt 필터" + username);
         CustomUserDetails customUserDetails = new CustomUserDetails(user);
 
