@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Header = styled.div`
-  position: fixed;
+  position: absolute;
   left: 0;
   right: 0;
   top: 0;
@@ -21,7 +21,7 @@ export const Header = styled.div`
 `;
 
 export const InputForm = styled.form`
-  position: fixed;
+  position: absolute;
   display: flex;
   /* height: max-content; */
   padding: 2dvh 5dvw;
