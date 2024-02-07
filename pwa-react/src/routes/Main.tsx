@@ -39,7 +39,7 @@ const Main = () => {
     }))
   );
   const { setUser, setProfileImage } = useUserStore();
-  const { yourFCMtoken, setYourFCMtoken } = useFCMStore()
+  const { yourFCMtoken, setYourFCMtoken } = useFCMStore();
   const userId = useUserStore.getState().userId;
   const coupleId = useUserStore.getState().coupleId;
   const [cp1, setCp1] = useState<UserInterface>();
@@ -101,7 +101,8 @@ const Main = () => {
     const fcmInfo = await axiosAuth.get(`${PATH}/fcm/search/other`, {
       params: { otherUserId: yourId },
     });
-    setYourFCMtoken(fcmInfo.data)
+    console.log(fcmInfo.data);
+    setYourFCMtoken(fcmInfo.data);
   };
 
   // 내 프로필 이미지 조회
@@ -153,7 +154,6 @@ const Main = () => {
     });
     setUnreadMessage((prev) => (res.data > 99 ? 99 : res.data));
   };
-
 
   useEffect(() => {
     callData();
