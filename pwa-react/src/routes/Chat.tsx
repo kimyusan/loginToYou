@@ -29,7 +29,7 @@ function Chat() {
   const navigate = useNavigate();
   const { room_id } = useParams();
   const { body } = document;
-  const keyboardHeight = useRef(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const userId = useUserStore.getState().userId;
 
@@ -205,12 +205,22 @@ function Chat() {
   useEffect(() => {
     loadChat();
     checkRoom();
-    window.addEventListener("resize", keyboardUp);
+    if (scrollRef.current) {
+      if (!visualViewport) return;
+      scrollRef.current.style.height = `${visualViewport.height.toString()}px`;
+
+      visualViewport.onresize = () => {
+        if (!scrollRef.current) return;
+        if (!visualViewport) return;
+
+        scrollRef.current.style.height = `${visualViewport.height.toString()}px`;
+      };
+      console.log(visualViewport);
+    }
 
     return () => {
       client.current?.disconnect();
       body.style.removeProperty("position");
-      window.removeEventListener("resize", keyboardUp);
     };
   }, []);
 
@@ -221,19 +231,11 @@ function Chat() {
     return () => window.removeEventListener("scroll", addScroll);
   }, [messages, showChatNum, isLoading]);
 
-  const keyboardUp = () => {
-    if (keyboardHeight.current == 0) {
-      keyboardHeight.current += 1;
-    } else {
-      keyboardHeight.current -= 1;
-    }
-  };
-
   return (
     <div
+      ref={scrollRef}
       style={{
         position: "relative",
-        height: `calc(100dvh - ${keyboardHeight.current}px)`,
       }}
     >
       <TokenCheker />
