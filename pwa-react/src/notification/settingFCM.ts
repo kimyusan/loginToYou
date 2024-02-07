@@ -10,7 +10,7 @@ import {
 import { firebaseConfig } from "./config";
 
 import { validKey } from "./config";
-import { goDeviceToken } from "../util/notification";
+import { goDeviceToken, setPushOk } from "../util/notification";
 import useFCMStore from "../stores/FCMStore";
 
 const app = initializeApp(firebaseConfig);
@@ -33,6 +33,8 @@ export async function requestPermission() {
     vapidKey: validKey,
   });
   if (MyFCMtoken) {
+    setPushOk();
+
     console.log("token: ", MyFCMtoken);
     setFCMToken(MyFCMtoken);
     // 서버로 토큰 보내주는 코드

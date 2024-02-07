@@ -17,3 +17,17 @@ export const goDeviceToken = (FCMtoken: string) => {
     .then((res) => console.log(res.data))
     .catch((err) => console.log(err));
 };
+
+export const setPushOk = () => {
+  const PATH = useAuthStore.getState().PATH;
+  const userId = useUserStore.getState().userId;
+  axios({
+    url: `${PATH}/fcm/setting`,
+    method: "POST",
+    params: {
+      userId: userId,
+      isPushOk: true,
+    },
+  }).then((res)=>console.log(res.data))
+  .catch((error)=>console.log(error))
+};
