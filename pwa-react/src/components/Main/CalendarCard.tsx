@@ -34,7 +34,9 @@ const CalendarCard = () => {
   };
 
   const filterdEvents = events.filter(
-    (event) => toDate(event.start) >= new Date() || (toDate(event.start)<= new Date() && toDate(event.end)>=new Date())
+    (event) =>
+      toDate(event.start) >= new Date() ||
+      (toDate(event.start) <= new Date() && toDate(event.end) >= new Date())
   );
 
   const sortedEvents = filterdEvents.sort(compare);
@@ -58,6 +60,8 @@ const CalendarCard = () => {
               .map((it, idx) => <li key={idx}>{it.title}</li>)
           ) : sortedEvents.length >= 1 ? (
             <li>{sortedEvents[0].title}</li>
+          ) : sortedEvents.length < 1 ? (
+            <p className="no_events">예정된 일정이 없어용</p>
           ) : null}
         </ul>
       </div>

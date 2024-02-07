@@ -125,7 +125,7 @@ const FirstSection = styled.div`
 const CalendarSec = styled(Card)`
   /* padding: 3dvw; */
   /* margin: 5%; */
-  /* height: max-content; */
+  /* height: max-content !important; */
   display: flex;
   justify-content: space-between;
   position: relative;
@@ -133,16 +133,18 @@ const CalendarSec = styled(Card)`
   font-family: "Phudu", sans-serif;
   .left_side {
     position: relative;
+    display: flex;
+    flex-direction: column;
     width: 50dvw;
     padding: 1dvw;
     height: auto;
     .year_month {
-      position: absolute;
+      /* position: absolute; */
       margin: 1dvw;
       font-size: 1.3rem;
     }
     .date {
-      position: absolute;
+      /* position: absolute; */
       left: 2dvw;
       bottom: 0;
       font-weight: 600;
@@ -152,6 +154,9 @@ const CalendarSec = styled(Card)`
       }};
       font-size: 7rem;
     }
+    .no_events {
+      margin: 0;
+    }
   }
   .right_side {
     position: relative;
@@ -159,7 +164,7 @@ const CalendarSec = styled(Card)`
     .next_schedule {
       position: absolute;
       bottom: 0;
-
+      padding: 0;
       li::marker {
         color: ${(props) => props.theme.color.main};
       }
