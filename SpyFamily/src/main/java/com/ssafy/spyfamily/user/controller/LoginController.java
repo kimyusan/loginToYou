@@ -48,13 +48,13 @@ public class LoginController {
         return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
     }
 
+    //ref토큰 재발급
     @PostMapping("/reissue/token")
     public ResponseEntity<?> reissueToken( @RequestHeader("refreshToken") String refreshToken,  @RequestParam String email){
-//        String accessToken = authorization.substring(7);
 
+        log.info("/reissue/token controller 실행");
         String refToken = refreshToken.substring(7);
-//        log.info("auth : " + authorization);
-//        log.info("accesstoken : " + accessToken);
+
         log.info(" refreshtoken : " + refreshToken) ;
         log.info("refToken : " + refToken);
         log.info("email : " + email);
@@ -75,7 +75,7 @@ public class LoginController {
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.add("Authorization", "Bearer " + newAccessToken);
             httpHeaders.add("refreshToken","Bearer " + newRefreshToken);
-//            HttpCookie httpCookie = new HttpCookie("refreshToken","Bearer" + newRefreshToken);
+
 
             return ResponseEntity.ok().headers(httpHeaders).body("재발급성공");
         }

@@ -161,7 +161,7 @@ const Main = () => {
   // localhost:8080/search/other/fcm?userId= 123
   useEffect(() => {
     axiosAuth
-      .get(`${PATH}/search/other/fcm`, {
+      .get(`${PATH}/fcm/search/other/fcm`, {
         params: { userId: userId },
       })
       .then((res) => console.log(res.data))

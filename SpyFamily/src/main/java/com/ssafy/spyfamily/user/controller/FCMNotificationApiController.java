@@ -42,10 +42,11 @@ public class FCMNotificationApiController {
     }
 
     //상대방 유저 아이디 조회후 상대방 fcm 토큰 가져오기
-    @GetMapping("/search/other/fcm")
+    @GetMapping("/search/other")
     public ResponseEntity<?>  searchOtherUserFcmToken(@RequestParam Integer UserId){
 
         try {
+            log.info("/search/fcm 시작");
             Integer otherUserId = fcmNotificationService.selectOtherUserId(UserId);
 
             User user =userService.findByUserId(otherUserId);
