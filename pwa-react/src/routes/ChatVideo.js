@@ -257,6 +257,7 @@ export default function App() {
   const { yourFCMtoken } = useFCMStore();
   const { nickname, name } = useUserStore();
   const letsPush = () => {
+    console.log(yourFCMtoken)
     axios({
       url: "https://fcm.googleapis.com/fcm/send",
       method: "POST",
