@@ -20,16 +20,12 @@ export const Header = styled.div`
   backdrop-filter: blur(8px);
 `;
 
-interface BottomInterface {
-  $bottom: number;
-}
-
-export const InputForm = styled.form<BottomInterface>`
+export const InputForm = styled.form`
   position: fixed;
   display: flex;
   /* height: max-content; */
   padding: 2dvh 5dvw;
-  bottom: ${(props) => props.$bottom}px;
+  bottom: 0;
   left: 0;
   right: 0;
   background-color: ${(props) => {
