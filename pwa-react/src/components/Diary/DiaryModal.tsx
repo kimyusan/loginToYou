@@ -10,6 +10,7 @@ import { useTheme } from "styled-components";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { MdOutlineClose } from "react-icons/md";
+import Chip from "@mui/material/Chip";
 
 type Props = {
   open: boolean;
@@ -61,8 +62,8 @@ function DiaryModal({
   // 로그인 된 사용자의 내용
   const changeContent = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (myContent.length > 100) {
-      setMyContent(myContent.substr(0, 100))
-      return
+      setMyContent(myContent.substr(0, 100));
+      return;
     }
     setMyContent(event.target.value);
   };
@@ -70,7 +71,7 @@ function DiaryModal({
   // 조르기 푸시알림 보내기
   const { yourFCMtoken, diaryPush } = useFCMStore();
   const letsPush = () => {
-    console.log(yourFCMtoken)
+    console.log(yourFCMtoken);
     axios({
       url: "https://fcm.googleapis.com/fcm/send",
       method: "POST",
@@ -78,8 +79,10 @@ function DiaryModal({
         to: yourFCMtoken,
         notification: {
           title: "❤너에게 로그인",
-          body: `${yourNickName? yourNickName: yourName}님, 일기를 작성해주세요!`,
-          tag: diaryPush
+          body: `${
+            yourNickName ? yourNickName : yourName
+          }님, 일기를 작성해주세요!`,
+          tag: diaryPush,
         },
       },
       headers: {
@@ -114,15 +117,37 @@ function DiaryModal({
         {diaryOpen === 0 ? (
           <SelectBox>
             <div className="item" onClick={() => setDiaryOpen(1)}>
-              <div className="name"><img src={profileImage} alt="나의 프로필 이미지" />{nickname ? nickname : name} 님의 일기 <span>diary</span></div>
+              <div className="name">
+                <img src={profileImage} alt="나의 프로필 이미지" />
+                {nickname ? nickname : name} 님의 일기 <span>diary</span>
+              </div>
               <div className="content">
-                {myCom && myContent !== "" ? <div className="yes">{myContent}</div> : <div className="no">아직 일기를 작성하지 않았어요</div>}
+                {myCom && myContent !== "" ? (
+                  <div className="yes">{myContent}</div>
+                ) : (
+                  <div className="no">아직 일기를 작성하지 않았어요</div>
+                )}
               </div>
             </div>
             <div className="item">
-              <div className="name"><img src={yourProfileImage} alt="상대의 프로필 이미지" />{yourNickName ? yourNickName : yourName} 님의 일기 <span>diary</span></div>
+              <div className="name">
+                <img src={yourProfileImage} alt="상대의 프로필 이미지" />
+                {yourNickName ? yourNickName : yourName} 님의 일기{" "}
+                <span>diary</span>
+              </div>
               <div className="content">
-                {yourCom && yourContent !== "" ? <div className="yes">{yourContent}</div> : <div className="no">아직 일기를 작성하지 않았어요<button onClick={letsPush}>조르기!</button></div>}
+                {yourCom && yourContent !== "" ? (
+                  <div className="yes">{yourContent}</div>
+                ) : (
+                  <div className="no">
+                    <p>아직 일기를 작성하지 않았어요</p>
+                    <Chip
+                      label="조르기"
+                      onClick={letsPush}
+                      className="diary_push"
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </SelectBox>
@@ -133,11 +158,27 @@ function DiaryModal({
               <div>
                 <CreateDiary onSubmit={updateDiary}>
                   <div>
-                    <div style={{ display: "flex", justifyContent: "center", marginBottom: "30%" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        marginBottom: "30%",
+                      }}
+                    >
                       <img src={profileImage} alt="프로필"></img>
                     </div>
-                    <textarea value={myContent} onChange={changeContent} rows={10} cols={20} wrap="hard" maxLength={100} placeholder="일기를 작성해 보세요!" />
-                    <div style={{ textAlign: "end" }}>{myContent.length}/100</div>
+                    <textarea
+                      value={myContent}
+                      onChange={changeContent}
+                      rows={10}
+                      cols={20}
+                      wrap="hard"
+                      maxLength={100}
+                      placeholder="일기를 작성해 보세요!"
+                    />
+                    <div style={{ textAlign: "end" }}>
+                      {myContent.length}/100
+                    </div>
                   </div>
                   <div>
                     <button type="submit">일기 수정</button>
@@ -147,10 +188,24 @@ function DiaryModal({
             ) : (
               <CreateDiary onSubmit={createDiary}>
                 <div>
-                  <div style={{ display: "flex", justifyContent: "center", marginBottom: "30%" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      marginBottom: "30%",
+                    }}
+                  >
                     <img src={profileImage} alt="프로필"></img>
                   </div>
-                  <textarea value={myContent} onChange={changeContent} rows={10} cols={20} wrap="hard" maxLength={100} placeholder="일기를 작성해 보세요!" />
+                  <textarea
+                    value={myContent}
+                    onChange={changeContent}
+                    rows={10}
+                    cols={20}
+                    wrap="hard"
+                    maxLength={100}
+                    placeholder="일기를 작성해 보세요!"
+                  />
                   <div style={{ textAlign: "end" }}>{myContent.length}/100</div>
                 </div>
                 <div>

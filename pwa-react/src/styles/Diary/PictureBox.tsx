@@ -59,8 +59,8 @@ const GoCreateDiary = styled.div`
     text-align: center;
     border: 0;
     background-color: ${(props) => {
-    return props.theme.color.sub2;
-  }};
+      return props.theme.color.sub2;
+    }};
     font-size: 1.3rem;
     color: white;
     font-weight: bold;
@@ -114,10 +114,12 @@ const SelectBox = styled.div`
       width: 100%;
       height: 80%;
       margin-top: 7%;
-      border-top: 1px solid ${(props) => {
+      border-top: 1px solid
+        ${(props) => {
           return props.theme.color.grey;
         }};
-      border-bottom: 1px solid ${(props) => {
+      border-bottom: 1px solid
+        ${(props) => {
           return props.theme.color.grey;
         }};
       border-radius: 15px;
@@ -130,13 +132,23 @@ const SelectBox = styled.div`
         word-break: break-all;
         white-space: pre-wrap;
       }
-
+      @keyframes blink-effect {
+        50% {
+          opacity: 70%;
+        }
+      }
       .no {
         text-align: center;
         font-size: 15px;
         color: ${(props) => {
           return props.theme.color.grey;
-        }}; 
+        }};
+        .diary_push {
+          background-color: ${(props) => {
+            return props.theme.color.sub3;
+          }};
+          animation: blink-effect 1s step-end infinite;
+        }
       }
     }
   }
@@ -147,7 +159,6 @@ const SelectBox = styled.div`
     align-items: center;
     font-size: 20px;
     font-weight: 600;
-    
 
     span {
       margin-left: 3%;
@@ -174,7 +185,7 @@ const CreateDiary = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  
+
   img {
     width: 100px;
     height: 100px;

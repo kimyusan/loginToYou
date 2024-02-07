@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { CalendarStore } from "../../stores/CalendarStore";
 import { Event } from "../../interface/CalendarInterface";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import TodayIcon from '@mui/icons-material/Today';
 
 const CalendarCard = () => {
   const navigate = useNavigate();
@@ -53,17 +54,25 @@ const CalendarCard = () => {
         <div className="date">{todayDate}</div>
       </div>
       <div className="right_side">
-        <ul className="next_schedule">
-          {sortedEvents.length >= 2 ? (
-            sortedEvents
-              .splice(0, 2)
-              .map((it, idx) => <li key={idx}>{it.title}</li>)
-          ) : sortedEvents.length >= 1 ? (
+        {sortedEvents.length < 1 ? (
+          <div className="no_events">
+            <p><TodayIcon className="cal_icon"/>예정된 일정이 없어요</p>
+            <span className="goToCal">
+              일정 등록하기
+              <KeyboardArrowRightIcon />
+            </span>
+          </div>
+        ) : sortedEvents.length >= 2 ? (
+          <ul className="next_schedule">
+            {sortedEvents.splice(0, 2).map((it, idx) => (
+              <li key={idx}>{it.title}</li>
+            ))}
+          </ul>
+        ) : sortedEvents.length >= 1 ? (
+          <ul className="next_schedule">
             <li>{sortedEvents[0].title}</li>
-          ) : sortedEvents.length < 1 ? (
-            <p className="no_events">예정된 일정이 없어용</p>
-          ) : null}
-        </ul>
+          </ul>
+        ) : null}
       </div>
     </CalendarSec>
   );

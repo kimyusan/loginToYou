@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { CalendarStore } from "../../stores/CalendarStore";
-import { Event } from "../../interface/CalendarInterface";
+import { EventItem } from "../../interface/CalendarInterface";
 
 import { ListWrapper } from "../../styles/Calendar/Calendar";
 import CalendarItem from "./CalendarItem";
@@ -10,7 +10,9 @@ type Props = {
 };
 
 const CalendarList = ({ currentMonth }: Props) => {
-  const { events } = CalendarStore();
+  const { eventlist } = CalendarStore();
+
+
 
   const toDate = (date: string) => {
     const dateString = date.split("-");
@@ -24,14 +26,14 @@ const CalendarList = ({ currentMonth }: Props) => {
     );
   };
 
-  const compare: (a: Event, b: Event) => number = (a, b) => {
-    const startDateA = new Date(a.start).getTime();
-    const startDateB = new Date(b.start).getTime();
+  const compare: (a: EventItem, b: EventItem) => number = (a, b) => {
+    const startDateA = new Date(a.startDate).getTime();
+    const startDateB = new Date(b.startDate).getTime();
     return startDateA - startDateB;
   };
 
-  const filterdEvents = events.filter(
-    (event) => toDate(event.start).getMonth() + 1 === currentMonth
+  const filterdEvents = eventlist.filter(
+    (eventlist) => toDate(eventlist.startDate).getMonth() + 1 === currentMonth
   );
 
   const sortedEvents = filterdEvents.sort(compare);
@@ -40,7 +42,7 @@ const CalendarList = ({ currentMonth }: Props) => {
     <>
       <ListWrapper>
         <p className="list_header">{currentMonth}월의 일정</p>
-        {events.length >= 1 ? (
+        {eventlist.length >= 1 ? (
           sortedEvents.map((event, idx) => (
             <CalendarItem key={idx} event={event} />
           ))

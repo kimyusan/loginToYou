@@ -8,19 +8,25 @@ import ImageIcon from "@mui/icons-material/Image";
 import { FaPen } from "react-icons/fa";
 import { FaTrashCan } from "react-icons/fa6";
 
-import { Event } from "../../interface/CalendarInterface";
+import { EventItem } from "../../interface/CalendarInterface";
 import { CalendarStore } from "../../stores/CalendarStore";
 import { IconContext } from "react-icons";
 import { useTheme } from "styled-components";
+import useUserStore from "../../stores/UserStore";
+import useCoupleStore from "../../stores/CoupleStore";
 
 type Props = {
-  event: Event;
+  event: EventItem;
 };
-const dateInfo = (event: Event) => {
-  const info = `${event.start.split("-")[1]}/${event.start.split("-")[2]}
+const dateInfo = (event: EventItem) => {
+  const info = `${event.startDate.split("-")[1]}/${
+    event.startDate.split("-")[2]
+  }
     ${
-      event.end
-        ? `-${event.end.split("-")[1]}/${(parseInt(event.end.split("-")[2]) - 1)
+      event.endDate
+        ? `-${event.endDate.split("-")[1]}/${(
+            parseInt(event.endDate.split("-")[2]) - 1
+          )
             .toString()
             .padStart(2, "0")}`
         : ""
@@ -29,6 +35,8 @@ const dateInfo = (event: Event) => {
 };
 
 const CalendarItem = ({ event }: Props) => {
+  const { userId, profileImage } = useUserStore();
+  const { yourId, yourProfileImage } = useCoupleStore();
   const theme = useTheme();
   const {
     isOpen,
@@ -49,7 +57,7 @@ const CalendarItem = ({ event }: Props) => {
 
   const goDelete = () => {
     deleteMode();
-    deleteEventFromServer(parseInt(event.id));
+    deleteEventFromServer(event.calendarId);
   };
 
   return (
@@ -57,14 +65,12 @@ const CalendarItem = ({ event }: Props) => {
       <List sx={{ width: "100%", maxWidth: 360 }}>
         <ListItem>
           <ListItemAvatar>
-            <Avatar>
-              <ImageIcon />
-            </Avatar>
+            <Avatar src={userId === event.userId? profileImage : yourProfileImage} />
           </ListItemAvatar>
-          <ListItemText primary={event.title} secondary={dateInfo(event)} />
+          <ListItemText primary={event.contents} secondary={dateInfo(event)} />
           <IconContext.Provider value={{ color: theme.color.grey }}>
-            <FaPen onClick={goEdit} style={{ margin: "0 5px" }} />
-            <FaTrashCan onClick={goDelete} style={{ margin: "0 5px" }} />
+            <FaPen onClick={goEdit} style={{ margin: "0" }} />
+            <FaTrashCan onClick={goDelete} style={{ marginLeft: "7%" }} />
           </IconContext.Provider>
         </ListItem>
       </List>

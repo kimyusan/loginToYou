@@ -154,13 +154,11 @@ const CalendarSec = styled(Card)`
       }};
       font-size: 7rem;
     }
-    .no_events {
-      margin: 0;
-    }
   }
   .right_side {
     position: relative;
     width: 50dvw;
+    display: flex;
     .next_schedule {
       position: absolute;
       bottom: 0;
@@ -169,6 +167,30 @@ const CalendarSec = styled(Card)`
         color: ${(props) => props.theme.color.main};
       }
     }
+  }
+  .no_events {
+    margin: 0;
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    flex-direction: column;
+    p {
+      display: flex;
+      width: 100%;
+      min-width: max-content;
+      background-color: ${(props) => props.theme.color.sub4};
+      border-radius: 5px;
+      padding: 3% 0;
+      text-align: center;
+    }
+  }
+  .goToCal {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    font-size: 0.9rem;
+    margin-top: 5px;
+    color: ${(props) => props.theme.color.grey};
   }
 `;
 
@@ -200,7 +222,6 @@ const SecondSection = styled.div`
         width: 50%;
       }
       .questionDetail {
-        font-size: 1.1rem;
         align-self: flex-end;
         display: flex;
         flex-direction: column;
