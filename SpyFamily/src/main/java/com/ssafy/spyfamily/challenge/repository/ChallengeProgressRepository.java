@@ -36,7 +36,8 @@ public interface ChallengeProgressRepository extends JpaRepository<ChallengeProg
     @Modifying
     @Query("UPDATE ChallengeProgress cp " +
             "SET cp.progress = cp.progress + 1 " +
-            "WHERE cp.challengeProgressId IN :challengeProgressIds")
+            "WHERE cp.isDone = false " +
+            "AND cp.challengeProgressId IN :challengeProgressIds")
     @Transactional
     void incrementProgressByChallengeProgressIds(@Param("challengeProgressIds") List<Integer> challengeProgressIds);
 

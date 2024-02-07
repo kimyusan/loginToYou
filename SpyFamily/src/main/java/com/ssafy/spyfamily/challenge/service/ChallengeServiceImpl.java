@@ -88,6 +88,11 @@ public class ChallengeServiceImpl implements ChallengeService {
         
         // challengeProgressId 리스트를 파라미터로 넘겨 진행도 증가시키기
         challengeProgressRepository.incrementProgressByChallengeProgressIds(challengeProgressIds);
+
+        // goal과 isDone 확인 후 완료한 챌린지는 isDone을 true로 변경
+        for(Integer challengeProgressId : challengeProgressIds) {
+            challengeProgressRepository.updateIsDoneByChallengeProgressId(challengeProgressId);
+        }
     }
 
 }
