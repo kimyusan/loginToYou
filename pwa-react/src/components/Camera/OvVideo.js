@@ -56,7 +56,7 @@ export default function OpenViduVideoComponent({ streamManager, zi }) {
           await selfieSegmentation.send({ image: videoRef.current });
         },
         width: window.innerWidth,
-        height: window.innerWidth,
+        height: window.innerWidth * 1.5,
       });
 
       camera.start();
@@ -81,8 +81,8 @@ export default function OpenViduVideoComponent({ streamManager, zi }) {
         playsInline
         style={{
           display: "none",
-          // width: window.innerWidth,
-          // height: window.innerWidth * 1.5,
+          width: window.innerWidth,
+          height: window.innerWidth * 1.5,
           transform: "scaleX(-1)",
         }}
         width={window.innerWidth}
@@ -91,8 +91,8 @@ export default function OpenViduVideoComponent({ streamManager, zi }) {
       <canvas
         ref={canvasRef}
         style={{
-          // width: window.innerWidth,
-          // height: window.innerWidth * 1.5,
+          width: window.innerWidth,
+          height: window.innerWidth * 1.5,
           transform: "scaleX(-1)",
           aspectRatio: 1.5,
         }}
