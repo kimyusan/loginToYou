@@ -4,9 +4,11 @@ const Global = createGlobalStyle`
     body, html {
         margin: 0;
         border: 0;
+        overflow-x: auto;
         background-color: ${(props) => props.theme.color.bgColor};
         font-family: 'Noto Sans KR';
         overscroll-behavior: none;
+
     }
 
     button {
