@@ -29,6 +29,7 @@ function Chat() {
   const navigate = useNavigate();
   const { room_id } = useParams();
   const { body } = document;
+  const [windowHeight, setWindowHeight] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const userId = useUserStore.getState().userId;
@@ -205,6 +206,7 @@ function Chat() {
   useEffect(() => {
     loadChat();
     checkRoom();
+    setWindowHeight(window.innerHeight);
     if (scrollRef.current) {
       if (!visualViewport) return;
       scrollRef.current.style.height = `${visualViewport.height.toString()}px`;
@@ -232,12 +234,7 @@ function Chat() {
   }, [messages, showChatNum, isLoading]);
 
   return (
-    <div
-      ref={scrollRef}
-      style={{
-        position: "relative",
-      }}
-    >
+    <div ref={scrollRef}>
       <TokenCheker />
       <Header>
         <IconContext.Provider value={{ size: "20px" }}>
@@ -261,6 +258,7 @@ function Chat() {
         userId={userId}
         roomId={room_id}
         isOppOn={isOppOn}
+        bottomHeight={visualViewport ? windowHeight - visualViewport.height : 0}
       ></InputBox>
     </div>
   );
