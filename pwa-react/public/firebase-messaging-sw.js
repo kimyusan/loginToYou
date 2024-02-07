@@ -21,10 +21,12 @@ self.addEventListener("push", function (e) {
     ...resultData,
   };
   console.log("push: ", { resultData, notificationTitle, notificationOptions });
-
-  
-
-  self.registration.showNotification(notificationTitle, notificationOptions);
+  if (notificationOptions.tag === "true") {
+    console.log('푸시알림 받겠삼')
+    self.registration.showNotification(notificationTitle, notificationOptions);
+  } else {
+    console.log('푸시알림이 꺼져있삼')
+  }
 });
 
 self.addEventListener("notificationclick", function (event) {

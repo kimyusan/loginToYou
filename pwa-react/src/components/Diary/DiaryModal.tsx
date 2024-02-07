@@ -1,6 +1,8 @@
 import React from "react";
+import axios from "axios";
 import useUserStore from "../../stores/UserStore";
 import useCoupleStore from "../../stores/CoupleStore";
+import useFCMStore from "../../stores/FCMStore";
 import { useShallow } from "zustand/react/shallow";
 
 import { SelectBox, CreateDiary } from "../../styles/Diary/PictureBox";
@@ -65,7 +67,34 @@ function DiaryModal({
     setMyContent(event.target.value);
   };
 
-
+  // 조르기 푸시알림 보내기
+  const { yourFCMtoken, diaryPush } = useFCMStore();
+  const letsPush = () => {
+    console.log(yourFCMtoken)
+    axios({
+      url: "https://fcm.googleapis.com/fcm/send",
+      method: "POST",
+      data: {
+        to: yourFCMtoken,
+        notification: {
+          title: "❤너에게 로그인",
+          body: `${yourNickName? yourNickName: yourName}님, 일기를 작성해주세요!`,
+          tag: diaryPush
+        },
+      },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          "Bearer AAAAY7JdDVE:APA91bHykGL1DwaYmitHIGYeQL7fXih8EZ_211ISQALWQpnPPqBfP4nFX389-zhiZTsD96dtxLsSccSFarc3hifMkujFa210jRwnZoRDzoqqSm9c2z-zbtF3gW3HZ4RL2EZkZ3JUssdZ",
+      },
+    })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <Modal
@@ -93,7 +122,7 @@ function DiaryModal({
             <div className="item">
               <div className="name"><img src={yourProfileImage} alt="상대의 프로필 이미지" />{yourNickName ? yourNickName : yourName} 님의 일기 <span>diary</span></div>
               <div className="content">
-                {yourCom && yourContent !== "" ? <div className="yes">{yourContent}</div> : <div className="no">아직 일기를 작성하지 않았어요</div>}
+                {yourCom && yourContent !== "" ? <div className="yes">{yourContent}</div> : <div className="no">아직 일기를 작성하지 않았어요<button onClick={letsPush}>조르기!</button></div>}
               </div>
             </div>
           </SelectBox>

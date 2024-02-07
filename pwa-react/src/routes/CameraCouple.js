@@ -31,6 +31,7 @@ import CameraAltIcon from "@mui/icons-material/CameraAlt";
 
 import useUserStore from "../stores/UserStore";
 import useAuthStore from "../stores/AuthStore";
+import useFCMStore from "../stores/FCMStore";
 import SettingsHeader from "../components/Settings/SettingsHeader";
 import { useTheme } from "styled-components";
 
@@ -39,7 +40,7 @@ const APPLICATION_SERVER_URL = "https://logintoyou.kro.kr:8080/openvidu/";
 export default function App() {
   const divRef = useRef(null);
   const navigate = useNavigate();
-  const { coupleId, userId, nickname } = useUserStore();
+  const { coupleId, userId, name, nickname } = useUserStore();
   const [mySessionId, setMySessionId] = useState(`logintoyou${coupleId}`);
   const [myUserName, setMyUserName] = useState(`${nickname}${userId}`);
   const [session, setSession] = useState(undefined);
@@ -241,6 +242,35 @@ export default function App() {
     }, "image/png");
   };
 
+  // 연결시 푸시알림 보내기
+  const { yourFCMtoken, coupleCamPush } = useFCMStore();
+  const letsPush = () => {
+    console.log(yourFCMtoken);
+    axios({
+      url: "https://fcm.googleapis.com/fcm/send",
+      method: "POST",
+      data: {
+        to: yourFCMtoken,
+        notification: {
+          title: "❤너에게 로그인",
+          body: `${nickname ? nickname : name}님이 사진 찍기를 원해요!`,
+          tag: coupleCamPush,
+        },
+      },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          "Bearer AAAAY7JdDVE:APA91bHykGL1DwaYmitHIGYeQL7fXih8EZ_211ISQALWQpnPPqBfP4nFX389-zhiZTsD96dtxLsSccSFarc3hifMkujFa210jRwnZoRDzoqqSm9c2z-zbtF3gW3HZ4RL2EZkZ3JUssdZ",
+      },
+    })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div>
       {session === undefined ? (
@@ -273,7 +303,7 @@ export default function App() {
               required
               style={{ display: "none" }}
             />
-            <ReadyBtn name="commit" type="submit" value="Ready" />
+            <ReadyBtn name="commit" type="submit" value="Ready" onClick={letsPush}/>
           </JoinForm>
         </div>
       ) : null}

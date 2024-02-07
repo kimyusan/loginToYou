@@ -254,7 +254,7 @@ export default function App() {
   const { yourProfileImage } = useCoupleStore();
 
   // 연결시 푸시알림 보내기
-  const { yourFCMtoken } = useFCMStore();
+  const { yourFCMtoken, videoChatPush } = useFCMStore();
   const { nickname, name } = useUserStore();
   const letsPush = () => {
     console.log(yourFCMtoken)
@@ -266,6 +266,7 @@ export default function App() {
         notification: {
           title: "❤너에게 로그인",
           body: `${nickname? nickname: name}님이 영상 통화를 신청했어요`,
+          tag: videoChatPush
         },
       },
       headers: {
