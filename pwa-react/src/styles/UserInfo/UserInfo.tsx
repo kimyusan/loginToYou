@@ -7,6 +7,16 @@ const UserInfoBox = styled.div`
     text-align: center;
     font-size: 1.5rem;
   }
+  .settingOption {
+    display: flex;
+    align-items: center;
+  }
+  .settingTitle {
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    width: 80%;
+  }
 `;
 
 const UserInfoField = styled(TextField)`
