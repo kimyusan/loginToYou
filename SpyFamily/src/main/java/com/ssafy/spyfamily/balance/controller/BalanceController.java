@@ -73,26 +73,12 @@ public class BalanceController {
     public ResponseEntity<?> saveBalanceAnswer(@RequestBody CoupleBalanceGame coupleBalanceGame) {
         try {
             System.out.println("저장 들어옴");
-            balanceService.saveBalance(coupleBalanceGame);
+            CoupleBalanceGame savedCoupleBalanceGame = balanceService.saveBalance(coupleBalanceGame);
 
             System.out.println("저장 성공");
-            return new ResponseEntity<Void>(HttpStatus.OK);
+            return new ResponseEntity<CoupleBalanceGame>(savedCoupleBalanceGame, HttpStatus.OK);
         } catch (Exception e) {
             System.out.println("저장 실패");
-            return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @PutMapping("/update")
-    public ResponseEntity<?> updateBalanceAnswer(@RequestBody CoupleBalanceGame coupleBalanceGame) {
-        try {
-            balanceService.updateBalance(coupleBalanceGame);
-
-            System.out.println("수정 성공");
-            return new ResponseEntity<Void>(HttpStatus.OK);
-        } catch (Exception e) {
-            System.out.println("수정 실패");
-            e.printStackTrace();
             return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
