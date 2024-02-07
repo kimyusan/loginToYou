@@ -17,7 +17,7 @@ function CoupleInfoCalendar({ start, setStart }: Props) {
       <label>우리 사랑이 시작된 날은</label>
       <CalendarInput
         type="date"
-        value={start ? start : ""}
+        value={start ? start?.split(" ")[0] : ""}
         onChange={changeDate}
         InputProps={{ inputProps: { min: "1900-01-01", max: today } }}
       />
