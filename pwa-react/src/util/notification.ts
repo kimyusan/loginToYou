@@ -21,8 +21,8 @@ export const goDeviceToken = (FCMtoken: string) => {
 export const setPushOk = () => {
   const PATH = useAuthStore.getState().PATH;
   const userId = useUserStore.getState().userId;
-  axios({
-    url: `${PATH}/fcm/setting`,
+  axiosAuth({
+    url: `/fcm/setting`,
     method: "POST",
     params: {
       userId: userId,
