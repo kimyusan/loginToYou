@@ -7,6 +7,7 @@ const Global = createGlobalStyle`
         background-color: ${(props) => props.theme.color.bgColor};
         font-family: 'Noto Sans KR';
         overscroll-behavior: none;
+
     }
 
     button {

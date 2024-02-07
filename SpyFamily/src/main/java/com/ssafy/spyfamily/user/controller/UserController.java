@@ -2,12 +2,14 @@ package com.ssafy.spyfamily.user.controller;
 
 import com.ssafy.spyfamily.user.model.User;
 import com.ssafy.spyfamily.user.service.UserServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @RestController()
 @RequestMapping(value = "/user", produces = "application/json")
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE}, maxAge = 6000)
@@ -27,15 +29,15 @@ public class UserController {
     @PutMapping("/update")
     public ResponseEntity<?> userUpdate(@RequestBody User user) {
         try {
-            System.out.println("유저 정보 업데이트 시작");
+            log.info("유저 정보 업데이트 시작");
             User new_user = userService.userUpdate(user);
-            System.out.println("유저 정보 업데이트 성공");
-            System.out.println(new_user.toString());
-            System.out.println();
+            log.info("유저 정보 업데이트 성공");
+            log.info(new_user.toString());
+
             return new ResponseEntity<User>(new_user, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("유저 정보 업데이트 실패");
+            log.info("유저 정보 업데이트 실패");
             return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -60,14 +62,14 @@ public class UserController {
     @DeleteMapping("/withdrawal")
     public ResponseEntity<?> userWithdrawal(@RequestParam Integer userId) {
         try {
-            System.out.println("유저 삭제 들어옴");
+            log.info("유저 삭제 들어옴");
             userService.withdrawal(userId);
 
-            System.out.println("삭제 성공");
+            log.info("삭제 성공");
             return new ResponseEntity<Void>(HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("삭제 실패");
+            log.info("삭제 실패");
             return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -76,14 +78,14 @@ public class UserController {
     public ResponseEntity<?> userUpdatePassword(@RequestParam Integer userId,
                                                 @RequestParam String password) {
         try {
-            System.out.println("비밀번호 수정");
+            log.info("비밀번호 수정");
             User new_user = userService.userUpdatePassword(userId, password);
 
-            System.out.println("비밀번호 수정 성공");
+            log.info("비밀번호 수정 성공");
             return new ResponseEntity<User>(new_user, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("비밀번호 수정 실패");
+            log.info("비밀번호 수정 실패");
             return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

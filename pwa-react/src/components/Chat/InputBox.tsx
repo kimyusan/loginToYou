@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { InputForm } from "../../styles/Chat/UI";
 import { CompatClient } from "@stomp/stompjs";
+import { TextInput } from "react-native";
 import useAuthStore from "../../stores/AuthStore";
 
 type Props = {
@@ -20,16 +21,16 @@ function InputBox({
   roomId,
   isOppOn,
 }: Props) {
-  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const inputRef = useRef<TextInput>(null);
   const token = useAuthStore.getState().token;
 
-  const updateMessage = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setMessage(event.target.value);
-    inputRef.current?.style.setProperty("height", "auto");
-    inputRef.current?.style.setProperty(
-      "height",
-      inputRef.current?.scrollHeight + "px"
-    );
+  const updateMessage = (data: string) => {
+    setMessage(data);
+    // inputRef.current?.style.setProperty("height", "auto");
+    // inputRef.current?.style.setProperty(
+    //   "height",
+    //   inputRef.current?.scrollHeight + "px"
+    // );
   };
 
   // // 채팅 전송
@@ -57,18 +58,13 @@ function InputBox({
       })
     );
     setMessage("");
-    inputRef.current?.style.setProperty("height", "auto");
+    // inputRef.current?.style.setProperty("height", "auto");
     // inputRef.current?.focus();
   };
 
   return (
     <InputForm onSubmit={sendChat}>
-      <textarea
-        rows={1}
-        value={message}
-        onChange={updateMessage}
-        ref={inputRef}
-      ></textarea>
+      <TextInput value={message} onChangeText={updateMessage} ref={inputRef} />
       <button
         onMouseDown={(e) => {
           e.preventDefault();

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Header = styled.div`
-  position: absolute;
+  position: fixed;
   left: 0;
   right: 0;
   top: 0;
@@ -21,7 +21,7 @@ export const Header = styled.div`
 `;
 
 export const InputForm = styled.form`
-  position: absolute;
+  position: fixed;
   display: flex;
   /* height: max-content; */
   padding: 2dvh 5dvw;
@@ -32,7 +32,7 @@ export const InputForm = styled.form`
     return props.theme.color.bgColor;
   }};
 
-  & > textarea {
+  & > .textInput {
     width: 80%;
     padding: 10px 20px;
     margin: 0 1dvw;
