@@ -99,7 +99,7 @@ const Main = () => {
 
     // 상대방 fcmToken 받아오기
     const fcmInfo = await axiosAuth.get(`${PATH}/fcm/search/other`, {
-      params: { otherUserId: userId },
+      params: { otherUserId: yourId },
     });
     setYourFCMtoken(fcmInfo.data)
   };
