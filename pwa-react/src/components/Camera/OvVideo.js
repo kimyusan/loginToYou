@@ -55,7 +55,7 @@ export default function OpenViduVideoComponent({ streamManager, zi }) {
         onFrame: async () => {
           await selfieSegmentation.send({ image: videoRef.current });
         },
-        width: window.innerWidth * 0.666666667,
+        width: window.innerWidth,
         height: window.innerWidth,
       });
 
