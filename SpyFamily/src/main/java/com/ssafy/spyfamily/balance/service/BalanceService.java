@@ -8,7 +8,5 @@ public interface BalanceService {
 
     CoupleBalanceGame getBalanceAnswer(Integer userId, Integer balanceGameId);
 
-    void saveBalance(CoupleBalanceGame coupleBalanceGame);
-
-    void updateBalance(CoupleBalanceGame coupleBalanceGame);
+    CoupleBalanceGame saveBalance(CoupleBalanceGame coupleBalanceGame);
 }

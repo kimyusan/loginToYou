@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface BalanceRepository extends JpaRepository<BalanceGame, Integer> {
 
     BalanceGame findByBalanceGameId(Integer balanceGameId);
+
 }

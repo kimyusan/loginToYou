@@ -31,39 +31,64 @@ public class BalanceServiceImpl implements BalanceService{
     }
 
     @Override
-    public void saveBalance(CoupleBalanceGame coupleBalanceGame) {
+    public CoupleBalanceGame saveBalance(CoupleBalanceGame coupleBalanceGame) {
+
         BalanceGame balanceGame = balanceRepository.findByBalanceGameId(coupleBalanceGame.getBalanceGameId());
 
-        if (Objects.equals(balanceGame.getSItem(), coupleBalanceGame.getUserVote())) {
-            balanceGame.setSVote(balanceGame.getSVote() + 1);
-        } else {
-            balanceGame.setFVote(balanceGame.getFVote() + 1);
-        }
-        balanceRepository.save(balanceGame);
+        Long count = coupleBalanceRepository.countAllByUserIdAndBalanceGameId(
+                coupleBalanceGame.getUserId(),
+                coupleBalanceGame.getBalanceGameId()
+        );
 
-        coupleBalanceRepository.save(coupleBalanceGame);
-    }
+        System.out.println("해당 유저의 응답결과 수(0 또는 1 정상) : " + count);
 
-    @Override
-    public void updateBalance(CoupleBalanceGame coupleBalanceGame) {
-        BalanceGame balanceGame = balanceRepository.findByBalanceGameId(coupleBalanceGame.getBalanceGameId());
-        CoupleBalanceGame temp = coupleBalanceRepository.findByCoupleBalanceGameId(coupleBalanceGame.getCoupleBalanceGameId());
-
-        if (!Objects.equals(temp.getUserVote(), coupleBalanceGame.getUserVote())) {
-            if (Objects.equals(balanceGame.getFItem(), coupleBalanceGame.getUserVote())) {
-                balanceGame.setFVote(balanceGame.getFVote() + 1);
-                balanceGame.setSVote(balanceGame.getSVote() - 1);
-            } else {
-                balanceGame.setFVote(balanceGame.getFVote() - 1);
+        // 처음 등록할때
+        if (count == 0) {
+            System.out.println("처음 등록할 때");
+            if (Objects.equals(balanceGame.getSItem(), coupleBalanceGame.getUserVote())) {
                 balanceGame.setSVote(balanceGame.getSVote() + 1);
+            } else {
+                balanceGame.setFVote(balanceGame.getFVote() + 1);
             }
-        } else {
-            System.out.println("값이 변경되지 않았는데요?");
-        }
-        System.out.println("질문지 저장");
-        balanceRepository.save(balanceGame);
-        System.out.println("수정된값 DB에 저장");
-        coupleBalanceRepository.save(coupleBalanceGame);
-    }
+            balanceRepository.save(balanceGame);
 
+            return coupleBalanceRepository.save(coupleBalanceGame);
+        } else {    // 두번째 등록할때(수정)
+            System.out.println("두번 째 등록할 때");
+            CoupleBalanceGame temp = coupleBalanceRepository.findByBalanceGameIdAndUserId(
+                    coupleBalanceGame.getUserId(),
+                    coupleBalanceGame.getBalanceGameId()
+            );
+
+            if (!Objects.equals(temp.getUserVote(), coupleBalanceGame.getUserVote())) {
+                if (Objects.equals(balanceGame.getFItem(), coupleBalanceGame.getUserVote())) {
+
+                    balanceGame.setFVote(balanceGame.getFVote() + 1);
+
+                    if(balanceGame.getSVote() != 0) {
+                        balanceGame.setSVote(balanceGame.getSVote() - 1);
+                    }
+
+                } else {
+
+                    if (balanceGame.getFVote() != 0){
+                        balanceGame.setFVote(balanceGame.getFVote() - 1);
+                    }
+
+                    balanceGame.setSVote(balanceGame.getSVote() + 1);
+                }
+                System.out.println("질문지 저장");
+                balanceRepository.save(balanceGame);
+                System.out.println("수정된값 DB에 저장");
+
+                coupleBalanceGame.setCoupleBalanceGameId(temp.getCoupleBalanceGameId());
+
+                return coupleBalanceRepository.save(coupleBalanceGame);
+            } else {
+                System.out.println("값이 변경되지 않았는데요?");
+
+                return coupleBalanceGame;
+            }
+        }
+    }
 }
