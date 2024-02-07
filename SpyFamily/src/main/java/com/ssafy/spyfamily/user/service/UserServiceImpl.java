@@ -1,6 +1,8 @@
 package com.ssafy.spyfamily.user.service;
 
 import com.ssafy.spyfamily.balance.repository.CoupleBalanceRepository;
+import com.ssafy.spyfamily.balance.service.BalanceService;
+import com.ssafy.spyfamily.balance.service.BalanceServiceImpl;
 import com.ssafy.spyfamily.calendar.repository.CalendarRepository;
 import com.ssafy.spyfamily.chat.repo.ChatMessageRepository;
 import com.ssafy.spyfamily.chat.repo.ChatRoomRepo;
@@ -45,7 +47,7 @@ public class UserServiceImpl implements UserService {
     private final RestTemplate restTemplate;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
-    private final CoupleBalanceRepository coupleBalanceRepository;
+    private final BalanceServiceImpl balanceService;
     private final CalendarRepository calendarRepository;
     private final ChatRoomRepo chatRoomRepo;
     private final ChatMessageRepository chatMessageRepository;
@@ -59,7 +61,7 @@ public class UserServiceImpl implements UserService {
     public UserServiceImpl(RestTemplate restTemplate,
                            PasswordEncoder passwordEncoder,
                            UserRepository userRepository,
-                           CoupleBalanceRepository coupleBalanceRepository,
+                           BalanceServiceImpl balanceService,
                            CalendarRepository calendarRepository,
                            ChatRoomRepo chatRoomRepo,
                            ChatMessageRepository chatMessageRepository,
@@ -72,7 +74,7 @@ public class UserServiceImpl implements UserService {
         this.restTemplate = restTemplate;
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
-        this.coupleBalanceRepository = coupleBalanceRepository;
+        this.balanceService = balanceService;
         this.calendarRepository = calendarRepository;
         this.chatRoomRepo = chatRoomRepo;
         this.chatMessageRepository = chatMessageRepository;
@@ -164,7 +166,10 @@ public class UserServiceImpl implements UserService {
             System.out.println("프로필 사진이 없음");
         }
 
-        // TODO: 밸런스 게임 삭제
+        // 밸런스 게임 삭제
+        System.out.println("밸런스 게임 삭제");
+        balanceService.deleteByUserId(userId);
+
         // TODO: 챌린지 삭제
 
         // 유저 삭제
