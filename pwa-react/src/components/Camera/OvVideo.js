@@ -91,7 +91,6 @@ export default function OpenViduVideoComponent({ streamManager, zi }) {
       <canvas
         ref={canvasRef}
         style={{
-          width: window.innerWidth,
           height: window.innerWidth * 1.5,
           transform: "scaleX(-1)",
           aspectRatio: 1.5,
