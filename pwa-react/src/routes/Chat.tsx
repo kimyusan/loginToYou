@@ -201,6 +201,8 @@ function Chat() {
     setIsLoading(false);
   }, [isLoading]);
 
+  const [vv, setVV] = useState(0);
+
   // 초기 실행 시 채팅 불러오기
   useEffect(() => {
     loadChat();
@@ -209,16 +211,13 @@ function Chat() {
     if (scrollRef.current) {
       if (!visualViewport) return;
       scrollRef.current.style.height = `${visualViewport.height.toString()}px`;
+      setVV(visualViewport.height);
 
       visualViewport.onresize = () => {
         if (!scrollRef.current) return;
         if (!visualViewport) return;
-        const html = document.querySelector("html");
-        const body = document.querySelector("body");
-        if (!body || !html) return;
-        html.style.height = `${visualViewport.height}px`;
-        body.style.height = `${visualViewport.height}px`;
-        // scrollRef.current.style.height = `${visualViewport.height.toString()}px`;
+        setVV(visualViewport.height);
+        scrollRef.current.style.height = `${visualViewport.height.toString()}px`;
       };
       console.log(visualViewport);
     }
@@ -253,6 +252,7 @@ function Chat() {
           />
         </IconContext.Provider>
       </Header>
+      <div style={{ fontSize: "100px" }}>{vv}</div>
       <MessageBox messages={showMessages} userId={userId}></MessageBox>
 
       <InputBox
