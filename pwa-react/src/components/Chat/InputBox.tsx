@@ -10,6 +10,9 @@ type Props = {
   userId: number | null;
   roomId: string | undefined;
   isOppOn: boolean;
+  winHeight: number;
+  keyHeight: number;
+  setKeyHeight: React.Dispatch<React.SetStateAction<number>>;
 };
 
 function InputBox({
@@ -19,6 +22,9 @@ function InputBox({
   userId,
   roomId,
   isOppOn,
+  winHeight,
+  keyHeight,
+  setKeyHeight,
 }: Props) {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const token = useAuthStore.getState().token;
@@ -62,12 +68,18 @@ function InputBox({
   };
 
   return (
-    <InputForm onSubmit={sendChat}>
+    <InputForm
+      onSubmit={sendChat}
+      $bottom={keyHeight == 0 ? 0 : winHeight - keyHeight}
+    >
       <textarea
         rows={1}
         value={message}
         onChange={updateMessage}
         ref={inputRef}
+        onClick={() => {
+          setKeyHeight((prev) => (visualViewport ? visualViewport.height : 0));
+        }}
       ></textarea>
       <button
         onMouseDown={(e) => {
