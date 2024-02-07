@@ -305,8 +305,8 @@ export default function App() {
         avatarBounds.bottom > callBtnBounds.top
       ) {
         // Trigger the form submission
-        joinSession();
         letsPush()
+        joinSession();
       }
 
       // 이벤트 리스너를 제거합니다.
@@ -375,7 +375,7 @@ export default function App() {
                   밀어서 연결하기
                 </ReadyBtn>
                 <span className="call_btn">
-                  <PhoneEnabledIcon />
+                  <PhoneEnabledIcon onClick={letsPush}/>
                 </span>
               </CallBtn>
             </JoinForm>
