@@ -29,6 +29,7 @@ function Chat() {
   const navigate = useNavigate();
   const { room_id } = useParams();
   const { body } = document;
+  const keyboardHeight = useRef(0);
 
   const userId = useUserStore.getState().userId;
 
@@ -204,10 +205,12 @@ function Chat() {
   useEffect(() => {
     loadChat();
     checkRoom();
+    window.addEventListener("resize", keyboardUp);
 
     return () => {
       client.current?.disconnect();
       body.style.removeProperty("position");
+      window.removeEventListener("resize", keyboardUp);
     };
   }, []);
 
@@ -218,8 +221,21 @@ function Chat() {
     return () => window.removeEventListener("scroll", addScroll);
   }, [messages, showChatNum, isLoading]);
 
+  const keyboardUp = () => {
+    if (keyboardHeight.current == 0) {
+      keyboardHeight.current += 1;
+    } else {
+      keyboardHeight.current -= 1;
+    }
+  };
+
   return (
-    <div>
+    <div
+      style={{
+        position: "relative",
+        height: `calc(100dvh - ${keyboardHeight.current}px)`,
+      }}
+    >
       <TokenCheker />
       <Header>
         <IconContext.Provider value={{ size: "20px" }}>
