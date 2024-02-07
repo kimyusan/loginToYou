@@ -93,7 +93,7 @@ public class BalanceController {
         } catch (Exception e) {
             System.out.println("수정 실패");
             e.printStackTrace();
-            return new ResponseEntity<Void>(HttpStatus.OK);
+            return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     
