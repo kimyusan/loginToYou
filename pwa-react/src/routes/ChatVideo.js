@@ -26,6 +26,9 @@ import { BtnBox } from "../styles/ChatVideo/Chat";
 import PhoneDisabledIcon from "@mui/icons-material/PhoneDisabled";
 import CameraswitchIcon from "@mui/icons-material/Cameraswitch";
 
+// 푸시알림 FCM토큰
+import useFCMStore from "../stores/FCMStore";
+
 const APPLICATION_SERVER_URL = "https://logintoyou.kro.kr:8080/openvidu/";
 
 const AvatarComponent = ({ yourProfileImage, onDrag }) => {
@@ -250,6 +253,34 @@ export default function App() {
   // 상대방 프로필 이미지 가져옴 -> 연결신청 버튼에 넣을 것
   const { yourProfileImage } = useCoupleStore();
 
+  // 연결시 푸시알림 보내기
+  const { yourFCMtoken } = useFCMStore();
+  const { nickname, name } = useUserStore();
+  const letsPush = () => {
+    console.log(yourFCMtoken)
+    axios({
+      url: "https://fcm.googleapis.com/fcm/send",
+      method: "POST",
+      data: {
+        to: yourFCMtoken,
+        notification: {
+          title: "❤너에게 로그인",
+          body: `${nickname? nickname: name}님이 영상 통화를 신청했어요`,
+        },
+      },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          "Bearer AAAAY7JdDVE:APA91bHykGL1DwaYmitHIGYeQL7fXih8EZ_211ISQALWQpnPPqBfP4nFX389-zhiZTsD96dtxLsSccSFarc3hifMkujFa210jRwnZoRDzoqqSm9c2z-zbtF3gW3HZ4RL2EZkZ3JUssdZ",
+      },
+    })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const handleDragStart = (e) => {
     // 터치 이벤트의 초기 위치
     const initialTouchX = e.touches[0].clientX;
@@ -278,8 +309,7 @@ export default function App() {
         avatarBounds.top < callBtnBounds.bottom &&
         avatarBounds.bottom > callBtnBounds.top
       ) {
-        // Trigger the form submission
-        console.log("qwerqwer");
+        letsPush();
         joinSession();
       }
 
@@ -346,7 +376,7 @@ export default function App() {
                   밀어서 연결하기
                 </ReadyBtn>
                 <span className="call_btn">
-                  <PhoneEnabledIcon />
+                  <PhoneEnabledIcon onClick={letsPush} />
                 </span>
               </CallBtn>
             </JoinForm>

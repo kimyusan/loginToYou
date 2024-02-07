@@ -10,12 +10,13 @@ import {
 import { firebaseConfig } from "./config";
 
 import { validKey } from "./config";
-import { goDeviceToken } from "../util/notification";
-import axios from "axios";
-import useAuthStore from "../stores/AuthStore";
+import { goDeviceToken, setPushOk } from "../util/notification";
+import useFCMStore from "../stores/FCMStore";
 
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
+
+const setFCMToken = useFCMStore.getState().setFCMToken;
 
 export async function requestPermission() {
   console.log("권한 요청 중...");
@@ -28,20 +29,43 @@ export async function requestPermission() {
 
   console.log("알림 권한이 허용됨");
 
-  const token = await getToken(messaging, {
+  const MyFCMtoken = await getToken(messaging, {
     vapidKey: validKey,
   });
-  if (token) {
-    console.log("token: ", token);
+  if (MyFCMtoken) {
+    setPushOk();
+
+    console.log("token: ", MyFCMtoken);
+    setFCMToken(MyFCMtoken);
     // 서버로 토큰 보내주는 코드
     // 서버 키
     // AAAAY7JdDVE:APA91bHykGL1DwaYmitHIGYeQL7fXih8EZ_211ISQALWQpnPPqBfP4nFX389-zhiZTsD96dtxLsSccSFarc3hifMkujFa210jRwnZoRDzoqqSm9c2z-zbtF3gW3HZ4RL2EZkZ3JUssdZ
-    goDeviceToken(token);
+    goDeviceToken(MyFCMtoken);
   } else console.log("Can not get Token");
 
   onMessage(messaging, (payload) => {
-    console.log("메시지가 도착했습니다.", payload);
-    // ...
+    console.log("Message received. ", payload);
+
+    // const { title, body } = payload.notification;
+
+    // // 사용자에게 알림을 표시
+    // if (Notification.permission === "granted") {
+    //   // 알림 생성
+    //   const notification = new Notification(title, {
+    //     body: body,
+    //     icon: "icon.png",
+    //   });
+
+    //   // 알림이 클릭되었을 때의 동작 설정
+    //   notification.onclick = function (event) {
+    //     event.preventDefault();
+    //     window.focus();
+    //   };
+    // } else {
+    //   console.log(
+    //     "Notification permission has not been granted to the app yet."
+    //   );
+    // }
   });
   // 사용자가 구독을 취소할 때마다 토큰 삭제
   // window.addEventListener('beforeunload', async () => {

@@ -3,6 +3,8 @@ import SockJS from "sockjs-client";
 import { useNavigate, useParams } from "react-router-dom";
 import { CompatClient, Stomp } from "@stomp/stompjs";
 import { axiosAuth } from "../util/token";
+import { StyleSheet, KeyboardAvoidingView, Platform } from "react-native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 import useUserStore from "../stores/UserStore";
 import useAuthStore from "../stores/AuthStore";
@@ -31,6 +33,16 @@ function Chat() {
   const { body } = document;
 
   const userId = useUserStore.getState().userId;
+
+  const styles = StyleSheet.create({
+    block: {
+      flex: 1,
+      backgroundColor: "white",
+    },
+    avoid: {
+      flex: 1,
+    },
+  });
 
   // 읽음여부 갱신
   const updateRead = async () => {
@@ -220,30 +232,40 @@ function Chat() {
 
   return (
     <div>
-      <TokenCheker />
-      <Header>
-        <IconContext.Provider value={{ size: "20px" }}>
-          <GoArrowLeft
-            onClick={() => {
-              navigate("/");
-            }}
-          />
-          <FaPhone
-            onClick={() => {
-              navigate("/chat/video");
-            }}
-          />
-        </IconContext.Provider>
-      </Header>
-      <MessageBox messages={showMessages} userId={userId}></MessageBox>
-      <InputBox
-        client={client}
-        message={message}
-        setMessage={setMessage}
-        userId={userId}
-        roomId={room_id}
-        isOppOn={isOppOn}
-      ></InputBox>
+      <SafeAreaProvider>
+        <SafeAreaView edges={["bottom"]} style={styles.block}>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : undefined}
+            style={styles.avoid}
+          >
+            <TokenCheker />
+            <Header>
+              <IconContext.Provider value={{ size: "20px" }}>
+                <GoArrowLeft
+                  onClick={() => {
+                    navigate("/");
+                  }}
+                />
+                <FaPhone
+                  onClick={() => {
+                    navigate("/chat/video");
+                  }}
+                />
+              </IconContext.Provider>
+            </Header>
+            <MessageBox messages={showMessages} userId={userId}></MessageBox>
+
+            <InputBox
+              client={client}
+              message={message}
+              setMessage={setMessage}
+              userId={userId}
+              roomId={room_id}
+              isOppOn={isOppOn}
+            ></InputBox>
+          </KeyboardAvoidingView>
+        </SafeAreaView>
+      </SafeAreaProvider>
     </div>
   );
 }

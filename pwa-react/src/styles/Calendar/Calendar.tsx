@@ -10,7 +10,8 @@ const Wrapper = styled.div`
 
 const MyCalendar = styled.div`
   z-index: 1 !important;
-  padding: 5dvh 2dvh;
+  padding: 3dvh 3dvw 0;
+
   * {
     border-color: transparent !important;
   }
@@ -21,6 +22,7 @@ const MyCalendar = styled.div`
 
   .fc-toolbar-title {
     font-size: 1.3rem !important;
+    margin-left: 10px;
   }
   .fc-today-button {
     background-color: white !important;
@@ -122,14 +124,13 @@ const TitleInput = styled(TextField)`
 `;
 
 const ListWrapper = styled.div`
-  background-color: #ececec;
-  margin: 0 5%;
-  margin-bottom: 5%;
-  border-radius: 5px;
+  background-color: ${(props) => props.theme.color.bgColor};
+  margin: 0 5dvw;
+
   > .list_header {
     font-size: 1.2rem;
-    padding: 3%;
-    border-bottom: 1px solid #a0a0a0;
+    padding: 3dvw 1dvh;
+    border-bottom: 1px solid ${(props) => props.theme.color.main};
   }
   > ul {
     padding: 0;

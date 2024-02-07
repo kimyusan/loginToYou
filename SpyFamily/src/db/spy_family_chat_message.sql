@@ -41,7 +41,6 @@ CREATE TABLE `chat_message` (
 
 LOCK TABLES `chat_message` WRITE;
 /*!40000 ALTER TABLE `chat_message` DISABLE KEYS */;
-INSERT INTO `chat_message` VALUES (1,NULL,'2024. 1. 31. 오후 1:36:38','aga',1,'fe143afc-482b-4591-99fb-b856b5acb38f','17',1),(2,NULL,'2024. 1. 31. 오후 1:36:40','hh',1,'fe143afc-482b-4591-99fb-b856b5acb38f','17',1),(3,NULL,'2024. 1. 31. 오후 3:07:33','agg',1,'fe143afc-482b-4591-99fb-b856b5acb38f','17',1),(4,NULL,'2024. 1. 31. 오후 3:08:03','dd\nas\na',1,'fe143afc-482b-4591-99fb-b856b5acb38f','17',1),(5,NULL,'2024. 1. 31. 오후 3:08:06','ffff',1,'fe143afc-482b-4591-99fb-b856b5acb38f','17',1),(6,NULL,'2024. 1. 31. 오후 3:08:07','aa',1,'fe143afc-482b-4591-99fb-b856b5acb38f','17',1),(7,NULL,'2024. 1. 31. 오후 3:08:42','ff\n',1,'fe143afc-482b-4591-99fb-b856b5acb38f','16',1),(8,NULL,'2024. 1. 31. 오후 3:08:44','ss',1,'fe143afc-482b-4591-99fb-b856b5acb38f','17',1),(9,NULL,'2024. 1. 31. 오후 3:09:38','gggggg',1,'fe143afc-482b-4591-99fb-b856b5acb38f','17',1);
 /*!40000 ALTER TABLE `chat_message` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

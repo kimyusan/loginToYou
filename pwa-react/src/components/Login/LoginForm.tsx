@@ -10,23 +10,22 @@ import useAuthStore from "../../stores/AuthStore";
 import useUserStore from "../../stores/UserStore";
 import { application } from "express";
 
-// import '../../notification/settingFCM'
+import "../../notification/settingFCM";
 
 const LoginForm = () => {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
 
-  const { login, PATH, setToken, token, refToken, setTokenExpireTime } =
-    useAuthStore(
-      useShallow((state) => ({
-        login: state.login,
-        PATH: state.PATH,
-        setToken: state.setToken,
-        token: state.token,
-        refToken: state.refToken,
-        setTokenExpireTime: state.setTokenExpireTime,
-      }))
-    );
+  const { login, PATH, setToken, token, refToken, setTokenExpireTime } = useAuthStore(
+    useShallow((state) => ({
+      login: state.login,
+      PATH: state.PATH,
+      setToken: state.setToken,
+      token: state.token,
+      refToken: state.refToken,
+      setTokenExpireTime: state.setTokenExpireTime,
+    }))
+  );
   const navigate = useNavigate();
   const path = useLocation();
   const { state } = useLocation();
@@ -77,12 +76,7 @@ const LoginForm = () => {
     <LoginBox>
       <form onSubmit={goLogin}>
         <input placeholder="아이디" value={id} onChange={changeId}></input>
-        <input
-          placeholder="비밀번호"
-          type="password"
-          value={pw}
-          onChange={changePw}
-        ></input>
+        <input placeholder="비밀번호" type="password" value={pw} onChange={changePw}></input>
         <button type="submit" className="loginBtn">
           로그인
         </button>

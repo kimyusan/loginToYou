@@ -15,7 +15,13 @@ function Settings({}: Props) {
       <TokenCheker />
       <SettingsHeader main={true} />
       <MenuTitle>앱 설정</MenuTitle>
-      <Menu>알림 설정</Menu>
+      <Menu
+        onClick={() => {
+          navigate("push");
+        }}
+      >
+        알림 설정
+      </Menu>
       <Menu
         onClick={() => {
           navigate("theme");
@@ -26,6 +32,8 @@ function Settings({}: Props) {
       <MenuTitle>개인정보 수정</MenuTitle>
       <Menu
         onClick={() => {
+          console.log("ww");
+
           navigate("password");
         }}
       >

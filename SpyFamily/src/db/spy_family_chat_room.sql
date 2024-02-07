@@ -36,7 +36,6 @@ CREATE TABLE `chat_room` (
 
 LOCK TABLES `chat_room` WRITE;
 /*!40000 ALTER TABLE `chat_room` DISABLE KEYS */;
-INSERT INTO `chat_room` VALUES ('2222',33,0),('3333',6,0),('4220ca80-d957-460f-b732-c23fbc3fdf40',4,0),('fe143afc-482b-4591-99fb-b856b5acb38f',2,0);
 /*!40000 ALTER TABLE `chat_room` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

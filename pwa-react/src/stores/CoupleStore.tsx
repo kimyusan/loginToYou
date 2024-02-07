@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { CoupleInterface } from "../interface/UserInterface";
-import { axiosAuth } from "../util/token";
 
 interface CoupleStoreInterface extends CoupleInterface {
   yourId: number | null;

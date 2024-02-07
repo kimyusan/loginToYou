@@ -48,13 +48,13 @@ public class LoginController {
         return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
     }
 
+    //ref토큰 재발급
     @PostMapping("/reissue/token")
     public ResponseEntity<?> reissueToken( @RequestHeader("refreshToken") String refreshToken,  @RequestParam String email){
-//        String accessToken = authorization.substring(7);
 
+        log.info("/reissue/token controller 실행");
         String refToken = refreshToken.substring(7);
-//        log.info("auth : " + authorization);
-//        log.info("accesstoken : " + accessToken);
+
         log.info(" refreshtoken : " + refreshToken) ;
         log.info("refToken : " + refToken);
         log.info("email : " + email);
@@ -75,7 +75,7 @@ public class LoginController {
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.add("Authorization", "Bearer " + newAccessToken);
             httpHeaders.add("refreshToken","Bearer " + newRefreshToken);
-//            HttpCookie httpCookie = new HttpCookie("refreshToken","Bearer" + newRefreshToken);
+
 
             return ResponseEntity.ok().headers(httpHeaders).body("재발급성공");
         }
@@ -166,11 +166,11 @@ public class LoginController {
 
             if(user != null) {
                 String jwtToken = jwtUtil.createJwt(user.getEmail(), user.getRole(), user.getUserId(),user.getCoupleId(),user.getName());
-                System.out.println("token 생성 완료" + jwtToken);
+                log.info("token 생성 완료" + jwtToken);
                 HttpHeaders httpHeaders = new HttpHeaders();
                 httpHeaders.add("Authorization", "Bearer " + jwtToken);
 
-                System.out.println("http헤더" + httpHeaders.toString());
+                log.info("http헤더" + httpHeaders.toString());
                 // response.addHeader("Authorization", "Bearer " + token);
 
                 return ResponseEntity.ok().headers(httpHeaders).body(user);
@@ -186,7 +186,7 @@ public class LoginController {
 
         } else {
             // 에러 처리 등을 수행
-            System.out.println("Error response: " + responseEntity.getBody());
+            log.info("Error response: " + responseEntity.getBody());
             return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -216,11 +216,11 @@ public class LoginController {
             // 사용자 정보가 있다면 해당 유저 정보 토큰 담아서 리턴해주기
             if(user != null) {
                 String jwtToken = jwtUtil.createJwt(user.getEmail(), user.getRole(), user.getUserId(),user.getCoupleId(),user.getName());
-                System.out.println("token 생성 완료" + jwtToken);
+                log.info("token 생성 완료" + jwtToken);
                 HttpHeaders httpHeaders = new HttpHeaders();
                 httpHeaders.add("Authorization", "Bearer " + jwtToken);
 
-                System.out.println("http헤더" + httpHeaders.toString());
+                log.info("http헤더" + httpHeaders.toString());
                 // response.addHeader("Authorization", "Bearer " + token);
 
                 return ResponseEntity.ok().headers(httpHeaders).body(user);
@@ -231,13 +231,13 @@ public class LoginController {
             user = new User();
             user.setEmail(email);
             user.setName(userData.get("name"));
-            System.out.println(user.toString());
+            log.info(user.toString());
 
             return new ResponseEntity<User>(user, HttpStatus.OK);
 
         } else {
             // 에러 처리 등을 수행
-            System.out.println("Error response: " + responseEntity.getBody());
+            log.info("Error response: " + responseEntity.getBody());
             return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 

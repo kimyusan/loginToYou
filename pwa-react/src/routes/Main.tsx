@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import '../notification/settingFCM'
+import "../notification/settingFCM";
 
-import {
-  Wrapper,
-  FirstSection,
-  SecondSection,
-  ThirdSection,
-} from "../styles/Main/Main";
+import { Wrapper, FirstSection, SecondSection, ThirdSection } from "../styles/Main/Main";
 import { UserInterface, CoupleInterface } from "../interface/UserInterface";
 import { FaCamera } from "react-icons/fa";
 import { IconContext } from "react-icons";
@@ -21,6 +16,7 @@ import QuestionCard from "../components/Main/QuestionCard";
 import useUserStore from "../stores/UserStore";
 import useAuthStore from "../stores/AuthStore";
 import useCoupleStore from "../stores/CoupleStore";
+import useFCMStore from "../stores/FCMStore";
 import TokenCheker from "../util/TokenCheker";
 import MenuSection from "../components/MenuSection";
 import { useShallow } from "zustand/react/shallow";
@@ -38,6 +34,7 @@ const Main = () => {
     }))
   );
   const { setUser, setProfileImage } = useUserStore();
+  const { yourFCMtoken, setYourFCMtoken } = useFCMStore();
   const userId = useUserStore.getState().userId;
   const coupleId = useUserStore.getState().coupleId;
   const [cp1, setCp1] = useState<UserInterface>();
@@ -64,7 +61,7 @@ const Main = () => {
     navigate(`/chat/${res.data}`);
   };
 
-  // 메인화면 접속 시 커플 정보 조회
+  // 메인화면 접속 시 커플 정보 조회 및 상대방 디바이스토큰 조회
   const callData = async () => {
     const res = await axiosAuth.get("/couple/main", {
       params: { coupleId: coupleId },
@@ -94,6 +91,13 @@ const Main = () => {
     setCp1(res.data[0]);
     setCp2(res.data[1]);
     setCpInfo(res.data[2]);
+
+    // 상대방 fcmToken 받아오기
+    const fcmInfo = await axiosAuth.get(`${PATH}/fcm/search/other`, {
+      params: { otherUserId: yourId },
+    });
+    console.log(fcmInfo.data);
+    setYourFCMtoken(fcmInfo.data);
   };
 
   // 내 프로필 이미지 조회
@@ -104,14 +108,10 @@ const Main = () => {
       })
       .then((response) => {
         if (!response.data) {
-          setProfileImage(
-            "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-          );
+          setProfileImage("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
         } else {
           const image = response.data;
-          setProfileImage(
-            `${PATH}/profile/getImg/${image.saveFolder}/${image.originalName}/${image.saveName}`
-          );
+          setProfileImage(`${PATH}/profile/getImg/${image.saveFolder}/${image.originalName}/${image.saveName}`);
         }
       });
   }, []);
@@ -124,14 +124,10 @@ const Main = () => {
       })
       .then((response) => {
         if (!response.data) {
-          setYourProfileImage(
-            "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-          );
+          setYourProfileImage("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
         } else {
           const image = response.data;
-          setYourProfileImage(
-            `${PATH}/profile/getImg/${image.saveFolder}/${image.originalName}/${image.saveName}`
-          );
+          setYourProfileImage(`${PATH}/profile/getImg/${image.saveFolder}/${image.originalName}/${image.saveName}`);
         }
       })
       .catch((error) => console.log(error));
@@ -175,16 +171,10 @@ const Main = () => {
               <p>사진</p>
               <p>찍으러 가기</p>
             </div>
-            <IconContext.Provider
-              value={{ size: "10rem", color: theme.color.sub2 }}
-            >
+            <IconContext.Provider value={{ size: "10rem", color: theme.color.sub2 }}>
               <FaCamera
                 className="cameraIcon"
-                style={
-                  isCameraMode
-                    ? { transform: "rotate(15deg)", color: theme.color.sub3 }
-                    : undefined
-                }
+                style={isCameraMode ? { transform: "rotate(15deg)", color: theme.color.sub3 } : undefined}
               />
             </IconContext.Provider>
           </Card>
@@ -197,9 +187,7 @@ const Main = () => {
                 }}
               >
                 <div className="iconLabel">혼자찍기</div>
-                <IconContext.Provider
-                  value={{ size: "8rem", color: theme.color.sub3 }}
-                >
+                <IconContext.Provider value={{ size: "8rem", color: theme.color.sub3 }}>
                   <GoPersonFill className="icon" />
                 </IconContext.Provider>
               </Card>
@@ -210,9 +198,7 @@ const Main = () => {
                 }}
               >
                 <div className="iconLabel">같이찍기</div>
-                <IconContext.Provider
-                  value={{ size: "8rem", color: theme.color.sub1 }}
-                >
+                <IconContext.Provider value={{ size: "8rem", color: theme.color.sub1 }}>
                   <BsPeopleFill className="icon" />
                 </IconContext.Provider>
               </Card>
@@ -224,9 +210,7 @@ const Main = () => {
               </Card>
               <Card className="chat" onClick={goChat}>
                 <p className="chat_name">채팅</p>
-                <p className="chat_num">
-                  {unreadMessage > 99 ? 99 : unreadMessage}
-                </p>
+                <p className="chat_num">{unreadMessage > 99 ? 99 : unreadMessage}</p>
               </Card>
             </>
           )}
@@ -238,7 +222,7 @@ const Main = () => {
         </SecondSection>
 
         <ThirdSection>
-          <Card className="balance_game">
+          <Card className="balance_game" onClick={() => navigate("/balancegame")}>
             <div>밸런스게임</div>
             <div>VS</div>
           </Card>
