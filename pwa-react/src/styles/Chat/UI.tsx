@@ -32,7 +32,7 @@ export const InputForm = styled.form`
     return props.theme.color.bgColor;
   }};
 
-  & > textarea {
+  & > .textInput {
     width: 80%;
     padding: 10px 20px;
     margin: 0 1dvw;
