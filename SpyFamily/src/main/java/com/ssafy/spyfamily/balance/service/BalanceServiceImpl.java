@@ -5,7 +5,9 @@ import com.ssafy.spyfamily.balance.model.CoupleBalanceGame;
 import com.ssafy.spyfamily.balance.repository.BalanceRepository;
 import com.ssafy.spyfamily.balance.repository.CoupleBalanceRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -88,6 +90,29 @@ public class BalanceServiceImpl implements BalanceService{
                 System.out.println("값이 변경되지 않았는데요?");
 
                 return coupleBalanceGame;
+            }
+        }
+    }
+
+
+    @Transactional
+    @Override
+    public void deleteByUserId(Integer userId) {
+        List<CoupleBalanceGame> coupleBalanceGames = coupleBalanceRepository.findByUserId(userId);
+        System.out.println("밸런스 게임 결과 삭제 시행 횟수 : " + coupleBalanceGames.size());
+        for (CoupleBalanceGame coupleBalanceGame : coupleBalanceGames) {
+            // CoupleBalanceGame 삭제
+            coupleBalanceRepository.delete(coupleBalanceGame);
+
+            // BalanceGame 업데이트
+            BalanceGame balanceGame = balanceRepository.findById(coupleBalanceGame.getBalanceGameId()).orElse(null);
+            if (balanceGame != null) {
+                if (balanceGame.getFItem().equals(coupleBalanceGame.getUserVote())) {
+                    balanceGame.setFVote(balanceGame.getFVote() - 1);
+                } else if (balanceGame.getSItem().equals(coupleBalanceGame.getUserVote())) {
+                    balanceGame.setSVote(balanceGame.getSVote() - 1);
+                }
+                balanceRepository.save(balanceGame);
             }
         }
     }
