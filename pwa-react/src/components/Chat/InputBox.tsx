@@ -1,8 +1,9 @@
 import React, { useRef } from "react";
 import { InputForm } from "../../styles/Chat/UI";
 import { CompatClient } from "@stomp/stompjs";
-import { TextInput } from "react-native";
+import { StyleSheet, TextInput } from "react-native";
 import useAuthStore from "../../stores/AuthStore";
+import { useTheme } from "styled-components";
 
 type Props = {
   message: string;
@@ -23,6 +24,18 @@ function InputBox({
 }: Props) {
   const inputRef = useRef<TextInput>(null);
   const token = useAuthStore.getState().token;
+  const theme = useTheme();
+
+  const styles = StyleSheet.create({
+    textInput: {
+      width: 260,
+      backgroundColor: "white",
+      borderRadius: 250,
+      borderColor: theme.color.grey,
+      borderStyle: "solid",
+      borderWidth: 1,
+    },
+  });
 
   const updateMessage = (data: string) => {
     setMessage(data);
@@ -64,7 +77,12 @@ function InputBox({
 
   return (
     <InputForm onSubmit={sendChat}>
-      <TextInput value={message} onChangeText={updateMessage} ref={inputRef} />
+      <TextInput
+        value={message}
+        onChangeText={updateMessage}
+        ref={inputRef}
+        style={styles.textInput}
+      />
       <button
         onMouseDown={(e) => {
           e.preventDefault();
