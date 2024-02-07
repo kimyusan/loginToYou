@@ -20,7 +20,7 @@ function MessageBox({ messages, userId }: Props) {
   }, [messages]);
 
   return (
-    <MessageWrapper ref={scrollRef} style={{ height: "auto" }}>
+    <MessageWrapper ref={scrollRef}>
       {messages.map((message, index) => {
         return userId == message.sendUserId ? (
           <MyMessage key={index}>

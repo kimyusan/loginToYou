@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const MessageWrapper = styled.div`
   position: relative;
-  background-color: ${(props) => props.theme.color.bgColor};
   width: 100%;
   height: 100%;
   display: flex;
@@ -22,7 +21,6 @@ const MessageLine = styled.div`
     max-width: 60%;
     padding: 10px 20px;
     border-radius: 25px;
-    white-space: pre;
     word-wrap: break-word;
   }
 
