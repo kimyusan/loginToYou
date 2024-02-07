@@ -54,7 +54,7 @@ public class FCMNotificationApiController {
     }
 
     @PostMapping("/issue/fcmtoken")
-    public ResponseEntity<?> issueFcmtoken(@RequestBody Integer userId, @RequestBody String fcmToken ){
+    public ResponseEntity<?> issueFcmtoken(@RequestParam Integer userId, @RequestParam String fcmToken ){
 
 
         try {

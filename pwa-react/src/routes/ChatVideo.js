@@ -26,6 +26,9 @@ import { BtnBox } from "../styles/ChatVideo/Chat";
 import PhoneDisabledIcon from "@mui/icons-material/PhoneDisabled";
 import CameraswitchIcon from "@mui/icons-material/Cameraswitch";
 
+// 푸시알림 FCM토큰
+import useFCMStore from "../stores/FCMStore";
+
 const APPLICATION_SERVER_URL = "https://logintoyou.kro.kr:8080/openvidu/";
 
 const AvatarComponent = ({ yourProfileImage, onDrag }) => {
@@ -250,6 +253,29 @@ export default function App() {
   // 상대방 프로필 이미지 가져옴 -> 연결신청 버튼에 넣을 것
   const { yourProfileImage } = useCoupleStore();
 
+  // 연결시 푸시알림 보내기
+  const {FCMtoken} = useFCMStore()
+  const letsPush = () =>{
+    axios({
+      url: "https://fcm.googleapis.com/fcm/send",
+      method: "POST",
+      data: {
+        to : FCMtoken,
+        notification : {
+            title : "갈까?",
+            body : "과연?"
+            }
+    },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer AAAAY7JdDVE:APA91bHykGL1DwaYmitHIGYeQL7fXih8EZ_211ISQALWQpnPPqBfP4nFX389-zhiZTsD96dtxLsSccSFarc3hifMkujFa210jRwnZoRDzoqqSm9c2z-zbtF3gW3HZ4RL2EZkZ3JUssdZ",
+      },
+    }).then((res) => {
+      console.log(res.data)
+    }).catch((err)=>{
+      console.log(err)
+    })
+  }
   const handleDragStart = (e) => {
     // 터치 이벤트의 초기 위치
     const initialTouchX = e.touches[0].clientX;
@@ -279,8 +305,8 @@ export default function App() {
         avatarBounds.bottom > callBtnBounds.top
       ) {
         // Trigger the form submission
-        console.log("qwerqwer");
         joinSession();
+        letsPush()
       }
 
       // 이벤트 리스너를 제거합니다.
@@ -295,6 +321,9 @@ export default function App() {
     window.addEventListener("touchmove", handleDragging);
     window.addEventListener("touchend", handleDragEnd);
   };
+
+
+
 
   return (
     <DndProvider backend={HTML5Backend}>

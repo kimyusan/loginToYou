@@ -46,7 +46,7 @@ export async function requestPermission() {
 
     // const { title, body } = payload.notification;
 
-    // 사용자에게 알림을 표시
+    // // 사용자에게 알림을 표시
     // if (Notification.permission === "granted") {
     //   // 알림 생성
     //   const notification = new Notification(title, {
