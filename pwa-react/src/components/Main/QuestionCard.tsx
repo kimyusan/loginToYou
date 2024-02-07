@@ -29,7 +29,6 @@ const QuestionCard = (props: Props) => {
       .then((res) => {
         setQuestion(res.data);
       })
-      .catch((err) => console.log(err));
   };
 
   // 오늘의 질문 답변 유저별 조회
@@ -42,9 +41,10 @@ const QuestionCard = (props: Props) => {
       .get(`/question/get/answer`, {
         params: { todayQuestionId: todayToString(), userId: userId },
       })
-      .then((res) => setMyAns(res.data?.userAnswer))
+      .then((res) => {
+        setMyAns(res.data?.userAnswer);
+      })
   };
-
 
   useEffect(() => {
     getQuestion();
@@ -58,8 +58,10 @@ const QuestionCard = (props: Props) => {
           <p className="todays">오늘의</p>
           <div className="questionDetail">
             <p>{question}</p>
-            <p className="goToAns">{myAns? <span></span> : <span>답변하기</span> }
-            <KeyboardArrowRightIcon/></p>
+            <p className="goToAns">
+              {myAns ? <span></span> : <span>답변하기</span>}
+              <KeyboardArrowRightIcon />
+            </p>
           </div>
         </div>
         <div className="q">Q</div>
