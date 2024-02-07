@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { InputForm } from "../../styles/Chat/UI";
 import { CompatClient } from "@stomp/stompjs";
 import useAuthStore from "../../stores/AuthStore";
@@ -22,18 +22,6 @@ function InputBox({
 }: Props) {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const token = useAuthStore.getState().token;
-  const keyboardHeight = useRef(0);
-
-  useEffect(() => {
-    if (!window.visualViewport) return;
-    window.visualViewport.onresize = () => {
-      const documentHeight = document.documentElement.clientHeight;
-      const viewportHeight = window.visualViewport
-        ? window.visualViewport.height
-        : documentHeight;
-      keyboardHeight.current = documentHeight - viewportHeight;
-    };
-  });
 
   const updateMessage = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(event.target.value);
@@ -74,8 +62,7 @@ function InputBox({
   };
 
   return (
-    <InputForm onSubmit={sendChat} $bottom={keyboardHeight.current}>
-      {keyboardHeight.current}
+    <InputForm onSubmit={sendChat}>
       <textarea
         rows={1}
         value={message}

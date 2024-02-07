@@ -16,7 +16,7 @@ function MessageBox({ messages, userId }: Props) {
 
   // 채팅방 끝으로 이동
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ block: "end" });
+    // scrollRef.current?.scrollIntoView({ block: "end" });
   }, [messages]);
 
   return (
