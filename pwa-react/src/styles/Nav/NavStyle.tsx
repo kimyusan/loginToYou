@@ -25,7 +25,7 @@ const NavigationList = styled.ul`
   z-index: 9900;
   li {
     font-size: 1.2rem;
-    margin-bottom: 10%;
+    margin-bottom: 4dvh;
   }
 `;
 export { NavigationContainer, NavigationList };
