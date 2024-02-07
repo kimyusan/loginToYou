@@ -205,6 +205,7 @@ function Chat() {
   useEffect(() => {
     loadChat();
     checkRoom();
+
     if (scrollRef.current) {
       if (!visualViewport) return;
       scrollRef.current.style.height = `${visualViewport.height.toString()}px`;
@@ -213,8 +214,10 @@ function Chat() {
         if (!scrollRef.current) return;
         if (!visualViewport) return;
         const html = document.querySelector("html");
-        if (!html) return;
-        html.style.height = `${visualViewport.height.toString()}px`;
+        const body = document.querySelector("body");
+        if (!body || !html) return;
+        html.style.height = `${visualViewport.height}px`;
+        body.style.height = `${visualViewport.height}px`;
         // scrollRef.current.style.height = `${visualViewport.height.toString()}px`;
       };
       console.log(visualViewport);
@@ -251,6 +254,7 @@ function Chat() {
         </IconContext.Provider>
       </Header>
       <MessageBox messages={showMessages} userId={userId}></MessageBox>
+
       <InputBox
         client={client}
         message={message}
