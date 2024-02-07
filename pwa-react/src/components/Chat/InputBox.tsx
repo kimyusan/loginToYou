@@ -58,7 +58,7 @@ function InputBox({
     );
     setMessage("");
     inputRef.current?.style.setProperty("height", "auto");
-    inputRef.current?.focus();
+    // inputRef.current?.focus();
   };
 
   return (
@@ -69,7 +69,13 @@ function InputBox({
         onChange={updateMessage}
         ref={inputRef}
       ></textarea>
-      <button>전송</button>
+      <button
+        onMouseDown={(e) => {
+          e.preventDefault();
+        }}
+      >
+        전송
+      </button>
     </InputForm>
   );
 }

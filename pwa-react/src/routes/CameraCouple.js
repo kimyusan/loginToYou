@@ -133,7 +133,7 @@ export default function App() {
     OV.current = new OpenVidu();
     setSession(undefined);
     setSubscribers([]);
-    setMySessionId(`logintoyou15`);
+    setMySessionId(`logintoyou${coupleId}`);
     setMyUserName(`${nickname}${userId}`);
     setPublisher(undefined);
   }, [session]);

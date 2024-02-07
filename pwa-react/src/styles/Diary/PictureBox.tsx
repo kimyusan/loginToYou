@@ -4,7 +4,7 @@ const Pictures = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 65dvh;
+  height: 75dvh;
   background-color: ${(props) => {
     return props.theme.color.bgColor;
   }};
@@ -29,7 +29,6 @@ const PicItem = styled.div`
     justify-content: center;
     align-items: center;
     opacity: 1;
-    margin-top: 10%;
     border: 1px solid #cecece;
 
     transition: opacity 0.5s ease-out, transform 0.5s ease-out;
@@ -40,7 +39,7 @@ const PicItem = styled.div`
 
   & .middle {
     z-index: 1;
-    height: 250px;
+    height: 260px;
     filter: blur(0px);
     -webkit-filter: blur(0px);
   }

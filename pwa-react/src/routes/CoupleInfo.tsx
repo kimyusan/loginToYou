@@ -46,6 +46,7 @@ function CoupleInfo() {
       suserId: couple.suserId,
     };
     couple.setCouple(newInfo);
+
     axios
       .put(`${PATH}/couple/update`, newInfo, {
         headers: {

@@ -24,7 +24,7 @@ export const InputForm = styled.form`
   position: fixed;
   display: flex;
   /* height: max-content; */
-  padding: 2dvh 3dvw 4dvh;
+  padding: 2dvh 5dvw;
   bottom: 0;
   left: 0;
   right: 0;

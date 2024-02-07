@@ -128,25 +128,28 @@ const PictureBox = () => {
           }
         }
         setPictures(data);
-        setSelectDay(
-          data.length > 0
-            ? `${data[day]["saveFolder"]}`
-            : `${year.toString().substr(2, 4)}${month
-                .toString()
-                .padStart(2, "0")}01`
-        );
-        const Dp =
-          data.length > 0
-            ? res.data.filter(
-                (item: any) => item.saveFolder === `${data[day]["saveFolder"]}`
-              )
-            : [];
-        setDayPictures(Dp);
-        setMyCom(false)
-        setYourCom(false)
-        setMyContent("");
-        setYourContent("");
-        setOriginalId(data.length > 0 ? `${data[day]["diaryId"]}` : "");
+        if (data.length > 0) {
+          setSelectDay(
+            data.length > 0
+              ? `${data[day]["saveFolder"]}`
+              : `${year.toString().substr(2, 4)}${month
+                  .toString()
+                  .padStart(2, "0")}01`
+          );
+          const Dp =
+            data.length > 0
+              ? res.data.filter(
+                  (item: any) => item.saveFolder === `${data[day]["saveFolder"]}`
+                )
+              : [];
+          setDayPictures(Dp);
+          setMyCom(false)
+          setYourCom(false)
+          setMyContent("");
+          setYourContent("");
+          setOriginalId(data.length > 0 ? `${data[day]["diaryId"]}` : "");
+        }
+        
       } catch (err) {
         console.error(err);
       }
@@ -276,6 +279,10 @@ const PictureBox = () => {
       console.log("사진 삭제 성공", res.data);
       setCommit(!commit);
       setOpen4(false);
+      if (dayPictures.length === 1) {
+        setDay(day-1)
+        setX(100)
+      }
     } catch (err) {
       console.error(err);
     }
@@ -300,7 +307,7 @@ const PictureBox = () => {
       )}
       <Pictures>
         {pictures.length > 0 ? <SlArrowLeft onClick={goLeft} /> : null}
-        <Carousel openDetail={openDetail} pictures={pictures} x={x} />
+        <Carousel openDetail={openDetail} pictures={pictures} x={x} goLeft={goLeft} goRight={goRight}/>
 
         {/* 다이어리 작성시 모달 */}
         <DiaryModal

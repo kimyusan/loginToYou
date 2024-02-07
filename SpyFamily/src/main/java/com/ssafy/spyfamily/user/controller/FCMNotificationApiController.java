@@ -80,7 +80,9 @@ public class FCMNotificationApiController {
 
     @PostMapping("/issue/fcmtoken")
     public ResponseEntity<?> issueFcmtoken(@RequestParam Integer userId, @RequestParam String fcmToken ){
-//        log.info("fcm/issue/token/ 실행 userId : fcmtoken :" + userId +" " + fcmToken );
+
+        log.info("fcm/issue/token/ 실행 userId : fcmtoken :" + userId +" " + fcmToken );
+
 
         try {
             fcmNotificationService.issueFcmtoken(userId, fcmToken);
