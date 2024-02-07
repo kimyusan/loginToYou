@@ -30,25 +30,42 @@ public class ChatController {
         this.chatService = chatService;
         this.jwtUtil = jwtUtil;
     }
+
+
     @MessageMapping("/chat/message")
-    public void message(ChatMessage message, @Header("Authorization") String authorization) {
+    public void message(ChatMessage message) {
+        log.info("/chat/message 실행" + message.toString());
 
-        System.out.println("/chat/message 입장");
-        String[] token = authorization.split(" ");
-        String nicname = jwtUtil.getUsername(token[1]);
-
-        System.out.println(message.toString());
-
-        //System.out.println(nicname);
+        // 유저가 입장했을때 이전 채팅 읽음 처리
         if (ChatMessage.MessageType.ENTER.equals(message.getType())) {
-            message.setMessage(nicname + "님이 입장하셨습니다.");
-
                 chatService.readUser(message.getRoomId(), message.getSendUserId());
         }
 
-
+        //메세지를 전송해줌
         messagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
-
+        //메세지db 저장
         chatService.save(message);
     }
+
+    //    @MessageMapping("/chat/message")
+//    public void message(ChatMessage message, @Header("Authorization") String authorization) {
+//
+//        System.out.println("/chat/message 입장");
+//        String[] token = authorization.split(" ");
+//        String nicname = jwtUtil.getUsername(token[1]);
+//
+//        System.out.println(message.toString());
+//
+//        //System.out.println(nicname);
+//        if (ChatMessage.MessageType.ENTER.equals(message.getType())) {
+//            message.setMessage(nicname + "님이 입장하셨습니다.");
+//
+//            chatService.readUser(message.getRoomId(), message.getSendUserId());
+//        }
+//
+//
+//        messagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
+//
+//        chatService.save(message);
+//    }
 }

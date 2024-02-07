@@ -3,16 +3,18 @@ import { axiosAuth } from "./token";
 import useAuthStore from "../stores/AuthStore";
 import useUserStore from "../stores/UserStore";
 
-export const goDeviceToken = (token: any) => {
+export const goDeviceToken = (token: string) => {
   const PATH = useAuthStore.getState().PATH;
   const userId = useUserStore.getState().userId;
   axios
     .post(
-      `${PATH}/fcm/issue/fcmtoken`,
+      `${PATH}/fcm/issue/fcmtoken`, {},
       {
-        userId: userId,
-        fcmToken: token,
-      },
+        params: {
+          userId: userId,
+          fcmToken: token,
+      }}
+
       // {
       //   headers: {
       //     Authorization:
@@ -21,5 +23,5 @@ export const goDeviceToken = (token: any) => {
       // }
     )
     .then((res) => console.log(res.data))
-    .catch((err) => console.log("토큰보내기 실패!!!!"));
+    .catch((err) => console.log(err));
 };
