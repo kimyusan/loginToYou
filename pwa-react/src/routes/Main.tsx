@@ -21,6 +21,7 @@ import QuestionCard from "../components/Main/QuestionCard";
 import useUserStore from "../stores/UserStore";
 import useAuthStore from "../stores/AuthStore";
 import useCoupleStore from "../stores/CoupleStore";
+import useFCMStore from "../stores/FCMStore";
 import TokenCheker from "../util/TokenCheker";
 import MenuSection from "../components/MenuSection";
 import { useShallow } from "zustand/react/shallow";
@@ -38,6 +39,7 @@ const Main = () => {
     }))
   );
   const { setUser, setProfileImage } = useUserStore();
+  const { yourFCMtoken, setYourFCMtoken } = useFCMStore()
   const userId = useUserStore.getState().userId;
   const coupleId = useUserStore.getState().coupleId;
   const [cp1, setCp1] = useState<UserInterface>();
@@ -64,7 +66,7 @@ const Main = () => {
     navigate(`/chat/${res.data}`);
   };
 
-  // 메인화면 접속 시 커플 정보 조회
+  // 메인화면 접속 시 커플 정보 조회 및 상대방 디바이스토큰 조회
   const callData = async () => {
     const res = await axiosAuth.get("/couple/main", {
       params: { coupleId: coupleId },
@@ -94,6 +96,12 @@ const Main = () => {
     setCp1(res.data[0]);
     setCp2(res.data[1]);
     setCpInfo(res.data[2]);
+
+    // 상대방 fcmToken 받아오기
+    const fcmInfo = await axiosAuth.get(`${PATH}/fcm/search/other`, {
+      params: { otherUserId: userId },
+    });
+    setYourFCMtoken(fcmInfo.data)
   };
 
   // 내 프로필 이미지 조회
@@ -146,6 +154,7 @@ const Main = () => {
     setUnreadMessage((prev) => (res.data > 99 ? 99 : res.data));
   };
 
+
   useEffect(() => {
     callData();
     checkChat();
@@ -156,17 +165,6 @@ const Main = () => {
   const goDiary = () => {
     navigate("/diary");
   };
-
-  // 상대방 FCMToken 조회
-  // localhost:8080/search/other/fcm?userId= 123
-  useEffect(() => {
-    axiosAuth
-      .get(`${PATH}/fcm/search/other`, {
-        params: { userId: userId },
-      })
-      .then((res) => console.log('ddddd',res.data))
-      .catch((err) => console.log(err.data));
-  }, []);
 
   return (
     <>
