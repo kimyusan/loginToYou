@@ -26,7 +26,7 @@ import Settings from "./routes/Settings";
 import Theme from "./components/Settings/Theme";
 import ChangePw from "./components/Settings/ChangePw";
 import DeleteAccount from "./components/Settings/DeleteAccount";
-
+import BalanceGame from "./routes/BalanceGame"
 // import Notification from "./components/Notification";
 
 function App() {
@@ -78,6 +78,7 @@ function App() {
             <Route path="/settings/theme" element={<Theme />} />
             <Route path="/settings/password" element={<ChangePw />} />
             <Route path="/settings/quit" element={<DeleteAccount />} />
+            <Route path="/balancegame" element={<BalanceGame />} />
           </Routes>
         </ThemeProvider>
       </div>

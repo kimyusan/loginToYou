@@ -45,7 +45,7 @@ export default function OpenViduVideoComponent({ streamManager, zi }) {
     });
 
     selfieSegmentation.setOptions({
-      modelSelection: 0,
+      modelSelection: 1,
     });
 
     selfieSegmentation.onResults(onResults);
