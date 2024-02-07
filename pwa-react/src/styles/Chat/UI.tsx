@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Header = styled.div`
-  position: absolute;
+  position: fixed;
   left: 0;
   right: 0;
   top: 0;
@@ -20,12 +20,16 @@ export const Header = styled.div`
   backdrop-filter: blur(8px);
 `;
 
-export const InputForm = styled.form`
-  position: absolute;
+interface bottom {
+  $bottom: number;
+}
+
+export const InputForm = styled.form<bottom>`
+  position: fixed;
   display: flex;
   /* height: max-content; */
   padding: 2dvh 5dvw;
-  bottom: 0;
+  bottom: ${(props) => props.$bottom};
   left: 0;
   right: 0;
   background-color: ${(props) => {
