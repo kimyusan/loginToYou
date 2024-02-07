@@ -1,7 +1,6 @@
 package com.ssafy.spyfamily.challenge.service;
 
 
-import com.ssafy.spyfamily.challenge.model.Challenge;
 import com.ssafy.spyfamily.challenge.model.ChallengeList;
 import com.ssafy.spyfamily.challenge.model.UserChallengeDto;
 

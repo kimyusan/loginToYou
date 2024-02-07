@@ -1,10 +1,10 @@
 package com.ssafy.spyfamily.challenge.service;
 
-import com.ssafy.spyfamily.challenge.model.Challenge;
+import com.ssafy.spyfamily.challenge.model.ChallengeProgress;
 import com.ssafy.spyfamily.challenge.model.ChallengeList;
 import com.ssafy.spyfamily.challenge.model.UserChallengeDto;
 import com.ssafy.spyfamily.challenge.repository.ChallengeListRepository;
-import com.ssafy.spyfamily.challenge.repository.ChallengeRepository;
+import com.ssafy.spyfamily.challenge.repository.ChallengeProgressRepository;
 import com.ssafy.spyfamily.user.model.User;
 import com.ssafy.spyfamily.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -16,11 +16,11 @@ import java.util.List;
 public class ChallengeServiceImpl implements ChallengeService {
 
     private final ChallengeListRepository challengeListRepository;
-    private final ChallengeRepository challengeRepository;
+    private final ChallengeProgressRepository challengeRepository;
     private final UserRepository userRepository;
 
     public ChallengeServiceImpl(ChallengeListRepository challengeListRepository,
-                                ChallengeRepository challengeRepository,
+                                ChallengeProgressRepository challengeRepository,
                                 UserRepository userRepository) {
         this.challengeListRepository = challengeListRepository;
         this.challengeRepository = challengeRepository;
@@ -41,16 +41,17 @@ public class ChallengeServiceImpl implements ChallengeService {
     @Override
     public void saveChallenges(int userId, List<ChallengeList> challengeList) {
 
-        List<Challenge> list = new ArrayList<Challenge>();
+        List<ChallengeProgress> list = new ArrayList<ChallengeProgress>();
         User user = userRepository.findByUserId(userId);
-        Challenge challenge;
-        for(ChallengeList chList : challengeList) {
-            challenge = new Challenge();
-            challenge.setChallengeList(chList);
-            challenge.setUser(user);
-            challenge.setProgress(0);
-            challenge.setDone(false);
-            list.add(challenge);
+        ChallengeProgress challengeProgress;
+        for(ChallengeList cl : challengeList) {
+            challengeProgress = new ChallengeProgress();
+            challengeProgress.setChallengeList(cl);
+            challengeProgress.setUser(user);
+            challengeProgress.setProgress(0);
+            challengeProgress.setDone(false);
+            challengeProgress.setPrevDate(null);
+            list.add(challengeProgress);
         }
 
         challengeRepository.saveAll(list);

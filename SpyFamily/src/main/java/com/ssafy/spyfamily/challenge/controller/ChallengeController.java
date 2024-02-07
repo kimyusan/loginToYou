@@ -23,7 +23,7 @@ public class ChallengeController {
     }
 
     /**
-     * 회원가입 시 회원마다 챌린지 DB에 추가시키기
+     * 회원가입 시 회원마다 challenge_progress DB에 추가시키기
      * @param userId 챌린지를 추가할 userId
      */
     @PostMapping("/init")

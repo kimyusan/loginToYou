@@ -8,13 +8,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Challenge {
+public class ChallengeProgress {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int challengeId;
-//    private int challengeListId;
-//    private int userId;
-    private int progress;
+    private Integer challengeId;
+    private Integer progress;
+    private String prevDate;
     private boolean isDone;
 
     @ManyToOne

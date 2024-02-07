@@ -1,9 +1,6 @@
 package com.ssafy.spyfamily.challenge.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,11 +10,14 @@ import lombok.Setter;
 public class ChallengeList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int challengeListId;
+    private Integer challengeListId;
     private String subject;
     private String content;
-    private int goal;
-    private String type;
+    private boolean isContinuous;
+    private Integer goal;
 
+    @ManyToOne
+    @JoinColumn(name="type")
+    private ChallengeType challengeType;
 
 }
