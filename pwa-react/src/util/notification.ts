@@ -3,7 +3,7 @@ import { axiosAuth } from "./token";
 import useAuthStore from "../stores/AuthStore";
 import useUserStore from "../stores/UserStore";
 
-export const goDeviceToken = (token: string) => {
+export const goDeviceToken = (FCMtoken: string) => {
   const PATH = useAuthStore.getState().PATH;
   const userId = useUserStore.getState().userId;
   axios({
@@ -11,7 +11,7 @@ export const goDeviceToken = (token: string) => {
     method: "POST",
     params: {
       userId: userId,
-      fcmToken: token,
+      fcmToken: FCMtoken,
     },
   })
     .then((res) => console.log(res.data))

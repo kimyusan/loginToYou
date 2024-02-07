@@ -29,16 +29,16 @@ export async function requestPermission() {
 
   console.log("알림 권한이 허용됨");
 
-  const token = await getToken(messaging, {
+  const MyFCMtoken = await getToken(messaging, {
     vapidKey: validKey,
   });
-  if (token) {
-    console.log("token: ", token);
-    setFCMToken(token);
+  if (MyFCMtoken) {
+    console.log("token: ", MyFCMtoken);
+    setFCMToken(MyFCMtoken);
     // 서버로 토큰 보내주는 코드
     // 서버 키
     // AAAAY7JdDVE:APA91bHykGL1DwaYmitHIGYeQL7fXih8EZ_211ISQALWQpnPPqBfP4nFX389-zhiZTsD96dtxLsSccSFarc3hifMkujFa210jRwnZoRDzoqqSm9c2z-zbtF3gW3HZ4RL2EZkZ3JUssdZ
-    goDeviceToken(token);
+    goDeviceToken(MyFCMtoken);
   } else console.log("Can not get Token");
 
   onMessage(messaging, (payload) => {
