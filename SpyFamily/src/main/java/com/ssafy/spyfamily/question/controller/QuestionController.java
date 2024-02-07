@@ -103,7 +103,7 @@ public class QuestionController {
                     questionService.getCoupleTodayQuestionById(todayQuestionId, userId);
 
             System.out.println("질문 대답 불러오기 성공");
-            System.out.println(coupleTodayQuestion.toString());
+//            System.out.println(coupleTodayQuestion.toString());
 
             return new ResponseEntity<CoupleTodayQuestion>(coupleTodayQuestion, HttpStatus.OK);
 

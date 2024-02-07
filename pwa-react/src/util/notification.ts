@@ -15,5 +15,5 @@ export const goDeviceToken = (token: string) => {
     },
   })
     .then((res) => console.log(res.data))
-    .catch((err) => console.log("토큰보내기 실패!!!!"));
+    .catch((err) => console.log(err));
 };

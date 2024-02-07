@@ -35,7 +35,7 @@ public class ChatRoomController {
         this.coupleService = coupleService;
         this.userService = userService;
     }
-
+    //커플 id 로 방 id 를 조회
     @GetMapping("/enter")
     public ResponseEntity<String> enterRoom(@RequestParam int coupleId){
 
@@ -46,6 +46,7 @@ public class ChatRoomController {
 
     }
 
+    //커플 생성시 룸id 만들어줌
     @PostMapping("/create")
     public ResponseEntity<?> createRoom(@RequestParam Long coupleId){
 
@@ -62,6 +63,7 @@ public class ChatRoomController {
 
 
     }
+    //채팅 읽지 않은 개수 메인화면에 알람 뜨게 하기
     @Transactional
     @GetMapping("/unread/message")
     public  ResponseEntity<?> unreadMessageCount(@RequestParam int userId){
@@ -85,6 +87,7 @@ public class ChatRoomController {
 
     }
 
+    //상대방이 현재 접속해있는지 확인 핸들러에서 입장하면 db 에 카운트 +1 되게 해놓음  추후 redis 에 적용하면 좋을지도?
     @GetMapping("/connect/check")
     public ResponseEntity<?> connectCheck(@RequestParam String roomId){
 
@@ -122,6 +125,7 @@ public class ChatRoomController {
         }
     }
 
+    //채팅 불러오기
     @GetMapping("/load")
     public ResponseEntity<?> loadMessage(@RequestParam String roomId){
 
