@@ -61,7 +61,7 @@ const Main = () => {
     navigate(`/chat/${res.data}`);
   };
 
-  // 메인화면 접속 시 커플 정보 조회 및 상대방 디바이스토큰 조회
+  // 메인화면 접속 시 커플 정보 조회
   const callData = async () => {
     const res = await axiosAuth.get("/couple/main", {
       params: { coupleId: coupleId },
@@ -91,13 +91,6 @@ const Main = () => {
     setCp1(res.data[0]);
     setCp2(res.data[1]);
     setCpInfo(res.data[2]);
-
-    // 상대방 fcmToken 받아오기
-    const fcmInfo = await axiosAuth.get(`${PATH}/fcm/search/other`, {
-      params: { otherUserId: yourId },
-    });
-    console.log(fcmInfo.data);
-    setYourFCMtoken(fcmInfo.data);
   };
 
   // 내 프로필 이미지 조회
@@ -147,6 +140,17 @@ const Main = () => {
     checkChat();
     const check = setInterval(checkChat, 1000 * 60 * 2);
     return () => clearInterval(check);
+  }, []);
+
+  useEffect(() => {
+    axiosAuth
+      .get(`${PATH}/fcm/search/other`, {
+        params: { otherUserId: yourId },
+      })
+      .then((res) => {
+        setYourFCMtoken(res.data);
+      })
+      .catch((err)=> console.log(err))
   }, []);
 
   const goDiary = () => {
@@ -222,7 +226,10 @@ const Main = () => {
         </SecondSection>
 
         <ThirdSection>
-          <Card className="balance_game" onClick={() => navigate("/balancegame")}>
+          <Card
+            className="balance_game"
+            onClick={() => navigate("/balancegame")}
+          >
             <div>밸런스게임</div>
             <div>VS</div>
           </Card>

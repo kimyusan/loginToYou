@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { Event } from "../interface/CalendarInterface";
+import { Event, EventItem } from "../interface/CalendarInterface";
 import { axiosAuth } from "../util/token";
 
 interface Calendar {
@@ -9,8 +9,9 @@ interface Calendar {
   isEdit: boolean;
   isDelete: boolean;
   events: Event[];
+  eventlist: EventItem[];
   event: { id: string; title: string; start: string; end: string };
-  targetEvent: { id: string; title: string; start: string; end: string };
+  targetEvent: EventItem;
 
   nextId: number;
 
@@ -19,11 +20,11 @@ interface Calendar {
   addMode: () => void;
   editMode: () => void;
   deleteMode: () => void;
-  getEvent: (event: Event) => void;
+  getEvent: (event: EventItem) => void;
 
-  postEventToServer: (newEvent: Event, coupleId: number) => void; // post API
+  postEventToServer: (newEvent: EventItem, coupleId: number) => void; // post API
   getEventsFromServer: (coupleId: number | null) => void; // get API
-  updateEventToServer: (newEvent: Event, coupleId: number) => void; // update API
+  updateEventToServer: (newEvent: EventItem, coupleId: number) => void; // update API
   deleteEventFromServer: (calendar_id: number) => void; //delete API
 }
 
@@ -34,9 +35,10 @@ export const CalendarStore = create(
       isEdit: false,
       isDelete: false,
       events: [],
+      eventlist: [],
       event: { id: "", title: "", start: "", end: "" },
       nextId: 0,
-      targetEvent: { id: "", title: "", start: "", end: "" },
+      targetEvent: { calendarId: 0, coupleId: 0, userId: 0, startDate: "", endDate: "", eventType: null, contents: null },
 
       openModal: () => set({ isOpen: true }),
       closeModal: () => set({ isOpen: false }),
@@ -46,10 +48,13 @@ export const CalendarStore = create(
       getEvent: (event) =>
         set({
           targetEvent: {
-            id: event.id,
-            title: event.title,
-            start: event.start,
-            end: event.end,
+            calendarId: event.calendarId,
+            coupleId: event.coupleId,
+            userId: event.userId,
+            startDate: event.startDate,
+            endDate: event.endDate,
+            eventType: event.eventType,
+            contents: event.contents
           },
         }),
 
@@ -65,7 +70,7 @@ export const CalendarStore = create(
                 coupleId: number;
                 userId: number;
                 startDate: string;
-                endDate: string;
+                endDate: string | null;
                 eventType: string | null;
                 contents: string | null;
               }) => ({
@@ -76,6 +81,7 @@ export const CalendarStore = create(
               })
             );
             set({ events: fullEvents });
+            set({ eventlist: response.data });
           })
           .catch((error) => {
             set({ events: [] });
@@ -87,11 +93,11 @@ export const CalendarStore = create(
         axiosAuth
           .post("/calendar/create", {
             coupleId: coupleId,
-            userId: 1,
-            startDate: newEvent.start,
-            endDate: newEvent.end,
+            userId: newEvent.userId,
+            startDate: newEvent.startDate,
+            endDate: newEvent.endDate,
             eventType: null,
-            contents: newEvent.title,
+            contents: newEvent.contents,
           })
           .then((response) => {
             console.log(response.data);
@@ -105,13 +111,13 @@ export const CalendarStore = create(
       updateEventToServer: (editEvent, coupleId) => {
         axiosAuth
           .put("/calendar/update", {
-            calendarId: editEvent.id,
+            calendarId: editEvent.calendarId,
             coupleId: coupleId,
-            userId: 1,
-            startDate: editEvent.start,
-            endDate: editEvent.end,
+            userId: editEvent.userId,
+            startDate: editEvent.startDate,
+            endDate: editEvent.endDate,
             eventType: null,
-            contents: editEvent.title,
+            contents: editEvent.contents,
           })
           .then((response) => {
             console.log(response);

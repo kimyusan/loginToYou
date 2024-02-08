@@ -23,16 +23,16 @@ const CalendarModalCard = () => {
     getEventsFromServer,
   } = CalendarStore();
 
-  const { coupleId } = useUserStore();
+  const { coupleId, userId } = useUserStore();
 
   const [start, setStart] = useState("");
-  const [end, setEnd] = useState("");
-  const [content, setContent] = useState("");
+  const [end, setEnd] = useState<string | null>("");
+  const [content, setContent] = useState<string | null>("");
   const [errorAlert, setErrorAlert] = useState<string | null>(null);
 
   // 2024-01-24 형식의 문자열로 들어오는 날짜를 Date객체 형식으로 변환하는 함수
   const toDate = (date: string) => {
-    const dateString = date.split("-");
+    const dateString = date?.split("-");
     return new Date(
       parseInt(dateString[0], 10),
       parseInt(dateString[1], 10) - 1,
@@ -65,34 +65,36 @@ const CalendarModalCard = () => {
       return;
     }
 
-    const startDate = start;
-    const endDate = addOneDay(end);
-    const title = content;
-
     // 시작날짜가 종료날짜보다 큰 경우 에러 alert , return
-    if (toDate(startDate) > toDate(endDate)) {
+    if (toDate(start) > toDate(addOneDay(end as string))) {
       setErrorAlert("dateError");
       return;
     }
-    if (title.length === 0) {
+    if (content?.length === 0) {
       setErrorAlert("contentError");
       return;
     }
 
     // 일정 수정 내용
     const editEvent = {
-      id: targetEvent.id,
-      title: title,
-      start: startDate,
-      end: endDate,
+      calendarId: targetEvent.calendarId,
+      coupleId: targetEvent.coupleId,
+      userId: targetEvent.userId,
+      startDate: start,
+      endDate: end,
+      eventType: targetEvent.eventType,
+      contents: content,
     };
 
     // 일정 추가 내용
     const newEvent = {
-      id: nextId.toString(),
-      title: title,
-      start: startDate,
-      end: endDate,
+      calendarId: nextId,
+      coupleId: coupleId as number,
+      userId: userId as number,
+      startDate: start,
+      endDate: end,
+      eventType: targetEvent.eventType,
+      contents: content,
     };
 
     if (isEdit && targetEvent) {
@@ -109,7 +111,7 @@ const CalendarModalCard = () => {
   };
 
   useEffect(() => {
-    if (toDate(start) > toDate(end)) {
+    if (toDate(start) > toDate(end as string)) {
       setErrorAlert("dateError");
     } else {
       setErrorAlert(null);
@@ -119,9 +121,9 @@ const CalendarModalCard = () => {
   useEffect(() => {
     if (isEdit) {
       // 수정하는 경우 폼에 기본값 넣어줌
-      setStart(targetEvent.start);
-      setEnd(targetEvent.end);
-      setContent(targetEvent.title);
+      setStart(targetEvent.startDate);
+      setEnd(targetEvent.endDate);
+      setContent(targetEvent.contents);
     } else {
       // 생성하는 경우 빈 폼
       setStart("");

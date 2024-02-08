@@ -23,17 +23,18 @@ export const Header = styled.div`
 export const InputForm = styled.form`
   position: fixed;
   display: flex;
-  /* height: max-content; */
+  justify-content: center;
+  align-items: center;
   padding: 2dvh 5dvw;
+  width: 100dvw;
+  box-sizing: border-box;
   bottom: 0;
-  left: 0;
-  right: 0;
   background-color: ${(props) => {
     return props.theme.color.bgColor;
   }};
 
-  & > .textInput {
-    width: 80%;
+  & > textarea {
+    width: 70%;
     padding: 10px 20px;
     margin: 0 1dvw;
     box-sizing: border-box;
@@ -52,7 +53,7 @@ export const InputForm = styled.form`
     width: 15%;
     height: 100%;
     padding: 10px;
-    margin-left: 10px;
+    margin-left: 5px;
     color: black;
     box-sizing: border-box;
     background-color: ${(props) => {
