@@ -100,4 +100,14 @@ const BtnBox = styled.div`
     display: flex;
   }
 `;
-export { GoBack, CallBtn, ReadyBtn, JoinForm, BtnBox };
+
+const CameraBox = styled.div`
+  position: "relative";
+  margin-top: "10dvh";
+  .myCam {
+    position: absolute;
+    width: 15dvh;
+    z-index: 3 !important;
+  }
+`;
+export { GoBack, CallBtn, ReadyBtn, JoinForm, BtnBox, CameraBox };

@@ -22,7 +22,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
 // 연결 중 띄워지는 버튼(연결종료, 카메라전환)
-import { BtnBox } from "../styles/ChatVideo/Chat";
+import { BtnBox, CameraBox } from "../styles/ChatVideo/Chat";
 import PhoneDisabledIcon from "@mui/icons-material/PhoneDisabled";
 import CameraswitchIcon from "@mui/icons-material/Cameraswitch";
 
@@ -389,14 +389,9 @@ export default function App() {
             <BtnBox>
               <span className="blink">연결중</span>
             </BtnBox>
-            <div
-              style={{
-                position: "relative",
-                marginTop: "10dvh",
-              }}
-            >
+            <CameraBox>
               {publisher !== undefined ? (
-                <div>
+                <div className="myCam">
                   <UserVideoComponent streamManager={publisher} type={1} />
                 </div>
               ) : null}
@@ -405,7 +400,7 @@ export default function App() {
                   <UserVideoComponent streamManager={subscribers[0]} type={0} />
                 </div>
               ) : null}
-            </div>
+            </CameraBox>
             <BtnBox>
               <span
                 className="stopBtn"
