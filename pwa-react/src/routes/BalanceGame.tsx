@@ -27,7 +27,6 @@ const BalanceGame = () => {
   const [myChoice, setMyChoice] = useState("");
   const [yourChoice, setYourChoice] = useState("");
 
-  const [coupleQId, setCoupleQId] = useState(-1);
   const [qId, setQId] = useState(-1);
   const [q1, setQ1] = useState("")
   const [q2, setQ2] = useState("")
@@ -62,7 +61,6 @@ const BalanceGame = () => {
 
         axiosAuth.get(`/balance/get/answer?userId=${userId}&BalanceGameId=${res.data.balanceGameId}`)
           .then((res) => {
-            setCoupleQId(res.data.coupleBalanceGameId)
             setMyChoice(res.data.userVote)
           })
           .catch((error) => console.log(error))
