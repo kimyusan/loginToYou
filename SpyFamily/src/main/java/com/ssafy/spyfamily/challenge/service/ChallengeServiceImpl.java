@@ -7,6 +7,7 @@ import com.ssafy.spyfamily.challenge.repository.ChallengeListRepository;
 import com.ssafy.spyfamily.challenge.repository.ChallengeProgressRepository;
 import com.ssafy.spyfamily.user.model.User;
 import com.ssafy.spyfamily.user.repository.UserRepository;
+import com.ssafy.spyfamily.util.ChallengeUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,12 +20,16 @@ public class ChallengeServiceImpl implements ChallengeService {
     private final ChallengeProgressRepository challengeProgressRepository;
     private final UserRepository userRepository;
 
+    private final ChallengeUtil challengeUtil;
+
     public ChallengeServiceImpl(ChallengeListRepository challengeListRepository,
                                 ChallengeProgressRepository challengeRepository,
-                                UserRepository userRepository) {
+                                UserRepository userRepository,
+                                ChallengeUtil challengeUtil) {
         this.challengeListRepository = challengeListRepository;
         this.challengeProgressRepository = challengeRepository;
         this.userRepository = userRepository;
+        this.challengeUtil = challengeUtil;
     }
 
     /**
@@ -40,21 +45,11 @@ public class ChallengeServiceImpl implements ChallengeService {
      */
     @Override
     public void saveChallenges(int userId, List<ChallengeList> challengeList) {
-
-        List<ChallengeProgress> list = new ArrayList<ChallengeProgress>();
         User user = userRepository.findByUserId(userId);
-        ChallengeProgress challengeProgress;
-        for(ChallengeList cl : challengeList) {
-            challengeProgress = new ChallengeProgress();
-            challengeProgress.setChallengeList(cl);
-            challengeProgress.setUser(user);
-            challengeProgress.setProgress(0);
-            challengeProgress.setDone(false);
-            challengeProgress.setPrevDate(null);
-            list.add(challengeProgress);
-        }
 
-        challengeProgressRepository.saveAll(list);
+        List<ChallengeProgress> cpList = challengeUtil.makeChallengeProgressList(user, challengeList);
+
+        challengeProgressRepository.saveAll(cpList);
     }
 
     /**
@@ -74,25 +69,24 @@ public class ChallengeServiceImpl implements ChallengeService {
     @Override
     public void updateProgress(List<UserChallengeDto> list) {
 
-        // 누적 챌린지만 증가 위해 리스트에서 연속인것 제거
-        for(int i = list.size()-1; i >= 0; i--) {
-            if(list.get(i).isContinuous()) {
-                list.remove(i);
-            }
-        }
+        // 연속인 챌린지와 아닌 챌린지(누적) 나누기
+        List<UserChallengeDto> continuousList = challengeUtil.getContinuousList(list);
+        List<UserChallengeDto> nonContinuousList = challengeUtil.getNonContinuousList(list);
         
-        // 파라미터로 받은 UserChallengeDto 리스트에서 challengeProgressId만 추출해 Integer List 만들기
-        List<Integer> challengeProgressIds = list.stream()
+        // 누적인 챌린지 리스트에서 challengeProgressId만 추출해 Integer List 만들기
+        List<Integer> challengeProgressIds = nonContinuousList.stream()
                         .map(UserChallengeDto::getChallengeProgressId)
                         .toList();
         
-        // challengeProgressId 리스트를 파라미터로 넘겨 진행도 증가시키기
+        // challengeProgressId 리스트를 파라미터로 넘겨 진행도 증가시키기(isDone이 true인건 증가 안함)
         challengeProgressRepository.incrementProgressByChallengeProgressIds(challengeProgressIds);
 
         // goal과 isDone 확인 후 완료한 챌린지는 isDone을 true로 변경
         for(Integer challengeProgressId : challengeProgressIds) {
             challengeProgressRepository.updateIsDoneByChallengeProgressId(challengeProgressId);
         }
+
+
     }
 
 }
