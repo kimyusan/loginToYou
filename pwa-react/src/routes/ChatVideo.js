@@ -257,7 +257,7 @@ export default function App() {
   const { yourFCMtoken, videoChatPush } = useFCMStore();
   const { nickname, name } = useUserStore();
   const letsPush = () => {
-    console.log(yourFCMtoken)
+    console.log(yourFCMtoken);
     axios({
       url: "https://fcm.googleapis.com/fcm/send",
       method: "POST",
@@ -265,8 +265,8 @@ export default function App() {
         to: yourFCMtoken,
         notification: {
           title: "❤너에게 로그인",
-          body: `${nickname? nickname: name}님이 영상 통화를 신청했어요`,
-          tag: videoChatPush
+          body: `${nickname ? nickname : name}님이 영상 통화를 신청했어요`,
+          tag: videoChatPush,
         },
       },
       headers: {
@@ -386,6 +386,9 @@ export default function App() {
 
         {session !== undefined ? (
           <div>
+            <BtnBox>
+              <span className="blink">연결중</span>
+            </BtnBox>
             <div
               style={{
                 position: "relative",
@@ -410,16 +413,11 @@ export default function App() {
                 onClick={leaveSession}
                 value="Leave session"
               >
-                <PhoneDisabledIcon className="disabledBtn" />
-              </span>
-              <span className="blink">연결중</span>
-              <span
-                className="switchBtn"
-                type="button"
-                onClick={switchCamera}
-                value="Switch Camera"
-              >
-                <CameraswitchIcon />
+                연결 종료
+                <PhoneDisabledIcon
+                  className="disabledBtn"
+                  style={{ marginLeft: "3%", color: "red" }}
+                />
               </span>
             </BtnBox>
           </div>

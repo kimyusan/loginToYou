@@ -70,18 +70,21 @@ const ReadyBtn = styled.button`
 
 const BtnBox = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   margin: 7dvw;
-  background-color: #e1e1e1;
+  background-color: ${(props) => {
+    return props.theme.color.lightgrey;
+  }};
   border-radius: 30px;
 
   .stopBtn,
   .switchBtn {
     background-color: ${(props) => {
-      return props.theme.color.sub2;
+      return props.theme.color.sub3;
     }};
-    padding: 3%;
-    border-radius: 50%;
+    width: 100%;
+    padding: 3% 10%;
+    border-radius: 30px;
   }
   @keyframes blink-effect {
     50% {
@@ -92,6 +95,7 @@ const BtnBox = styled.div`
     animation: blink-effect 2s step-end infinite;
   }
   span {
+    justify-content: center;
     align-items: center;
     display: flex;
   }
