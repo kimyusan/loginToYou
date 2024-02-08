@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @ToString
@@ -21,7 +23,7 @@ public class UserChallengeDto {
     private boolean isContinuous;
     private Integer goal;
     private Integer progress;
-    private String prevDate;
+    private LocalDateTime prevDate;
     private Integer userId;
     private boolean isDone;
 

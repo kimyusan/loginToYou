@@ -58,9 +58,9 @@ public class ChallengeServiceImpl implements ChallengeService {
     @Override
     public List<UserChallengeDto> getUserChallenges(int userId, String type) {
 
-        List<UserChallengeDto> list = challengeProgressRepository.findUserChallenges(userId, type);
+        List<UserChallengeDto> dtoList = challengeProgressRepository.findUserChallenges(userId, type);
 
-        return list;
+        return dtoList;
     }
 
     /**

@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Entity
@@ -13,7 +15,7 @@ public class ChallengeProgress {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer challengeProgressId;
     private Integer progress;
-    private String prevDate;
+    private LocalDateTime prevDate;
     private boolean isDone;
 
     @ManyToOne
