@@ -13,14 +13,38 @@ type Props = {
 
 function MessageBox({ messages, userId }: Props) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [wh, setWh] = useState(0);
+
+  const absolute = () => {
+    if (!scrollRef.current) return;
+    scrollRef.current.style.position = "fixed";
+    scrollRef.current.style.top = `${wh - window.innerHeight}px`;
+    scrollRef.current.scrollTo(0, document.body.scrollHeight);
+  };
+
+  const block = () => {
+    if (!scrollRef.current) return;
+    scrollRef.current.style.position = "block";
+    scrollRef.current.style.removeProperty("top");
+  };
 
   // 채팅방 끝으로 이동
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ block: "end" });
+    if (!scrollRef.current) return;
+    if (scrollRef.current.scrollHeight < wh) {
+      absolute();
+    } else {
+      block();
+      scrollRef.current?.scrollIntoView({ block: "end" });
+    }
   }, [messages]);
 
+  useEffect(() => {
+    setWh(window.innerHeight);
+  }, []);
+
   return (
-    <MessageWrapper ref={scrollRef} style={{ height: "auto" }}>
+    <MessageWrapper ref={scrollRef} onBlur={block}>
       {messages.map((message, index) => {
         return userId == message.sendUserId ? (
           <MyMessage key={index}>

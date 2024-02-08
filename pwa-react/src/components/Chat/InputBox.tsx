@@ -1,9 +1,11 @@
 import React, { useRef } from "react";
 import { InputForm } from "../../styles/Chat/UI";
 import { CompatClient } from "@stomp/stompjs";
-import { StyleSheet, TextInput } from "react-native";
 import useAuthStore from "../../stores/AuthStore";
-import { useTheme } from "styled-components";
+import { IconContext } from "react-icons";
+import { FaPhone } from "react-icons/fa6";
+
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   message: string;
@@ -22,28 +24,17 @@ function InputBox({
   roomId,
   isOppOn,
 }: Props) {
-  const inputRef = useRef<TextInput>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
   const token = useAuthStore.getState().token;
-  const theme = useTheme();
+  const navigate = useNavigate();
 
-  const styles = StyleSheet.create({
-    textInput: {
-      width: 260,
-      backgroundColor: "white",
-      borderRadius: 250,
-      borderColor: theme.color.grey,
-      borderStyle: "solid",
-      borderWidth: 1,
-    },
-  });
-
-  const updateMessage = (data: string) => {
-    setMessage(data);
-    // inputRef.current?.style.setProperty("height", "auto");
-    // inputRef.current?.style.setProperty(
-    //   "height",
-    //   inputRef.current?.scrollHeight + "px"
-    // );
+  const updateMessage = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setMessage(event.target.value);
+    inputRef.current?.style.setProperty("height", "auto");
+    inputRef.current?.style.setProperty(
+      "height",
+      inputRef.current?.scrollHeight + "px"
+    );
   };
 
   // // 채팅 전송
@@ -71,25 +62,27 @@ function InputBox({
       })
     );
     setMessage("");
-    // inputRef.current?.style.setProperty("height", "auto");
-    // inputRef.current?.focus();
+    inputRef.current?.style.setProperty("height", "auto");
+    inputRef.current?.focus();
   };
 
   return (
     <InputForm onSubmit={sendChat}>
-      <TextInput
+      <IconContext.Provider value={{ size: "20px" }}>
+        <FaPhone
+          onClick={() => {
+            navigate("/chat/video");
+          }}
+          style={{ marginRight: "5px" }}
+        />
+      </IconContext.Provider>
+      <textarea
+        rows={1}
         value={message}
-        onChangeText={updateMessage}
+        onChange={updateMessage}
         ref={inputRef}
-        style={styles.textInput}
-      />
-      <button
-        onMouseDown={(e) => {
-          e.preventDefault();
-        }}
-      >
-        전송
-      </button>
+      ></textarea>
+      <button>전송</button>
     </InputForm>
   );
 }
