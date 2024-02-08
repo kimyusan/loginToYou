@@ -13,6 +13,10 @@ const Title = styled.div`
     return props.theme.color.sub2;
   }};
   margin-bottom: 15px;
+  ::after {
+    -webkit-text-stroke: 2px blue;
+    position: absolute;
+  }
 `
 
 const TodayQ = styled.div`
@@ -69,6 +73,26 @@ const SelectBox = styled.div`
       margin-top: 10%;
     }
   }
+
+  .choice {
+    height: 100%;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow-wrap: break-word;
+    word-break: break-all;
+    white-space: pre-wrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+
+  .grey {
+    color: ${(props) => {
+      return props.theme.color.grey;
+    }};
+  }
 `
 
 const OurTitle = styled.div`
@@ -98,47 +122,34 @@ const OtherTitle = styled.div`
     return props.theme.color.grey;
   }};
   font-size: 20px;
+  margin-top: 5%;
 `
 
 const Chart = styled.figure`
-  display: flex;
-  justify-content: center;
-  align-items: center;
   position: relative;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  transition: 0.3s; //생략 가능
+  display: flex;
   margin: 0 auto;
-
-  .middleMsg {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    .middle {
-      font-size: 80px;
-      font-weight: bold;
-    }
-  }
-
-  .stroke {
-    fill: transparent;
-    stroke: ${(props) => {
-      return props.theme.color.point;
+  span.center { //작은 원
+    background: ${(props) => {
+      return props.theme.color.bgColor;
     }};
-    stroke-width: 20;
-    stroke-dasharray: 560;
-    transform: rotate(-90deg) rotateX(-180deg);
-    transform-origin: center;
-    animation: show_circle 2s ease infinite;
+    display: block; //생략 가능
+    position: absolute; //두개의 원이 겹치도록
+    top: 50%;
+    left: 50%;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 80px;
+    transform: translate(-50%, -50%); //가운데 위치
   }
-
-  @keyframes show_circle {
-    from {
-      stroke-dashoffset: 246;
-    }
-    to {
-      stroke-dashoffset: 0;
-    }
-}
 `
 
 const QuestionBox = styled.div`
@@ -202,4 +213,39 @@ const QuestionBox = styled.div`
   }
   
 `
-export { Title, SelectBox, OurTitle, OtherTitle, Chart, TodayQ, QuestionBox }
+
+const ReRender = styled.div`
+  width: 90%;
+  height: auto;
+  margin: 5px auto;
+  text-align: end;
+
+  .MdOutlineRefresh {
+    transition: transform 0.3s ease;
+  }
+
+  .MdOutlineRefresh.rotate {
+    transform: rotate(1turn);
+  }
+`
+
+const ChartContent = styled.div`
+  width: 100%;
+  height: auto;
+  margin: 10% 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  text-align: center;
+
+  .ct {
+    width: 40%;
+    height: auto;
+    padding: 5px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+`
+export { Title, SelectBox, OurTitle, OtherTitle, Chart, TodayQ, QuestionBox, ReRender, ChartContent }
