@@ -7,10 +7,6 @@ import { axiosAuth } from "../util/token";
 import useUserStore from "../stores/UserStore";
 import useAuthStore from "../stores/AuthStore";
 
-import { Header } from "../styles/Chat/UI";
-import { IconContext } from "react-icons";
-import { GoArrowLeft } from "react-icons/go";
-import { FaPhone } from "react-icons/fa";
 import MessageBox from "../components/Chat/MessageBox";
 import InputBox from "../components/Chat/InputBox";
 import { MessageInterface } from "../interface/MessageInterface";
@@ -227,20 +223,6 @@ function Chat() {
       }}
     >
       <TokenCheker />
-      <Header>
-        <IconContext.Provider value={{ size: "20px" }}>
-          <GoArrowLeft
-            onClick={() => {
-              navigate("/");
-            }}
-          />
-          <FaPhone
-            onClick={() => {
-              navigate("/chat/video");
-            }}
-          />
-        </IconContext.Provider>
-      </Header>
       <MessageBox messages={showMessages} userId={userId}></MessageBox>
       <InputBox
         client={client}

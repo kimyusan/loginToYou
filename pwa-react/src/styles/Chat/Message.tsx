@@ -3,10 +3,8 @@ import styled from "styled-components";
 export const MessageWrapper = styled.div`
   position: relative;
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
-  padding-top: 60px;
   padding-bottom: 10dvh;
 `;
 

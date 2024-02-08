@@ -2,6 +2,10 @@ import React, { useRef } from "react";
 import { InputForm } from "../../styles/Chat/UI";
 import { CompatClient } from "@stomp/stompjs";
 import useAuthStore from "../../stores/AuthStore";
+import { IconContext } from "react-icons";
+import { FaPhone } from "react-icons/fa6";
+
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   message: string;
@@ -22,6 +26,7 @@ function InputBox({
 }: Props) {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const token = useAuthStore.getState().token;
+  const navigate = useNavigate();
 
   const updateMessage = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(event.target.value);
@@ -63,6 +68,14 @@ function InputBox({
 
   return (
     <InputForm onSubmit={sendChat}>
+      <IconContext.Provider value={{ size: "20px" }}>
+        <FaPhone
+          onClick={() => {
+            navigate("/chat/video");
+          }}
+          style={{ marginRight: "5px" }}
+        />
+      </IconContext.Provider>
       <textarea
         rows={1}
         value={message}
