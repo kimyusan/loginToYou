@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SignUpBox } from "../../styles/SignUp/SignUp";
+import { SignUpBox, PassWord } from "../../styles/SignUp/SignUp";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import useAuthStore from "../../stores/AuthStore";
@@ -44,7 +44,11 @@ const SignUpForm = () => {
   };
 
   const changeName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setName(event.target.value);
+    if (name.length > 4) {
+      setName(name.substr(0,4))
+    } else {
+      setName(event.target.value);
+    }
   };
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -74,7 +78,7 @@ const SignUpForm = () => {
     if (
       /[a-zA-Z]/.test(pw) &&
       /[0-9]/.test(pw) &&
-      /[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/.test(pw) &&
+      /[~`@!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/.test(pw) &&
       7 < pw.length &&
       pw.length < 16
     ) {
@@ -116,11 +120,12 @@ const SignUpForm = () => {
         value={name}
       />
       <TextField
-        label="아이디"
+        label="아이디(이메일 형식)"
         variant="standard"
         onChange={changeId}
         value={id}
         type="email"
+        placeholder="ex) logintoyou@gmail.com"
       />
       <FormControl sx={{ m: 1, width: "100%", margin: "0" }} variant="standard">
         <InputLabel htmlFor="standard-adornment-password">비밀번호</InputLabel>
@@ -140,6 +145,7 @@ const SignUpForm = () => {
           onChange={changePw}
           value={pw}
         />
+      <PassWord>숫자, 영문, 특수문자 포함 8 ~ 15 자리</PassWord> 
       </FormControl>
       <FormControl sx={{ m: 1, width: "100%", margin: "0" }} variant="standard">
         <InputLabel htmlFor="standard-adornment-password">

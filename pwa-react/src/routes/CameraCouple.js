@@ -91,7 +91,7 @@ export default function App() {
             videoSource: undefined,
             publishAudio: true,
             publishVideo: true,
-            resolution: `${window.innerWidth}x${window.innerWidth * 1.5}`,
+            resolution: `${window.innerWidth}x${window.innerWidth * (4/3)}`,
             frameRate: 30,
             insertMode: "APPEND",
             mirror: true,
@@ -280,7 +280,7 @@ export default function App() {
             <WebCam
               style={{
                 width: window.innerWidth,
-                height: window.innerWidth * 1.5,
+                height: window.innerWidth * (4/3),
                 transform: "scaleX(-1)",
                 position: "fixed",
                 top: "8dvh",
@@ -288,7 +288,7 @@ export default function App() {
               }}
             />
           )}
-          <JoinForm onSubmit={joinSession} $height={window.innerWidth * 1.5}>
+          <JoinForm onSubmit={joinSession} $height={window.innerWidth * (4/3)}>
             <input
               type="text"
               value={myUserName}
@@ -336,7 +336,7 @@ export default function App() {
             </div>
           </div>
 
-          <BottomBox $height={window.innerWidth * 1.5}>
+          <BottomBox $height={window.innerWidth * (4/3)}>
             <PoseBox>
               <IconContext.Provider
                 value={{
