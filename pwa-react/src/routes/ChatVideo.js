@@ -22,7 +22,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
 // 연결 중 띄워지는 버튼(연결종료, 카메라전환)
-import { BtnBox } from "../styles/ChatVideo/Chat";
+import { BtnBox, CameraBox } from "../styles/ChatVideo/Chat";
 import PhoneDisabledIcon from "@mui/icons-material/PhoneDisabled";
 import CameraswitchIcon from "@mui/icons-material/Cameraswitch";
 
@@ -257,7 +257,7 @@ export default function App() {
   const { yourFCMtoken, videoChatPush } = useFCMStore();
   const { nickname, name } = useUserStore();
   const letsPush = () => {
-    console.log(yourFCMtoken)
+    console.log(yourFCMtoken);
     axios({
       url: "https://fcm.googleapis.com/fcm/send",
       method: "POST",
@@ -265,8 +265,8 @@ export default function App() {
         to: yourFCMtoken,
         notification: {
           title: "❤너에게 로그인",
-          body: `${nickname? nickname: name}님이 영상 통화를 신청했어요`,
-          tag: videoChatPush
+          body: `${nickname ? nickname : name}님이 영상 통화를 신청했어요`,
+          tag: videoChatPush,
         },
       },
       headers: {
@@ -386,14 +386,12 @@ export default function App() {
 
         {session !== undefined ? (
           <div>
-            <div
-              style={{
-                position: "relative",
-                marginTop: "10dvh",
-              }}
-            >
+            <BtnBox>
+              <span className="blink">연결중</span>
+            </BtnBox>
+            <CameraBox>
               {publisher !== undefined ? (
-                <div>
+                <div className="myCam">
                   <UserVideoComponent streamManager={publisher} type={1} />
                 </div>
               ) : null}
@@ -402,7 +400,7 @@ export default function App() {
                   <UserVideoComponent streamManager={subscribers[0]} type={0} />
                 </div>
               ) : null}
-            </div>
+            </CameraBox>
             <BtnBox>
               <span
                 className="stopBtn"
@@ -410,16 +408,11 @@ export default function App() {
                 onClick={leaveSession}
                 value="Leave session"
               >
-                <PhoneDisabledIcon className="disabledBtn" />
-              </span>
-              <span className="blink">연결중</span>
-              <span
-                className="switchBtn"
-                type="button"
-                onClick={switchCamera}
-                value="Switch Camera"
-              >
-                <CameraswitchIcon />
+                연결 종료
+                <PhoneDisabledIcon
+                  className="disabledBtn"
+                  style={{ marginLeft: "3%", color: "red" }}
+                />
               </span>
             </BtnBox>
           </div>

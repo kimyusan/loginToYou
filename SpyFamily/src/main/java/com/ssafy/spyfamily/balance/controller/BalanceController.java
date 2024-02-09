@@ -59,7 +59,6 @@ public class BalanceController {
         try {
             CoupleBalanceGame coupleBalanceGame = balanceService.getBalanceAnswer(userId, BalanceGameId);
             System.out.println("커플 대답 불러오기");
-            System.out.println(coupleBalanceGame.toString());
 
             return new ResponseEntity<CoupleBalanceGame>(coupleBalanceGame, HttpStatus.OK);
         } catch (Exception e) {

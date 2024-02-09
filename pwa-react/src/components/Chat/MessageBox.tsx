@@ -19,12 +19,15 @@ function MessageBox({ messages, userId }: Props) {
     if (!scrollRef.current) return;
     scrollRef.current.style.position = "fixed";
     scrollRef.current.style.top = `${wh - window.innerHeight}px`;
+    scrollRef.current.style.height = `${window.innerHeight}px`;
+    scrollRef.current.style.overflowY = `auto`;
     scrollRef.current.scrollTo(0, 99999999);
   };
 
   const block = () => {
     if (!scrollRef.current) return;
     scrollRef.current.style.position = "block";
+    scrollRef.current.style.height = `auto`;
     scrollRef.current.style.removeProperty("top");
   };
 
