@@ -56,7 +56,7 @@ public class ChallengeUtil {
             challengeProgress.setUser(user);
             challengeProgress.setProgress(0);
             challengeProgress.setDone(false);
-            challengeProgress.setPrevDate(null);
+            challengeProgress.setPrevDate(LocalDateTime.now());
             cpList.add(challengeProgress);
         }
 
@@ -66,12 +66,10 @@ public class ChallengeUtil {
     /**
      * 저장된 날짜와 현재 날짜가 며칠 차이나는지 리턴
      */
-    public boolean isContinuous(LocalDateTime timestamp) {
+    public long getDiffPrevDate(LocalDateTime timestamp) {
         LocalDateTime current = LocalDateTime.now();
 
-        long diff = Duration.between(timestamp, current).toDays();
-
-        return diff == 1;
+        return Duration.between(timestamp, current).toDays();
     }
 
 }

@@ -67,9 +67,19 @@ public class ChallengeServiceImpl implements ChallengeService {
 
     /**
      * 파라미터에 해당하는 챌린지의 진행도를 증가시킴
+     * 날짜가 오늘 날짜라면 오늘 이미 챌린지를 진행 했으므로 넘어감
+     * 오늘 날짜가 아닌 경우
+     * 1. 누적 챌린지일 때는 그냥 진행도 1 증가시키며 날짜 오늘로 갱신
+     * 2. 연속 챌린지일 때는 날짜 확인해서 하루 차이나는 경우 진행도 1 증가시키고, 하루가 아닌 경우는 진행도를 1로 변경하며 날짜 오늘로 갱신
      */
     @Override
-    public void updateProgress(List<UserChallengeDto> list) {
+    public void updateProgress(List<UserChallengeDto> dtoList) {
+
+        // 리스트 필터링
+        List<UserChallengeDto> list = dtoList.stream()
+                // prevDate가 오늘 날짜와 다른 경우에 대한 필터링
+                .filter(dto -> !dto.getPrevDate().toLocalDate().equals(LocalDateTime.now().toLocalDate()))
+                .collect(Collectors.toList());
 
         // 연속인 챌린지와 아닌 챌린지(누적) 나누기
         List<UserChallengeDto> continuousList = challengeUtil.getContinuousList(list);
@@ -80,10 +90,17 @@ public class ChallengeServiceImpl implements ChallengeService {
                         .map(UserChallengeDto::getChallengeProgressId)
                         .collect(Collectors.toList());
 
+//        List<Integer> challengeProgressIds = nonContinuousList.stream()
+//                // prevDate가 오늘 날짜가 아닌 경우에 대한 필터링
+//                .filter(dto -> !dto.getPrevDate().toLocalDate().equals(LocalDateTime.now().toLocalDate()))
+//                // challengeProgressId 추출
+//                .map(UserChallengeDto::getChallengeProgressId)
+//                .collect(Collectors.toList());
+
         // 연속인 챌린지 체크
         for (UserChallengeDto userChallengeDto : continuousList) {
             // 만약 연속이라면 Id 리스트에 추가
-            if(challengeUtil.isContinuous(userChallengeDto.getPrevDate())) {
+            if(challengeUtil.getDiffPrevDate(userChallengeDto.getPrevDate()) == 1) {
                 challengeProgressIds.add(userChallengeDto.getChallengeProgressId());
             }
             // 아니라면 prevDate는 현재 날짜, progress는 1로 변경
@@ -99,7 +116,7 @@ public class ChallengeServiceImpl implements ChallengeService {
         }
 
         // challengeProgressId 리스트를 파라미터로 넘겨 진행도 증가시키기(isDone이 true인건 증가 안함)
-        challengeProgressRepository.incrementProgressByChallengeProgressIds(challengeProgressIds);
+        challengeProgressRepository.incrementProgressByChallengeProgressIds(challengeProgressIds, LocalDateTime.now());
 
         // goal과 isDone 확인 후 완료한 챌린지는 isDone을 true로 변경
         for(Integer challengeProgressId : challengeProgressIds) {

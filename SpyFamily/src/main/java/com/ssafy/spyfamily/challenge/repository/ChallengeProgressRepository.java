@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.time.LocalDateTime;
 
 @Repository
 public interface ChallengeProgressRepository extends JpaRepository<ChallengeProgress, Integer> {
@@ -42,11 +43,12 @@ public interface ChallengeProgressRepository extends JpaRepository<ChallengeProg
      */
     @Modifying
     @Query("UPDATE ChallengeProgress cp " +
-            "SET cp.progress = cp.progress + 1 " +
+            "SET cp.progress = cp.progress + 1, cp.prevDate = :currentDate " +
             "WHERE cp.isDone = false " +
             "AND cp.challengeProgressId IN :challengeProgressIds")
     @Transactional
-    void incrementProgressByChallengeProgressIds(@Param("challengeProgressIds") List<Integer> challengeProgressIds);
+    void incrementProgressByChallengeProgressIds(@Param("challengeProgressIds") List<Integer> challengeProgressIds,
+                                                 @Param("currentDate") LocalDateTime currentDate);
 
     /**
      * challengeProgressId에 해당하는 progress와 goal을 확인해 챌린지를 달성했다면 isDone을 true로 바꿔준다.
