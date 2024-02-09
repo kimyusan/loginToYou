@@ -9,10 +9,17 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ChallengeProgressRepository extends JpaRepository<ChallengeProgress, Integer> {
+
+    /**
+     * Id값으로 객체 리턴
+     */
+    Optional<ChallengeProgress> findById(Integer challengeProgressId);
 
     /**
      * userId에 해당하는 UserChallengeDto 리스트를 반환
@@ -40,7 +47,6 @@ public interface ChallengeProgressRepository extends JpaRepository<ChallengeProg
             "AND cp.challengeProgressId IN :challengeProgressIds")
     @Transactional
     void incrementProgressByChallengeProgressIds(@Param("challengeProgressIds") List<Integer> challengeProgressIds);
-
 
     /**
      * challengeProgressId에 해당하는 progress와 goal을 확인해 챌린지를 달성했다면 isDone을 true로 바꿔준다.

@@ -1,5 +1,6 @@
 package com.ssafy.spyfamily.util;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import com.ssafy.spyfamily.challenge.model.ChallengeList;
 import com.ssafy.spyfamily.challenge.model.ChallengeProgress;
 import com.ssafy.spyfamily.challenge.model.UserChallengeDto;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 @Component
 public class ChallengeUtil {
@@ -58,6 +61,17 @@ public class ChallengeUtil {
         }
 
         return cpList;
+    }
+
+    /**
+     * 저장된 날짜와 현재 날짜가 며칠 차이나는지 리턴
+     */
+    public boolean isContinuous(LocalDateTime timestamp) {
+        LocalDateTime current = LocalDateTime.now();
+
+        long diff = Duration.between(timestamp, current).toDays();
+
+        return diff == 1;
     }
 
 }

@@ -10,8 +10,10 @@ import com.ssafy.spyfamily.user.repository.UserRepository;
 import com.ssafy.spyfamily.util.ChallengeUtil;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.time.LocalDateTime;
 
 @Service
 public class ChallengeServiceImpl implements ChallengeService {
@@ -72,12 +74,30 @@ public class ChallengeServiceImpl implements ChallengeService {
         // 연속인 챌린지와 아닌 챌린지(누적) 나누기
         List<UserChallengeDto> continuousList = challengeUtil.getContinuousList(list);
         List<UserChallengeDto> nonContinuousList = challengeUtil.getNonContinuousList(list);
-        
+
         // 누적인 챌린지 리스트에서 challengeProgressId만 추출해 Integer List 만들기
         List<Integer> challengeProgressIds = nonContinuousList.stream()
                         .map(UserChallengeDto::getChallengeProgressId)
-                        .toList();
-        
+                        .collect(Collectors.toList());
+
+        // 연속인 챌린지 체크
+        for (UserChallengeDto userChallengeDto : continuousList) {
+            // 만약 연속이라면 Id 리스트에 추가
+            if(challengeUtil.isContinuous(userChallengeDto.getPrevDate())) {
+                challengeProgressIds.add(userChallengeDto.getChallengeProgressId());
+            }
+            // 아니라면 prevDate는 현재 날짜, progress는 1로 변경
+            else {
+                Optional<ChallengeProgress> optionalChallengeProgress = challengeProgressRepository.findById(userChallengeDto.getChallengeProgressId());
+                if (optionalChallengeProgress.isPresent()) {
+                    ChallengeProgress progress = optionalChallengeProgress.get();
+                    progress.setProgress(1);
+                    progress.setPrevDate(LocalDateTime.now());
+                    challengeProgressRepository.save(progress);
+                }
+            }
+        }
+
         // challengeProgressId 리스트를 파라미터로 넘겨 진행도 증가시키기(isDone이 true인건 증가 안함)
         challengeProgressRepository.incrementProgressByChallengeProgressIds(challengeProgressIds);
 
@@ -85,7 +105,6 @@ public class ChallengeServiceImpl implements ChallengeService {
         for(Integer challengeProgressId : challengeProgressIds) {
             challengeProgressRepository.updateIsDoneByChallengeProgressId(challengeProgressId);
         }
-
 
     }
 
