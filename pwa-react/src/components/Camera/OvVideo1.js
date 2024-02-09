@@ -1,7 +1,8 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 
 export default function OpenViduVideoComponent1({ streamManager, zi }) {
   const videoRef = useRef(null);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
     if (streamManager && videoRef.current) {
@@ -16,8 +17,8 @@ export default function OpenViduVideoComponent1({ streamManager, zi }) {
       muted
       playsInline
       style={{
-        width: window.innerWidth,
-        height: window.innerWidth * 1.5,
+        width: windowWidth,
+        height: windowWidth * (4/3),
         transform: "scaleX(1)",
         position: "fixed",
         zIndex: "-1",

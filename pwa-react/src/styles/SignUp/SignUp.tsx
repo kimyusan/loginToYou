@@ -62,4 +62,13 @@ const SignUpBox = styled.form`
   }
 `;
 
-export { Logo, SignUpBox };
+const PassWord = styled.div`
+  width: 95%;
+  height: auto;
+  font-size: 12px;
+  color: ${(props) => {
+    return props.theme.color.grey;
+  }};
+  text-align: start;
+`
+export { Logo, SignUpBox, PassWord };
