@@ -28,7 +28,7 @@ const QuestionCard = (props: Props) => {
       })
       .then((res) => {
         setQuestion(res.data);
-      })
+      });
   };
 
   // 오늘의 질문 답변 유저별 조회
@@ -43,7 +43,7 @@ const QuestionCard = (props: Props) => {
       })
       .then((res) => {
         setMyAns(res.data?.userAnswer);
-      })
+      });
   };
 
   useEffect(() => {
@@ -55,7 +55,9 @@ const QuestionCard = (props: Props) => {
     <>
       <Card className="question_card" onClick={() => navigate("/question")}>
         <div className="question">
-          <p className="todays">오늘의</p>
+          <p className="todays">
+            오늘의 질문
+          </p>
           <div className="questionDetail">
             <p>{question}</p>
             <p className="goToAns">

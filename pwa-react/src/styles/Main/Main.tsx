@@ -14,14 +14,19 @@ const FirstSection = styled.div`
   .camera {
     grid-area: b;
     position: relative;
-    /* display: flex; */
     background-color: ${(props) => {
       return props.theme.color.sub1;
     }};
     margin: 0;
     padding: 0;
     overflow: hidden;
-
+    z-index: 4;
+    box-shadow: 0 0 0 0;
+    .arrow {
+      position: absolute;
+      right: 5%;
+      top: 45%;
+    }
     .cameraIcon {
       position: absolute;
       bottom: 0;
@@ -60,32 +65,58 @@ const FirstSection = styled.div`
     .close {
       left: 0;
     }
-    .camera_solo {
-      height: 30%;
-      width: 60%;
+    .camera_solo,
+    .camera_couple {
+      height: 40%;
+      width: 65%;
       box-shadow: none;
       position: relative;
+      /* border-radius: 0; */
+      margin: 5%;
+    }
+    .camera_solo {
+      margin-bottom: 2%;
+      background-color: ${(props) => props.theme.color.sub5};
     }
     .camera_couple {
-      bottom: 0;
-      height: 30%;
-      width: 60%;
-
-      box-shadow: none;
-      position: relative;
-
+      margin-top: 2%;
+      background-color: ${(props) => props.theme.color.sub4};
+    }
+    .iconLabel {
+      font-size: 1.3rem;
     }
     .camera_icon {
       position: absolute;
       bottom: 0%;
+      right: 5%;
       z-index: 1;
+      opacity: 0.4;
     }
     .camera_des {
       position: absolute;
       z-index: 2;
-      width: 100%;
+      width: 90%;
       bottom: 0;
+      font-size: 1rem;
+      p {
+        margin: 0;
+      }
     }
+  }
+  .clicked {
+    box-shadow: 0 0 0 0;
+  }
+  .choice {
+    z-index: 3;
+    transform: translateX(0);
+    transition: transform 0.3s ease;
+  }
+  .show {
+    width: 120%;
+    transform: translateX(70%);
+  }
+  .unvisible {
+    display: none;
   }
 
   .diary {
@@ -97,7 +128,16 @@ const FirstSection = styled.div`
     }};
     margin: 0;
     overflow: hidden;
-
+    .diary_image {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 70%;
+      width: 70%;
+      aspect-ratio: 1;
+      opacity: 0.6;
+      color: ${(props) => props.theme.color.sub1};
+    }
     p {
       z-index: 2;
       position: absolute;
@@ -209,7 +249,8 @@ const CalendarSec = styled(Card)`
     .next_schedule {
       position: absolute;
       margin-left: 20%;
-      bottom: 0;
+      margin-top: 20%;
+      top: 0;
       padding: 0;
       font-size: 0.9rem;
       p {
@@ -225,25 +266,22 @@ const CalendarSec = styled(Card)`
   .no_events {
     margin: 0;
     width: 100%;
-    display: flex;
-    justify-content: end;
-    flex-direction: column;
+    position: absolute;
+    top: 0;
+    margin-top: 20%;
+    margin-left: 10%;
     p {
-      display: flex;
-      width: 100%;
-      min-width: max-content;
-      background-color: ${(props) => props.theme.color.sub4};
-      border-radius: 5px;
-      padding: 3% 0;
-      text-align: center;
+      margin: 0;
     }
   }
   .goToCal {
-    width: 100%;
     display: flex;
-    justify-content: end;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    right: 0;
     font-size: 0.9rem;
-    margin-top: 5px;
+    margin-right: 3%;
     color: ${(props) => props.theme.color.grey};
   }
 `;

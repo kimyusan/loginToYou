@@ -81,11 +81,8 @@ const CalendarCard = () => {
       <div className="right_side">
         {sortedEvents.length < 1 ? (
           <div className="no_events">
-            <span className="goToCal">
-              {/* <TodayIcon className="cal_icon" /> */}
-              일정 등록하기
-              <KeyboardArrowRightIcon />
-            </span>
+            {/* 예정된 일정이
+            <p>없어요</p> */}
           </div>
         ) : sortedEvents.length >= 2 ? (
           <ul className="next_schedule">
@@ -102,15 +99,25 @@ const CalendarCard = () => {
         ) : sortedEvents.length >= 1 ? (
           <ul className="next_schedule">
             <li>
-                {`${sortedEvents[0].start?.substring(5, 7)}/${sortedEvents[0].start?.substring(8, 10)}`}
-                {sortedEvents[0].end
-                  ? ` ~ ${sortedEvents[0].end?.substring(5, 7)}/${sortedEvents[0].end?.substring(8, 10)}`
-                  : null}
-                <p>{sortedEvents[0].title}</p>
-              </li>
+              {`${sortedEvents[0].start?.substring(
+                5,
+                7
+              )}/${sortedEvents[0].start?.substring(8, 10)}`}
+              {sortedEvents[0].end
+                ? ` ~ ${sortedEvents[0].end?.substring(
+                    5,
+                    7
+                  )}/${sortedEvents[0].end?.substring(8, 10)}`
+                : null}
+              <p>{sortedEvents[0].title}</p>
+            </li>
           </ul>
         ) : null}
       </div>
+      <p className="goToCal">
+        일정 등록하기
+        <KeyboardArrowRightIcon />
+      </p>
     </CalendarSec>
   );
 };

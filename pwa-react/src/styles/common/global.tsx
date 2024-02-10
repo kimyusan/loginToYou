@@ -7,7 +7,6 @@ const Global = createGlobalStyle`
         background-color: ${(props) => props.theme.color.bgColor};
         font-family: 'Noto Sans KR';
         overscroll-behavior: none;
-
     }
 
     button {
@@ -23,6 +22,7 @@ export const pink: DefaultTheme = {
     sub2: "#ffc0cb",
     sub3: "#ffcdd9",
     sub4: "#ffdde2",
+    sub5: "#ffe7ec",
     point: "#ff69b4",
     grey: "#8a8a8a",
     lightgrey: "#e2e2e2",
@@ -37,6 +37,7 @@ export const blue: DefaultTheme = {
     sub2: "#a4b0f7",
     sub3: "#cdd0ff",
     sub4: "#dde2ff",
+    sub5: "#eaedff",
     point: "#3967da",
     grey: "#8a8a8a",
     lightgrey: "#e2e2e2",
@@ -51,6 +52,7 @@ export const green: DefaultTheme = {
     sub2: "#8ab478",
     sub3: "#cbd2a8",
     sub4: "#ddecce",
+    sub5: "#e8f1df",
     point: "#7f9618",
     grey: "#8a8a8a",
     lightgrey: "#e2e2e2",
@@ -65,6 +67,7 @@ export const beige: DefaultTheme = {
     sub2: "#b3b0a6",
     sub3: "#d4cdc3",
     sub4: "#f8f4e3",
+    sub5: "#ebe8d9",
     point: "#7b7369",
     grey: "#8a8a8a",
     lightgrey: "#e2e2e2",

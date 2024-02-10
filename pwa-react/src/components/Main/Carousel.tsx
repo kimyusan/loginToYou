@@ -10,12 +10,13 @@ import {
   CardIndex,
 } from "../../styles/Main/Carousel";
 import CarouselItem from "./CarouselItem";
+import { Navigate } from "react-router";
 
 type Props = {};
 
 function Carousel({}: Props) {
   const [counter, setCounter] = useState(0);
-  const cards = ["question", "balance", "challenge"];
+  const cards = ["question", "balancegame", "challenge"];
   const handleNext = () => {
     if (counter >= cards.length - 1) {
       setCounter(0);

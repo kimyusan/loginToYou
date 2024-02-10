@@ -3,19 +3,22 @@ import { axiosAuth } from "../../util/token";
 
 import { CarouselCard } from "../../styles/Main/Carousel";
 
-import Q from "../../styles/Main/L-Help.png";
+import Q from "../../static/images/L-Help.png"
 
-import Heart_p from "../../styles/Main/L-Heart-pink.png";
-import Heart_w from "../../styles/Main/L-Heart-white.png";
+import Heart_p from "../../static/images/L-Heart-pink.png"
+import Heart_w from "../../static/images/L-Heart-white.png";
 
-import Check from '../../styles/Main/F-Check.png'
-import Star from '../../styles/Main/L-Star.png'
+import Check from "../../static/images/F-Check.png"
+import Star from "../../static/images/L-Star.png"
+import { useNavigate } from "react-router";
 
 type Props = {
   type: string;
 };
 
 const CarouselItem = ({ type }: Props) => {
+  const navigate = useNavigate()
+
   // 밸런스 게임 캐러설
   const today = new Date();
   const year = today.getFullYear();
@@ -62,8 +65,8 @@ const CarouselItem = ({ type }: Props) => {
 
   return (
     <>
-      {type === "balance" ? (
-        <CarouselCard>
+      {type === "balancegame" ? (
+        <CarouselCard onClick={()=>navigate('/balancegame')}>
           <img className="balance_image pink" src={Heart_p} alt="balance_image" />
           <img className="balance_image white small" src={Heart_w} alt="balance_image" />
           <img className="balance_image white big" src={Heart_w} alt="balance_image" />
@@ -73,14 +76,14 @@ const CarouselItem = ({ type }: Props) => {
           </p>
         </CarouselCard>
       ) : type === "question" ? (
-        <CarouselCard>
+        <CarouselCard onClick={()=>navigate('/question')}>
           <img className="q_image left" src={Q} alt="question_image" />
           <img className="q_image right" src={Q} alt="question_image" />
           <p className="q_title">Today's Question</p>
           <p className="q_content">{question}</p>
         </CarouselCard>
       ) : (
-        <CarouselCard>
+        <CarouselCard onClick={()=>navigate('/')}>
           <img className="challenge_image check" src={Check} alt="challenge_image" />
           <div className="box"></div>
           <p className="challenge_title">Let's Challenge!</p>
