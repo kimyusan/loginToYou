@@ -150,7 +150,7 @@ const Main = () => {
       .then((res) => {
         setYourFCMtoken(res.data);
       })
-      .catch((err)=> console.log(err))
+      .catch((err) => console.log(err));
   }, []);
 
   const goDiary = () => {
@@ -226,14 +226,11 @@ const Main = () => {
         </SecondSection>
 
         <ThirdSection>
-          <Card
-            className="balance_game"
-            onClick={() => navigate("/balancegame")}
-          >
+          <Card className="balance_game" onClick={() => navigate("/balancegame")}>
             <div>밸런스게임</div>
             <div>VS</div>
           </Card>
-          <Card className="challenge">
+          <Card className="challenge" onClick={() => navigate("/challenge")}>
             <div>
               <div>매일</div>
               <div>챌린지</div>
