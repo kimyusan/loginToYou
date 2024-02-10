@@ -1,4 +1,7 @@
 import styled from "styled-components";
+import { challengeInfo } from "../../routes/Challenge";
+import { useState } from "react";
+import ChallengeModal from "./ChallengeModal";
 
 const ChallengeBox = styled.div`
   width: 100%;
@@ -19,11 +22,6 @@ const ChallengeBox = styled.div`
     padding: 10px;
     box-shadow: 3px 3px 1px 1px ${(props) => props.theme.color.lightgrey};
     height: auto;
-
-    /* .lock {
-      display: flex;
-      justify-content: center;
-    } */
 
     .subject {
       margin-top: 0px;
@@ -48,39 +46,34 @@ const ChallengeBox = styled.div`
       font-size: 15px;
     }
   }
-
-  /* .choice {
-    height: 100%;
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    overflow-wrap: break-word;
-    word-break: break-all;
-    white-space: pre-wrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .grey {
-    color: ${(props) => {
-    return props.theme.color.grey;
-  }};
-  } */
 `;
 
-const ChallengeItem = () => {
+interface challengeProps {
+  key: number;
+  challenge: challengeInfo;
+}
+
+const ChallengeItem = ({ challenge }: challengeProps) => {
+  // 모달 띄우기
+  const [modal, setModal] = useState(false);
+
+  // 모달 제어
+  const handleModal = (e: React.MouseEvent) => {
+    setModal(!modal);
+  };
+
   return (
-    <div>
-      <ChallengeBox>
+    <>
+      {modal ? <ChallengeModal handleModal={handleModal} /> : null}
+
+      <ChallengeBox onClick={handleModal}>
         <div className="item">
-          <h3 className="subject">100일 커플 일기 챌린지</h3>
-          <p className="content">100일 연속 일기 어쩌구</p>
+          <h3 className="subject">{challenge.subject}</h3>
+          <p className="content">{challenge.content}</p>
           <p className="detail">자세히 보기 &gt;</p>
         </div>
       </ChallengeBox>
-    </div>
+    </>
   );
 };
 
