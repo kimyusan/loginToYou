@@ -5,7 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { CalendarStore } from "../../stores/CalendarStore";
 import { Event } from "../../interface/CalendarInterface";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import TodayIcon from '@mui/icons-material/Today';
+import TodayIcon from "@mui/icons-material/Today";
+
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+
+import { useTheme } from "styled-components";
+import { MyCalendar } from "../../styles/Main/Main";
 
 const CalendarCard = () => {
   const navigate = useNavigate();
@@ -13,8 +19,17 @@ const CalendarCard = () => {
   const todayYear = today.getFullYear();
   const todayMonth = (today.getMonth() + 1).toString().padStart(2, "0");
   const todayDate = today.getDate().toString().padStart(2, "0");
-
-  const { events } = CalendarStore();
+  const theme = useTheme();
+  const {
+    openModal,
+    closeModal,
+    isOpen,
+    isEdit,
+    isDelete,
+    addMode,
+    events,
+    getEventsFromServer,
+  } = CalendarStore();
 
   const toDate = (date: string) => {
     const dateString = date.split("-");
@@ -48,16 +63,26 @@ const CalendarCard = () => {
   return (
     <CalendarSec onClick={() => navigate("/calendar")}>
       <div className="left_side">
-        <div className="year_month">
-          {todayYear}/{todayMonth}
-        </div>
-        <div className="date">{todayDate}</div>
+        <MyCalendar>
+          <FullCalendar
+            plugins={[dayGridPlugin]}
+            headerToolbar={{
+              start: "title",
+            }}
+            height={"auto"}
+            events={events}
+            locale={"en"}
+            eventBackgroundColor={theme.color.sub2}
+            eventBorderColor={theme.color.sub2}
+            defaultAllDay={true}
+          />
+        </MyCalendar>
       </div>
       <div className="right_side">
         {sortedEvents.length < 1 ? (
           <div className="no_events">
-            <p><TodayIcon className="cal_icon"/>예정된 일정이 없어요</p>
             <span className="goToCal">
+              {/* <TodayIcon className="cal_icon" /> */}
               일정 등록하기
               <KeyboardArrowRightIcon />
             </span>
@@ -65,12 +90,24 @@ const CalendarCard = () => {
         ) : sortedEvents.length >= 2 ? (
           <ul className="next_schedule">
             {sortedEvents.splice(0, 2).map((it, idx) => (
-              <li key={idx}>{it.title}</li>
+              <li key={idx}>
+                {`${it.start?.substring(5, 7)}/${it.start?.substring(8, 10)}`}
+                {it.end
+                  ? ` ~ ${it.end?.substring(5, 7)}/${it.end?.substring(8, 10)}`
+                  : null}
+                <p>{it.title}</p>
+              </li>
             ))}
           </ul>
         ) : sortedEvents.length >= 1 ? (
           <ul className="next_schedule">
-            <li>{sortedEvents[0].title}</li>
+            <li>
+                {`${sortedEvents[0].start?.substring(5, 7)}/${sortedEvents[0].start?.substring(8, 10)}`}
+                {sortedEvents[0].end
+                  ? ` ~ ${sortedEvents[0].end?.substring(5, 7)}/${sortedEvents[0].end?.substring(8, 10)}`
+                  : null}
+                <p>{sortedEvents[0].title}</p>
+              </li>
           </ul>
         ) : null}
       </div>

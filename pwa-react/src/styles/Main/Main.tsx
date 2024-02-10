@@ -14,10 +14,12 @@ const FirstSection = styled.div`
   .camera {
     grid-area: b;
     position: relative;
+    /* display: flex; */
     background-color: ${(props) => {
       return props.theme.color.sub1;
     }};
     margin: 0;
+    padding: 0;
     overflow: hidden;
 
     .cameraIcon {
@@ -27,9 +29,9 @@ const FirstSection = styled.div`
       transition: 0.2s all ease;
     }
 
-    div {
+    .camera_title {
       position: absolute;
-      right: 0;
+      right: 7%;
       text-align: end;
       font-size: 1.5rem;
       padding-top: 5dvh;
@@ -38,7 +40,54 @@ const FirstSection = styled.div`
         margin: 0;
       }
     }
+    .camera_box {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      align-items: end;
+      justify-content: center;
+    }
+    .camera_button {
+      background-color: ${(props) => props.theme.color.sub3};
+      border: none;
+      position: absolute;
+      height: 100%;
+      width: 15%;
+    }
+    .open {
+      left: 0;
+    }
+    .close {
+      left: 0;
+    }
+    .camera_solo {
+      height: 30%;
+      width: 60%;
+      box-shadow: none;
+      position: relative;
+    }
+    .camera_couple {
+      bottom: 0;
+      height: 30%;
+      width: 60%;
+
+      box-shadow: none;
+      position: relative;
+
+    }
+    .camera_icon {
+      position: absolute;
+      bottom: 0%;
+      z-index: 1;
+    }
+    .camera_des {
+      position: absolute;
+      z-index: 2;
+      width: 100%;
+      bottom: 0;
+    }
   }
+
   .diary {
     grid-area: a;
     aspect-ratio: 1;
@@ -123,23 +172,21 @@ const FirstSection = styled.div`
 `;
 
 const CalendarSec = styled(Card)`
-  /* padding: 3dvw; */
-  /* margin: 5%; */
-  /* height: max-content !important; */
+  height: 25dvh;
+
   display: flex;
-  justify-content: space-between;
   position: relative;
   overflow: hidden;
-  font-family: "Phudu", sans-serif;
   .left_side {
+    font-family: "Phudu", sans-serif;
     position: relative;
     display: flex;
     flex-direction: column;
-    width: 50dvw;
+    width: 60%;
     padding: 1dvw;
     height: auto;
+    overflow: hidden;
     .year_month {
-      /* position: absolute; */
       margin: 1dvw;
       font-size: 1.3rem;
     }
@@ -157,12 +204,19 @@ const CalendarSec = styled(Card)`
   }
   .right_side {
     position: relative;
-    width: 50dvw;
+    width: 40%;
     display: flex;
     .next_schedule {
       position: absolute;
+      margin-left: 20%;
       bottom: 0;
       padding: 0;
+      font-size: 0.9rem;
+      p {
+        margin-top: 2%;
+        margin-bottom: 7%;
+        color: ${(props) => props.theme.color.grey};
+      }
       li::marker {
         color: ${(props) => props.theme.color.main};
       }
@@ -194,10 +248,58 @@ const CalendarSec = styled(Card)`
   }
 `;
 
-const SecondSection = styled.div`
-  ${Card} {
-    height: 20dvh;
+const MyCalendar = styled.div`
+  width: 100%;
+  z-index: 1 !important;
+  height: 100%;
+  * {
+    border-color: transparent !important;
   }
+  .fc-day-today {
+    background-color: ${(props) => props.theme.color.sub4} !important;
+    border-radius: 50% !important;
+  }
+  .fc-daygrid-day-events {
+    display: none !important;
+  }
+  .fc-toolbar {
+    margin: 0 !important;
+    width: 100% !important;
+  }
+  .fc-toolbar-title {
+    font-size: 1.1rem !important;
+    color: ${(props) => {
+      return props.theme.color.main;
+    }};
+  }
+  .fc-prev-button,
+  .fc-next-button,
+  .fc-today-button {
+    display: none;
+  }
+  .fc-daygrid-body {
+    width: 100% !important;
+    text-align: center !important;
+  }
+  .fc-col-header {
+    width: 100% !important;
+    background-color: #ececec;
+    font-size: 0.8rem;
+    font-weight: 300;
+  }
+  .fc-scrollgrid-sync-table {
+    width: 100% !important;
+  }
+  .fc-daygrid-day-number {
+    font-size: 0.9em;
+    width: 10dvw !important;
+  }
+  .fc-scrollgrid-section {
+    overflow: hidden !important;
+  }
+`;
+
+const SecondSection = styled.div`
   .question_card {
     position: relative;
     height: 13dvh;
@@ -340,4 +442,11 @@ const ThirdSection = styled.div`
   }
 `;
 
-export { Wrapper, FirstSection, SecondSection, ThirdSection, CalendarSec };
+export {
+  Wrapper,
+  FirstSection,
+  SecondSection,
+  ThirdSection,
+  CalendarSec,
+  MyCalendar,
+};
