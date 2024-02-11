@@ -1,76 +1,45 @@
-import styled from "styled-components";
-import { challengeInfo } from "../../routes/Challenge";
 import { useState } from "react";
-import ChallengeModal from "./ChallengeModal";
 
-const ChallengeBox = styled.div`
-  width: 100%;
-  height: auto;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+import { challengeInfo } from "../../routes/Challenge";
 
-  .item {
-    flex: 0 0 80%;
-    margin: 5px 5px;
-    border-radius: 5px;
-    border: 1px solid
-      ${(props) => {
-        return props.theme.color.lightgrey;
-      }};
-    padding: 10px;
-    box-shadow: 3px 3px 1px 1px ${(props) => props.theme.color.lightgrey};
-    height: auto;
+import { ChallengeBox } from "../../styles/Challenge/Challenge";
 
-    .subject {
-      margin-top: 0px;
-      margin-bottom: 0px;
-    }
+import LinearProgress, { LinearProgressProps } from '@mui/material/LinearProgress';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
-    .content {
-      text-align: left;
-      font-size: 16px;
-      color: ${(props) => {
-        return props.theme.color.grey;
-      }};
-      margin-top: 2%;
-      margin-bottom: 2%;
-    }
-
-    .detail {
-      text-align: right;
-      display: block;
-      margin-top: 0%;
-      margin-bottom: 0%;
-      font-size: 15px;
-    }
-  }
-`;
+import { useTheme } from "styled-components";
 
 interface challengeProps {
   key: number;
   challenge: challengeInfo;
 }
 
+function LinearProgressWithLabel(props: LinearProgressProps & { value: number }) {
+  const theme = useTheme();
+  return (
+    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <Box sx={{ width: '100%', mr: 1 }}>
+        <LinearProgress variant="determinate" {...props} style={{ backgroundColor: theme.color.sub3}} className="progress"/>
+      </Box>
+      <Box sx={{ minWidth: 35 }}>
+        <Typography variant="body2" color={theme.color.point}>{`${Math.round(
+          props.value,
+        )}%`}</Typography>
+      </Box>
+    </Box>
+  );
+}
+
 const ChallengeItem = ({ challenge }: challengeProps) => {
-  // 모달 띄우기
-  const [modal, setModal] = useState(false);
-
-  // 모달 제어
-  const handleModal = (e: React.MouseEvent) => {
-    setModal(!modal);
-  };
-
+  const [progress, setProgress] = useState(Math.round((challenge.progress/challenge.goal)*100) > 100 ? 100 : Math.round((challenge.progress/challenge.goal)*100))
   return (
     <>
-      {modal ? <ChallengeModal handleModal={handleModal} /> : null}
-
-      <ChallengeBox onClick={handleModal}>
+      <ChallengeBox>
         <div className="item">
-          <h3 className="subject">{challenge.subject}</h3>
-          <p className="content">{challenge.content}</p>
-          <p className="detail">자세히 보기 &gt;</p>
+          <div className="subject">{challenge.subject}</div>
+          <div className="content">{challenge.content}</div>
+          <LinearProgressWithLabel value={progress}></LinearProgressWithLabel>
         </div>
       </ChallengeBox>
     </>

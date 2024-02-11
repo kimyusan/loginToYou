@@ -280,7 +280,7 @@ export default function App() {
             <WebCam
               style={{
                 width: window.innerWidth,
-                height: window.innerWidth * (4/3),
+                height: window.innerWidth * 1.5,
                 transform: "scaleX(-1)",
                 position: "fixed",
                 top: "8dvh",
@@ -288,7 +288,7 @@ export default function App() {
               }}
             />
           )}
-          <JoinForm onSubmit={joinSession} $height={window.innerWidth * (4/3)}>
+          <JoinForm onSubmit={joinSession} $height={window.innerWidth * 1.5}>
             <input
               type="text"
               value={myUserName}

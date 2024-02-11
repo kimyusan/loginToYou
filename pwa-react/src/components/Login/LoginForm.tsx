@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { LoginBox } from "../../styles/Login/Login";
-import { parseJwt } from "../../util/token";
+import { axiosAuth, parseJwt } from "../../util/token";
 import { setClientHeaders } from "../../util/token";
 import { useShallow } from "zustand/react/shallow";
 
@@ -63,6 +63,10 @@ const LoginForm = () => {
 
         const userData = parseJwt(response.headers.authorization);
         setUser(userData);
+
+        axiosAuth.post(`${PATH}/challenge/init?userId=${userData.userId}`)
+          .then((res) => console.log("챌린지 만들기 성공"))
+          .catch((error) => console.log("챌린지 만들기 실패", error.response))
 
         state ? navigate(state) : navigate("/");
       })

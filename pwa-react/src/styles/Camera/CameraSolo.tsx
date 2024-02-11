@@ -81,7 +81,7 @@ const OptionsContainer = styled.div<height>`
 const SaveBox = styled.div`
   width: 90%;
   height: auto;
-  padding: 20px;
+  margin: 20px auto;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
