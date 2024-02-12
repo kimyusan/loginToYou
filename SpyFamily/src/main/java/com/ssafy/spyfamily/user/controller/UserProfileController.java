@@ -72,7 +72,7 @@ public class UserProfileController {
         try {
             ProfileImg profileImg = userProfileService.getUserProfile(userId);
             log.info("프사 불러오기 id : " + userId);
-            log.info(profileImg.toString());
+//            log.info(profileImg.toString());
 
             return  new ResponseEntity<ProfileImg>(profileImg, HttpStatus.OK);
         } catch (Exception e) {
