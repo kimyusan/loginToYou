@@ -1,4 +1,4 @@
-package com.ssafy.spyfamily.handler;
+package com.ssafy.spyfamily.chat.handler;
 
 // import ... 생략
 
