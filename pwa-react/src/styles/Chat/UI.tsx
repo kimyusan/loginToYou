@@ -33,6 +33,10 @@ export const InputForm = styled.form`
     return props.theme.color.bgColor;
   }};
 
+  &.keyup {
+    height: 55dvh;
+  }
+
   & > textarea {
     width: 70%;
     padding: 10px 20px;

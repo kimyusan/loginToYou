@@ -6,6 +6,10 @@ export const MessageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding-bottom: 10dvh;
+
+  &.keyup {
+    height: 45dvh;
+  }
 `;
 
 const MessageLine = styled.div`

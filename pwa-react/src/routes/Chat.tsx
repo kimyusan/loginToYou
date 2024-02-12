@@ -24,8 +24,10 @@ function Chat() {
   const token = useAuthStore.getState().token;
   const navigate = useNavigate();
   const { room_id } = useParams();
+
   const { body } = document;
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const [isKeyUp, setIsKeyUp] = useState(false);
+  const [sent, setSent] = useState(false);
 
   const userId = useUserStore.getState().userId;
 
@@ -215,15 +217,25 @@ function Chat() {
     return () => window.removeEventListener("scroll", addScroll);
   }, [messages, showChatNum, isLoading]);
 
+  useEffect(() => {
+    console.log(sent);
+  }, [sent]);
+
   return (
     <div
-      ref={scrollRef}
       style={{
         position: "relative",
       }}
     >
       <TokenCheker />
-      <MessageBox messages={showMessages} userId={userId}></MessageBox>
+      <MessageBox
+        messages={showMessages}
+        userId={userId}
+        isKeyUp={isKeyUp}
+        setIsKeyUp={setIsKeyUp}
+        sent={sent}
+        setSent={setSent}
+      ></MessageBox>
       <InputBox
         client={client}
         message={message}
@@ -231,6 +243,9 @@ function Chat() {
         userId={userId}
         roomId={room_id}
         isOppOn={isOppOn}
+        isKeyUp={isKeyUp}
+        setSent={setSent}
+        setIsKeyUp={setIsKeyUp}
       ></InputBox>
     </div>
   );
