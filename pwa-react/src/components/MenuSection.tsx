@@ -6,7 +6,7 @@ import { useTheme } from "styled-components";
 type Props = {};
 
 function MenuSection({}: Props) {
-  const [isNavigationOpen, setiINavigationOpen] = useState(false);
+  const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const theme = useTheme();
 
   return (
@@ -19,12 +19,15 @@ function MenuSection({}: Props) {
     >
       <BurgerButton
         onClick={() => {
-          setiINavigationOpen((prev) => !prev);
+          setIsNavigationOpen((prev) => !prev);
         }}
       >
-        {isNavigationOpen ? "×" : "☰"}
+        {isNavigationOpen ? null : "☰"}
       </BurgerButton>
-      <Navbar isOpen={isNavigationOpen} />
+      <Navbar
+        isOpen={isNavigationOpen}
+        setIsNavigationOpen={setIsNavigationOpen}
+      />
     </div>
   );
 }

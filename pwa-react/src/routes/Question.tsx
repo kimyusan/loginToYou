@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-import { BurgerButton } from "../styles/common/hamburger";
-import Navbar from "../components/Navbar";
 import AnswerBox from "../components/Question/AnswerBox";
 
 import { MonthHeader, DaySelect } from "../styles/Question/Question";

@@ -87,7 +87,9 @@ const MiddleMsg = styled.div`
 const SnsLogin = styled.div`
   display: flex;
   flex-direction: row;
+  width: 100dvw;
   height: 10dvh;
+  padding: 0 18.5dvw;
 `;
 
 interface SnsLoginBtn {
@@ -95,7 +97,8 @@ interface SnsLoginBtn {
 }
 
 const LoginBtn = styled.div<SnsLoginBtn>`
-  width: 33.3%;
+  width: 15dvw;
+  margin: 0 3dvw;
   height: auto;
   background-image: ${(props) => `url(${props.$img})`};
   background-size: contain;
