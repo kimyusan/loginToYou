@@ -97,18 +97,19 @@ public class LoginController {
             String email = googleUser.getEmail();
             User user = userService.getUserByEmail(email);
 
-            //System.out.println(user.toString());
+            //log.info(user.toString());
             // 사용자 정보가 있다면 해당 유저 정보 리턴해주기
-            System.out.println("구글로그인 시작");
+            log.info("구글로그인 시작");
             if(user != null) {
 
                 String token = jwtUtil.createJwt(user.getEmail(), user.getRole(), user.getUserId(),user.getCoupleId(),user.getName());
-                System.out.println("token 생성 완료" + token);
+                String refreshToken = jwtUtil.createRefreshToken(user.getEmail());
+
+                log.info("token 생성 완료" + token);
                 HttpHeaders httpHeaders = new HttpHeaders();
                 httpHeaders.add("Authorization", "Bearer " + token);
-
-                System.out.println("http헤더" + httpHeaders.toString());
-               // response.addHeader("Authorization", "Bearer " + token);
+                httpHeaders.add("refreshToken" , "Bearer " + refreshToken);
+                log.info("http헤더" + httpHeaders);
 
                 return ResponseEntity.ok().headers(httpHeaders).body(user);
              //   return new ResponseEntity<User>(user, httpHeaders, HttpStatus.OK);
@@ -134,9 +135,8 @@ public class LoginController {
      * 카카오 로그인
      */
     @PostMapping("/login/kakao")
-
     public ResponseEntity<?> kakaoLoginPost(@RequestParam(name="code") String code) throws JsonProcessingException {
-//        System.out.println("kakao login");
+//        log.info("kakao login");
 
         // Kakao API에 POST 요청
         ResponseEntity<UserInfo> responseEntity = userService.getKakaoPost(code);
@@ -166,8 +166,11 @@ public class LoginController {
 
             if(user != null) {
                 String jwtToken = jwtUtil.createJwt(user.getEmail(), user.getRole(), user.getUserId(),user.getCoupleId(),user.getName());
+                String refreshToken = jwtUtil.createRefreshToken(user.getEmail());
                 log.info("token 생성 완료" + jwtToken);
                 HttpHeaders httpHeaders = new HttpHeaders();
+
+                httpHeaders.add("refreshToken" , "Bearer " + refreshToken);
                 httpHeaders.add("Authorization", "Bearer " + jwtToken);
 
                 log.info("http헤더" + httpHeaders.toString());
@@ -216,10 +219,11 @@ public class LoginController {
             // 사용자 정보가 있다면 해당 유저 정보 토큰 담아서 리턴해주기
             if(user != null) {
                 String jwtToken = jwtUtil.createJwt(user.getEmail(), user.getRole(), user.getUserId(),user.getCoupleId(),user.getName());
+                String refreshToken = jwtUtil.createRefreshToken(user.getEmail());
                 log.info("token 생성 완료" + jwtToken);
                 HttpHeaders httpHeaders = new HttpHeaders();
                 httpHeaders.add("Authorization", "Bearer " + jwtToken);
-
+                httpHeaders.add("refreshToken", "Bearer "+ refreshToken);
                 log.info("http헤더" + httpHeaders.toString());
                 // response.addHeader("Authorization", "Bearer " + token);
 
