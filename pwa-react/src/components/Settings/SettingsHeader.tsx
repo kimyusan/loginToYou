@@ -27,7 +27,10 @@ function SettingsHeader({ name, main }: Props) {
         </IconContext.Provider>
         {name ? <div>{name}</div> : null}
       </Header>
-      <Navbar isOpen={isNavigationOpen} />
+      <Navbar
+        isOpen={isNavigationOpen}
+        setIsNavigationOpen={setIsNavigationOpen}
+      />
     </>
   );
 }
