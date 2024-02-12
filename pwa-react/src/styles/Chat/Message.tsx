@@ -9,6 +9,8 @@ export const MessageWrapper = styled.div`
 
   &.keyup {
     height: 45dvh;
+    overflow: auto;
+    padding-bottom: 13dvh;
   }
 `;
 

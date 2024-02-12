@@ -33,11 +33,13 @@ function MessageBox({
       scrollRef.current.scrollTo(0, body.scrollHeight);
     } else {
       scrollRef.current.scrollIntoView({ block: "end" });
+      scrollRef.current.scrollTo(0, scrollRef.current.scrollHeight);
     }
   }, [messages]);
 
   useEffect(() => {
     if (!scrollRef.current) return;
+    if (isKeyUp) return;
     if (sent && scrollRef.current.scrollHeight < window.innerHeight) {
       setIsKeyUp(true);
       scrollRef.current.scrollIntoView({ block: "end" });
@@ -47,8 +49,21 @@ function MessageBox({
     }
   }, [sent]);
 
+  useEffect(() => {
+    if (!scrollRef.current) return;
+    if (!isKeyUp) {
+      scrollRef.current.scrollIntoView({ block: "end" });
+    }
+  }, [isKeyUp]);
+
   return (
-    <MessageWrapper ref={scrollRef} className={isKeyUp ? "keyup" : undefined}>
+    <MessageWrapper
+      ref={scrollRef}
+      className={isKeyUp ? "keyup" : undefined}
+      onMouseDown={() => {
+        setIsKeyUp(false);
+      }}
+    >
       {messages.map((message, index) => {
         return userId == message.sendUserId ? (
           <MyMessage key={index}>

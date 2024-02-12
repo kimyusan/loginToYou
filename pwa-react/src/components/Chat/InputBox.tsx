@@ -36,7 +36,6 @@ function InputBox({
 
   const updateMessage = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(event.target.value);
-    inputRef.current?.style.setProperty("height", "auto");
     inputRef.current?.style.setProperty(
       "height",
       inputRef.current?.scrollHeight + "px"
@@ -68,7 +67,7 @@ function InputBox({
       })
     );
     setMessage("");
-    inputRef.current?.style.setProperty("height", "auto");
+    inputRef.current?.style.setProperty("height", "5dvh");
     inputRef.current?.focus();
     setSent(true);
   };
@@ -77,9 +76,7 @@ function InputBox({
     <InputForm
       onSubmit={sendChat}
       className={isKeyUp ? "keyup" : undefined}
-      onBlur={() => {
-        setIsKeyUp(false);
-      }}
+      $height={inputRef.current ? inputRef.current.scrollHeight : 0}
     >
       <IconContext.Provider value={{ size: "20px" }}>
         <FaPhone
