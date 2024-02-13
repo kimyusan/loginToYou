@@ -1,7 +1,10 @@
 import styled from "styled-components";
 
 const NavigationContainer = styled.div<{ $isOpen: boolean }>`
-  width: 80dvw;
+  div, span {
+    font-family: "Noto Sans KR" !important;
+  }
+  width: 80%;
   height: 100%;
   position: fixed;
   z-index: 80000;
@@ -14,11 +17,12 @@ const NavigationContainer = styled.div<{ $isOpen: boolean }>`
     }};
   transition: right 0.3s ease-in-out;
 
-  div.headline {
+  .list-subheader {
+    background-color: ${(props)=>props.theme.color.lightgrey};
+    font-size: 0.9rem;
+    height: 4dvh;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 5dvh 10dvw;
   }
 `;
 
@@ -27,7 +31,7 @@ const NavigationList = styled.ul`
   padding: 0 10dvw;
   margin: 0;
   color: black;
-  position: fixed;
+  /* position: fixed; */
   z-index: 9900;
 
   div.title {

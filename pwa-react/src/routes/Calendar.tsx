@@ -51,7 +51,6 @@ const Calendar = (props: Props) => {
         setCurrentMonth(arg.start.getMonth() + 2);
       }
     }
-    console.log(currentMonth);
   };
 
   useEffect(() => {

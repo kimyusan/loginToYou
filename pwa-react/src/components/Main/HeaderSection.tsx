@@ -61,7 +61,12 @@ const HeaderSection = ({ cp1, cp2, cpInfo }: Props) => {
       <div className="nameSection">
         {cpName ? <div className="cpName">{cpName}</div> : null}
         <UserName>
-          {mName} <FavoriteIcon fontSize="small" /> {fName}
+          {mName}{" "}
+          <FavoriteIcon
+            fontSize="small"
+            style={{ paddingLeft: "2px", paddingRight: "2px" }}
+          />{" "}
+          {fName}
         </UserName>
       </div>
       <Dday className={!cpInfo?.startDate ? "noDate" : null}>
