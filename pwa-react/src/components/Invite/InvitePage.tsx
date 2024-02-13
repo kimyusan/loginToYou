@@ -5,7 +5,6 @@ import MenuSection from "../MenuSection";
 function InvitePage({ userId, name, email }: UserInterface) {
   return (
     <>
-      <MenuSection />
       <div className="flex f-col mb-30">
         <div>QR코드를 통해 연인을 등록하고</div>
         <div>너로를 시작해 보세요</div>
