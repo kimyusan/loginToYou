@@ -109,6 +109,9 @@ public class LoginController {
                 HttpHeaders httpHeaders = new HttpHeaders();
                 httpHeaders.add("Authorization", "Bearer " + token);
                 httpHeaders.add("refreshToken" , "Bearer " + refreshToken);
+                user.setRefreshToken(refreshToken);
+
+                userService.save(user);
                 log.info("http헤더" + httpHeaders);
 
                 return ResponseEntity.ok().headers(httpHeaders).body(user);
@@ -172,7 +175,9 @@ public class LoginController {
 
                 httpHeaders.add("refreshToken" , "Bearer " + refreshToken);
                 httpHeaders.add("Authorization", "Bearer " + jwtToken);
+                user.setRefreshToken(refreshToken);
 
+                userService.save(user);
                 log.info("http헤더" + httpHeaders.toString());
                 // response.addHeader("Authorization", "Bearer " + token);
 
@@ -226,7 +231,9 @@ public class LoginController {
                 httpHeaders.add("refreshToken", "Bearer "+ refreshToken);
                 log.info("http헤더" + httpHeaders.toString());
                 // response.addHeader("Authorization", "Bearer " + token);
+                user.setRefreshToken(refreshToken);
 
+                userService.save(user);
                 return ResponseEntity.ok().headers(httpHeaders).body(user);
 
             }
