@@ -23,6 +23,7 @@ import CameraswitchIcon from "@mui/icons-material/Cameraswitch";
 import Webcam from "react-webcam";
 import html2canvas from "html2canvas";
 import SettingsHeader from "../components/Settings/SettingsHeader";
+import { axiosAuth } from "../util/token";
 
 type WebcamRefType = React.MutableRefObject<Webcam | null>;
 
@@ -45,7 +46,6 @@ export const stopWebCam = () => {
 const CameraSolo: React.FC = () => {
   const webcamRef = useRef<Webcam>(null);
   const divRef = useRef(null);
-  const canvasRef = useRef(null);
 
   const [time, setTime] = useState(0);
   const [selectTime, setSelectTime] = useState("");
@@ -62,7 +62,13 @@ const CameraSolo: React.FC = () => {
       token: state.token,
     }))
   );
-  const { coupleId } = useUserStore();
+
+  const { coupleId,userId } = useUserStore(
+    useShallow((state) => ({
+      coupleId: state.coupleId,
+      userId: state.userId,
+    }))
+  );
 
   // 카메라 전환 버튼 상태 추가
   const [useFrontCamera, setUseFrontCamera] = useState(true);
@@ -119,6 +125,11 @@ const CameraSolo: React.FC = () => {
           })
           .then((res) => {
             console.log("사진 저장 성공");
+
+            axiosAuth.post(`${PATH}/challenge/add/progress?userId=${userId}&type=diary`)
+              .then((res) => console.log(res.data, "다이어리 챌린지 진행률 증가"))
+              .catch((error) => console.log("실패 ㅠ", error))
+
             navigate("/diary");
           })
           .catch((error) => console.log("사진 저장 실패", error));
