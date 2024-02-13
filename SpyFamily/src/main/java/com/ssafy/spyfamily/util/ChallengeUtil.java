@@ -56,7 +56,7 @@ public class ChallengeUtil {
             challengeProgress.setUser(user);
             challengeProgress.setProgress(0);
             challengeProgress.setDone(false);
-            challengeProgress.setPrevDate(LocalDateTime.now());
+            challengeProgress.setPrevDate(LocalDateTime.now().minusDays(1));
             cpList.add(challengeProgress);
         }
 
