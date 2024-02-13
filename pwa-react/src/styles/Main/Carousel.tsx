@@ -7,9 +7,13 @@ import StopIcon from "@mui/icons-material/Stop";
 const Wrapper = styled.div`
   margin-bottom: 3%;
 `;
+
 const Container = styled.div`
-  width: 90dvw;
-  overflow: hidden;
+  width: 100dvw;
+  /* border-left: 5dvw solid black;
+  border-right: 5dvw solid black; */
+
+  /* overflow: hidden; */
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -27,7 +31,8 @@ const Slides = styled.div`
 `;
 
 const Slide = styled.div`
-  background-color: #ececec;
+  background-color: transparent;
+
   border-radius: 7px;
 `;
 
@@ -63,6 +68,8 @@ const CardIndex = styled(StopIcon)`
 const CarouselCard = styled.div`
   width: 90dvw;
   height: 100%;
+  margin: 0 5dvw;
+  background-color: #ececec;
   border-radius: 7px;
   position: relative;
   overflow: hidden;
