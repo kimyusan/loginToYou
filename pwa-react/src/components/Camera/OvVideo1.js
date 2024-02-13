@@ -22,7 +22,6 @@ export default function OpenViduVideoComponent1({ streamManager, zi }) {
         transform: "scaleX(1)",
         position: "fixed",
         zIndex: "-1",
-        objectFit: "cover",
       }}
     />
   );

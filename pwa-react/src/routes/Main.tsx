@@ -281,7 +281,7 @@ const Main = () => {
           <h3
             style={{ marginLeft: "6dvw", lineHeight: 0.5, marginTop: "4dvh" }}
           >
-            오늘의 질문
+            오늘의 질문!
           </h3>
           <QuestionCard />
         </SecondSection>
