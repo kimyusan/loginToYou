@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { axiosAuth } from "../util/token";
 
 import { BurgerButton } from "../styles/common/hamburger";
 import Navbar from "../components/Navbar";
@@ -12,19 +13,23 @@ import { UserInfoBox } from "../styles/UserInfo/UserInfo";
 import { useNavigate } from "react-router-dom";
 import useCoupleStore from "../stores/CoupleStore";
 import useAuthStore from "../stores/AuthStore";
+import { CalendarStore } from "../stores/CalendarStore";
 import { useShallow } from "zustand/react/shallow";
 import TokenCheker from "../util/TokenCheker";
 import MenuSection from "../components/MenuSection";
+import useUserStore from "../stores/UserStore";
 
 function CoupleInfo() {
   const navigate = useNavigate();
   const couple = useCoupleStore();
+  const { userId } = useUserStore();
   const { PATH, token } = useAuthStore(
     useShallow((state) => ({
       PATH: state.PATH,
       token: state.token,
     }))
   );
+  const { postEventToServer, nextId } = CalendarStore();
 
   const [cpName, setCpName] = useState<string | null>(couple.name);
   const [start, setStart] = useState<string | null>(couple.startDate);
@@ -32,6 +37,23 @@ function CoupleInfo() {
   const [errorAlert, setErrorAlert] = useState(false);
   const [successAlert, setSuccessAlert] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+
+  function calculateDates(startDate: string, maxDays: number) {
+    const startDateObj = new Date(startDate);
+    const futureDates = [];
+
+    for (let days = 100; days <= maxDays; days += 100) {
+      const futureDate = new Date(startDateObj);
+      futureDate.setDate(startDateObj.getDate() + days);
+
+      const year = futureDate.getFullYear();
+      const month = String(futureDate.getMonth() + 1).padStart(2, "0");
+      const day = String(futureDate.getDate()).padStart(2, "0");
+      const dateInfo = [`${year}-${month}-${day}`, days];
+      futureDates.push(dateInfo);
+    }
+    return futureDates;
+  }
 
   const changeCouple = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -57,6 +79,23 @@ function CoupleInfo() {
         navigate("/");
       })
       .catch((error) => console.log(error));
+
+    // start날짜부터 +3000일까지 캘린더에 추가
+    const FutureDatesInfo = calculateDates(start as string, 3000);
+    FutureDatesInfo.map((info, idx) =>
+      postEventToServer(
+        {
+          calendarId: nextId,
+          coupleId: couple.coupleId as number,
+          userId: userId as number,
+          startDate: info[0] as string,
+          endDate: null,
+          eventType: null,
+          contents: `❤️${info[1]}일`,
+        },
+        couple.coupleId as number
+      )
+    );
   };
 
   useEffect(() => {
