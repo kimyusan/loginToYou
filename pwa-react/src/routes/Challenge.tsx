@@ -34,9 +34,15 @@ const Challenge = () => {
   // 챌린지 요청 받아올 배열
   const [attendChallenge, setAttendChallenge] = useState([]);
   const [diaryChallenge, setDiaryChallenge] = useState([]);
+  const [questionChallenge, setQuestionChallenge] = useState([]);
+  const [dayChallenge, setDayChallenge] = useState([]);
+  const [balanceChallenge, setBalanceChallenge] = useState([]);
 
   const [attendShow, setAttendShow] = useState(false);
   const [diaryShow, setDiaryShow] = useState(false);
+  const [questionShow, setQusetionShow] = useState(false);
+  const [dayShow, setDayShow] = useState(false);
+  const [balanceShow, setBalanceShow] = useState(false);
 
   // PATH, token 가져오기
   const { PATH } = useAuthStore(
@@ -58,14 +64,13 @@ const Challenge = () => {
       behavior: "smooth"
     });
 
-    axiosAuth.post(`${PATH}/challenge/add/progress?userId=${userId}&type=attendance`)
-      .then((res) => console.log(res.data, "출석체크 성공"))
-      .catch((error) => console.log(error.response))
-
     axiosAuth.get(`${PATH}/challenge/get/challenges?userId=${userId}`)
       .then((res) => {
         setAttendChallenge(res.data.filter((item: any) => item.type === "attendance"))
         setDiaryChallenge(res.data.filter((item: any) => item.type === "diary"))
+        setBalanceChallenge(res.data.filter((item: any) => item.type === "balance_game"))
+        setDayChallenge(res.data.filter((item: any) => item.type === "d_day"))
+        setQuestionChallenge(res.data.filter((item: any) => item.type === "today_question"))
       })
       .catch((error: any) => {
         console.log(error)
@@ -80,7 +85,7 @@ const Challenge = () => {
 
       <Fade>
         <ChallengeSelect>
-          {!attendShow ? <div className="item img1" onClick={() => (setAttendShow(true), setDiaryShow(false))}>
+          {!attendShow ? <div className="item img1" onClick={() => (setAttendShow(true), setDiaryShow(false),setBalanceShow(false),setDayShow(false),setQusetionShow(false))}>
             <div className="main_content">출석체크</div>
             <div className="sub_content">챌린지</div>
           </div> : <div className="item scroll">
@@ -91,12 +96,48 @@ const Challenge = () => {
             ))}
           </div>}
 
-          {!diaryShow ? <div className="item img2" onClick={() => (setAttendShow(false), setDiaryShow(true))}>
+          {!diaryShow ? <div className="item img2" onClick={() => (setAttendShow(false), setDiaryShow(true),setBalanceShow(false),setDayShow(false),setQusetionShow(false))}>
             <div className="main_content">다이어리</div>
             <div className="sub_content">챌린지</div>
           </div> : <div className="item scroll">
             
             {diaryChallenge.map((challenge: challengeInfo, index) => (
+              <Fade cascade>
+                <ChallengeItem key={index} challenge={challenge} />
+              </Fade>
+            ))}
+          </div>}
+
+          {!questionShow ? <div className="item img3" onClick={() => (setAttendShow(false), setDiaryShow(false),setBalanceShow(false),setDayShow(false),setQusetionShow(true))}>
+            <div className="main_content">데일리 질문</div>
+            <div className="sub_content">챌린지</div>
+          </div> : <div className="item scroll">
+            
+            {questionChallenge.map((challenge: challengeInfo, index) => (
+              <Fade cascade>
+                <ChallengeItem key={index} challenge={challenge} />
+              </Fade>
+            ))}
+          </div>}
+
+          {!dayShow ? <div className="item img4" onClick={() => (setAttendShow(false), setDiaryShow(false),setBalanceShow(false),setDayShow(true),setQusetionShow(false))}>
+            <div className="main_content">디데이</div>
+            <div className="sub_content">챌린지</div>
+          </div> : <div className="item scroll">
+            
+            {dayChallenge.map((challenge: challengeInfo, index) => (
+              <Fade cascade>
+                <ChallengeItem key={index} challenge={challenge} />
+              </Fade>
+            ))}
+          </div>}
+
+          {!balanceShow ? <div className="item img5" onClick={() => (setAttendShow(false), setDiaryShow(false),setBalanceShow(true),setDayShow(false),setQusetionShow(false))}>
+            <div className="main_content">밸런스게임</div>
+            <div className="sub_content">챌린지</div>
+          </div> : <div className="item scroll">
+            
+            {balanceChallenge.map((challenge: challengeInfo, index) => (
               <Fade cascade>
                 <ChallengeItem key={index} challenge={challenge} />
               </Fade>

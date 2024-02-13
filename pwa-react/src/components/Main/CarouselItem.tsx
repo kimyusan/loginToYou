@@ -95,7 +95,7 @@ const CarouselItem = ({ type }: Props) => {
           <p className="q_content">{question}</p>
         </CarouselCard>
       ) : (
-        <CarouselCard onClick={() => navigate("/")}>
+        <CarouselCard onClick={() => navigate("/challenge")}>
           <img
             className="challenge_image check"
             src={Check}

@@ -33,6 +33,18 @@ const ChallengeSelect = styled.div`
     color: white;
   }
 
+  .img3 {
+    background-image: url("https://thumb.photo-ac.com/a9/a9adb1a1cc05c3b4dcfa4c77d238e9cd_t.jpeg");
+  }
+
+  .img4 {
+    background-image: url("https://images.unsplash.com/photo-1578625155481-7bc40a6481b6?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+  }
+
+  .img5 {
+    background-image: url("https://images.unsplash.com/photo-1570303345338-e1f0eddf4946?q=80&w=1971&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+  }
+
   .main_content {
     font-size: 40px;
     margin-bottom: 5px;

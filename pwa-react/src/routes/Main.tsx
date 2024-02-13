@@ -168,6 +168,10 @@ const Main = () => {
         setYourFCMtoken(res.data);
       })
       .catch((err) => console.log(err));
+
+    axiosAuth.post(`${PATH}/challenge/add/progress?userId=${userId}&type=attendance`)
+      .then((res) => console.log(res.data, "출석체크 성공"))
+      .catch((error) => console.log(error.response))
   }, []);
 
   const goDiary = () => {

@@ -127,6 +127,11 @@ const BalanceGame = () => {
       })
       .then((res) => {
         console.log("대답 저장 성공", res.data);
+
+        axiosAuth.post(`/challenge/add/progress?userId=${userId}&type=balance_game`)
+          .then((res) => console.log(res.data, "출석체크 성공"))
+          .catch((error) => console.log(error.response))
+
         setReFresh(!reFresh)
       })
       .catch((error) => console.log(error));
