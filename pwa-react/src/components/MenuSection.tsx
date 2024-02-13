@@ -22,12 +22,9 @@ function MenuSection({}: Props) {
           setIsNavigationOpen((prev) => !prev);
         }}
       >
-        {isNavigationOpen ? null : "☰"}
+        {isNavigationOpen ? "×" : "☰"}
       </BurgerButton>
-      <Navbar
-        isOpen={isNavigationOpen}
-        setIsNavigationOpen={setIsNavigationOpen}
-      />
+      <Navbar isOpen={isNavigationOpen} setIsOpen={setIsNavigationOpen} />
     </div>
   );
 }

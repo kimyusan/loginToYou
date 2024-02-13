@@ -42,7 +42,7 @@ public class LoginController {
         User user = userService.signup(userData);
 
         if(user != null) {
-            return new ResponseEntity<Void>(HttpStatus.OK);
+            return new ResponseEntity<Integer>(user.getUserId(), HttpStatus.OK);
         }
 
         return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);

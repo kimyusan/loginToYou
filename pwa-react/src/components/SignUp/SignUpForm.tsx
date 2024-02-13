@@ -12,6 +12,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import TextField from "@mui/material/TextField";
+import { axiosAuth } from "../../util/token";
 
 const SignUpForm = () => {
   const location = useLocation();
@@ -95,10 +96,16 @@ const SignUpForm = () => {
         name: name,
       })
       .then((response) => {
-        console.log("회원가입 성공");
+        console.log("회원가입 성공",response.data);
+  
+        axios.post(`${PATH}/challenge/init?userId=${response.data}`)
+          .then((res) => console.log("챌린지 만들기 성공"))
+          .catch((error) => console.log("챌린지 만들기 실패", error.response))
+
         navigate("/login");
       })
       .catch((error) => {
+        alert("중복된 아이디 입니다!")
         console.log("회원가입 실패", error.response);
       });
   };

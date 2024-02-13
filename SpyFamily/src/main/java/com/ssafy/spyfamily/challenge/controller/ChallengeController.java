@@ -53,7 +53,7 @@ public class ChallengeController {
      * 유저의 챌린지 진행사항 증가시키기
      */
     @PostMapping("/add/progress")
-    public ResponseEntity<?> updateProgress(int userId, String type) {
+    public ResponseEntity<?> updateProgress(@RequestParam int userId, @RequestParam String type) {
 
         // 해당 유저가 한 행동에 해당하는 챌린지 목록 가져오기
         List<UserChallengeDto> list = challengeService.getUserChallenges(userId, type);
