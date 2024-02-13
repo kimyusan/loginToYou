@@ -34,9 +34,10 @@ import SettingsIcon from "@mui/icons-material/Settings";
 
 type Props = {
   isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const Navbar = ({ isOpen }: Props) => {
+const Navbar = ({ isOpen, setIsOpen }: Props) => {
   const navigate = useNavigate();
   const { userId, coupleId } = useUserStore(
     useShallow((state) => ({
@@ -184,7 +185,7 @@ const Navbar = ({ isOpen }: Props) => {
       {isOpen ? (
         <NavBarbg
           onMouseDown={() => {
-            setIsNavigationOpen(false);
+            setIsOpen(false);
           }}
         />
       ) : null}
@@ -193,4 +194,3 @@ const Navbar = ({ isOpen }: Props) => {
 };
 
 export default Navbar;
-
