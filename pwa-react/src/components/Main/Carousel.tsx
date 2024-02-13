@@ -47,7 +47,7 @@ function Carousel({}: Props) {
     <Wrapper>
       <Container>
         <PrevButton onClick={handlePrev} />
-        <Slides style={{ transform: `translateX(${-90 * counter}dvw)` }}>
+        <Slides style={{ transform: `translateX(${-100 * counter}%)` }}>
           {cards.map((card, index) => (
             <Slide key={index}>
               <CarouselItem type={card}/>
