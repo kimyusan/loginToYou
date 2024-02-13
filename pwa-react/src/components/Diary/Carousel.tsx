@@ -33,7 +33,7 @@ function Carousel({ pictures, x, openDetail, goLeft, goRight }: Props) {
             className={className}
             style={
               className === "slide middle"
-                ? { transform: `translateX(${x}%) scaleX(2.5) scaleY(1.7)` }
+                ? { transform: `translateX(${x}%) scaleX(2.5) scaleY(2.5)` }
                 : { transform: `translateX(${x}%)` }
             }
             onClick={() => className === "slide middle" ? openDetail(Id) : idx - 1 === middleIdx ? goRight():goLeft()}
