@@ -1,7 +1,16 @@
 import styled from "styled-components";
 
+const NavBarbg = styled.div`
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 79999;
+  background-color: transparent;
+`;
+
 const NavigationContainer = styled.div<{ $isOpen: boolean }>`
-  div, span {
+  div,
+  span {
     font-family: "Noto Sans KR" !important;
   }
   width: 80%;
@@ -18,7 +27,7 @@ const NavigationContainer = styled.div<{ $isOpen: boolean }>`
   transition: right 0.3s ease-in-out;
 
   .list-subheader {
-    background-color: ${(props)=>props.theme.color.lightgrey};
+    background-color: ${(props) => props.theme.color.lightgrey};
     font-size: 0.9rem;
     height: 4dvh;
     display: flex;
@@ -56,4 +65,4 @@ const NavigationList = styled.ul`
     }
   }
 `;
-export { NavigationContainer, NavigationList };
+export { NavigationContainer, NavigationList, NavBarbg };
