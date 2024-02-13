@@ -21,7 +21,7 @@ const PicItem = styled.div`
 
   & .slide {
     flex: 0 0 33.3333%;
-    height: 280px;
+    height: 200px;
     position: relative;
     text-align: center;
     display: flex;
@@ -39,7 +39,7 @@ const PicItem = styled.div`
 
   & .middle {
     z-index: 1;
-    height: 180px;
+    height: 200px;
     filter: blur(0px);
     -webkit-filter: blur(0px);
   }
