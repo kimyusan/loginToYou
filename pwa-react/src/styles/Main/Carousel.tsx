@@ -90,13 +90,13 @@ const CarouselCard = styled.div`
     font-family: "Phudu", sans-serif;
     margin-top: 5%;
     margin-left: 5%;
-    font-size: 1.7rem;
+    font-size: 1.6rem;
   }
   .q_content {
     top: 50%;
     left: 17%;
     width: 70%;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
   }
 
   // 밸런스게임
@@ -147,15 +147,26 @@ const CarouselCard = styled.div`
     left: 68%;
     top: 15%;
   }
-  .challenge_title {
-    font-size: 1.3rem;
-    font-weight: 700;
-    margin-top: 10%;
+  .challenge_box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 50%;
+    margin-top: 7%;
     margin-left: 10%;
   }
+  .challenge_title {
+    position: relative;
+    font-size: 1.3rem;
+    font-weight: 700;
+    /* margin-top: 8%;
+    margin-left: 10%; */
+  }
   .challenge_content {
-    top: 50%;
-    left: 10%;
+    position: relative;
+    font-size: 1.1rem;
+    /* top: 55%;
+    left: 10%; */
   }
   .box {
     position: absolute;

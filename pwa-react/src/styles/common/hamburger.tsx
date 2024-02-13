@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const BurgerButton = styled.div`
   z-index: 90000;
-  position: absolute;
+  position: fixed;
   background-color: transparent;
   top: 1dvh;
   right: 1dvw;

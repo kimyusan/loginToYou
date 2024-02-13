@@ -21,7 +21,7 @@ const PicItem = styled.div`
 
   & .slide {
     flex: 0 0 33.3333%;
-    height: 230px;
+    height: 200px;
     position: relative;
     text-align: center;
     display: flex;
@@ -39,7 +39,7 @@ const PicItem = styled.div`
 
   & .middle {
     z-index: 1;
-    height: 260px;
+    height: 200px;
     filter: blur(0px);
     -webkit-filter: blur(0px);
   }
@@ -79,8 +79,8 @@ const PicBox = styled.div`
   width: 90%;
   height: 80%;
   border: 1px solid #cecece;
-  margin-top: 8%;
-  background-color: lightgray;
+  /* margin-top: 8%; */
+  background-color: red;
   background-size: 100% 100%;
   background-repeat: no-repeat;
 
@@ -93,8 +93,8 @@ const PicBox = styled.div`
 
 const PicContent = styled.div`
   text-align: center;
-  font-size: 10px;
-  padding: 10px;
+  font-size: 9px;
+  margin-top: 5%;
 `;
 
 const SelectBox = styled.div`

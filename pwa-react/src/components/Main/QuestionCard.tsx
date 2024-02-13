@@ -56,7 +56,8 @@ const QuestionCard = (props: Props) => {
       <Card className="question_card" onClick={() => navigate("/question")}>
         <div className="question">
           <p className="todays">
-            오늘의 질문
+            <p>오늘의</p>
+            <p>질문</p>
           </p>
           <div className="questionDetail">
             <p>{question}</p>
