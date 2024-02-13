@@ -3,6 +3,7 @@ import { Card } from "../../styles/common/card";
 import { CalendarSec } from "../../styles/Main/Main";
 import { useNavigate } from "react-router-dom";
 import { CalendarStore } from "../../stores/CalendarStore";
+
 import { Event } from "../../interface/CalendarInterface";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import TodayIcon from "@mui/icons-material/Today";
@@ -12,8 +13,10 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 
 import { useTheme } from "styled-components";
 import { MyCalendar } from "../../styles/Main/Main";
+import useCoupleStore from "../../stores/CoupleStore";
 
 const CalendarCard = () => {
+  const { coupleId } = useCoupleStore();
   const navigate = useNavigate();
   const today = new Date();
   const todayYear = today.getFullYear();
@@ -58,7 +61,9 @@ const CalendarCard = () => {
   const sortedEvents = filterdEvents.sort(compare);
   useEffect(() => {}, []);
 
-  useEffect(() => {}, [sortedEvents]);
+  useEffect(() => {
+    getEventsFromServer(coupleId as number);
+  }, []);
 
   return (
     <CalendarSec onClick={() => navigate("/calendar")}>

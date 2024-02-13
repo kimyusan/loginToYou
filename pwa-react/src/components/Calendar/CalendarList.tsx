@@ -6,25 +6,12 @@ import { ListWrapper } from "../../styles/Calendar/Calendar";
 import CalendarItem from "./CalendarItem";
 
 type Props = {
+  currentYear: number;
   currentMonth: number;
 };
 
-const CalendarList = ({ currentMonth }: Props) => {
+const CalendarList = ({ currentYear, currentMonth }: Props) => {
   const { eventlist } = CalendarStore();
-
-
-
-  const toDate = (date: string) => {
-    const dateString = date.split("-");
-    return new Date(
-      parseInt(dateString[0], 10),
-      parseInt(dateString[1], 10) - 1,
-      parseInt(dateString[2], 10),
-      24,
-      0,
-      0
-    );
-  };
 
   const compare: (a: EventItem, b: EventItem) => number = (a, b) => {
     const startDateA = new Date(a.startDate).getTime();
@@ -33,7 +20,9 @@ const CalendarList = ({ currentMonth }: Props) => {
   };
 
   const filterdEvents = eventlist.filter(
-    (eventlist) => toDate(eventlist.startDate).getMonth() + 1 === currentMonth
+    (eventlist) =>
+      (parseInt(eventlist.startDate?.split('-')[1]) === currentMonth &&
+      parseInt(eventlist.startDate?.split('-')[0]) === currentYear)
   );
 
   const sortedEvents = filterdEvents.sort(compare);
