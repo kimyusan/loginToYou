@@ -16,14 +16,7 @@ type Props = {
   isOppOn: boolean;
 };
 
-function InputBox({
-  message,
-  setMessage,
-  client,
-  userId,
-  roomId,
-  isOppOn,
-}: Props) {
+function InputBox({ message, setMessage, client, userId, roomId, isOppOn }: Props) {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const token = useAuthStore.getState().token;
   const navigate = useNavigate();
@@ -31,10 +24,7 @@ function InputBox({
   const updateMessage = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(event.target.value);
     inputRef.current?.style.setProperty("height", "auto");
-    inputRef.current?.style.setProperty(
-      "height",
-      inputRef.current?.scrollHeight + "px"
-    );
+    inputRef.current?.style.setProperty("height", inputRef.current?.scrollHeight + "px");
   };
 
   // // 채팅 전송
@@ -76,12 +66,7 @@ function InputBox({
           style={{ marginRight: "5px" }}
         />
       </IconContext.Provider>
-      <textarea
-        rows={1}
-        value={message}
-        onChange={updateMessage}
-        ref={inputRef}
-      ></textarea>
+      <textarea rows={1} value={message} onChange={updateMessage} ref={inputRef}></textarea>
       <button>전송</button>
     </InputForm>
   );

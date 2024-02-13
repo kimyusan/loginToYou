@@ -2,12 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "../notification/settingFCM";
 
-import {
-  Wrapper,
-  FirstSection,
-  SecondSection,
-  ThirdSection,
-} from "../styles/Main/Main";
+import { Wrapper, FirstSection, SecondSection, ThirdSection } from "../styles/Main/Main";
 import { UserInterface, CoupleInterface } from "../interface/UserInterface";
 import { FaCamera } from "react-icons/fa";
 import { IconContext } from "react-icons";
@@ -110,14 +105,10 @@ const Main = () => {
       })
       .then((response) => {
         if (!response.data) {
-          setProfileImage(
-            "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-          );
+          setProfileImage("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
         } else {
           const image = response.data;
-          setProfileImage(
-            `${PATH}/profile/getImg/${image.saveFolder}/${image.originalName}/${image.saveName}`
-          );
+          setProfileImage(`${PATH}/profile/getImg/${image.saveFolder}/${image.originalName}/${image.saveName}`);
         }
       });
   }, []);
@@ -130,14 +121,10 @@ const Main = () => {
       })
       .then((response) => {
         if (!response.data) {
-          setYourProfileImage(
-            "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-          );
+          setYourProfileImage("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
         } else {
           const image = response.data;
-          setYourProfileImage(
-            `${PATH}/profile/getImg/${image.saveFolder}/${image.originalName}/${image.saveName}`
-          );
+          setYourProfileImage(`${PATH}/profile/getImg/${image.saveFolder}/${image.originalName}/${image.saveName}`);
         }
       })
       .catch((error) => console.log(error));
@@ -277,14 +264,11 @@ const Main = () => {
         </SecondSection>
 
         <ThirdSection>
-          <Card
-            className="balance_game"
-            onClick={() => navigate("/balancegame")}
-          >
+          <Card className="balance_game" onClick={() => navigate("/balancegame")}>
             <div>밸런스게임</div>
             <div>VS</div>
           </Card>
-          <Card className="challenge">
+          <Card className="challenge" onClick={() => navigate("/challenge")}>
             <div>
               <div>매일</div>
               <div>챌린지</div>

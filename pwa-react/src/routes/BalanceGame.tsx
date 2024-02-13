@@ -70,6 +70,11 @@ const BalanceGame = () => {
   };
 
   useEffect(() => {
+    window.scroll({
+      top: 0,
+      behavior: "smooth"
+    });
+
     axiosAuth
       .get(
         `/balance/get?dateString=${year}${month
@@ -91,7 +96,7 @@ const BalanceGame = () => {
             `/balance/get/answer?userId=${userId}&BalanceGameId=${res.data.balanceGameId}`
           )
           .then((res) => {
-            setMyChoice(res.data.userVote);
+            setMyChoice(res.data.userVote ? res.data.userVote : "");
           })
           .catch((error) => console.log(error));
 
@@ -100,7 +105,7 @@ const BalanceGame = () => {
             `/balance/get/answer?userId=${yourId}&BalanceGameId=${res.data.balanceGameId}`
           )
           .then((res) => {
-            setYourChoice(res.data ? res.data?.userVote : "");
+            setYourChoice(res.data.userVote ? res.data.userVote : "");
           })
           .catch((error) => console.log(error));
 
@@ -122,6 +127,7 @@ const BalanceGame = () => {
       })
       .then((res) => {
         console.log("대답 저장 성공", res.data);
+        setReFresh(!reFresh)
       })
       .catch((error) => console.log(error));
   };

@@ -1,14 +1,15 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Camera } from "@mediapipe/camera_utils";
 import { SelfieSegmentation } from "@mediapipe/selfie_segmentation";
 
 export default function OpenViduVideoComponent({ streamManager, zi }) {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   const onResults = async (results) => {
-    const videoWidth = window.innerWidth;
-    const videoHeight = window.innerWidth * 1.5;
+    const videoWidth = windowWidth;
+    const videoHeight = windowWidth * (4/3);
 
     canvasRef.current.width = videoWidth;
     canvasRef.current.height = videoHeight;
@@ -45,7 +46,7 @@ export default function OpenViduVideoComponent({ streamManager, zi }) {
     });
 
     selfieSegmentation.setOptions({
-      modelSelection: 1,
+      modelSelection: 0,
     });
 
     selfieSegmentation.onResults(onResults);
@@ -55,23 +56,39 @@ export default function OpenViduVideoComponent({ streamManager, zi }) {
         onFrame: async () => {
           await selfieSegmentation.send({ image: videoRef.current });
         },
-        width: window.innerWidth,
-        height: window.innerWidth * 1.5,
+        width: 640,
+        height: 480,
       });
 
       camera.start();
+      
+      return () => {
+        camera.stop()
+      }
     }
 
     if (streamManager && videoRef.current) {
       streamManager.addVideoElement(videoRef.current);
     }
-  }, [streamManager]);
+  }, [streamManager,windowWidth]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   return (
     <div
       style={{
-        width: window.innerWidth,
-        height: window.innerWidth * 1.5,
+        width: windowWidth,
+        height: windowWidth * (4/3),
         position: "fixed",
         zIndex: "0",
       }}
@@ -81,19 +98,20 @@ export default function OpenViduVideoComponent({ streamManager, zi }) {
         playsInline
         style={{
           display: "none",
-          width: window.innerWidth,
-          height: window.innerWidth * 1.5,
+          width: windowWidth,
+          height: windowWidth * (4/3),
           transform: "scaleX(-1)",
         }}
-        width={window.innerWidth}
-        height={window.innerWidth * 1.5}
+        width={windowWidth}
+        height={windowWidth * (4/3)}
       />
       <canvas
         ref={canvasRef}
         style={{
-          height: window.innerWidth * 1.5,
+          width: windowWidth,
+          height: windowWidth * (4/3),
           transform: "scaleX(-1)",
-          aspectRatio: 1.5,
+          aspectRatio: (4/3),
         }}
       ></canvas>
     </div>

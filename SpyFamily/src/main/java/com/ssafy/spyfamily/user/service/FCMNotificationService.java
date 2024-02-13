@@ -102,27 +102,4 @@ public class FCMNotificationService {
 
         return otherUserId;
     }
-
-
-//    User deleteUser = userRepository.findByUserId(userId);
-//    Integer coupleId = deleteUser.getCoupleId();
-//    Couple couple = coupleRepository.findByCoupleId(coupleId);
-//
-//        System.out.println(deleteUser.toString());
-//        System.out.println("couple Id :" + coupleId);
-//
-//    // 커플 상대방 아이디 추적하기
-//    Integer otherUserId = 0;
-//        if (!Objects.equals(couple.getFUserId(), userId)) {
-//        otherUserId = couple.getFUserId();
-//    } else if (!Objects.equals(couple.getSUserId(), userId)) {
-//        otherUserId = couple.getSUserId();
-//    }
-//
-//        System.out.println("otherUser Id : " + otherUserId);
-//    // 상대방 객체
-//    User otherUser = userRepository.findByUserId(otherUserId);
-//        otherUser.setCoupleId(null);
-//
-//        System.out.println(otherUser.toString());
 }

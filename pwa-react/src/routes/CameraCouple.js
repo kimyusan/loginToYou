@@ -91,7 +91,7 @@ export default function App() {
             videoSource: undefined,
             publishAudio: true,
             publishVideo: true,
-            resolution: `${window.innerWidth}x${window.innerWidth * 1.5}`,
+            resolution: `${window.innerWidth}x${window.innerWidth * (4/3)}`,
             frameRate: 30,
             insertMode: "APPEND",
             mirror: true,
@@ -336,7 +336,7 @@ export default function App() {
             </div>
           </div>
 
-          <BottomBox $height={window.innerWidth * 1.5}>
+          <BottomBox $height={window.innerWidth * (4/3)}>
             <PoseBox>
               <IconContext.Provider
                 value={{

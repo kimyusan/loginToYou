@@ -1,5 +1,6 @@
 package com.ssafy.spyfamily.user.controller;
 
+
 import com.google.api.Http;
 import com.ssafy.spyfamily.user.dto.FCMNotificationRequestDto;
 import com.ssafy.spyfamily.user.model.User;
@@ -41,6 +42,7 @@ public class FCMNotificationApiController {
 
     }
 
+
     //상대방 유저 아이디 조회후 상대방 fcm 토큰 가져오기
     @GetMapping("/search/other")
     @Transactional
@@ -79,6 +81,7 @@ public class FCMNotificationApiController {
         }
 
     }
+
 
     @GetMapping("/ispush")
     public ResponseEntity<?> fcmIspushOk(@RequestParam Integer userId){

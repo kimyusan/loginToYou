@@ -154,9 +154,7 @@ const CameraSolo: React.FC = () => {
       <SettingsHeader name={"혼자찍기"} />
 
       <CameraBox ref={divRef}>
-        <TimerText $height={window.innerWidth * 1.5}>
-          {time > 0 ? <div>{time}</div> : null}
-        </TimerText>
+        {time > 0 ? <TimerText $height={window.innerWidth * 1.5}><div>{time}</div> </TimerText> : null}
         {imgSrc === "" ? (
           <>
             <Webcam
@@ -173,7 +171,6 @@ const CameraSolo: React.FC = () => {
                 width: window.innerWidth,
                 height: window.innerWidth * 1.5,
                 transform: useFrontCamera ? "scaleX(-1)" : "scaleX(1)",
-                position: "fixed",
                 objectFit: "cover",
               }}
             />
@@ -182,7 +179,7 @@ const CameraSolo: React.FC = () => {
           <img
             src={imgSrc}
             alt="사진입니다"
-            style={{ transform: useFrontCamera ? "scaleX(-1)" : "scaleX(1)" }}
+            style={{ transform: useFrontCamera ? "scaleX(-1)" : "scaleX(1)", marginBottom: "30px", objectFit: "cover" }}
           ></img>
         )}
       </CameraBox>

@@ -27,8 +27,10 @@ import Theme from "./components/Settings/Theme";
 import ChangePw from "./components/Settings/ChangePw";
 import DeleteAccount from "./components/Settings/DeleteAccount";
 import SettingPush from "./components/Settings/SettingPush";
-import BalanceGame from "./routes/BalanceGame"
-import CameraChoice from "./routes/CameraChoice";
+import BalanceGame from "./routes/BalanceGame";
+import Challenge from "./routes/Challenge";
+
+// import Notification from "./components/Notification";
 
 // import Notification from "./components/Notification";
 
@@ -69,10 +71,7 @@ function App() {
             <Route path="/camera/couple" element={<CameraCouple />}></Route>
             <Route path="/calendar" element={<Calendar />}></Route>
             <Route path="/user_info/:user_id" element={<UserInfo />}></Route>
-            <Route
-              path="/couple_info/:couple_id"
-              element={<CoupleInfo />}
-            ></Route>
+            <Route path="/couple_info/:couple_id" element={<CoupleInfo />}></Route>
             <Route path="/chat/:room_id" element={<Chat />}></Route>
             <Route path="/diary" element={<Diary />}></Route>
             <Route path="/question" element={<Question />}></Route>
@@ -85,8 +84,7 @@ function App() {
             <Route path="/settings/push" element={<SettingPush />} />
 
             <Route path="/balancegame" element={<BalanceGame />} />
-            <Route path="/camera" element={<CameraChoice />} />
-
+            <Route path="/challenge" element={<Challenge />} />
           </Routes>
         </ThemeProvider>
       </div>

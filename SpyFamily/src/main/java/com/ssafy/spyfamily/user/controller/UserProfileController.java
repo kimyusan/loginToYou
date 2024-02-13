@@ -5,6 +5,7 @@ import com.ssafy.spyfamily.diary.model.Diary;
 import com.ssafy.spyfamily.user.model.ProfileImg;
 import com.ssafy.spyfamily.user.service.UserProfileServiceImpl;
 import com.ssafy.spyfamily.util.FileUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -21,6 +22,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+@Slf4j
 @RestController()
 @RequestMapping(value = "/profile", produces = "application/json")
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE}, maxAge = 6000)
@@ -46,20 +48,20 @@ public class UserProfileController {
 
     @PostMapping("/upload")
     public ResponseEntity<?> userProfileUpload(MultipartHttpServletRequest formData) {
-        System.out.println("프로필 사진 등록 들어옴 : " + formData);
+        log.info("프로필 사진 등록 들어옴 : " + formData);
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             ProfileImg profileImg = objectMapper.readValue(formData.getParameter("profileImg"), ProfileImg.class);
             MultipartFile multipartFiles = formData.getFile("imgInfo");
 
-            System.out.println("regist multipartFile : " + multipartFiles);
+            log.info("regist multipartFile : " + multipartFiles);
 
             profileImg = fileUtil.storeImg(multipartFiles, profileImg);
             userProfileService.uploadProfile(profileImg);
 
             return new ResponseEntity<ProfileImg>(profileImg, HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println("board uploadImg Controller Error 프사 업로드 하는중 에러");
+            log.info("board uploadImg Controller Error 프사 업로드 하는중 에러");
             e.printStackTrace();
             return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -69,12 +71,12 @@ public class UserProfileController {
     public ResponseEntity<?> getUserImg(@RequestParam Integer userId) {
         try {
             ProfileImg profileImg = userProfileService.getUserProfile(userId);
-            System.out.println("프사 불러오기 id : " + userId);
-            System.out.println(profileImg);
+            log.info("프사 불러오기 id : " + userId);
+//            log.info(profileImg.toString());
 
             return  new ResponseEntity<ProfileImg>(profileImg, HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println("board uploadImg Controller Error 프사 불러오는 중 에러");
+            log.info("board uploadImg Controller Error 프사 불러오는 중 에러");
             e.printStackTrace();
             return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -85,7 +87,7 @@ public class UserProfileController {
                                     @PathVariable("originalName") String originalName,
                                     @PathVariable("saveName") String saveName)  {
 
-        System.out.println("프로필 사진 불러오기");
+        log.info("프로필 사진 불러오기");
         String file = uploadImagePath + File.separator +saveFolder + File.separator + saveName;
 
         try {
@@ -95,12 +97,12 @@ public class UserProfileController {
             HttpHeaders headers = new HttpHeaders();
             headers.add("Content-type", Files.probeContentType(filePath));
 
-            System.out.println("resource! : " + resource);
+            log.info("resource! : " + resource);
 
             return new ResponseEntity<Object>(resource, headers, HttpStatus.OK);
 
         } catch (IOException e) {
-            System.out.println("프사 로드 실패");
+            log.info("프사 로드 실패");
             e.printStackTrace();
             return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -110,17 +112,17 @@ public class UserProfileController {
 
     @PutMapping("/update")
     public ResponseEntity<?> updateUserImg(MultipartHttpServletRequest formData) {
-        System.out.println("프로필 사진 수정 들어옴 : " + formData);
+        log.info("프로필 사진 수정 들어옴 : " + formData);
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             ProfileImg profileImg = objectMapper.readValue(formData.getParameter("profileImg"), ProfileImg.class);
             MultipartFile multipartFiles = formData.getFile("imgInfo");
 
-            System.out.println("regist multipartFile : " + multipartFiles);
+            log.info("regist multipartFile : " + multipartFiles);
             Integer tempID = profileImg.getProfileImgId();
 
             // 삭제 후
-            System.out.println("기존 프사 삭제");
+            log.info("기존 프사 삭제");
             fileUtil.deleteFile(profileImg);
             userProfileService.deleteUserProfile(profileImg.getProfileImgId());
 
@@ -128,13 +130,13 @@ public class UserProfileController {
             profileImg.setProfileImgId(tempID);
 
             // 다시 저장
-            System.out.println("새 프사 등록");
+            log.info("새 프사 등록");
             profileImg = fileUtil.storeImg(multipartFiles, profileImg);
             userProfileService.uploadProfile(profileImg);
 
             return new ResponseEntity<ProfileImg>(profileImg, HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println("board uploadImg Controller Error. 프사 업데이트 중 에러");
+            log.info("board uploadImg Controller Error. 프사 업데이트 중 에러");
             e.printStackTrace();
             return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -142,19 +144,19 @@ public class UserProfileController {
 
     @DeleteMapping("/delete")
     public ResponseEntity<?> deleteUserProfile(Integer profileImgId) {
-        System.out.println("기존 프사 삭제");
+        log.info("기존 프사 삭제");
 
         try {
-            System.out.println("기존 프사 삭제 진행 (서버)");
+            log.info("기존 프사 삭제 진행 (서버)");
             ProfileImg profileImg = userProfileService.getProfileImg(profileImgId).get();
             fileUtil.deleteProfileFile(profileImg);
-            System.out.println("기존 프사 삭제 진행 (DB)");
+            log.info("기존 프사 삭제 진행 (DB)");
             userProfileService.deleteUserProfile(profileImgId);
 
-            System.out.println("기존 프사 삭제 성공");
+            log.info("기존 프사 삭제 성공");
             return new ResponseEntity<Void>(HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println("board uploadImg Controller Error. 프사 삭제 중 에러");
+            log.info("board uploadImg Controller Error. 프사 삭제 중 에러");
             e.printStackTrace();
             return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
