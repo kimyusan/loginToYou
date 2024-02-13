@@ -39,13 +39,19 @@ function MessageBox({
 
   useEffect(() => {
     if (!scrollRef.current) return;
-    if (isKeyUp) return;
+    if (isKeyUp) {
+      setSent(false);
+      return;
+    }
     if (sent && scrollRef.current.scrollHeight < window.innerHeight) {
+      console.log(scrollRef.current.scrollHeight);
+
       setIsKeyUp(true);
       scrollRef.current.scrollIntoView({ block: "end" });
       setSent(false);
     } else {
       setIsKeyUp(false);
+      setSent(false);
     }
   }, [sent]);
 
