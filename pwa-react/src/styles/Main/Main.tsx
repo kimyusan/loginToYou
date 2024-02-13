@@ -359,6 +359,8 @@ const SecondSection = styled.div`
       }
       .todays {
         align-self: flex-start;
+        display: flex;
+        flex-direction: column;
         width: 50%;
       }
       .questionDetail {

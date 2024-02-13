@@ -34,14 +34,14 @@ function Carousel({}: Props) {
   };
 
   // 캐러셀 3초마다 넘김
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCounter((prevCounter) =>
-        prevCounter === cards.length - 1 ? 0 : prevCounter + 1
-      );
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [cards.length]);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setCounter((prevCounter) =>
+  //       prevCounter === cards.length - 1 ? 0 : prevCounter + 1
+  //     );
+  //   }, 3000);
+  //   return () => clearInterval(interval);
+  // }, [cards.length]);
 
   return (
     <Wrapper>

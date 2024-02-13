@@ -191,7 +191,7 @@ const CameraSolo: React.FC = () => {
             type="text"
             value={ImageContent}
             onChange={changeContent}
-            maxLength={20}
+            maxLength={9}
           ></SubjectBox>
         </div>
       )}
