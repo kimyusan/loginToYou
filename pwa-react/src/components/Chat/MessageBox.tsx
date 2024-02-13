@@ -9,45 +9,61 @@ import { MessageInterface } from "../../interface/MessageInterface";
 type Props = {
   messages: MessageInterface[];
   userId: number | null;
+  isKeyUp: boolean;
+  setIsKeyUp: (keyUp: boolean) => void;
+  sent: boolean;
+  setSent: (sent: boolean) => void;
 };
 
-function MessageBox({ messages, userId }: Props) {
+function MessageBox({
+  messages,
+  userId,
+  isKeyUp,
+  setIsKeyUp,
+  sent,
+  setSent,
+}: Props) {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [wh, setWh] = useState(0);
-
-  const absolute = () => {
-    if (!scrollRef.current) return;
-    scrollRef.current.style.position = "fixed";
-    scrollRef.current.style.top = `${wh - window.innerHeight}px`;
-    scrollRef.current.style.height = `${window.innerHeight}px`;
-    scrollRef.current.style.overflowY = `auto`;
-    scrollRef.current.scrollTo(0, 99999999);
-  };
-
-  const block = () => {
-    if (!scrollRef.current) return;
-    scrollRef.current.style.position = "block";
-    scrollRef.current.style.height = `auto`;
-    scrollRef.current.style.removeProperty("top");
-  };
+  const { body } = document;
 
   // 채팅방 끝으로 이동
   useEffect(() => {
     if (!scrollRef.current) return;
-    if (scrollRef.current.scrollHeight < wh) {
-      absolute();
+    if (scrollRef.current.scrollHeight < window.innerHeight) {
+      scrollRef.current.scrollTo(0, body.scrollHeight);
     } else {
-      block();
-      scrollRef.current?.scrollIntoView({ block: "end" });
+      scrollRef.current.scrollIntoView({ block: "end" });
+      scrollRef.current.scrollTo(0, scrollRef.current.scrollHeight);
     }
   }, [messages]);
 
   useEffect(() => {
-    setWh(window.innerHeight);
-  }, []);
+    if (!scrollRef.current) return;
+    if (isKeyUp) return;
+    if (sent && scrollRef.current.scrollHeight < window.innerHeight) {
+      setIsKeyUp(true);
+      scrollRef.current.scrollIntoView({ block: "end" });
+      setSent(false);
+    } else {
+      setIsKeyUp(false);
+    }
+  }, [sent]);
+
+  useEffect(() => {
+    if (!scrollRef.current) return;
+    if (!isKeyUp) {
+      scrollRef.current.scrollIntoView({ block: "end" });
+    }
+  }, [isKeyUp]);
 
   return (
-    <MessageWrapper ref={scrollRef} onBlur={block}>
+    <MessageWrapper
+      ref={scrollRef}
+      className={isKeyUp ? "keyup" : undefined}
+      onMouseDown={() => {
+        setIsKeyUp(false);
+      }}
+    >
       {messages.map((message, index) => {
         return userId == message.sendUserId ? (
           <MyMessage key={index}>

@@ -14,20 +14,35 @@ type Props = {
   userId: number | null;
   roomId: string | undefined;
   isOppOn: boolean;
+  isKeyUp: boolean;
+  setIsKeyUp: (up: boolean) => void;
+  setSent: (sent: boolean) => void;
 };
 
-function InputBox({ message, setMessage, client, userId, roomId, isOppOn }: Props) {
+function InputBox({
+  message,
+  setMessage,
+  client,
+  userId,
+  roomId,
+  isOppOn,
+  isKeyUp,
+  setSent,
+  setIsKeyUp,
+}: Props) {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const token = useAuthStore.getState().token;
   const navigate = useNavigate();
 
   const updateMessage = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(event.target.value);
-    inputRef.current?.style.setProperty("height", "auto");
-    inputRef.current?.style.setProperty("height", inputRef.current?.scrollHeight + "px");
+    inputRef.current?.style.setProperty(
+      "height",
+      inputRef.current?.scrollHeight + "px"
+    );
   };
 
-  // // 채팅 전송
+  // 채팅 전송
   const sendChat = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log(isOppOn);
@@ -52,12 +67,17 @@ function InputBox({ message, setMessage, client, userId, roomId, isOppOn }: Prop
       })
     );
     setMessage("");
-    inputRef.current?.style.setProperty("height", "auto");
+    inputRef.current?.style.setProperty("height", "5dvh");
     inputRef.current?.focus();
+    setSent(true);
   };
 
   return (
-    <InputForm onSubmit={sendChat}>
+    <InputForm
+      onSubmit={sendChat}
+      className={isKeyUp ? "keyup" : undefined}
+      $height={inputRef.current ? inputRef.current.scrollHeight : 0}
+    >
       <IconContext.Provider value={{ size: "20px" }}>
         <FaPhone
           onClick={() => {
@@ -66,7 +86,12 @@ function InputBox({ message, setMessage, client, userId, roomId, isOppOn }: Prop
           style={{ marginRight: "5px" }}
         />
       </IconContext.Provider>
-      <textarea rows={1} value={message} onChange={updateMessage} ref={inputRef}></textarea>
+      <textarea
+        rows={1}
+        value={message}
+        onChange={updateMessage}
+        ref={inputRef}
+      ></textarea>
       <button>전송</button>
     </InputForm>
   );
