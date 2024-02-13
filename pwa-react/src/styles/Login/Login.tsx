@@ -87,9 +87,9 @@ const MiddleMsg = styled.div`
 const SnsLogin = styled.div`
   display: flex;
   flex-direction: row;
-  width: 100dvw;
+  justify-content: center;
+  width: 100%;
   height: 10dvh;
-  padding: 0 18.5dvw;
 `;
 
 interface SnsLoginBtn {

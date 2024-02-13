@@ -6,6 +6,7 @@ import useAuthStore from "../../stores/AuthStore";
 import useUserStore from "../../stores/UserStore";
 import useQuestionStore from "../../stores/QuestionStore";
 import { useShallow } from "zustand/react/shallow";
+import { axiosAuth } from "../../util/token";
 
 type Props = {
   // question: string | null;
@@ -52,6 +53,9 @@ const QuestionModal = ({
         }
       )
       .then((res) => {
+        axiosAuth.post(`${PATH}/challenge/add/progress?userId=${user.userId}&type=today_question`)
+          .then((res) => console.log(res.data, "출석체크 성공"))
+          .catch((error) => console.log(error.response))
         handleModal();
       });
   };

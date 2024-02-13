@@ -166,7 +166,7 @@ const Navbar = ({ isOpen, setIsOpen }: Props) => {
             <ListItemText primary="밸런스 게임" />
           </ListItemButton>
 
-          <ListItemButton style={{ height: "6dvh" }}>
+          <ListItemButton style={{ height: "6dvh" }} onClick={() => navigate("/challenge")}>
             <ListItemIcon>
               <DirectionsRunIcon />
             </ListItemIcon>
