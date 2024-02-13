@@ -85,6 +85,7 @@ export const CalendarStore = create(
           })
           .catch((error) => {
             set({ events: [] });
+            set({ eventlist: [] });
             console.log(error.response);
           });
       }, // get API

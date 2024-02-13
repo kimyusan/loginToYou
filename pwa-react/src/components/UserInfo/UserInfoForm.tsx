@@ -10,10 +10,12 @@ import {
 } from "../../styles/UserInfo/UserInfo";
 import useAuthStore from "../../stores/AuthStore";
 import useUserStore from "../../stores/UserStore";
+import { CalendarStore } from "../../stores/CalendarStore";
 import { height } from "@mui/system";
 import { SlEarphones } from "react-icons/sl";
 import { useShallow } from "zustand/react/shallow";
 import { useNavigate } from "react-router-dom";
+import useCoupleStore from "../../stores/CoupleStore";
 
 type Props = {};
 
@@ -50,6 +52,9 @@ const UserInfoForm = (props: Props) => {
       token: state.token,
     }))
   );
+
+  const { postEventToServer, nextId } = CalendarStore();
+  const { coupleId } = useCoupleStore();
 
   // 프로필이미지 input 참조 // Avatar을 클릭하면 연결된 이 input이 열리도록
   const fileInput = useRef<HTMLInputElement>(null);
@@ -107,6 +112,7 @@ const UserInfoForm = (props: Props) => {
       .catch((response) => {
         console.log(response.data);
       });
+
 
     // 프로필 이미지 변경 안함
     if (!profileFile) return;
@@ -217,6 +223,27 @@ const UserInfoForm = (props: Props) => {
       })
       .catch((error) => console.log(error));
   }, []);
+
+  useEffect(()=>{
+    // birthday 수정 시 캘린더에 추가
+    if (user.birthday) {
+      const today = new Date();
+      const mybirth = today.getFullYear()+'-'+user.birthday.split("-")[1]+'-'+user.birthday.split("-")[2]
+      console.log(mybirth)
+      postEventToServer(
+        {
+          calendarId: nextId,
+          coupleId: coupleId as number,
+          userId: user.userId as number,
+          startDate: mybirth,
+          endDate: null,
+          eventType: null,
+          contents: `${user.nickname ? user.nickname : user.name} 생일`,
+        },
+        coupleId as number
+      );
+    }
+  }, [user.birthday])
 
   return (
     <>

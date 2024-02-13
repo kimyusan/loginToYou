@@ -23,6 +23,10 @@ import { useShallow } from "zustand/react/shallow";
 import { axiosAuth } from "../util/token";
 import { GoPersonFill } from "react-icons/go";
 import { BsPeopleFill } from "react-icons/bs";
+import Carousel from "../components/Main/Carousel";
+import ArticleIcon from "@mui/icons-material/Article";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 const Main = () => {
   const theme = useTheme();
@@ -163,61 +167,95 @@ const Main = () => {
       <MenuSection />
       <HeaderSection cp1={cp1} cp2={cp2} cpInfo={cpInfo} />
       <Wrapper>
+        <Carousel />
         <FirstSection>
           <Card
-            className="camera"
+            className={isCameraMode ? "camera clicked" : "camera"}
             onClick={() => {
-              // navigate("/camera");
               setIsCameraMode((prev) => !prev);
+              // navigate("/camera");
             }}
           >
-            <div style={isCameraMode ? { color: "white" } : undefined}>
+            <div
+              className="camera_title"
+              style={isCameraMode ? { color: "white" } : undefined}
+            >
               <p>사진</p>
               <p>찍으러 가기</p>
             </div>
-            <IconContext.Provider value={{ size: "10rem", color: theme.color.sub2 }}>
+            {isCameraMode ? (
+              <ArrowBackIosIcon className="arrow"/>
+            ) : (
+              <ArrowForwardIosIcon className="arrow" sx={{color: "white"}}/>
+            )}
+            <IconContext.Provider
+              value={{ size: "10rem", color: theme.color.sub2 }}
+            >
               <FaCamera
                 className="cameraIcon"
-                style={isCameraMode ? { transform: "rotate(15deg)", color: theme.color.sub3 } : undefined}
+                style={
+                  isCameraMode
+                    ? {
+                        transform: "rotate(15deg)",
+                        color: theme.color.sub3,
+                      }
+                    : undefined
+                }
               />
             </IconContext.Provider>
           </Card>
-          {isCameraMode ? (
-            <>
+
+          <Card
+            className={isCameraMode ? "camera choice show" : "camera choice"}
+            onClick={() => {
+              setIsCameraMode((prev) => !prev);
+            }}
+          >
+            <div className="camera_box">
               <Card
-                className="diary"
+                className="camera_solo"
                 onClick={() => {
                   navigate("/camera/solo");
                 }}
               >
-                <div className="iconLabel">혼자찍기</div>
-                <IconContext.Provider value={{ size: "8rem", color: theme.color.sub3 }}>
-                  <GoPersonFill className="icon" />
+                <div className="iconLabel">같이찍기</div>
+                <p className="camera_des">함께 있을 때</p>
+                <IconContext.Provider
+                  value={{ size: "7rem", color: theme.color.main }}
+                >
+                  <GoPersonFill className="camera_icon" />
                 </IconContext.Provider>
               </Card>
               <Card
-                className="chat"
+                className="camera_couple"
                 onClick={() => {
                   navigate("/camera/couple");
                 }}
               >
-                <div className="iconLabel">같이찍기</div>
-                <IconContext.Provider value={{ size: "8rem", color: theme.color.sub1 }}>
-                  <BsPeopleFill className="icon" />
+                <div className="iconLabel">따로찍기</div>
+                <p className="camera_des">
+                  떨어져 있을 때도,
+                  <p>함께 있는 것처럼</p>
+                </p>
+                <IconContext.Provider
+                  value={{ size: "7rem", color: theme.color.main }}
+                >
+                  <BsPeopleFill className="camera_icon" />
                 </IconContext.Provider>
               </Card>
-            </>
-          ) : (
-            <>
-              <Card className="diary" onClick={goDiary}>
-                <p>다이어리</p>
-              </Card>
-              <Card className="chat" onClick={goChat}>
-                <p className="chat_name">채팅</p>
-                <p className="chat_num">{unreadMessage > 99 ? 99 : unreadMessage}</p>
-              </Card>
-            </>
-          )}
+            </div>
+          </Card>
+
+          <Card className="diary" onClick={goDiary}>
+            <ArticleIcon className="diary_image" />
+            <p>다이어리</p>
+          </Card>
+          <Card className="chat" onClick={goChat}>
+            <p className="chat_name">채팅</p>
+            <p className="chat_num">
+              {unreadMessage > 99 ? 99 : unreadMessage}
+            </p>
+          </Card>
         </FirstSection>
 
         <SecondSection>

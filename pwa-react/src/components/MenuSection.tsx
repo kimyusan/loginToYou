@@ -30,3 +30,4 @@ function MenuSection({}: Props) {
 }
 
 export default MenuSection;
+

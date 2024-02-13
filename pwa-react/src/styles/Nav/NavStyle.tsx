@@ -1,6 +1,9 @@
 import styled from "styled-components";
 
 const NavigationContainer = styled.div<{ $isOpen: boolean }>`
+  div, span {
+    font-family: "Noto Sans KR" !important;
+  }
   width: 80%;
   height: 100%;
   position: fixed;
@@ -14,6 +17,14 @@ const NavigationContainer = styled.div<{ $isOpen: boolean }>`
       return props.theme.color.grey;
     }};
   transition: right 0.3s ease-in-out;
+
+  .list-subheader {
+    background-color: ${(props)=>props.theme.color.lightgrey};
+    font-size: 0.9rem;
+    height: 4dvh;
+    display: flex;
+    align-items: center;
+  }
 `;
 
 const NavigationList = styled.ul`
@@ -21,7 +32,7 @@ const NavigationList = styled.ul`
   padding: 10%;
   margin: 0;
   color: black;
-  position: fixed;
+  /* position: fixed; */
   z-index: 9900;
   li {
     font-size: 1.2rem;

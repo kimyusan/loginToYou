@@ -106,8 +106,19 @@ const CameraBox = styled.div`
   margin-top: "10dvh";
   .myCam {
     position: absolute;
-    width: 15dvh;
+    width: 20dvh;
     z-index: 3 !important;
+  }
+  .none {
+    background-color: #ececec;
+    height: 50dvh;
+    display: flex;
+    justify-content: center;
+  }
+  .none_icon{
+    width: 50%;
+    height: 100%;
+    color: lightgrey;
   }
 `;
 export { GoBack, CallBtn, ReadyBtn, JoinForm, BtnBox, CameraBox };

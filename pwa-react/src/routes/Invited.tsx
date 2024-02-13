@@ -44,7 +44,7 @@ function Invited() {
   useEffect(() => {
     if (!isLogin) navigate("/login", { state: location.pathname });
     if (coupleId !== 0 && coupleId !== null) navigate("/main");
-    if (email == user_email) navigate("/main");
+    if (email == user_email) navigate("/");
     getUserInfo();
   }, []);
 

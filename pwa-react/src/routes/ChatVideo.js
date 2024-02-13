@@ -25,6 +25,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { BtnBox, CameraBox } from "../styles/ChatVideo/Chat";
 import PhoneDisabledIcon from "@mui/icons-material/PhoneDisabled";
 import CameraswitchIcon from "@mui/icons-material/Cameraswitch";
+import VoiceOverOffIcon from "@mui/icons-material/VoiceOverOff";
 
 // 푸시알림 FCM토큰
 import useFCMStore from "../stores/FCMStore";
@@ -399,7 +400,11 @@ export default function App() {
                 <div>
                   <UserVideoComponent streamManager={subscribers[0]} type={0} />
                 </div>
-              ) : null}
+              ) : (
+                <div className="none">
+                  <VoiceOverOffIcon className="none_icon"/>
+                </div>
+              )}
             </CameraBox>
             <BtnBox>
               <span

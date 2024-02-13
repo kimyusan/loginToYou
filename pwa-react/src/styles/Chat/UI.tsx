@@ -20,11 +20,14 @@ export const Header = styled.div`
   backdrop-filter: blur(8px);
 `;
 
-export const InputForm = styled.form`
+interface height {
+  $height: number;
+}
+
+export const InputForm = styled.form<height>`
   position: fixed;
   display: flex;
   justify-content: center;
-  align-items: center;
   padding: 2dvh 5dvw;
   width: 100dvw;
   box-sizing: border-box;
@@ -32,9 +35,14 @@ export const InputForm = styled.form`
   background-color: ${(props) => {
     return props.theme.color.bgColor;
   }};
+  &.keyup {
+    height: ${(props) => `calc(50dvh + ${props.$height}px)`};
+  }
 
   & > textarea {
     width: 70%;
+    height: 5dvh;
+    min-height: 5dvh;
     padding: 10px 20px;
     margin: 0 1dvw;
     box-sizing: border-box;
@@ -51,7 +59,7 @@ export const InputForm = styled.form`
 
   & > button {
     width: 15%;
-    height: 100%;
+    height: 5dvh;
     padding: 10px;
     margin-left: 5px;
     color: black;
@@ -64,6 +72,6 @@ export const InputForm = styled.form`
       ${(props) => {
         return props.theme.color.sub2;
       }};
-    align-self: flex-end;
+    align-self: flex-start;
   }
 `;
