@@ -92,7 +92,7 @@ export default function App() {
             videoSource: undefined,
             publishAudio: true,
             publishVideo: true,
-            resolution: `${window.innerWidth}x${window.innerWidth * (4/3)}`,
+            resolution: `640x480`,
             frameRate: 30,
             insertMode: "APPEND",
             mirror: true,
@@ -324,8 +324,8 @@ export default function App() {
             </IconContext.Provider>
           </Header>
 
-          <div ref={divRef}>
-            <div>
+          <div>
+            <div ref={divRef}>
               {publisher !== undefined ? (
                 <div>
                   <UserVideoComponent streamManager={publisher} />
