@@ -6,14 +6,12 @@ import StopIcon from "@mui/icons-material/Stop";
 // Carousel
 const Wrapper = styled.div`
   margin-bottom: 3%;
+  overflow: hidden;
 `;
 
 const Container = styled.div`
   width: 100dvw;
-  /* border-left: 5dvw solid black;
-  border-right: 5dvw solid black; */
-
-  /* overflow: hidden; */
+  overflow: hidden;
   display: flex;
   justify-content: center;
   flex-direction: column;
