@@ -6,12 +6,9 @@ import {
 } from "../styles/Nav/NavStyle";
 import { useNavigate } from "react-router-dom";
 import useUserStore from "../stores/UserStore";
-
 import useAuthStore from "../stores/AuthStore";
-
-import { useShallow } from "zustand/react/shallow";
 import { axiosAuth } from "../util/token";
-import { BurgerButton } from "../styles/common/hamburger";
+import { useShallow } from "zustand/react/shallow";
 
 import ListSubheader from "@mui/material/ListSubheader";
 import List from "@mui/material/List";
@@ -37,22 +34,18 @@ import SettingsIcon from "@mui/icons-material/Settings";
 
 type Props = {
   isOpen: boolean;
-  setIsNavigationOpen: (open: boolean) => void;
 };
 
-const Navbar = ({ isOpen, setIsNavigationOpen }: Props) => {
+const Navbar = ({ isOpen }: Props) => {
   const navigate = useNavigate();
-  const { userId, coupleId, name, nickname } = useUserStore(
+  const { userId, coupleId } = useUserStore(
     useShallow((state) => ({
       userId: state.userId,
       coupleId: state.coupleId,
-      name: state.name,
-      nickname: state.nickname,
     }))
   );
 
   // 채팅방 이동 시 roomId 조회
-
   const goChat = async () => {
     const res = await axiosAuth.get("/chat/enter", {
       params: { coupleId: coupleId },
@@ -200,3 +193,4 @@ const Navbar = ({ isOpen, setIsNavigationOpen }: Props) => {
 };
 
 export default Navbar;
+
