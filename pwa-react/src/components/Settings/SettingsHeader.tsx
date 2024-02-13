@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Navbar from "../Navbar";
 import { BurgerButton } from "../../styles/common/hamburger";
 import { Header } from "../../styles/Settings/UI";
 import { GoArrowLeft } from "react-icons/go";
@@ -13,7 +12,6 @@ type Props = {
 
 function SettingsHeader({ name, main }: Props) {
   const navigate = useNavigate();
-  const [isNavigationOpen, setIsNavigationOpen] = useState(false);
 
   return (
     <>
@@ -27,9 +25,6 @@ function SettingsHeader({ name, main }: Props) {
         </IconContext.Provider>
         {name ? <div>{name}</div> : null}
       </Header>
-      <Navbar
-        isOpen={isNavigationOpen}
-      />
     </>
   );
 }
