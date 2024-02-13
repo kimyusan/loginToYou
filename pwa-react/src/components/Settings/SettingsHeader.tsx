@@ -29,7 +29,6 @@ function SettingsHeader({ name, main }: Props) {
       </Header>
       <Navbar
         isOpen={isNavigationOpen}
-        setIsNavigationOpen={setIsNavigationOpen}
       />
     </>
   );
