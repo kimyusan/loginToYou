@@ -58,6 +58,10 @@ const Challenge = () => {
       behavior: "smooth"
     });
 
+    axiosAuth.post(`${PATH}/challenge/add/progress?userId=${userId}&type=attendance`)
+      .then((res) => console.log(res.data, "출석체크 성공"))
+      .catch((error) => console.log(error.response))
+
     axiosAuth.get(`${PATH}/challenge/get/challenges?userId=${userId}`)
       .then((res) => {
         setAttendChallenge(res.data.filter((item: any) => item.type === "attendance"))
@@ -77,7 +81,7 @@ const Challenge = () => {
       <Fade>
         <ChallengeSelect>
           {!attendShow ? <div className="item img1" onClick={() => (setAttendShow(true), setDiaryShow(false))}>
-            <div className="main_content">출섹체크</div>
+            <div className="main_content">출석체크</div>
             <div className="sub_content">챌린지</div>
           </div> : <div className="item scroll">
             {attendChallenge.map((challenge: challengeInfo, index) => (

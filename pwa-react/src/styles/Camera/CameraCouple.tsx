@@ -27,12 +27,13 @@ interface height {
   $height: number;
 }
 
-const JoinForm = styled.form<height>`
-  position: fixed;
-  top: ${(props) => `calc(${props.$height}px + 14dvh)`};
-  left: 10dvw;
-  width: 80dvw;
+const JoinForm = styled.form`
+  display: flex;
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 50px;
 `;
+
 const ReadyBtn = styled.input`
   border: 0;
   border-radius: 15px;

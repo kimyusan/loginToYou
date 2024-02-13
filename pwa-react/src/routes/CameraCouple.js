@@ -34,6 +34,7 @@ import useAuthStore from "../stores/AuthStore";
 import useFCMStore from "../stores/FCMStore";
 import SettingsHeader from "../components/Settings/SettingsHeader";
 import { useTheme } from "styled-components";
+import { axiosAuth } from "../util/token";
 
 const APPLICATION_SERVER_URL = "https://logintoyou.kro.kr:8080/openvidu/";
 
@@ -231,6 +232,11 @@ export default function App() {
           })
           .then((res) => {
             console.log("사진 저장 성공");
+
+            axiosAuth.post(`${PATH}/challenge/add/progress?userId=${userId}&type=diary`)
+              .then((res) => console.log(res.data, "다이어리 챌린지 진행률 증가"))
+              .catch((error) => console.log("실패 ㅠ", error))
+            
             leaveSession();
             setWebCamVisible(false);
             navigate("/diary");
@@ -282,13 +288,11 @@ export default function App() {
                 width: window.innerWidth,
                 height: window.innerWidth * 1.5,
                 transform: "scaleX(-1)",
-                position: "fixed",
-                top: "8dvh",
                 objectFit: "cover",
               }}
             />
           )}
-          <JoinForm onSubmit={joinSession} $height={window.innerWidth * 1.5}>
+          <JoinForm onSubmit={joinSession}>
             <input
               type="text"
               value={myUserName}
