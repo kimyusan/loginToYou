@@ -74,14 +74,17 @@ const Navbar = ({ isOpen, setIsOpen }: Props) => {
             </ListSubheader>
           }
         >
-          <ListItemButton onClick={() => navigate("/")}>
+          <ListItemButton
+            onClick={() => navigate("/")}
+            style={{ height: "6dvh" }}
+          >
             <ListItemIcon>
               <HomeIcon />
             </ListItemIcon>
             <ListItemText primary="홈으로" />
           </ListItemButton>
 
-          <ListItemButton onClick={handleClick}>
+          <ListItemButton onClick={handleClick} style={{ height: "6dvh" }}>
             <ListItemIcon>
               <CameraAltIcon />
             </ListItemIcon>
@@ -94,6 +97,7 @@ const Navbar = ({ isOpen, setIsOpen }: Props) => {
               <ListItemButton
                 sx={{ pl: 4 }}
                 onClick={() => navigate("/camera/solo")}
+                style={{ height: "6dvh" }}
               >
                 <ListItemIcon>
                   <PhotoCameraBackIcon />
@@ -105,6 +109,7 @@ const Navbar = ({ isOpen, setIsOpen }: Props) => {
               <ListItemButton
                 sx={{ pl: 4 }}
                 onClick={() => navigate("/camera/couple")}
+                style={{ height: "6dvh" }}
               >
                 <ListItemIcon>
                   <SwitchCameraIcon />
@@ -114,42 +119,54 @@ const Navbar = ({ isOpen, setIsOpen }: Props) => {
             </List>
           </Collapse>
 
-          <ListItemButton onClick={() => navigate("/diary")}>
+          <ListItemButton
+            onClick={() => navigate("/diary")}
+            style={{ height: "6dvh" }}
+          >
             <ListItemIcon>
               <EditNoteIcon />
             </ListItemIcon>
             <ListItemText primary="다이어리" />
           </ListItemButton>
 
-          <ListItemButton onClick={goChat}>
+          <ListItemButton onClick={goChat} style={{ height: "6dvh" }}>
             <ListItemIcon>
               <MarkChatUnreadIcon />
             </ListItemIcon>
             <ListItemText primary="채팅" />
           </ListItemButton>
 
-          <ListItemButton onClick={() => navigate("/calendar")}>
+          <ListItemButton
+            onClick={() => navigate("/calendar")}
+            style={{ height: "6dvh" }}
+          >
             <ListItemIcon>
               <CalendarMonthIcon />
             </ListItemIcon>
             <ListItemText primary="캘린더" />
           </ListItemButton>
 
-          <ListItemButton onClick={() => navigate("/question")}>
+          <ListItemButton
+            onClick={() => navigate("/question")}
+            style={{ height: "6dvh" }}
+          >
             <ListItemIcon>
               <QuizIcon />
             </ListItemIcon>
             <ListItemText primary="오늘의 질문" />
           </ListItemButton>
 
-          <ListItemButton onClick={() => navigate("/balancegame")}>
+          <ListItemButton
+            onClick={() => navigate("/balancegame")}
+            style={{ height: "6dvh" }}
+          >
             <ListItemIcon>
               <BalanceIcon />
             </ListItemIcon>
             <ListItemText primary="밸런스 게임" />
           </ListItemButton>
 
-          <ListItemButton>
+          <ListItemButton style={{ height: "6dvh" }}>
             <ListItemIcon>
               <DirectionsRunIcon />
             </ListItemIcon>
@@ -167,14 +184,20 @@ const Navbar = ({ isOpen, setIsOpen }: Props) => {
             </ListSubheader>
           }
         >
-          <ListItemButton onClick={() => navigate(`/user_info/${userId}`)}>
+          <ListItemButton
+            onClick={() => navigate(`/user_info/${userId}`)}
+            style={{ height: "6dvh" }}
+          >
             <ListItemIcon>
               <ManageAccountsIcon />
             </ListItemIcon>
             <ListItemText primary="회원 정보 수정" />
           </ListItemButton>
 
-          <ListItemButton onClick={() => navigate("/settings")}>
+          <ListItemButton
+            onClick={() => navigate("/settings")}
+            style={{ height: "6dvh" }}
+          >
             <ListItemIcon>
               <SettingsIcon />
             </ListItemIcon>
