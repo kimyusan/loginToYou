@@ -164,7 +164,7 @@ const CameraSolo: React.FC = () => {
     <div>
       <SettingsHeader name={"혼자찍기"} />
 
-      <CameraBox ref={divRef}>
+      <CameraBox>
         {time > 0 ? <TimerText $height={window.innerWidth * 1.5}><div>{time}</div> </TimerText> : null}
         {imgSrc === "" ? (
           <>
@@ -188,15 +188,16 @@ const CameraSolo: React.FC = () => {
           </>
         ) : (
           <img
+            ref={divRef}
             src={imgSrc}
             alt="사진입니다"
-            style={{ transform: useFrontCamera ? "scaleX(-1)" : "scaleX(1)", marginBottom: "30px", objectFit: "cover" }}
+            style={{ transform: useFrontCamera ? "scaleX(-1)" : "scaleX(1)", objectFit: "cover", height: "100%" }}
           ></img>
         )}
       </CameraBox>
 
       {photo ? null : (
-        <div style={{ display: "flex", justifyContent: "center" }}>
+        <div style={{ display: "flex", justifyContent: "center", marginTop: "30px" }}>
           <SubjectBox
             placeholder="사진에 메모를 남겨주세요!"
             type="text"
