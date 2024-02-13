@@ -73,7 +73,7 @@ public class JWTFilter extends OncePerRequestFilter {
 
         user.setEmail(username);
 
-        System.out.println("jwt 필터" + username);
+        log.info("jwt 필터" + username);
         CustomUserDetails customUserDetails = new CustomUserDetails(user);
 
         Authentication authToken = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());

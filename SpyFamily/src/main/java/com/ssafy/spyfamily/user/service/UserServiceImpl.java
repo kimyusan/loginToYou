@@ -88,13 +88,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void withdrawal(Integer userId) {
-        System.out.println("1");
+        log.info("1");
         User deleteUser = userRepository.findByUserId(userId);
         Integer coupleId = deleteUser.getCoupleId();
         Couple couple = coupleRepository.findByCoupleId(coupleId);
 
-        System.out.println(deleteUser.toString());
-        System.out.println("couple Id :" + coupleId);
+        log.info(deleteUser.toString());
+        log.info("couple Id :" + coupleId);
 
         // 커플 상대방 아이디 추적하기
         Integer otherUserId = 0;
@@ -104,31 +104,31 @@ public class UserServiceImpl implements UserService {
             otherUserId = couple.getSUserId();
         }
 
-        System.out.println("otherUser Id : " + otherUserId);
+        log.info("otherUser Id : " + otherUserId);
         // 상대방 객체
         User otherUser = userRepository.findByUserId(otherUserId);
         otherUser.setCoupleId(null);
 
-        System.out.println(otherUser.toString());
+        log.info(otherUser.toString());
 
         // 커플 id 지우고 유저 정보 갱신
         userRepository.save(otherUser);
         String chatRoomId = chatRoomRepo.findByCoupleId(coupleId).getRoomId();
-        System.out.println("chatRoomId : " + chatRoomId);
+        log.info("chatRoomId : " + chatRoomId);
 
         // 채팅방, 채팅 내역 지우기
         chatMessageRepository.deleteByRoomId(chatRoomId);
         chatRoomRepo.deleteByCoupleId(coupleId);
 
-        System.out.println("채팅방 삭제");
+        log.info("채팅방 삭제");
 
         // 캘린더 삭제
         calendarRepository.deleteByCoupleId(coupleId);
-        System.out.println("캘린더 삭제");
+        log.info("캘린더 삭제");
 
         // 다이어리 메모 삭제
         diaryMemoRepository.deleteByCoupleId(coupleId);
-        System.out.println("다이어리 메모 삭제");
+        log.info("다이어리 메모 삭제");
 
         // 다이어리 전부 삭제
         ArrayList<Diary> list = diaryRepository.findByCoupleId(coupleId);
@@ -137,48 +137,48 @@ public class UserServiceImpl implements UserService {
                 fileUtil.deleteFile(d);
             } catch (Exception e) {
                 e.printStackTrace();
-                System.out.println("파일 삭제 실패");
+                log.info("파일 삭제 실패");
             }
         }
         diaryRepository.deleteByCoupleId(coupleId);
 
-        System.out.println("다이어리 전부 삭제됨");
+        log.info("다이어리 전부 삭제됨");
 
         // 커플질문 삭제
         coupleTodayQuestionRepository.deleteByCoupleId(coupleId);
-        System.out.println("커플 질문 삭제");
+        log.info("커플 질문 삭제");
 
         // 프로필 사진 삭제
         Long count = userProfileService.existImgCount(userId);
 
         if(count != 0) {
             ProfileImg profileImg = userProfileService.getUserProfile(userId);
-            System.out.println("프로필 사진이 있는경우입니다.");
+            log.info("프로필 사진이 있는경우입니다.");
             userProfileService.deleteUserProfile(profileImg.getProfileImgId());
             try {
                 fileUtil.deleteProfileFile(profileImg);
-                System.out.println("프로필 삭제 성공");
+                log.info("프로필 삭제 성공");
             } catch (Exception e) {
                 e.printStackTrace();
-                System.out.println("프로필 삭제 실패 ㅠㅠ");
+                log.info("프로필 삭제 실패 ㅠㅠ");
             }
         } else {
-            System.out.println("프로필 사진이 없음");
+            log.info("프로필 사진이 없음");
         }
 
         // 밸런스 게임 삭제
-        System.out.println("밸런스 게임 삭제");
+        log.info("밸런스 게임 삭제");
         balanceService.deleteByUserId(userId);
 
         // TODO: 챌린지 삭제
 
         // 유저 삭제
         userRepository.deleteByUserId(userId);
-        System.out.println("유저 삭제");
+        log.info("유저 삭제");
 
         // 커플 삭제
         coupleRepository.deleteByCoupleId(coupleId);
-        System.out.println("커플 삭제");
+        log.info("커플 삭제");
     }
 
 
@@ -270,11 +270,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User userUpdatePassword(Integer userId, String password) {
 
-        System.out.println("비밀번호 수정");
+        log.info("비밀번호 수정");
         User new_user = userRepository.findByUserId(userId);
         new_user.setPassword(passwordEncoder.encode(password));
 
-        System.out.println(new_user.toString());
+        log.info(new_user.toString());
 
         return userRepository.save(new_user);
     }

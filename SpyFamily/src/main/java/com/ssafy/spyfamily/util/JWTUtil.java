@@ -109,7 +109,7 @@ public class JWTUtil {
     private Jws<Claims> getClaims(String jwt) {
         try {
 
-            System.out.println("validateToken" +jwt);
+            log.info("validateToken" +jwt);
             return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt);
         } catch (SignatureException ex) {
             log.error("Invalid JWT signature");

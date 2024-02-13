@@ -43,7 +43,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String username = obtainUsername(request);
         String password = obtainPassword(request);
 
-        System.out.println(username);
+        log.info(username);
 
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password, null);
 
@@ -67,7 +67,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         //유저 정보를 받아온다
         User user = userRepository.findByEmail(username);
-        System.out.println("로그인필터 유저 정보" + user.toString());
+        log.info("로그인필터 유저 정보" + user.toString());
 
         Integer coupleId = customUserDetails.getCoupleId();
 

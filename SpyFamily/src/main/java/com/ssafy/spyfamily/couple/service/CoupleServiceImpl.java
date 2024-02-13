@@ -4,6 +4,7 @@ import com.ssafy.spyfamily.couple.model.Couple;
 import com.ssafy.spyfamily.couple.repository.CoupleRepository;
 import com.ssafy.spyfamily.user.model.User;
 import com.ssafy.spyfamily.user.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class CoupleServiceImpl implements CoupleService{
 
@@ -51,7 +53,7 @@ public class CoupleServiceImpl implements CoupleService{
         userRepository.save(userA_info);
         userRepository.save(userB_info);
 
-        System.out.println("유저 정보 저장 완료");
+        log.info("유저 정보 저장 완료");
 
         return couple;
     }

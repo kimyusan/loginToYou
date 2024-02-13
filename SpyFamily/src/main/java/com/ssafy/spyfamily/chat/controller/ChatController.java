@@ -47,25 +47,4 @@ public class ChatController {
         chatService.save(message);
     }
 
-    //    @MessageMapping("/chat/message")
-//    public void message(ChatMessage message, @Header("Authorization") String authorization) {
-//
-//        System.out.println("/chat/message 입장");
-//        String[] token = authorization.split(" ");
-//        String nicname = jwtUtil.getUsername(token[1]);
-//
-//        System.out.println(message.toString());
-//
-//        //System.out.println(nicname);
-//        if (ChatMessage.MessageType.ENTER.equals(message.getType())) {
-//            message.setMessage(nicname + "님이 입장하셨습니다.");
-//
-//            chatService.readUser(message.getRoomId(), message.getSendUserId());
-//        }
-//
-//
-//        messagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
-//
-//        chatService.save(message);
-//    }
 }

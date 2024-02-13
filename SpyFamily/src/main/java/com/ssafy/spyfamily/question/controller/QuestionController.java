@@ -4,6 +4,7 @@ package com.ssafy.spyfamily.question.controller;
 import com.ssafy.spyfamily.couple.service.CoupleServiceImpl;
 import com.ssafy.spyfamily.question.model.CoupleTodayQuestion;
 import com.ssafy.spyfamily.question.service.QuestionServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 
+@Slf4j
 @RestController()
 @RequestMapping(value = "/question", produces = "application/json")
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE}, maxAge = 6000)
@@ -43,17 +45,17 @@ public class QuestionController {
                 totalDays += firstDayOfMonth.lengthOfMonth();
             }
 
-            System.out.println("오늘 날짜를 일수로 변환하면 : " + totalDays);
+            log.info("오늘 날짜를 일수로 변환하면 : " + totalDays);
 
             String answer = questionService.getQuestion(totalDays).getQuestion();
 
-            System.out.println("질문 받기");
-            System.out.println(answer);
+            log.info("질문 받기");
+            log.info(answer);
 
             return new ResponseEntity<String>(answer, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("질문 받아오기 에러");
+            log.info("질문 받아오기 에러");
             return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -62,15 +64,15 @@ public class QuestionController {
     @PostMapping("/save")
     public ResponseEntity<?> saveQuestion(@RequestBody CoupleTodayQuestion coupleTodayQuestion) {
         try {
-            System.out.println("질문 저장들어옴");
-            System.out.println(coupleTodayQuestion.toString());
+            log.info("질문 저장들어옴");
+            log.info(coupleTodayQuestion.toString());
             questionService.saveQuestion(coupleTodayQuestion);
 
-            System.out.println("질문 저장 성공");
+            log.info("질문 저장 성공");
             return new ResponseEntity<Void>(HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("질문 저장 실패");
+            log.info("질문 저장 실패");
             return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -79,14 +81,14 @@ public class QuestionController {
     @PutMapping("/update")
     public ResponseEntity<?> updateQuestion(@RequestBody CoupleTodayQuestion coupleTodayQuestion) {
         try {
-            System.out.println("질문 수정들어옴");
+            log.info("질문 수정들어옴");
             questionService.updateQuestion(coupleTodayQuestion);
 
-            System.out.println("질문 수정 성공");
+            log.info("질문 수정 성공");
             return new ResponseEntity<Void>(HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("질문 수정 실패");
+            log.info("질문 수정 실패");
             return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -98,18 +100,18 @@ public class QuestionController {
             @RequestParam Integer userId) {
 
         try {
-            System.out.println("질문 대답 불러오기");
+            log.info("질문 대답 불러오기");
             CoupleTodayQuestion coupleTodayQuestion =
                     questionService.getCoupleTodayQuestionById(todayQuestionId, userId);
 
-            System.out.println("질문 대답 불러오기 성공");
-//            System.out.println(coupleTodayQuestion.toString());
+            log.info("질문 대답 불러오기 성공");
+//            log.info(coupleTodayQuestion.toString());
 
             return new ResponseEntity<CoupleTodayQuestion>(coupleTodayQuestion, HttpStatus.OK);
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("질문 대답 불러오기 실패");
+            log.info("질문 대답 불러오기 실패");
             return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -118,18 +120,18 @@ public class QuestionController {
     @GetMapping("/get/answers")
     public ResponseEntity<?> getQuestionAnswers(@RequestParam Integer coupleId) {
         try {
-            System.out.println("질문 대답 전체 불러오기");
+            log.info("질문 대답 전체 불러오기");
 
             ArrayList<CoupleTodayQuestion> list = questionService.getQuestionAnswers(coupleId);
 
-            System.out.println("질문 대답 목록 불러오기 성공");
-            System.out.println(list);
+            log.info("질문 대답 목록 불러오기 성공");
+            log.info(list.toString());
 
             return new ResponseEntity<ArrayList<CoupleTodayQuestion>>(list, HttpStatus.OK);
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("질문 대답 전체 불러오기 실패");
+            log.info("질문 대답 전체 불러오기 실패");
             return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 

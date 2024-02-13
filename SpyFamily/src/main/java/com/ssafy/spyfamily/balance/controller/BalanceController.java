@@ -26,7 +26,7 @@ public class BalanceController {
     @GetMapping("/get")
     public ResponseEntity<?> getBalance(@RequestParam String dateString) {
         try {
-            System.out.println("밸런스 게임 질문 받기");
+            log.info("밸런스 게임 질문 받기");
             // 날짜 변환
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
             LocalDate date = LocalDate.parse(dateString, formatter);
@@ -41,14 +41,14 @@ public class BalanceController {
                 totalDays += firstDayOfMonth.lengthOfMonth();
             }
 
-            System.out.println("오늘 날짜를 일수로 변환하면 : " + totalDays);
+            log.info("오늘 날짜를 일수로 변환하면 : " + totalDays);
 
             BalanceGame balanceGame = balanceService.getBalance(totalDays);
 
             return new ResponseEntity<BalanceGame>(balanceGame,HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("밸런스 게임 질문 받기 실패");
+            log.info("밸런스 게임 질문 받기 실패");
             return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -58,11 +58,11 @@ public class BalanceController {
                                               @RequestParam Integer BalanceGameId) {
         try {
             CoupleBalanceGame coupleBalanceGame = balanceService.getBalanceAnswer(userId, BalanceGameId);
-            System.out.println("커플 대답 불러오기");
+            log.info("커플 대답 불러오기");
 
             return new ResponseEntity<CoupleBalanceGame>(coupleBalanceGame, HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println("밸런스 게임 대답 불러오기 실패");
+            log.info("밸런스 게임 대답 불러오기 실패");
             e.printStackTrace();
             return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -71,13 +71,13 @@ public class BalanceController {
     @PostMapping("/save")
     public ResponseEntity<?> saveBalanceAnswer(@RequestBody CoupleBalanceGame coupleBalanceGame) {
         try {
-            System.out.println("저장 들어옴");
+            log.info("저장 들어옴");
             CoupleBalanceGame savedCoupleBalanceGame = balanceService.saveBalance(coupleBalanceGame);
 
-            System.out.println("저장 성공");
+            log.info("저장 성공");
             return new ResponseEntity<CoupleBalanceGame>(savedCoupleBalanceGame, HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println("저장 실패");
+            log.info("저장 실패");
             return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

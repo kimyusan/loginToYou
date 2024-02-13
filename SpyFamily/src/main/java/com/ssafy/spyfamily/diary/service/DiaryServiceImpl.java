@@ -5,6 +5,7 @@ import com.ssafy.spyfamily.diary.model.DiaryMemo;
 import com.ssafy.spyfamily.diary.repository.DiaryMemoRepository;
 import com.ssafy.spyfamily.diary.repository.DiaryRepository;
 import com.ssafy.spyfamily.util.FileUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class DiaryServiceImpl implements DiaryService{
 
@@ -32,8 +34,8 @@ public class DiaryServiceImpl implements DiaryService{
     @Override
     public ArrayList<DiaryMemo> getDiaryMemo(Integer coupleId, String registerDate) {
 
-        System.out.println("coupleId : " + coupleId);
-        System.out.println("registerDate  : " + registerDate);
+        log.info("coupleId : " + coupleId);
+        log.info("registerDate  : " + registerDate);
 
         ArrayList<DiaryMemo> list = diaryMemoRepository.findByCoupleIdAndRegisterDate(coupleId, registerDate);
 
@@ -44,8 +46,8 @@ public class DiaryServiceImpl implements DiaryService{
             list.add(new DiaryMemo());
         }
 
-        System.out.println("getDiaryMemo");
-        System.out.println(list);
+        log.info("getDiaryMemo");
+        log.info(list.toString());
 
         return list;
     }
@@ -88,8 +90,8 @@ public class DiaryServiceImpl implements DiaryService{
                     ArrayList<Diary> list
                             = diaryRepository.findByCoupleIdAndRegisterDate(diary.getCoupleId(), diary.getRegisterDate());
 
-                    System.out.println("그날 다이어리 리스트 불러오기 성공");
-                    System.out.println(list);
+                    log.info("그날 다이어리 리스트 불러오기 성공");
+                    log.info(list.toString());
 
                     if (list.size() != 0) {
                         for(int i = 0; i < list.size(); i++) {
@@ -99,36 +101,36 @@ public class DiaryServiceImpl implements DiaryService{
                                 break;
                             }
                         }
-                        System.out.println("썸네일 갱신 성공");
+                        log.info("썸네일 갱신 성공");
                     }
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    System.out.println("썸네일 갱신 실패");
+                    log.info("썸네일 갱신 실패");
                     return;
                 }
             }
 
             fileUtil.deleteFile(diary);
-            System.out.println("다이어리 사진 삭제(서버) 성공");
+            log.info("다이어리 사진 삭제(서버) 성공");
             diaryRepository.deleteById(diaryId);
-            System.out.println("다이어리 사진 삭제 단계(DB) 성공");
+            log.info("다이어리 사진 삭제 단계(DB) 성공");
 
-            System.out.println("삭제후 해당 날짜의 다이어리 개수 찾기");
+            log.info("삭제후 해당 날짜의 다이어리 개수 찾기");
             Long count = diaryMemoRepository.countByCoupleIdAndRegisterDate(diary.getCoupleId(), diary.getRegisterDate());
 
             if (count == 0) {
-                System.out.println("사진이 남아있지 않다면");
+                log.info("사진이 남아있지 않다면");
                 // 메모 삭제
                 diaryMemoRepository.deleteByCoupleIdAndRegisterDate(diary.getCoupleId(), diary.getRegisterDate());
             } else {
-                System.out.println("남겨진 다이어리 개수 : " + count);
+                log.info("남겨진 다이어리 개수 : " + count);
             }
 
-            System.out.println("성공적 삭제");
+            log.info("성공적 삭제");
 
         } catch (IOException e) {
-            System.out.println("다이어리 사진 실패");
+            log.info("다이어리 사진 실패");
             throw new RuntimeException(e);
         }
     }
