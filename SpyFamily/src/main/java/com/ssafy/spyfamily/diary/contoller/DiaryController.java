@@ -63,13 +63,13 @@ public class DiaryController {
     public ResponseEntity<?> getDiaryMemo(@RequestParam Integer coupleId,
                                           @RequestParam String registerDate) {
         try {
-            System.out.println("다이어리 메모 불러오기");
+            log.info("다이어리 메모 불러오기");
             ArrayList<DiaryMemo> list = diaryService.getDiaryMemo(coupleId, registerDate);
-            System.out.println("다이어리 메모 불러오기 성공");
+            log.info("다이어리 메모 불러오기 성공");
             return new ResponseEntity<ArrayList<DiaryMemo>>(list, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("다이어리 메모 불러오기 실패");
+            log.info("다이어리 메모 불러오기 실패");
             return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -77,13 +77,13 @@ public class DiaryController {
     @PutMapping("/memo/update")
     public ResponseEntity<?> updateDiaryMemo(@RequestBody DiaryMemo diaryMemo) {
         try {
-            System.out.println("다이어리 메모 업데이트");
+            log.info("다이어리 메모 업데이트");
             diaryService.updateDiaryMemo(diaryMemo);
-            System.out.println("다이어리 메모 업데이트 성공");
+            log.info("다이어리 메모 업데이트 성공");
             return new ResponseEntity<Void>(HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("다이어리 메모 업데이트 실패");
+            log.info("다이어리 메모 업데이트 실패");
             return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -91,13 +91,13 @@ public class DiaryController {
     @DeleteMapping("/memo/delete")
     public ResponseEntity<?> deleteDiaryMemo(@RequestParam Integer diaryMemoId) {
         try {
-            System.out.println("다이어리 메모 삭제");
+            log.info("다이어리 메모 삭제");
             diaryService.deleteDiaryMemo(diaryMemoId);
-            System.out.println("다이어리 메모 성공");
+            log.info("다이어리 메모 성공");
             return new ResponseEntity<Void>(HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("다이어리 메모 실패");
+            log.info("다이어리 메모 실패");
             return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -105,13 +105,13 @@ public class DiaryController {
 
     @PostMapping("/upload")
     public ResponseEntity<?> diaryUpload(MultipartHttpServletRequest formData) {
-        System.out.println("이미지 등록 들어옴 : " + formData);
+        log.info("이미지 등록 들어옴 : " + formData);
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             Diary diary = objectMapper.readValue(formData.getParameter("diary"), Diary.class);
             MultipartFile multipartFiles = formData.getFile("imgInfo");
 
-            System.out.println("regist multipartFile : " + multipartFiles);
+            log.info("regist multipartFile : " + multipartFiles);
 
             String diary_date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
             Integer count = diaryService.countDiary(diary.getCoupleId(), diary_date);
@@ -126,7 +126,7 @@ public class DiaryController {
 
             return new ResponseEntity<Void>(HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println("board uploadImg Controller Error");
+            log.info("board uploadImg Controller Error");
             e.printStackTrace();
             return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -151,7 +151,7 @@ public class DiaryController {
             HttpHeaders headers = new HttpHeaders();
             headers.add("Content-type", Files.probeContentType(filePath));
 
-            System.out.println("resource! : " + resource);
+            log.info("resource! : " + resource);
 
             return new ResponseEntity<Object>(resource, headers, HttpStatus.OK);
 
@@ -167,7 +167,7 @@ public class DiaryController {
         try {
             diaryService.deleteDiary(diaryId);
 
-            System.out.println("다이어리 사진 삭제 성공");
+            log.info("다이어리 사진 삭제 성공");
             return new ResponseEntity<Void>(HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -186,20 +186,20 @@ public class DiaryController {
             @RequestParam Integer diaryId, @RequestParam Integer newDiaryId) {
 
         try {
-            System.out.println("썸네일 수정");
+            log.info("썸네일 수정");
             Diary old_diary = diaryService.getDiary(diaryId).get();
             Diary new_diary = diaryService.getDiary(newDiaryId).get();
-            System.out.println("썸네일 수정 : 객체 받기");
+            log.info("썸네일 수정 : 객체 받기");
 
             old_diary.setIsThumbnail(0);
             new_diary.setIsThumbnail(1);
 
-            System.out.println("썸네일 수정 : 객체 수정");
+            log.info("썸네일 수정 : 객체 수정");
             diaryService.uploadDiary(old_diary);
             diaryService.uploadDiary(new_diary);
-            System.out.println("썸네일 수정 : 객체 수정 성공");
-            System.out.println("old_diary : " + old_diary.toString());
-            System.out.println("new_diary : " + new_diary.toString());
+            log.info("썸네일 수정 : 객체 수정 성공");
+            log.info("old_diary : " + old_diary.toString());
+            log.info("new_diary : " + new_diary.toString());
 
 
             return new ResponseEntity<Void>(HttpStatus.OK);

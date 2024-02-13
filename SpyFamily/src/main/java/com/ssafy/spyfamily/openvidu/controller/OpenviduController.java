@@ -2,6 +2,7 @@ package com.ssafy.spyfamily.openvidu.controller;
 
 import io.openvidu.java.client.*;
 import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+@Slf4j
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE}, maxAge = 6000)
 @RestController
 @RequestMapping(value = "/openvidu")
@@ -34,8 +36,8 @@ public class OpenviduController {
     @PostMapping("/api/sessions")
     public ResponseEntity<String> initializeSession(@RequestBody(required = false) Map<String, Object> params)
             throws OpenViduJavaClientException, OpenViduHttpException {
-        System.out.println("api/sessions 들어옴");
-        System.out.println(params.toString());
+        log.info("api/sessions 들어옴");
+        log.info(params.toString());
         SessionProperties properties = SessionProperties.fromJson(params).build();
         Session session = openvidu.createSession(properties);
         return new ResponseEntity<>(session.getSessionId(), HttpStatus.OK);

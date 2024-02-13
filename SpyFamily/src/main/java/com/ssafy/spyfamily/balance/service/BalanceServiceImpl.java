@@ -4,6 +4,7 @@ import com.ssafy.spyfamily.balance.model.BalanceGame;
 import com.ssafy.spyfamily.balance.model.CoupleBalanceGame;
 import com.ssafy.spyfamily.balance.repository.BalanceRepository;
 import com.ssafy.spyfamily.balance.repository.CoupleBalanceRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
+@Slf4j
 public class BalanceServiceImpl implements BalanceService{
 
     private final BalanceRepository balanceRepository;
@@ -42,11 +44,11 @@ public class BalanceServiceImpl implements BalanceService{
                 coupleBalanceGame.getBalanceGameId()
         );
 
-        System.out.println("해당 유저의 응답결과 수(0 또는 1 정상) : " + count);
+        log.info("해당 유저의 응답결과 수(0 또는 1 정상) : " + count);
 
         // 처음 등록할때
         if (count == 0) {
-            System.out.println("처음 등록할 때");
+            log.info("처음 등록할 때");
             if (Objects.equals(balanceGame.getSItem(), coupleBalanceGame.getUserVote())) {
                 balanceGame.setSVote(balanceGame.getSVote() + 1);
             } else {
@@ -56,7 +58,7 @@ public class BalanceServiceImpl implements BalanceService{
 
             return coupleBalanceRepository.save(coupleBalanceGame);
         } else {    // 두번째 등록할때(수정)
-            System.out.println("두번 째 등록할 때");
+            log.info("두번 째 등록할 때");
             CoupleBalanceGame temp = coupleBalanceRepository.findByBalanceGameIdAndUserId(
                     coupleBalanceGame.getUserId(),
                     coupleBalanceGame.getBalanceGameId()
@@ -79,15 +81,15 @@ public class BalanceServiceImpl implements BalanceService{
 
                     balanceGame.setSVote(balanceGame.getSVote() + 1);
                 }
-                System.out.println("질문지 저장");
+                log.info("질문지 저장");
                 balanceRepository.save(balanceGame);
-                System.out.println("수정된값 DB에 저장");
+                log.info("수정된값 DB에 저장");
 
                 coupleBalanceGame.setCoupleBalanceGameId(temp.getCoupleBalanceGameId());
 
                 return coupleBalanceRepository.save(coupleBalanceGame);
             } else {
-                System.out.println("값이 변경되지 않았는데요?");
+                log.info("값이 변경되지 않았는데요?");
 
                 return coupleBalanceGame;
             }
@@ -99,7 +101,7 @@ public class BalanceServiceImpl implements BalanceService{
     @Override
     public void deleteByUserId(Integer userId) {
         List<CoupleBalanceGame> coupleBalanceGames = coupleBalanceRepository.findByUserId(userId);
-        System.out.println("밸런스 게임 결과 삭제 시행 횟수 : " + coupleBalanceGames.size());
+        log.info("밸런스 게임 결과 삭제 시행 횟수 : " + coupleBalanceGames.size());
         for (CoupleBalanceGame coupleBalanceGame : coupleBalanceGames) {
             // CoupleBalanceGame 삭제
             coupleBalanceRepository.delete(coupleBalanceGame);
