@@ -127,7 +127,7 @@ public class ChatRoomController {
 
     //채팅 불러오기
     @GetMapping("/load")
-    public ResponseEntity<?> loadMessage(@RequestParam String roomId){
+    public ResponseEntity<?> loadMessage(@RequestParam String roomId) throws Exception{
 
         List<ChatMessage> chatMessages = chatService.loadMessage(roomId);
 

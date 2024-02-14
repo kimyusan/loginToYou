@@ -33,7 +33,7 @@ public class ChatController {
 
 
     @MessageMapping("/chat/message")
-    public void message(ChatMessage message) {
+    public void message(ChatMessage message)  throws  Exception{
         log.info("/chat/message 실행" + message.toString());
 
         // 유저가 입장했을때 이전 채팅 읽음 처리
