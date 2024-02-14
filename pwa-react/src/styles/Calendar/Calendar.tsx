@@ -3,6 +3,7 @@ import Modal from "react-modal";
 import { TextField } from "@mui/material";
 
 const Wrapper = styled.div`
+  padding-top: 5dvh;
   .fiSDCT {
     padding-bottom: 7% !important;
   }
