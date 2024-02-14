@@ -18,20 +18,22 @@ self.addEventListener("push", function (e) {
     body: resultData.body,
     icon: resultData.image,
     tag: resultData.tag,
+    data: e.data.json().data["gcm.notification.data"]
+    ,
     ...resultData,
   };
   console.log("push: ", { resultData, notificationTitle, notificationOptions });
   if (notificationOptions.tag === "true") {
-    console.log('푸시알림 받겠삼')
+    console.log("푸시알림 받겠삼");
     self.registration.showNotification(notificationTitle, notificationOptions);
   } else {
-    console.log('푸시알림이 꺼져있삼')
+    console.log("푸시알림이 꺼져있삼");
   }
 });
 
 self.addEventListener("notificationclick", function (event) {
   console.log("notification click");
-  const url = "/";
+  console.log(event.notification.data);
   event.notification.close();
-  event.waitUntil(clients.openWindow(url));
+  event.waitUntil(clients.openWindow(event.notification.data));
 });

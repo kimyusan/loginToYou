@@ -268,6 +268,7 @@ export default function App() {
           title: "❤너에게 로그인",
           body: `${nickname ? nickname : name}님이 영상 통화를 신청했어요`,
           tag: videoChatPush,
+          data: "/chat/video",
         },
       },
       headers: {
