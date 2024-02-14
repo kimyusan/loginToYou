@@ -67,7 +67,6 @@ function CoupleInfo() {
       fuserId: couple.fuserId,
       suserId: couple.suserId,
     };
-    couple.setCouple(newInfo);
 
     axios
       .put(`${PATH}/couple/update`, newInfo, {
@@ -81,21 +80,26 @@ function CoupleInfo() {
       .catch((error) => console.log(error));
 
     // start날짜부터 +3000일까지 캘린더에 추가
-    const FutureDatesInfo = calculateDates(start as string, 3000);
-    FutureDatesInfo.map((info, idx) =>
-      postEventToServer(
-        {
-          calendarId: nextId,
-          coupleId: couple.coupleId as number,
-          userId: userId as number,
-          startDate: info[0] as string,
-          endDate: null,
-          eventType: null,
-          contents: `❤️${info[1]}일`,
-        },
-        couple.coupleId as number
-      )
-    );
+    if (start !== couple.startDate) {
+      const FutureDatesInfo = calculateDates(start as string, 3000);
+      FutureDatesInfo.map((info, idx) =>
+        postEventToServer(
+          {
+            calendarId: nextId,
+            coupleId: couple.coupleId as number,
+            userId: userId as number,
+            startDate: info[0] as string,
+            endDate: null,
+            eventType: null,
+            contents: `❤️${info[1]}일`,
+          },
+          couple.coupleId as number
+        )
+      );
+    } else {
+      return
+    }
+    couple.setCouple(newInfo);
   };
 
   useEffect(() => {

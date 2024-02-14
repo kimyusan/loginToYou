@@ -38,7 +38,9 @@ const UserInfoForm = (props: Props) => {
   const [phoneNumber, setPhoneNumber] = useState(
     user.mobile ? (user.mobile as string) : ""
   );
-  const [birth, setBirth] = useState(user.birthday ? user.birthday : "1990-01-01");
+  const [birth, setBirth] = useState(
+    user.birthday ? user.birthday : "1990-01-01"
+  );
   const [gender, setGender] = useState(user.gender ? user.gender : "");
 
   const [errorAlert, setErrorAlert] = useState(false);
@@ -87,6 +89,30 @@ const UserInfoForm = (props: Props) => {
     if (nickname !== "" && nickname?.length > 4) {
       return;
     }
+
+    // birthday 수정 시 캘린더에 추가
+    if (user.birthday !== birth) {
+      const today = new Date();
+      const mybirth =
+        today.getFullYear() +
+        "-" +
+        birth.split("-")[1] +
+        "-" +
+        birth.split("-")[2];
+      postEventToServer(
+        {
+          calendarId: nextId,
+          coupleId: coupleId as number,
+          userId: user.userId as number,
+          startDate: mybirth,
+          endDate: null,
+          eventType: null,
+          contents: `${user.nickname ? user.nickname : user.name} 생일`,
+        },
+        coupleId as number
+      );
+    }
+
     // user정보 업데이트 요청 // mobile, birthday, gender, nickname만 수정
     axios
       .put(
@@ -223,31 +249,6 @@ const UserInfoForm = (props: Props) => {
       .catch((error) => console.log(error));
   }, []);
 
-  useEffect(() => {
-    // birthday 수정 시 캘린더에 추가
-    if (user.birthday) {
-      const today = new Date();
-      const mybirth =
-        today.getFullYear() +
-        "-" +
-        user.birthday.split("-")[1] +
-        "-" +
-        user.birthday.split("-")[2];
-      postEventToServer(
-        {
-          calendarId: nextId,
-          coupleId: coupleId as number,
-          userId: user.userId as number,
-          startDate: mybirth,
-          endDate: null,
-          eventType: null,
-          contents: `${user.nickname ? user.nickname : user.name} 생일`,
-        },
-        coupleId as number
-      );
-    }
-  }, [user.birthday]);
-
   return (
     <>
       <Alert
@@ -322,7 +323,6 @@ const UserInfoForm = (props: Props) => {
             type="date"
             variant="standard"
             value={birth}
-            
             placeholder=""
             onChange={(event) => {
               setBirth(event.target.value);
