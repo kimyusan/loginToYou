@@ -55,7 +55,7 @@ const CalendarCard = () => {
   const filterdEvents = events.filter(
     (event) =>
       toDate(event.start) >= new Date() ||
-      (toDate(event.start) <= new Date() && toDate(event.end) >= new Date())
+        (event.end && (toDate(event.start) <= new Date() && toDate(event.end) >= new Date()))
   );
 
   const sortedEvents = filterdEvents.sort(compare);

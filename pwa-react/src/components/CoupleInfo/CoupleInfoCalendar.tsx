@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { CalendarInput, Wrapper } from "../../styles/CoupleInfo/UI";
+import useCoupleStore from "../../stores/CoupleStore";
+
 
 type Props = {
   start: string | null;
@@ -11,16 +13,27 @@ function CoupleInfoCalendar({ start, setStart }: Props) {
     setStart(event.target.value);
   };
   const today = new Date().toISOString().split("T")[0];
+  const {startDate} = useCoupleStore()
 
   return (
     <Wrapper>
       <label>우리 사랑이 시작된 날은</label>
-      <CalendarInput
-        type="date"
-        value={start ? start?.split(" ")[0] : ""}
-        onChange={changeDate}
-        InputProps={{ inputProps: { min: "1900-01-01", max: today } }}
-      />
+      {startDate ? (
+        <CalendarInput
+          disabled
+          type="date"
+          value={start ? start?.split(" ")[0] : ""}
+          onChange={changeDate}
+          InputProps={{ inputProps: { min: "1900-01-01", max: today } }}
+        />
+      ) : (
+        <CalendarInput
+          type="date"
+          value={start ? start?.split(" ")[0] : ""}
+          onChange={changeDate}
+          InputProps={{ inputProps: { min: "1900-01-01", max: today } }}
+        />
+      )}
     </Wrapper>
   );
 }
