@@ -10,13 +10,7 @@ function MenuSection({}: Props) {
   const theme = useTheme();
 
   return (
-    <div
-      style={{
-        height: "5dvh",
-        width: "100%",
-        backgroundColor: theme.color.bgColor,
-      }}
-    >
+    <>
       <BurgerButton
         onClick={() => {
           setIsNavigationOpen((prev) => !prev);
@@ -25,7 +19,7 @@ function MenuSection({}: Props) {
         {isNavigationOpen ? "×" : "☰"}
       </BurgerButton>
       <Navbar isOpen={isNavigationOpen} setIsOpen={setIsNavigationOpen} />
-    </div>
+    </>
   );
 }
 

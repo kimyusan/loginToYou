@@ -29,6 +29,7 @@ import DeleteAccount from "./components/Settings/DeleteAccount";
 import SettingPush from "./components/Settings/SettingPush";
 import BalanceGame from "./routes/BalanceGame";
 import Challenge from "./routes/Challenge";
+import DiaryDetail from "./routes/DiaryDetail";
 
 // import Notification from "./components/Notification";
 
@@ -71,9 +72,16 @@ function App() {
             <Route path="/camera/couple" element={<CameraCouple />}></Route>
             <Route path="/calendar" element={<Calendar />}></Route>
             <Route path="/user_info/:user_id" element={<UserInfo />}></Route>
-            <Route path="/couple_info/:couple_id" element={<CoupleInfo />}></Route>
+            <Route
+              path="/couple_info/:couple_id"
+              element={<CoupleInfo />}
+            ></Route>
             <Route path="/chat/:room_id" element={<Chat />}></Route>
             <Route path="/diary" element={<Diary />}></Route>
+            <Route
+              path="/diarydetail/:diaryId"
+              element={<DiaryDetail />}
+            ></Route>
             <Route path="/question" element={<Question />}></Route>
             <Route path="/chat/video" element={<ChatVideo />}></Route>
             <Route path="/settings" element={<Settings />} />
