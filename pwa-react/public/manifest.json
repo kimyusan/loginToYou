@@ -1,5 +1,5 @@
 {
-  "short_name": "너 로",
+  "short_name": "너에게, 로그인",
   "name": "너에게, 로그인",
   "icons": [
     {
@@ -41,7 +41,7 @@
   ],
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "#ff83a8",
-  "background_color": "#ff83a8",
+  "theme_color": "#000000",
+  "background_color": "#000000",
   "orientation": "portrait"
 }

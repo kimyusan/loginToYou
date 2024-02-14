@@ -9,7 +9,7 @@ const Title = styled.div`
   color: ${(props) => {
     return props.theme.color.point;
   }};
-  text-shadow: 0px 0px 15px ${(props) => {
+  text-shadow: 2px 2px 1px ${(props) => {
     return props.theme.color.sub2;
   }};
   margin-bottom: 15px;

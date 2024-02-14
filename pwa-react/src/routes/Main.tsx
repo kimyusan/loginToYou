@@ -174,6 +174,10 @@ const Main = () => {
   };
 
   useEffect(() => {
+    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+    .then(stream => {
+      stream.getTracks().forEach(track => track.stop());
+    })
     callData();
     checkChat();
     getBalance();
