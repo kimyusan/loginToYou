@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
 const Title = styled.div`
+  padding-top: 5dvh;
+
   width: 100%;
   height: auto;
   text-align: center;
@@ -9,15 +11,16 @@ const Title = styled.div`
   color: ${(props) => {
     return props.theme.color.point;
   }};
-  text-shadow: 2px 2px 1px ${(props) => {
-    return props.theme.color.sub2;
-  }};
+  text-shadow: 2px 2px 1px
+    ${(props) => {
+      return props.theme.color.sub2;
+    }};
   margin-bottom: 15px;
   ::after {
     -webkit-text-stroke: 2px blue;
     position: absolute;
   }
-`
+`;
 
 const TodayQ = styled.div`
   width: 100%;
@@ -27,7 +30,7 @@ const TodayQ = styled.div`
   font-weight: 800;
   margin: 20px 0;
   font-style: italic;
-`
+`;
 
 // const DayBox = styled.div`
 //   width: 90%;
@@ -52,9 +55,10 @@ const SelectBox = styled.div`
     flex: 0 0 40%;
     margin: 5px 5px;
     border-radius: 5px;
-    border: 1px solid ${(props) => {
-      return props.theme.color.lightgrey;
-    }};
+    border: 1px solid
+      ${(props) => {
+        return props.theme.color.lightgrey;
+      }};
     padding: 10px;
     box-shadow: 3px 3px 1px 1px ${(props) => props.theme.color.lightgrey};
     height: 160px;
@@ -84,8 +88,8 @@ const SelectBox = styled.div`
     overflow-wrap: break-word;
     word-break: break-all;
     white-space: pre-wrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .grey {
@@ -93,7 +97,7 @@ const SelectBox = styled.div`
       return props.theme.color.grey;
     }};
   }
-`
+`;
 
 const OurTitle = styled.div`
   display: flex;
@@ -112,7 +116,7 @@ const OurTitle = styled.div`
       return props.theme.color.grey;
     }};
   }
-`
+`;
 
 const OtherTitle = styled.div`
   width: 90%;
@@ -123,7 +127,7 @@ const OtherTitle = styled.div`
   }};
   font-size: 20px;
   margin-top: 5%;
-`
+`;
 
 const Chart = styled.figure`
   position: relative;
@@ -133,7 +137,8 @@ const Chart = styled.figure`
   transition: 0.3s; //생략 가능
   display: flex;
   margin: 0 auto;
-  span.center { //작은 원
+  span.center {
+    //작은 원
     background: ${(props) => {
       return props.theme.color.bgColor;
     }};
@@ -150,7 +155,7 @@ const Chart = styled.figure`
     line-height: 80px;
     transform: translate(-50%, -50%); //가운데 위치
   }
-`
+`;
 
 const QuestionBox = styled.div`
   width: 90%;
@@ -177,9 +182,10 @@ const QuestionBox = styled.div`
     height: auto;
     padding: 10px;
     font-size: 17px;
-    border: 1px solid ${(props) => {
-      return props.theme.color.sub1;
-    }};
+    border: 1px solid
+      ${(props) => {
+        return props.theme.color.sub1;
+      }};
     border-radius: 15px;
     border-bottom-left-radius: 0;
     overflow-wrap: break-word;
@@ -199,9 +205,10 @@ const QuestionBox = styled.div`
   .answer2 {
     width: 80%;
     height: auto;
-    border: 1px solid ${(props) => {
-      return props.theme.color.point;
-    }};
+    border: 1px solid
+      ${(props) => {
+        return props.theme.color.point;
+      }};
     border-radius: 15px;
     border-bottom-right-radius: 0;
     padding: 10px;
@@ -211,8 +218,7 @@ const QuestionBox = styled.div`
     white-space: pre-wrap;
     box-shadow: 3px 3px 1px 1px ${(props) => props.theme.color.sub3};
   }
-  
-`
+`;
 
 const ReRender = styled.div`
   width: 90%;
@@ -227,7 +233,7 @@ const ReRender = styled.div`
   .MdOutlineRefresh.rotate {
     transform: rotate(1turn);
   }
-`
+`;
 
 const ChartContent = styled.div`
   width: 100%;
@@ -247,5 +253,15 @@ const ChartContent = styled.div`
     justify-content: center;
     align-items: center;
   }
-`
-export { Title, SelectBox, OurTitle, OtherTitle, Chart, TodayQ, QuestionBox, ReRender, ChartContent }
+`;
+export {
+  Title,
+  SelectBox,
+  OurTitle,
+  OtherTitle,
+  Chart,
+  TodayQ,
+  QuestionBox,
+  ReRender,
+  ChartContent,
+};
