@@ -261,6 +261,7 @@ export default function App() {
           title: "❤너에게 로그인",
           body: `${nickname ? nickname : name}님이 사진 찍기를 원해요!`,
           tag: coupleCamPush,
+          data: "/camera/couple",
         },
       },
       headers: {
