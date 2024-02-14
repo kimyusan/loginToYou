@@ -2,6 +2,7 @@ package com.ssafy.spyfamily.challenge.repository;
 
 import com.ssafy.spyfamily.challenge.model.ChallengeProgress;
 import com.ssafy.spyfamily.challenge.model.UserChallengeDto;
+import com.ssafy.spyfamily.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -62,5 +63,9 @@ public interface ChallengeProgressRepository extends JpaRepository<ChallengeProg
                                 "WHERE cl.challengeListId = cp.challengeList.challengeListId)")
     @Transactional
     void updateIsDoneByChallengeProgressId(@Param("challengeProgressId") Integer challengeProgressId);
+
+
+
+    void deleteByUser(User user);
 
 }
