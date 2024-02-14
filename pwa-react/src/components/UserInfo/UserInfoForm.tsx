@@ -38,7 +38,7 @@ const UserInfoForm = (props: Props) => {
   const [phoneNumber, setPhoneNumber] = useState(
     user.mobile ? (user.mobile as string) : ""
   );
-  const [birth, setBirth] = useState(user.birthday ? user.birthday : "");
+  const [birth, setBirth] = useState(user.birthday ? user.birthday : "1990-01-01");
   const [gender, setGender] = useState(user.gender ? user.gender : "");
 
   const [errorAlert, setErrorAlert] = useState(false);
@@ -112,7 +112,6 @@ const UserInfoForm = (props: Props) => {
       .catch((response) => {
         console.log(response.data);
       });
-
 
     // 프로필 이미지 변경 안함
     if (!profileFile) return;
@@ -224,12 +223,16 @@ const UserInfoForm = (props: Props) => {
       .catch((error) => console.log(error));
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     // birthday 수정 시 캘린더에 추가
     if (user.birthday) {
       const today = new Date();
-      const mybirth = today.getFullYear()+'-'+user.birthday.split("-")[1]+'-'+user.birthday.split("-")[2]
-      console.log(mybirth)
+      const mybirth =
+        today.getFullYear() +
+        "-" +
+        user.birthday.split("-")[1] +
+        "-" +
+        user.birthday.split("-")[2];
       postEventToServer(
         {
           calendarId: nextId,
@@ -243,7 +246,7 @@ const UserInfoForm = (props: Props) => {
         coupleId as number
       );
     }
-  }, [user.birthday])
+  }, [user.birthday]);
 
   return (
     <>
@@ -311,17 +314,34 @@ const UserInfoForm = (props: Props) => {
             setPhoneNumber(event.target.value);
           }}
         />
-        <UserInfoField
-          className="birth_input"
-          label="생년월일"
-          type="date"
-          variant="standard"
-          value={birth}
-          placeholder=""
-          onChange={(event) => {
-            setBirth(event.target.value);
-          }}
-        />
+        {user.birthday ? (
+          <UserInfoField
+            disabled
+            className="birth_input"
+            label="생년월일"
+            type="date"
+            variant="standard"
+            value={birth}
+            
+            placeholder=""
+            onChange={(event) => {
+              setBirth(event.target.value);
+            }}
+          />
+        ) : (
+          <UserInfoField
+            className="birth_input"
+            label="생년월일"
+            type="date"
+            defaultValue="1990-01-01"
+            variant="standard"
+            value={birth}
+            placeholder="1990-01-01"
+            onChange={(event) => {
+              setBirth(event.target.value);
+            }}
+          />
+        )}
         <GenderRadio
           aria-labelledby="demo-controlled-radio-buttons-group"
           name="controlled-radio-buttons-group"

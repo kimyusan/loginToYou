@@ -3,7 +3,7 @@ import { Card } from "../common/card";
 
 const Wrapper = styled.div``;
 
-const FirstSection = styled.div`
+const MainSec = styled.div`
   display: grid;
   grid-template:
     "b a" 1fr
@@ -36,11 +36,11 @@ const FirstSection = styled.div`
 
     .camera_title {
       position: absolute;
-      right: 7%;
+      right: 0;
       text-align: end;
       font-size: 1.5rem;
-      padding-top: 5dvh;
-      padding-right: 5dvw;
+      padding-top: 13%;
+      padding-right: 10%;
       p {
         margin: 0;
       }
@@ -337,7 +337,7 @@ const MyCalendar = styled.div`
   }
 `;
 
-const SecondSection = styled.div`
+const QuestionSec = styled.div`
   .question_card {
     position: relative;
     height: 13dvh;
@@ -428,65 +428,120 @@ const SecondSection = styled.div`
   }
 `;
 
-const ThirdSection = styled.div`
+const BalanceSec = styled.div`
   margin-bottom: 3dvh;
-  display: flex;
-  ${Card} {
-    margin-top: 0;
-    width: 50dvw;
-    aspect-ratio: 1.5;
-  }
   .balance_game {
-    background-color: ${(props) => {
-      return props.theme.color.sub2;
-    }};
-    margin-right: 2dvw;
+    height: 15dvh;
+    margin: 5dvw;
+    display: flex;
+    flex-direction: column;
     position: relative;
-    div:nth-child(1) {
-      z-index: 2;
-      position: absolute;
-      left: 10px;
-      bottom: 10px;
-      font-size: 1.3rem;
-      color: white;
+    background-color: ${(props) => {
+      return props.theme.color.sub5;
+    }};
+    .versus {
+      margin-top: 7%;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      .q {
+        width: 100%;
+        padding: 5% 0;
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        background-color: white;
+      }
+      .versus_logo {
+        position: absolute;
+        font-size: 5.5rem;
+        font-weight: 700;
+        color: ${(props) => {
+          return props.theme.color.sub2;
+        }};
+        font-family: "Phudu", sans-serif;
+        text-shadow: -1px 0px white, 0px 1px white, 1px 0px white,
+          0px -1px white;
+      }
     }
-    div:nth-child(2) {
-      z-index: 1;
-      line-height: 1;
+    .text {
       position: absolute;
-      font-size: 6rem;
-      font-weight: 700;
-      color: ${(props) => {
-        return props.theme.color.sub4;
-      }};
-      font-family: "Phudu", sans-serif;
-      right: 2dvw;
-      top: 1dvh;
-      margin: 0;
+      bottom: 3%;
+      right: 0;
+      z-index: 5;
+      font-size: 0.9rem;
+      p {
+        margin: 0;
+        display: flex;
+        justify-content: center;
+      }
+      color: grey;
     }
+  }
+`;
+
+const ChallengeSec = styled.div`
+  @font-face {
+    font-family: "Giants-Inline";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/Giants-Inline.woff2")
+      format("woff2");
+    font-weight: normal;
+    font-style: normal;
   }
   .challenge {
-    margin-left: 0;
     position: relative;
-    div {
+    height: 15dvh;
+    overflow: hidden;
+    p {
+      margin: 0;
+    }
+    .challenge_title {
+      font-family: "Giants-Inline";
+      font-size: 1.5rem;
+      color: ${(props) => {
+        return props.theme.color.point;
+      }};
+    }
+    .box {
+      background-color: ${(props) => {
+        return props.theme.color.sub4;
+      }};
+      position: absolute;
+      height: 20dvh;
+      aspect-ratio: 1;
+      border: 5px solid;
+      border-color: ${(props) => props.theme.color.sub2};
+    }
+    .right_top {
+      rotate: 45deg;
+      bottom: 50%;
+      left: 80%;
+    }
+    .right_bottom {
+      rotate: -45deg;
+      top: 50%;
+      left: 80%;
+    }
+    .go_challenge {
       display: flex;
-      flex-direction: column;
-      align-items: end;
-      bottom: 1dvw;
-      right: 2dvw;
-      div {
-        margin: 0;
-        font-size: 1.3rem;
-      }
+      color: grey;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      font-size: 0.9rem;
+      margin: 3%;
     }
   }
 `;
 
 export {
   Wrapper,
-  FirstSection,
-  SecondSection,
-  ThirdSection,
+  MainSec,
+  QuestionSec,
+  BalanceSec,
   CalendarSec,
   MyCalendar,
+  ChallengeSec,
 };

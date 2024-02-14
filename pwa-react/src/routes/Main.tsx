@@ -4,9 +4,10 @@ import "../notification/settingFCM";
 
 import {
   Wrapper,
-  FirstSection,
-  SecondSection,
-  ThirdSection,
+  MainSec,
+  QuestionSec,
+  BalanceSec,
+  ChallengeSec,
 } from "../styles/Main/Main";
 import { UserInterface, CoupleInterface } from "../interface/UserInterface";
 import { FaCamera } from "react-icons/fa";
@@ -32,6 +33,7 @@ import Carousel from "../components/Main/Carousel";
 import ArticleIcon from "@mui/icons-material/Article";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const Main = () => {
   const theme = useTheme();
@@ -42,7 +44,7 @@ const Main = () => {
       setYourName: state.setYourName,
     }))
   );
-  const { setUser, setProfileImage } = useUserStore();
+  const { setUser, setProfileImage, name, nickname } = useUserStore();
   const { yourFCMtoken, setYourFCMtoken } = useFCMStore();
   const userId = useUserStore.getState().userId;
   const coupleId = useUserStore.getState().coupleId;
@@ -152,9 +154,29 @@ const Main = () => {
     setUnreadMessage((prev) => (res.data > 99 ? 99 : res.data));
   };
 
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
+  const day = today.getDate().toString().padStart(2, "0");
+  const [q1, setQ1] = useState("");
+  const [q2, setQ2] = useState("");
+  const getBalance = () => {
+    axiosAuth
+      .get(
+        `/balance/get?dateString=${year}${month
+          .toString()
+          .padStart(2, "0")}${day}`
+      )
+      .then((res) => {
+        setQ1(res.data.fitem);
+        setQ2(res.data.sitem);
+      });
+  };
+
   useEffect(() => {
     callData();
     checkChat();
+    getBalance();
     const check = setInterval(checkChat, 1000 * 60 * 2);
     return () => clearInterval(check);
   }, []);
@@ -181,7 +203,7 @@ const Main = () => {
       <HeaderSection cp1={cp1} cp2={cp2} cpInfo={cpInfo} />
       <Wrapper>
         <Carousel />
-        <FirstSection>
+        <MainSec>
           <Card
             className={isCameraMode ? "camera clicked" : "camera"}
             onClick={() => {
@@ -269,9 +291,9 @@ const Main = () => {
               {unreadMessage > 99 ? 99 : unreadMessage}
             </p>
           </Card>
-        </FirstSection>
+        </MainSec>
 
-        <SecondSection>
+        <QuestionSec>
           <h3
             style={{ marginLeft: "6dvw", lineHeight: 0.5, marginTop: "4dvh" }}
           >
@@ -284,23 +306,51 @@ const Main = () => {
             오늘의 질문
           </h3>
           <QuestionCard />
-        </SecondSection>
+        </QuestionSec>
 
-        <ThirdSection>
+        <BalanceSec>
+          <h3
+            style={{ marginLeft: "6dvw", lineHeight: 0.5, marginTop: "4dvh" }}
+          >
+            밸런스게임
+          </h3>
           <Card
             className="balance_game"
             onClick={() => navigate("/balancegame")}
           >
-            <div>밸런스게임</div>
-            <div>VS</div>
-          </Card>
-          <Card className="challenge" onClick={() => navigate("/challenge")}>
-            <div>
-              <div>매일</div>
-              <div>챌린지</div>
+            {/* <div>BALANCE</div> */}
+            <div className="versus">
+              <div className="q"></div>
+              <span className="versus_logo">vs</span>
+            </div>
+            <div className="text">
+              <p>
+                다른 커플들은 어떤 선택을 했는지 봐볼까요?
+                <KeyboardArrowRightIcon />
+              </p>
             </div>
           </Card>
-        </ThirdSection>
+        </BalanceSec>
+
+        <ChallengeSec>
+          <h3
+            style={{ marginLeft: "6dvw", lineHeight: 0.5, marginTop: "4dvh" }}
+          >
+            매일 챌린지
+          </h3>
+          <Card className="challenge" onClick={() => navigate("/challenge")}>
+              <p className="challenge_title">Challenge - !!</p>
+              <p>
+                우리 커플만의 챌린지를 도전해볼까?
+              </p>
+              <p className="go_challenge">
+                챌린지 시작하기
+                <KeyboardArrowRightIcon />
+              </p>
+              <div className="box right_top"></div>
+              <div className="box right_bottom"></div>
+          </Card>
+        </ChallengeSec>
       </Wrapper>
     </>
   );

@@ -6,6 +6,7 @@ import StopIcon from "@mui/icons-material/Stop";
 // Carousel
 const Wrapper = styled.div`
   margin-bottom: 3%;
+  overflow: hidden;
 `;
 
 const Container = styled.div`
@@ -103,7 +104,7 @@ const CarouselCard = styled.div`
     top: 50%;
     left: 17%;
     width: 70%;
-    font-size: 0.8rem;
+    font-size: 0.8em;
   }
 
   // 밸런스게임

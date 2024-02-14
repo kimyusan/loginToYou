@@ -53,26 +53,28 @@ const HeaderSection = ({ cp1, cp2, cpInfo }: Props) => {
   }, [cpInfo]);
 
   return (
-    <Header
-      onClick={() => {
-        naivate(`/couple_info/${cpInfo?.coupleId}`, { state: cpInfo });
-      }}
-    >
-      <div className="nameSection">
-        {cpName ? <div className="cpName">{cpName}</div> : null}
-        <UserName>
-          {mName}{" "}
-          <FavoriteIcon
-            fontSize="small"
-            style={{ paddingLeft: "2px", paddingRight: "2px" }}
-          />{" "}
-          {fName}
-        </UserName>
-      </div>
-      <Dday className={!cpInfo?.startDate ? "noDate" : null}>
-        {cpInfo?.startDate ? `D+${dDay}` : dDay}
-      </Dday>
-    </Header>
+    <body>
+      <Header
+        onClick={() => {
+          naivate(`/couple_info/${cpInfo?.coupleId}`, { state: cpInfo });
+        }}
+      >
+        <div className="nameSection">
+          {cpName ? <div className="cpName">{cpName}</div> : null}
+          <UserName>
+            {mName}{" "}
+            <FavoriteIcon
+              fontSize="small"
+              style={{ paddingLeft: "2px", paddingRight: "2px" }}
+            />{" "}
+            {fName}
+          </UserName>
+        </div>
+        <Dday className={!cpInfo?.startDate ? "noDate" : null}>
+          {cpInfo?.startDate ? `D+${dDay}` : dDay}
+        </Dday>
+      </Header>
+    </body>
   );
 };
 
