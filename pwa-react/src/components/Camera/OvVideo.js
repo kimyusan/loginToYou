@@ -67,9 +67,11 @@ export default function OpenViduVideoComponent({ streamManager, zi }) {
       }
     }
 
-    if (streamManager && videoRef.current) {
-      streamManager.addVideoElement(videoRef.current);
+    if (streamManager && canvasRef.current) {
+      streamManager.addVideoElement(canvasRef.current);
+      console.log(streamManager,"Ccccccccccccccccccccccccccc")
     }
+    
   }, [streamManager,windowWidth]);
 
   useEffect(() => {
