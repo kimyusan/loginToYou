@@ -13,6 +13,11 @@ const Global = createGlobalStyle`
         font-family: 'Noto Sans KR';
     }
 
+    textarea {
+      font-family: 'Noto Sans KR';
+      font-size: 1rem;
+    }
+
 `;
 
 export const pink: DefaultTheme = {
