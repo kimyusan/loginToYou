@@ -4,7 +4,10 @@ import com.ssafy.spyfamily.chat.model.ChatMessage;
 import com.ssafy.spyfamily.chat.model.ChatRoom;
 import com.ssafy.spyfamily.chat.repo.ChatMessageRepository;
 import com.ssafy.spyfamily.chat.repo.ChatRoomRepo;
+import com.ssafy.spyfamily.util.AesUtil;
 import jakarta.transaction.Transactional;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,13 +17,21 @@ public class ChatServiceImpl implements  ChatService{
     private final ChatMessageRepository chatMessageRepository;
     private final ChatRoomRepo chatRoomRepository;
 
-    public ChatServiceImpl (ChatMessageRepository chatMessageRepository, ChatRoomRepo ChatRoomRepository){
+    private final AesUtil aesUtil;
+
+
+    public ChatServiceImpl (ChatMessageRepository chatMessageRepository, ChatRoomRepo ChatRoomRepository, AesUtil aesUtil){
         this.chatMessageRepository = chatMessageRepository;
         this.chatRoomRepository = ChatRoomRepository;
+        this.aesUtil = aesUtil;
     }
 
     @Override
-    public void save(ChatMessage message) {
+    public void save(ChatMessage message) throws Exception {
+
+        String encodeMessage = aesUtil.aesCBCEncode(message.getMessage());
+
+        message.setMessage(encodeMessage);
         chatMessageRepository.save(message);
     }
 
@@ -37,8 +48,14 @@ public class ChatServiceImpl implements  ChatService{
     }
 
     @Override
-    public List<ChatMessage> loadMessage(String roomId) {
-        return chatMessageRepository.findByRoomId(roomId);
+    public List<ChatMessage> loadMessage(String roomId) throws Exception {
+        List<ChatMessage> chatMessages = chatMessageRepository.findByRoomId(roomId);
+
+        for(ChatMessage chatMessage : chatMessages){
+            String decodeMessage = aesUtil.aesCBCDDecode(chatMessage.getMessage());
+            chatMessage.setMessage(decodeMessage);
+        }
+        return chatMessages;
     }
 
     @Transactional
