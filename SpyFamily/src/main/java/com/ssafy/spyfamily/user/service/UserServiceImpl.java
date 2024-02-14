@@ -4,6 +4,7 @@ import com.ssafy.spyfamily.balance.repository.CoupleBalanceRepository;
 import com.ssafy.spyfamily.balance.service.BalanceService;
 import com.ssafy.spyfamily.balance.service.BalanceServiceImpl;
 import com.ssafy.spyfamily.calendar.repository.CalendarRepository;
+import com.ssafy.spyfamily.challenge.repository.ChallengeProgressRepository;
 import com.ssafy.spyfamily.chat.repo.ChatMessageRepository;
 import com.ssafy.spyfamily.chat.repo.ChatRoomRepo;
 import com.ssafy.spyfamily.couple.model.Couple;
@@ -23,6 +24,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -56,6 +58,8 @@ public class UserServiceImpl implements UserService {
     private final DiaryMemoRepository diaryMemoRepository;
     private final CoupleTodayQuestionRepository coupleTodayQuestionRepository;
     private final UserProfileServiceImpl userProfileService;
+
+    private final ChallengeProgressRepository challengeProgressRepository;
     private final FileUtil fileUtil;
 
     public UserServiceImpl(RestTemplate restTemplate,
@@ -70,7 +74,9 @@ public class UserServiceImpl implements UserService {
                            DiaryMemoRepository diaryMemoRepository,
                            CoupleTodayQuestionRepository coupleTodayQuestionRepository,
                            UserProfileServiceImpl userProfileService,
-                           FileUtil fileUtil) {
+                           FileUtil fileUtil,
+                           ChallengeProgressRepository challengeProgressRepository
+    ) {
         this.restTemplate = restTemplate;
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
@@ -84,9 +90,11 @@ public class UserServiceImpl implements UserService {
         this.coupleTodayQuestionRepository = coupleTodayQuestionRepository;
         this.userProfileService = userProfileService;
         this.fileUtil = fileUtil;
+        this.challengeProgressRepository = challengeProgressRepository;
     }
 
     @Override
+    @Transactional
     public void withdrawal(Integer userId) {
         log.info("1");
         User deleteUser = userRepository.findByUserId(userId);
@@ -130,6 +138,9 @@ public class UserServiceImpl implements UserService {
         diaryMemoRepository.deleteByCoupleId(coupleId);
         log.info("다이어리 메모 삭제");
 
+
+
+
         // 다이어리 전부 삭제
         ArrayList<Diary> list = diaryRepository.findByCoupleId(coupleId);
         for (Diary d : list) {
@@ -171,6 +182,15 @@ public class UserServiceImpl implements UserService {
         balanceService.deleteByUserId(userId);
 
         // TODO: 챌린지 삭제
+        // 챌린지 삭제
+        try {
+            log.info("챌린지 삭제 "  );
+
+            challengeProgressRepository.deleteByUser(deleteUser);
+        }catch (Exception e) {
+            e.printStackTrace();
+            log.info("챌린지 삭제 실패 ㅠㅠ");
+        }
 
         // 유저 삭제
         userRepository.deleteByUserId(userId);
