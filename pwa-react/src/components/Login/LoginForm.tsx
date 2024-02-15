@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { LoginBox } from "../../styles/Login/Login";
@@ -16,16 +16,17 @@ const LoginForm = () => {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
 
-  const { login, PATH, setToken, token, refToken, setTokenExpireTime } = useAuthStore(
-    useShallow((state) => ({
-      login: state.login,
-      PATH: state.PATH,
-      setToken: state.setToken,
-      token: state.token,
-      refToken: state.refToken,
-      setTokenExpireTime: state.setTokenExpireTime,
-    }))
-  );
+  const { login, PATH, setToken, token, refToken, setTokenExpireTime } =
+    useAuthStore(
+      useShallow((state) => ({
+        login: state.login,
+        PATH: state.PATH,
+        setToken: state.setToken,
+        token: state.token,
+        refToken: state.refToken,
+        setTokenExpireTime: state.setTokenExpireTime,
+      }))
+    );
   const navigate = useNavigate();
   const path = useLocation();
   const { state } = useLocation();
@@ -64,7 +65,11 @@ const LoginForm = () => {
         const userData = parseJwt(response.headers.authorization);
         setUser(userData);
 
-        state ? navigate(state) : navigate("/");
+        if (state) {
+          navigate(state);
+        } else {
+          navigate("/");
+        }
       })
       .catch((error) => {
         console.log(error.response);
@@ -76,7 +81,12 @@ const LoginForm = () => {
     <LoginBox>
       <form onSubmit={goLogin}>
         <input placeholder="아이디" value={id} onChange={changeId}></input>
-        <input placeholder="비밀번호" type="password" value={pw} onChange={changePw}></input>
+        <input
+          placeholder="비밀번호"
+          type="password"
+          value={pw}
+          onChange={changePw}
+        ></input>
         <button type="submit" className="loginBtn">
           로그인
         </button>
