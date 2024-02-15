@@ -139,18 +139,18 @@
     - BE 리더<br>
     - REST API<br>
     - WebSocket.io <br>
-    - FCM Push
+    - FCM Push <br>
     - JWT</td>
     <td class="tg-0pky">
     - API 총괄
     - REST API<br>
     - oAuth 2.0<br>
-    - Image Handling
+    - Image Handling <br>
     - ERD 설계 </td>
     <td class="tg-0pky">
-    - DevOps
-    - REST API
-    - CI/CD
+    - DevOps <br>
+    - REST API <br>
+    - CI/CD <br>
     - EC2 Server</td>
   </tr>
 </tbody>
