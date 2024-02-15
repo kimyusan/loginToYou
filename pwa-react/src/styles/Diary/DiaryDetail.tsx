@@ -3,6 +3,7 @@ import styled, { createGlobalStyle } from "styled-components";
 export const BgWhite = createGlobalStyle`
   body, html {
     background-color: white;
+    overflow-x: hidden;
   }
 `;
 
@@ -10,6 +11,7 @@ export const Wrapper = styled.div`
   width: 100dvw;
   overflow-x: hidden;
   position: relative;
+  box-sizing: border-box;
 `;
 
 export const Header = styled.div`
