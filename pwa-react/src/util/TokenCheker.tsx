@@ -73,9 +73,6 @@ function TokenCheker() {
     );
     if (tokenExpireTime - now < 1000 * 60 * 5) {
       refresh();
-      if (location.pathname == "/main") {
-        window.location.reload();
-      }
     }
   };
 

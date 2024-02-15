@@ -206,6 +206,7 @@ function Chat() {
   useEffect(() => {
     loadChat();
     checkRoom();
+    console.log(isIphone);
 
     return () => {
       client.current?.disconnect();

@@ -38,7 +38,7 @@ export const InputForm = styled.form<height>`
   }};
   &.keyup {
     height: ${(props) =>
-      `calc(${props.$isIphone ? "50dvh" : "48dvh"} + ${props.$height}px)`};
+      `calc(${props.$isIphone ? "50dvh" : "49dvh"} + ${props.$height}px)`};
   }
 
   & > textarea {
