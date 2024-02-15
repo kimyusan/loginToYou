@@ -77,7 +77,7 @@ const Diary = () => {
                   navigate(`/diarydetail/${diary.diaryId}`, {
                     state: {
                       diary,
-                      images: diaryList.map((each: DiaryInterface) => {
+                      images: diaryList.filter((each: DiaryInterface) => {
                         if (each.saveFolder == diary.saveFolder) {
                           return each;
                         }
