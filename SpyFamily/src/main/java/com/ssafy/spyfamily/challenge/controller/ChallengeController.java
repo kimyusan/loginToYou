@@ -75,7 +75,7 @@ public class ChallengeController {
         // 해당 유저가 한 행동에 해당하는 챌린지 목록 가져오기
         List<UserChallengeDto> list = challengeService.getUserChallenges(userId, type);
 
-
+        challengeService.setProgress(list, progress);
 
         return new ResponseEntity<Void>(HttpStatus.OK);
     }

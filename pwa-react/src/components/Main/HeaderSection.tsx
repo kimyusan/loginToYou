@@ -47,6 +47,12 @@ const HeaderSection = ({ cp1, cp2, cpInfo }: Props) => {
     ).getTime();
 
     setDday((Math.ceil((today - date) / 1000 / 60 / 60 / 24)).toString());
+    
+    axiosAuth.post(`${PATH}/challenge/set/progress?userId=${userId}&type=d_day&progress=${(Math.ceil((today - date) / 1000 / 60 / 60 / 24))}`)
+      .then((res : any) => {
+        console.log(res.data , "디데이 챌린지 성공")
+      })
+      .then((error) => console.log(error))
   };
 
   const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
@@ -55,14 +61,11 @@ const HeaderSection = ({ cp1, cp2, cpInfo }: Props) => {
 
   useEffect(() => {
     getDday();
-
-    axiosAuth.post(`${PATH}/challenge/set/progress?userId=${userId}&type=d_day&progress=${dDay}`)
-    .then((res : any) => {
-      console.log(res.data , "디데이 챌린지 성공")
-    })
-    .then((error) => console.log(error))
-
   }, [cpInfo]);
+
+  useEffect(() => {
+    
+  },[])
 
   return (
     <body>
