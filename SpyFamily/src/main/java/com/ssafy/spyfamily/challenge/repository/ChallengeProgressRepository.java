@@ -64,7 +64,17 @@ public interface ChallengeProgressRepository extends JpaRepository<ChallengeProg
     @Transactional
     void updateIsDoneByChallengeProgressId(@Param("challengeProgressId") Integer challengeProgressId);
 
-
+    /**
+     * challengeProgressId에 해당하는 progress를 설정한다.
+     */
+    @Modifying
+    @Query("UPDATE ChallengeProgress cp " +
+            "SET cp.progress = :progress " +
+            "WHERE cp.isDone = false " +
+            "AND cp.challengeProgressId IN :challengeProgressIds")
+    @Transactional
+    void setProgress(@Param("challengeProgressIds") List<Integer> challengeProgressIds,
+                     @Param("progress") Integer progress);
 
     void deleteByUser(User user);
 

@@ -64,4 +64,21 @@ public class ChallengeController {
         return new ResponseEntity<List<UserChallengeDto>>(list, HttpStatus.OK);
     }
 
+    /**
+     * 유저 챌린지 진행사항 설정
+     */
+    @PostMapping("/set/progress")
+    public ResponseEntity<?> setProgress(@RequestParam int userId,
+                                         @RequestParam String type,
+                                         @RequestParam int progress) {
+
+        // 해당 유저가 한 행동에 해당하는 챌린지 목록 가져오기
+        List<UserChallengeDto> list = challengeService.getUserChallenges(userId, type);
+
+
+
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
+
 }

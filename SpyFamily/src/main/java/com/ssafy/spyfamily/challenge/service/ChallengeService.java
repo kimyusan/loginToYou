@@ -27,4 +27,9 @@ public interface ChallengeService {
      * 파라미터에 해당하는 챌린지의 진행도를 증가시킴
      */
     void updateProgress(List<UserChallengeDto> list);
+
+    /**
+     * 파라미터에 해당하는 챌린지 진행도 설정
+     */
+    void setProgress(List<UserChallengeDto> dtoList, int progress);
 }
