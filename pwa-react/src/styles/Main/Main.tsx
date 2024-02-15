@@ -1,7 +1,12 @@
 import styled from "styled-components";
 import { Card } from "../common/card";
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  .footer {
+    text-align: center;
+    color: ${(props) => props.theme.color.sub1};
+  }
+`;
 
 const MainSec = styled.div`
   display: grid;
@@ -491,6 +496,7 @@ const ChallengeSec = styled.div`
     font-style: normal;
   }
   .challenge {
+    margin-bottom: 10dvh;
     position: relative;
     height: 15dvh;
     overflow: hidden;
