@@ -12,7 +12,7 @@
 ## 4. 기술 스택
 
 ## 5. 시스템 구조도
-![Web App Reference Architecture (5)](https://github.com/giyoung-Lee/Hub/assets/19604808/d75bf7ed-24c9-4b33-9e55-de11b1b52b7c)
+![Web App Reference Architecture (5)](https://github.com/giyoung-Lee/Hub/assets/19604808/d75bf7ed-24c9-4b33-9e55-de11b1b52b7c){: width="50%" height="50%"}
 
 
 ## 6. API 설계
