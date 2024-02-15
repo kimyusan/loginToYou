@@ -90,7 +90,7 @@ function DiaryDetail({}: Props) {
           return each.saveName != diaryImages[now].saveName;
         })
       );
-      if (now == 0) {
+      if (diaryImages.length == 1) {
         navigate(-1);
       } else {
         if (now == mainIdx) {
