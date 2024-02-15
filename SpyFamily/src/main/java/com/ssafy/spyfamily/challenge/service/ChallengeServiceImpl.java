@@ -125,4 +125,23 @@ public class ChallengeServiceImpl implements ChallengeService {
 
     }
 
+    /**
+     * 파라미터에 해당하는 챌린지 진행도 설정
+     */
+    @Override
+    public void setProgress(List<UserChallengeDto> dtoList, int progress) {
+        // 누적인 챌린지 리스트에서 challengeProgressId만 추출해 Integer List 만들기
+        List<Integer> challengeProgressIds = dtoList.stream()
+                .map(UserChallengeDto::getChallengeProgressId)
+                .collect(Collectors.toList());
+
+        // 진행도 설정
+        challengeProgressRepository.setProgress(challengeProgressIds, progress);
+
+        // goal과 isDone 확인 후 완료한 챌린지는 isDone을 true로 변경
+        for(Integer challengeProgressId : challengeProgressIds) {
+            challengeProgressRepository.updateIsDoneByChallengeProgressId(challengeProgressId);
+        }
+    }
+
 }
