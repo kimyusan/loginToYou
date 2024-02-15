@@ -83,7 +83,7 @@ function InputBox({
           onClick={() => {
             navigate("/chat/video");
           }}
-          style={{ marginRight: "5px" }}
+          style={{ marginRight: "5px", height: "5dvh" }}
         />
       </IconContext.Provider>
       <textarea
