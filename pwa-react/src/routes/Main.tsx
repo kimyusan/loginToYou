@@ -191,9 +191,10 @@ const Main = () => {
       })
       .catch((err) => console.log(err));
 
-    axiosAuth.post(`${PATH}/challenge/add/progress?userId=${userId}&type=attendance`)
+    axiosAuth
+      .post(`${PATH}/challenge/add/progress?userId=${userId}&type=attendance`)
       .then((res) => console.log(res.data, "출석체크 성공"))
-      .catch((error) => console.log(error.response))
+      .catch((error) => console.log(error.response));
   }, []);
 
   const goDiary = () => {
@@ -343,18 +344,17 @@ const Main = () => {
             매일 챌린지
           </h3>
           <Card className="challenge" onClick={() => navigate("/challenge")}>
-              <p className="challenge_title">Challenge - !!</p>
-              <p>
-                우리 커플만의 챌린지를 도전해볼까?
-              </p>
-              <p className="go_challenge">
-                챌린지 시작하기
-                <KeyboardArrowRightIcon />
-              </p>
-              <div className="box right_top"></div>
-              <div className="box right_bottom"></div>
+            <p className="challenge_title">Challenge - !!</p>
+            <p>우리 커플만의 챌린지를 도전해볼까?</p>
+            <p className="go_challenge">
+              챌린지 시작하기
+              <KeyboardArrowRightIcon />
+            </p>
+            <div className="box right_top"></div>
+            <div className="box right_bottom"></div>
           </Card>
         </ChallengeSec>
+        <p className="footer">너에게, 로그인</p>
       </Wrapper>
     </>
   );

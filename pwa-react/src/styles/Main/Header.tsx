@@ -11,7 +11,7 @@ const Cover = styled.div``;
 const Header = styled.div`
   width: 100%;
   height: 11dvh;
-  padding-top: 3dvh;
+  padding-top: 5dvh;
   position: sticky;
   display: flex;
   justify-content: space-between;
