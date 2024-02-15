@@ -112,10 +112,12 @@ const CalendarModalCard = () => {
   };
 
   useEffect(() => {
-    if (toDate(start) > toDate(end as string)) {
-      setErrorAlert("dateError");
-    } else {
-      setErrorAlert(null);
+    if (end) {
+      if (toDate(start) > toDate(end as string)) {
+        setErrorAlert("dateError");
+      } else {
+        setErrorAlert(null);
+      }
     }
   }, [start, end, content]);
 
