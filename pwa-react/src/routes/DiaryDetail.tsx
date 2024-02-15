@@ -20,6 +20,13 @@ import { FaTrashCan } from "react-icons/fa6";
 import { IconContext } from "react-icons";
 import DiaryView from "../components/Diary/DiaryView";
 
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+
 type Props = {};
 
 function DiaryDetail({}: Props) {
@@ -34,6 +41,7 @@ function DiaryDetail({}: Props) {
   const [mainIdx, setMainIdx] = useState(0);
   const [clickPosition, setClickPosition] = useState(0);
   const [mode, setMode] = useState("photo");
+  const [deleteModalOn, setDeleteModalOn] = useState(false);
 
   const DiaryImage = (item: DiaryInterface) => {
     return `${PATH}/diary/getImg/${item.saveFolder}/${item.originalName}/${item.saveName}`;
@@ -139,6 +147,43 @@ function DiaryDetail({}: Props) {
           </div>
         </div>
       </Header>
+      {deleteModalOn ? (
+        <Dialog
+          open={deleteModalOn}
+          onClose={() => {
+            setDeleteModalOn(false);
+          }}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"정말 삭제하시겠습니까?"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              삭제된 사진은 복구할 수 없습니다.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={() => {
+                setDeleteModalOn(false);
+              }}
+            >
+              취소
+            </Button>
+            <Button
+              onClick={() => {
+                deletePicture();
+                setDeleteModalOn(false);
+              }}
+              autoFocus
+            >
+              삭제
+            </Button>
+          </DialogActions>
+        </Dialog>
+      ) : null}
 
       {mode == "photo" ? (
         <Wrapper>
@@ -183,7 +228,7 @@ function DiaryDetail({}: Props) {
               <div></div>
             )}
             <div className="iconBox">
-              <IconContext.Provider value={{ size: "1.5rem" }}>
+              <IconContext.Provider value={{ size: "1.6rem" }}>
                 {mainIdx == now ? (
                   <FaStar />
                 ) : (
@@ -195,7 +240,7 @@ function DiaryDetail({}: Props) {
                 )}
                 <FaTrashCan
                   onClick={() => {
-                    deletePicture();
+                    setDeleteModalOn(true);
                   }}
                 />
               </IconContext.Provider>
