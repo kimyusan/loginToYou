@@ -1,13 +1,31 @@
-# 커플들을 위한 추억 다이어리. "너에게, 로그인"
+# 언제, 어디서나, 당신과 함께. "너에게, 로그인"
 
 광주 2반 C105
 ## 목차
 
+
 ## 1. 개요
+프로젝트 명 : 너에게, 로그인
+프로젝트 기간 : 2024-01-08 ~ 2024-02-16 (6주)
+프로젝트 개요 : WebRTC 기술을 활용한 커플 다이어리 서비스
 
 ## 2. 기획배경
+서로를 잘 모르는 커플들, 원거리 연애를 하는 커플등 자주 만나지 못하는 커플들을 위한
+원거리 교류 애플리케이션의 필요성의 대두
 
 ## 3. 주요 기능
+1. 원거리에 있는 연인과 동시에 사진 촬영
+- MediaPipe를 활용한 원거리 사진 합성 기술
+- WebRTC를 활용한 원거리 영상통화 기술
+
+2. 촬영한 사진을 활용한 다이어리 작성
+- 일별 촬영 사진 모아보기 기능
+- 그 날의 대표이미지 설정 기능
+- 일별 사진이 포함된 다이어리 작성 가능
+
+3.  영상통화 및 채팅 기능
+- WebSocket을 활용한 채팅 기능
+- WebRTC를 활용한 영상통화 기능
 
 ## 4. 기술 스택
 ### 4.1 Front End
@@ -53,5 +71,90 @@
 
 
 ## 6. API 설계
+![main_camera](https://github.com/giyoung-Lee/Hub/assets/19604808/29e21fe8-8a6c-414f-9c74-42c078058ccc)
 
 ## 7. 팀 구성원
+### 7.1. Front-end
+
+<table class="tg">
+<thead>
+  <tr>
+    <th class="tg-0pky">팀원</th>
+    <th class="tg-0pky">김영일</th>
+    <th class="tg-0pky">백민정</th>
+    <th class="tg-0pky">조수훈</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td class="tg-0pky">GitHub</td>
+    <td class="tg-0pky">-</td>
+    <td class="tg-0pky">-</td>
+    <td class="tg-0pky">-</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">역할 및 담당 기능</td>
+    <td class="tg-0pky">
+    - FE 리더<br>
+    - MediaPipe<br>
+    - WebRTC<br>
+    - </td>
+    <td class="tg-0pky">
+    - 서기<br>
+    - UI/UX 설계<br>
+    - FCM Push<br>
+    - WebRTC</td>
+    <td class="tg-0pky">
+    - 팀장
+    - STOMP<br>
+    - UI/UX<br>
+    - JWT</td>
+  </tr>
+</tbody>
+</table>
+
+<br>
+
+### 7.2. Back-end
+
+<table>
+<thead>
+  <tr>
+    <th class="tg-0pky">팀원</th>
+    <th class="tg-0pky">김유산</th>
+    <th class="tg-0pky">이기영</th>
+    <th class="tg-0pky">이항우</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td class="tg-0pky">GitHub</td>
+    <td class="tg-0pky">-</td>
+    <td class="tg-0pky">-</td>
+    <td class="tg-0pky">-</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">역할 및 담당 기능</td>
+    <td class="tg-0pky">
+    - BE 리더<br>
+    - REST API<br>
+    - WebSocket.io <br>
+    - FCM Push
+    - JWT</td>
+    <td class="tg-0pky">
+    - API 총괄
+    - REST API<br>
+    - oAuth 2.0<br>
+    - Image Handling
+    - ERD 설계 </td>
+    <td class="tg-0pky">
+    - DevOps
+    - REST API
+    - CI/CD
+    - EC2 Server</td>
+  </tr>
+</tbody>
+</table>
+
+<br><br>
+
