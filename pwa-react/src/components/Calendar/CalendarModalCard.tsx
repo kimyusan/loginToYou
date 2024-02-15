@@ -67,9 +67,11 @@ const CalendarModalCard = () => {
     }
 
     // 시작날짜가 종료날짜보다 큰 경우 에러 alert , return
-    if (toDate(start) > toDate(addOneDay(end as string))) {
-      setErrorAlert("dateError");
-      return;
+    if (end) {
+      if (toDate(start) > toDate(addOneDay(end as string))) {
+        setErrorAlert("dateError");
+        return;
+      }
     }
     if (content?.length === 0) {
       setErrorAlert("contentError");
