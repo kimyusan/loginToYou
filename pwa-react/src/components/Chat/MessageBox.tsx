@@ -13,6 +13,7 @@ type Props = {
   setIsKeyUp: (keyUp: boolean) => void;
   sent: boolean;
   setSent: (sent: boolean) => void;
+  isIphone: boolean;
 };
 
 function MessageBox({
@@ -22,6 +23,7 @@ function MessageBox({
   setIsKeyUp,
   sent,
   setSent,
+  isIphone,
 }: Props) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const { body } = document;
@@ -69,6 +71,7 @@ function MessageBox({
       onMouseDown={() => {
         setIsKeyUp(false);
       }}
+      $isIphone={isIphone}
     >
       {messages.map((message, index) => {
         return userId == message.sendUserId ? (

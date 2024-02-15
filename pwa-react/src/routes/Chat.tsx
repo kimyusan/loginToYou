@@ -30,6 +30,9 @@ function Chat() {
   const [sent, setSent] = useState(false);
 
   const userId = useUserStore.getState().userId;
+  const [isIphone, setIsIphone] = useState(
+    navigator.userAgent.indexOf("iPhone") !== -1 ? true : false
+  );
 
   // 읽음여부 갱신
   const updateRead = async () => {
@@ -52,7 +55,7 @@ function Chat() {
         roomId: room_id,
       },
     });
-    console.log(res);
+
     if (res.data == 1) {
       setIsOppOn(true);
     }
@@ -235,6 +238,7 @@ function Chat() {
         setIsKeyUp={setIsKeyUp}
         sent={sent}
         setSent={setSent}
+        isIphone={isIphone}
       ></MessageBox>
       <InputBox
         client={client}
@@ -246,6 +250,7 @@ function Chat() {
         isKeyUp={isKeyUp}
         setSent={setSent}
         setIsKeyUp={setIsKeyUp}
+        isIphone={isIphone}
       ></InputBox>
     </div>
   );

@@ -17,6 +17,7 @@ type Props = {
   isKeyUp: boolean;
   setIsKeyUp: (up: boolean) => void;
   setSent: (sent: boolean) => void;
+  isIphone: boolean;
 };
 
 function InputBox({
@@ -29,6 +30,7 @@ function InputBox({
   isKeyUp,
   setSent,
   setIsKeyUp,
+  isIphone,
 }: Props) {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const token = useAuthStore.getState().token;
@@ -77,6 +79,7 @@ function InputBox({
       onSubmit={sendChat}
       className={isKeyUp ? "keyup" : undefined}
       $height={inputRef.current ? inputRef.current.scrollHeight : 0}
+      $isIphone={isIphone}
     >
       <IconContext.Provider value={{ size: "20px" }}>
         <FaPhone
