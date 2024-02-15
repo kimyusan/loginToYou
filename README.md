@@ -21,9 +21,30 @@
 
 ### 4.2 Back End
 <img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=for-the-badge&logo=SpringBoot&logoColor=white"/>
-<img src="https://img.shields.io/badge/Socket.io-010101?style=for-the-badge&logo=Socket.io&logoColor=black"/>
+<img src="https://img.shields.io/badge/STOMP-010101?style=for-the-badge"/>
 <img src="https://img.shields.io/badge/SpringSecurity-6DB33F?style=for-the-badge&logo=SpringSecurity&logoColor=white"/>
-<img src="https://img.shields.io/badge/Java-010101?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/KAKAO-FFCD00?style=for-the-badge&logo=Kakao&logoColor=black">
+<img src="https://img.shields.io/badge/Java-E79537?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/JPA-2496ED?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/Lombok-EB1F1F?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/JWT-184D66?style=for-the-badge"/>
+
+#### DB
+<img src="https://img.shields.io/badge/MySql-4479A1?style=for-the-badge&logo=MySql&logoColor=white"/>
+
+### Deployment
+<img src="https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=Jenkins&logoColor=black">
+<img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=Docker&logoColor=white">
+<img src="https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=Nginx&logoColor=white">
+
+#### Server
+<img src="https://img.shields.io/badge/EC2-FF9900?style=for-the-badge&logo=EC2&logoColor=white"/>
+
+### Communication
+<img src="https://img.shields.io/badge/Gitlab-FC6D26?style=for-the-badge&logo=Gitlab&logoColor=white">
+<img src="https://img.shields.io/badge/Jira-0052CC?style=for-the-badge&logo=JiraSoftware&logoColor=white">
+<img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=Notion&logoColor=white">
+<img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=Figma&logoColor=white">
 
 
 
