@@ -14,6 +14,7 @@ import { useNavigate } from "react-router";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { axiosAuth } from "../../util/token";
 import useAuthStore from "../../stores/AuthStore";
+import useCoupleStore from "../../stores/CoupleStore";
 
 type Props = {
   cp1: UserInterface | undefined;
@@ -22,8 +23,8 @@ type Props = {
 };
 
 const HeaderSection = ({ cp1, cp2, cpInfo }: Props) => {
-  const mName = cp1 ? (cp1.nickname ? cp1.nickname : cp1.name) : null;
-  const fName = cp2 ? (cp2.nickname ? cp2.nickname : cp2.name) : null;
+  const mName = useUserStore.getState().nickname ? useUserStore.getState().nickname : useUserStore.getState().name
+  const fName = useCoupleStore.getState().yourNickName ? useCoupleStore.getState().yourNickName : useCoupleStore.getState().yourName
   const cpName = cpInfo?.name ? cpInfo.name : null;
   const [dDay, setDday] = useState<string | null>(null);
   const naivate = useNavigate();
