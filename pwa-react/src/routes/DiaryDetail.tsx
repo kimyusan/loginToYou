@@ -98,9 +98,7 @@ function DiaryDetail({}: Props) {
           return each.saveName != diaryImages[now].saveName;
         })
       );
-      if (diaryImages.length == 1) {
-        navigate("/diary");
-      } else {
+      if (diaryImages.length > 1) {
         if (now == mainIdx) {
           setMainIdx(0);
         }
@@ -115,6 +113,9 @@ function DiaryDetail({}: Props) {
       const res = await axiosAuth.delete(
         `/diary/delete?diaryId=${diaryImages[now].diaryId}`
       );
+      if (diaryImages.length == 0) {
+        navigate("/diary");
+      }
     } catch (err) {
       console.error(err);
     }
