@@ -132,6 +132,7 @@ function DiaryView({ date }: Props) {
             yourNickname ? yourNickname : yourName
           }님, 일기를 작성해주세요!`,
           tag: diaryPush,
+          data: '/diary'
         },
       },
       headers: {
