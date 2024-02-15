@@ -416,7 +416,7 @@ export default function App() {
             ref={imgRef}
             src={image}
             alt="사진입니다"
-            style={{ transform: "scaleX(-1)", objectFit: "cover", height: "480px", width: window.innerWidth }}
+            style={{ transform: "scaleX(1)", objectFit: "cover", height: "480px", width: window.innerWidth }}
           ></img>
 
           <div style={{ display: "flex", justifyContent: "center", marginTop: "30px" }}>
