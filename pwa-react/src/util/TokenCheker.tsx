@@ -3,9 +3,10 @@ import axios from "axios";
 import useAuthStore from "../stores/AuthStore";
 import useUserStore from "../stores/UserStore";
 import { useShallow } from "zustand/react/shallow";
-import { stat } from "fs";
+import { useLocation } from "react-router-dom";
 
 function TokenCheker() {
+  const location = useLocation();
   const { email } = useUserStore(
     useShallow((state) => ({
       email: state.email,
@@ -72,15 +73,15 @@ function TokenCheker() {
     );
     if (tokenExpireTime - now < 1000 * 60 * 5) {
       refresh();
+      if (location.pathname == "/main") {
+        window.location.reload();
+      }
     }
   };
 
   useEffect(() => {
     updateToken();
-    // return () => {
-    //   console.log("나가요~");
-    //   updateToken();
-    // };
+    console.log(location.pathname);
   }, []);
 
   return <div></div>;
