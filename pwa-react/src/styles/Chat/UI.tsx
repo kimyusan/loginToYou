@@ -22,6 +22,7 @@ export const Header = styled.div`
 
 interface height {
   $height: number;
+  $isIphone: boolean;
 }
 
 export const InputForm = styled.form<height>`
@@ -36,7 +37,8 @@ export const InputForm = styled.form<height>`
     return props.theme.color.bgColor;
   }};
   &.keyup {
-    height: ${(props) => `calc(45dvh + ${props.$height}px)`};
+    height: ${(props) =>
+      `calc(${props.$isIphone ? "50dvh" : "48dvh"} + ${props.$height}px)`};
   }
 
   & > textarea {

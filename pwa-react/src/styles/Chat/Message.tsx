@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const MessageWrapper = styled.div`
+export const MessageWrapper = styled.div<{ $isIphone: boolean }>`
   position: relative;
   width: 100%;
   display: flex;
@@ -8,7 +8,7 @@ export const MessageWrapper = styled.div`
   padding-bottom: 10dvh;
 
   &.keyup {
-    height: 50dvh;
+    height: ${(props) => (props.$isIphone ? `45dvh` : `47dvh`)};
     overflow: auto;
     padding-bottom: 13dvh;
   }
