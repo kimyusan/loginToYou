@@ -70,11 +70,6 @@ const BalanceGame = () => {
   };
 
   useEffect(() => {
-    window.scroll({
-      top: 0,
-      behavior: "smooth"
-    });
-
     axiosAuth
       .get(
         `/balance/get?dateString=${year}${month
@@ -116,6 +111,13 @@ const BalanceGame = () => {
       })
       .catch((error) => console.log(error));
   }, [reFresh]);
+
+  useEffect(() => {
+    window.scroll({
+      top: 0,
+      behavior: "smooth"
+    });
+  },[])
 
   const saveChoice = (choice: String) => {
     axiosAuth
