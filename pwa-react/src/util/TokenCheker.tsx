@@ -81,7 +81,6 @@ function TokenCheker() {
 
   useEffect(() => {
     updateToken();
-    console.log(location.pathname);
   }, []);
 
   return <div></div>;

@@ -99,9 +99,10 @@ export const ContentBox = styled.div`
   .iconBox {
     display: flex;
     justify-content: end;
+    margin-right: 2dvw;
 
     & > * {
-      margin: 1dvw;
+      margin: 1dvw 2dvw;
     }
   }
 `;
