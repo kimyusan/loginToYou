@@ -99,7 +99,7 @@ function DiaryDetail({}: Props) {
         })
       );
       if (diaryImages.length == 1) {
-        navigate(-1);
+        navigate("/diary");
       } else {
         if (now == mainIdx) {
           setMainIdx(0);
