@@ -7,7 +7,6 @@ import { CalendarStore } from "../stores/CalendarStore";
 import useUserStore from "../stores/UserStore";
 import { CalendarModal } from "../styles/Calendar/Calendar";
 import FullCalendar from "@fullcalendar/react";
-import "../styles/Calendar/Calendar.css";
 import CalendarList from "../components/Calendar/CalendarList";
 import CalendarModalCard from "../components/Calendar/CalendarModalCard";
 import { useTheme } from "styled-components";
@@ -34,7 +33,7 @@ const Calendar = (props: Props) => {
   const coupleId = useUserStore.getState().coupleId;
 
   const [currentMonth, setCurrentMonth] = useState(0);
-  const [currentYear, setCurrentYear] = useState((new Date()).getFullYear())
+  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
 
   const goAdd = () => {
     openModal();
@@ -43,7 +42,7 @@ const Calendar = (props: Props) => {
 
   const handleDatesSet = (arg: any) => {
     const startDay = arg.start.getDate();
-    setCurrentYear(arg.start.getFullYear())
+    setCurrentYear(arg.start.getFullYear());
     if (startDay === 1) {
       setCurrentMonth(arg.start.getMonth() + 1);
     } else {
@@ -95,7 +94,7 @@ const Calendar = (props: Props) => {
         </MyCalendar>
         <CalendarModalCard />
       </Wrapper>
-      <CalendarList currentMonth={currentMonth} currentYear={currentYear}/>
+      <CalendarList currentMonth={currentMonth} currentYear={currentYear} />
     </>
   );
 };

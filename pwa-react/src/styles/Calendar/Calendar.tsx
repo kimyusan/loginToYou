@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import Modal from "react-modal";
 import { TextField } from "@mui/material";
 
@@ -142,6 +142,23 @@ const ListWrapper = styled.div`
     }};
     padding: 5%;
   }
+`;
+
+export const ModalChanger = createGlobalStyle`
+  body {
+    .fc-dom-86 {
+    z-index: 1 !important;
+  }
+
+  .ReactModal__Overlay {
+    z-index: 10;
+  }
+
+  .ReactModal__Content {
+    z-index: 30;
+  }
+}
+
 `;
 
 export {

@@ -3,6 +3,7 @@ import { CalendarStore } from "../../stores/CalendarStore";
 import {
   CalendarModal,
   DateInput,
+  ModalChanger,
   TitleInput,
 } from "../../styles/Calendar/Calendar";
 import useUserStore from "../../stores/UserStore";
@@ -134,6 +135,7 @@ const CalendarModalCard = () => {
 
   return (
     <>
+      <ModalChanger />
       <CalendarModal
         isOpen={isOpen}
         onRequestClose={closeModal}
