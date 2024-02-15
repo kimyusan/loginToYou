@@ -44,6 +44,7 @@ const Diary = () => {
       // 전체 다이어리 리스트
       setDiaryList((prev) => res.data);
       setDiaries(res.data);
+      console.log(res.data);
     } catch (err) {
       console.error(err);
     }
@@ -54,7 +55,9 @@ const Diary = () => {
   }, [month]);
 
   useEffect(() => {
-    callDiary();
+    setTimeout(() => {
+      callDiary();
+    }, 1);
   }, []);
 
   return (

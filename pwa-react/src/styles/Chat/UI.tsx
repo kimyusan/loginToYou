@@ -43,8 +43,9 @@ export const InputForm = styled.form<height>`
 
   & > textarea {
     width: 70%;
-    height: 5dvh;
-    min-height: 5dvh;
+    height: 6dvh;
+    min-height: 6dvh;
+    max-height: 6dvh;
     padding: 10px 20px;
     margin: 0 1dvw;
     box-sizing: border-box;
