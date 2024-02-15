@@ -12,6 +12,8 @@ import useUserStore from "../../stores/UserStore";
 import { UserInterface, CoupleInterface } from "../../interface/UserInterface";
 import { useNavigate } from "react-router";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import { axiosAuth } from "../../util/token";
+import useAuthStore from "../../stores/AuthStore";
 
 type Props = {
   cp1: UserInterface | undefined;
@@ -25,6 +27,9 @@ const HeaderSection = ({ cp1, cp2, cpInfo }: Props) => {
   const cpName = cpInfo?.name ? cpInfo.name : null;
   const [dDay, setDday] = useState<string | null>(null);
   const naivate = useNavigate();
+
+  const PATH = useAuthStore.getState().PATH;
+  const userId = useUserStore.getState().userId;
 
   const getDday = () => {
     if (!cpInfo) return;
@@ -41,7 +46,7 @@ const HeaderSection = ({ cp1, cp2, cpInfo }: Props) => {
       Number(temp[2].substring(0, 2))
     ).getTime();
 
-    setDday((Math.round((today - date) / 1000 / 60 / 60 / 24)).toString());
+    setDday((Math.ceil((today - date) / 1000 / 60 / 60 / 24)).toString());
   };
 
   const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
@@ -50,6 +55,13 @@ const HeaderSection = ({ cp1, cp2, cpInfo }: Props) => {
 
   useEffect(() => {
     getDday();
+
+    axiosAuth.post(`${PATH}/challenge/set/progress?userId=${userId}&type=d_day&progress=${dDay}`)
+    .then((res : any) => {
+      console.log(res.data , "디데이 챌린지 성공")
+    })
+    .then((error) => console.log(error))
+
   }, [cpInfo]);
 
   return (

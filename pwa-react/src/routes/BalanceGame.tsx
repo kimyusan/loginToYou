@@ -129,7 +129,7 @@ const BalanceGame = () => {
         console.log("대답 저장 성공", res.data);
 
         axiosAuth.post(`/challenge/add/progress?userId=${userId}&type=balance_game`)
-          .then((res) => console.log(res.data, "출석체크 성공"))
+          .then((res) => console.log(res.data, "벨런스게임 챌린지 증가 성공"))
           .catch((error) => console.log(error.response))
 
         setReFresh(!reFresh)
