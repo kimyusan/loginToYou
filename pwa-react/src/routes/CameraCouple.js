@@ -13,13 +13,22 @@ import { GoArrowLeft } from "react-icons/go";
 import { PiFinnTheHumanFill } from "react-icons/pi";
 
 import {
+  TimerText,
+  CameraBox,
+  CameraButton,
+  OptionsContainer,
+  SaveBox,
+  SaveBoxItem,
+  SubjectBox,
+} from "../styles/Camera/CameraSolo";
+
+import {
   ReadyRoomText,
   ReadyBtn,
   JoinForm,
   PoseBox,
   BottomBox,
 } from "../styles/Camera/CameraCouple";
-import { CameraButton } from "../styles/Camera/CameraSolo";
 
 import clip from "../styles/common/clip.png";
 import handHeart from "../styles/common/handheart.png";
@@ -40,6 +49,8 @@ const APPLICATION_SERVER_URL = "https://logintoyou.kro.kr:8080/openvidu/";
 
 export default function App() {
   const divRef = useRef(null);
+  const imgRef = useRef(null);
+
   const navigate = useNavigate();
   const { coupleId, userId, name, nickname } = useUserStore();
   const [mySessionId, setMySessionId] = useState(`logintoyou${coupleId}`);
@@ -201,6 +212,8 @@ export default function App() {
 
   const [imageContent, setImageContent] = useState("");
   const [webCamVisible, setWebCamVisible] = useState(true);
+  const [image, setImage] = useState("");
+  const [photo, setPhoto] = useState(true);
 
   const changeContent = (event) => {
     setImageContent(event.target.value);
@@ -211,6 +224,17 @@ export default function App() {
 
     const div = divRef.current;
     const canvas = await html2canvas(div, { scale: 2 });
+    const imageURL = canvas.toDataURL()
+    setImage(imageURL)
+    leaveSession();
+    setWebCamVisible(false);
+  }
+
+  const SavePhoto = async () => {
+    if (!imgRef.current) return;
+
+    const img = imgRef.current;
+    const canvas = await html2canvas(img, { scale: 2 });
     canvas.toBlob((blob) => {
       if (blob !== null) {
         const formData = new FormData();
@@ -236,9 +260,7 @@ export default function App() {
             axiosAuth.post(`${PATH}/challenge/add/progress?userId=${userId}&type=diary`)
               .then((res) => console.log(res.data, "다이어리 챌린지 진행률 증가"))
               .catch((error) => console.log("실패 ㅠ", error))
-            
-            leaveSession();
-            setWebCamVisible(false);
+
             navigate("/diary");
           })
           .catch((error) => console.log("사진 저장 실패", error));
@@ -247,6 +269,7 @@ export default function App() {
       }
     }, "image/png");
   };
+
 
   // 연결시 푸시알림 보내기
   const { yourFCMtoken, coupleCamPush } = useFCMStore();
@@ -280,7 +303,7 @@ export default function App() {
 
   return (
     <div>
-      {session === undefined ? (
+      {session === undefined && image === "" ? (
         <div>
           <SettingsHeader name={"같이찍기 대기실"} />
           {webCamVisible && (
@@ -308,12 +331,12 @@ export default function App() {
               required
               style={{ display: "none" }}
             />
-            <ReadyBtn name="commit" type="submit" value="Ready" onClick={letsPush}/>
+            <ReadyBtn name="commit" type="submit" value="Ready" onClick={letsPush} />
           </JoinForm>
         </div>
       ) : null}
 
-      {session !== undefined ? (
+      {session !== undefined && image === "" ? (
         <div>
           <Header>
             <IconContext.Provider value={{ size: "20px" }}>
@@ -341,7 +364,7 @@ export default function App() {
             </div>
           </div>
 
-          <BottomBox $height={window.innerWidth * (4/3)}>
+          <BottomBox $height={window.innerWidth * (4 / 3)}>
             <PoseBox>
               <IconContext.Provider
                 value={{
@@ -376,6 +399,43 @@ export default function App() {
           </BottomBox>
         </div>
       ) : null}
+
+      {image !== "" ? <div>
+        <Header>
+          <IconContext.Provider value={{ size: "20px" }}>
+            <GoArrowLeft
+              onClick={() => {
+                setImage("");
+                setWebCamVisible(true)
+              }}
+            />
+          </IconContext.Provider>
+        </Header>
+        <div>
+          <img
+            ref={imgRef}
+            src={image}
+            alt="사진입니다"
+            style={{ transform: "scaleX(-1)", objectFit: "cover", height: "480px", width: window.innerWidth }}
+          ></img>
+
+          <div style={{ display: "flex", justifyContent: "center", marginTop: "30px" }}>
+            <SubjectBox
+              placeholder="사진에 메모를 남겨주세요!"
+              type="text"
+              value={imageContent}
+              onChange={changeContent}
+              maxLength={9}
+            ></SubjectBox>
+          </div>
+
+          <SaveBox>
+            <SaveBoxItem onClick={SavePhoto}>저장하기</SaveBoxItem>
+            <SaveBoxItem onClick={() => {setImage(""); setWebCamVisible(true)}}>다시 찍기</SaveBoxItem>
+          </SaveBox>
+
+        </div>
+      </div> : null}
     </div>
   );
 }
