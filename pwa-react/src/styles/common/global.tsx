@@ -7,6 +7,12 @@ const Global = createGlobalStyle`
         background-color: ${(props) => props.theme.color.bgColor};
         font-family: 'Noto Sans KR';
         overscroll-behavior: none;
+        -ms-overflow-style: none; /* 인터넷 익스플로러 */
+        scrollbar-width: none; /* 파이어폭스 */
+    }
+
+    body::-webkit-scrollbar {
+      display: none;
     }
 
     button {

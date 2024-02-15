@@ -61,17 +61,15 @@ export default function OpenViduVideoComponent({ streamManager, zi }) {
       });
 
       camera.start();
-      
+
+      if (streamManager && videoRef.current) {
+        streamManager.addVideoElement(videoRef.current);
+      }
+
       return () => {
         camera.stop()
       }
     }
-
-    if (streamManager && canvasRef.current) {
-      streamManager.addVideoElement(canvasRef.current);
-      console.log(streamManager,"Ccccccccccccccccccccccccccc")
-    }
-    
   }, [streamManager,windowWidth]);
 
   useEffect(() => {
