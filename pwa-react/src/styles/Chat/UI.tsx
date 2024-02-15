@@ -36,7 +36,7 @@ export const InputForm = styled.form<height>`
     return props.theme.color.bgColor;
   }};
   &.keyup {
-    height: ${(props) => `calc(50dvh + ${props.$height}px)`};
+    height: ${(props) => `calc(45dvh + ${props.$height}px)`};
   }
 
   & > textarea {
