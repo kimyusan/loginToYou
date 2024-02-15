@@ -8,7 +8,7 @@ export const MessageWrapper = styled.div<{ $isIphone: boolean }>`
   padding-bottom: 10dvh;
 
   &.keyup {
-    height: ${(props) => (props.$isIphone ? `45dvh` : `47dvh`)};
+    height: ${(props) => (props.$isIphone ? `45dvh` : `46dvh`)};
     overflow: auto;
     padding-bottom: 13dvh;
   }
