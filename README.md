@@ -11,7 +11,9 @@
 
 ## 4. 기술 스택
 ### 4.1 Front End
-![typeScript](https://camo.githubusercontent.com/cd3163d5052c1203cf57f195c273c6b86a140c4c1304c45d583d0818d6bc2bd0/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f547970657363726970742d3331373843363f7374796c653d666f722d7468652d6261646765266c6f676f3d54797065736372697074266c6f676f436f6c6f723d7768697465) 
+<img src="https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=Typescript&logoColor=white">
+<img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black">
+<img src="https://img.shields.io/badge/WebRTC-333333?style=for-the-badge&logo=WebRTC&logoColor=white"/>
 
 
 ## 5. 시스템 구조도
