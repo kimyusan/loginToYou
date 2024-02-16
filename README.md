@@ -2,8 +2,6 @@
 
 광주 2반 C105
 
-## 목차
-
 ## 1. 개요
 
 프로젝트 명 : 너에게, 로그인
@@ -184,5 +182,8 @@
   </tr>
 </tbody>
 </table>
+
+## 8. 팀 노션 페이지
+https://booming-ceiling-4b5.notion.site/b66fda469031406dbba5a4e9704c900d?pvs=4
 
 <br><br>
