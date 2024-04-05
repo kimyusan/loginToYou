@@ -1,8 +1,9 @@
 oauth2:
   google:
-    client-id: '760132367951-6ffft4jm5bcmocsmpis4p23nbus7vdgk.apps.googleusercontent.com'
-    client-secret: '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'
+    # 
+    # client-id: ''
+    # client-secret:'ss 
     #    redirect-uri: 'http://localhost:8083/lgoin/oauth2/code/google'
-    redirect-uri: 'http://localhost:3000'
-    token-uri: https://oauth2.googleapis.com/token
-    resource-uri: https://www.googleapis.com/oauth2/v2/userinfo
+    # redirect-uri: 'http://localhost:3000'
+    # token-uri: https://oauth2.googleapis.com/token
+    # resource-uri: https://www.googleapis.com/oauth2/v2/userinfo
